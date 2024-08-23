@@ -10,6 +10,7 @@ const StatsAndInventory = ({
   rockMine,
   forging,
   level,
+  setIsInInventory,
 }: {
   health: number;
   attack: number;
@@ -18,6 +19,7 @@ const StatsAndInventory = ({
   rockMine: number;
   forging: number;
   level: number;
+  setIsInInventory: (state: boolean) => void;
 }) => (
   <div className="space-y-1">
     <div className="grid grid-cols-3 gap-1 text-sm items-center">
@@ -44,7 +46,11 @@ const StatsAndInventory = ({
       </div>
     </div>
     <div className="text-sm">lvl {level}</div>
-    <Button variant="outline" className="w-full">
+    <Button
+      variant="outline"
+      className="w-full"
+      onClick={() => setIsInInventory(true)}
+    >
       Inventory
     </Button>
   </div>

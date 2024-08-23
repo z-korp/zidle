@@ -7,6 +7,7 @@ import { SpriteAnimator } from "react-sprite-animator";
 import StatsAndInventory from "./StatsAndInventory";
 import Actions from "./Actions";
 import WorkingDiv from "./WorkingDiv";
+import InventoryDiv from "./InventoryDiv";
 
 const MainMenuCard = ({
   health = 50,
@@ -20,6 +21,7 @@ const MainMenuCard = ({
   rockProgress = 0,
 }) => {
   const [isActing, setIsActing] = React.useState(false);
+  const [isInIventory, setIsInInventory] = React.useState(false);
 
   return (
     <Card className="w-[300px]">
@@ -36,14 +38,19 @@ const MainMenuCard = ({
             rockMine={rockMine}
             forging={forging}
             level={level}
+            setIsInInventory={setIsInInventory}
           />
           {isActing ? (
-            <WorkingDiv
-              setIsActing={setIsActing}
-              resourceName="Wood"
-              secondsPerResource={10}
-              xpPerResource={5}
-            />
+            isInIventory ? (
+              <InventoryDiv items={[]} setIsInInventory={setIsInInventory} />
+            ) : (
+              <WorkingDiv
+                setIsActing={setIsActing}
+                resourceName="Wood"
+                secondsPerResource={10}
+                xpPerResource={5}
+              />
+            )
           ) : (
             <Actions setIsActing={setIsActing} />
           )}
