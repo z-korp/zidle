@@ -3,10 +3,11 @@ import { Button } from "../elements/button";
 import wood from "/assets/wood.png";
 import rock from "/assets/rock.png";
 
-interface InventoryItem {
+export interface InventoryItem {
   id: string;
   name: string;
   quantity: number;
+  type: "wood" | "rock"; // Ajout du type de ressource
 }
 
 interface InventoryDivProps {
@@ -18,6 +19,18 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
   items,
   setIsInInventory,
 }) => {
+  // Fonction pour obtenir l'image en fonction du type de ressource
+  const getResourceImage = (type: "wood" | "rock") => {
+    switch (type) {
+      case "wood":
+        return wood;
+      case "rock":
+        return rock;
+      default:
+        return wood; // Image par défaut si le type n'est pas reconnu
+    }
+  };
+
   return (
     <div className="space-y-4 border-4 border-grey-600 shadow-lg rounded-xl p-4">
       <div className="flex justify-between items-center">
@@ -34,7 +47,7 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
           >
             <div className="relative">
               <img
-                src={item.imageSrc}
+                src={getResourceImage(item.type)}
                 alt={item.name}
                 className="w-12 h-12 object-cover rounded-full"
               />

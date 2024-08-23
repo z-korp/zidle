@@ -7,7 +7,7 @@ import { SpriteAnimator } from "react-sprite-animator";
 import StatsAndInventory from "./StatsAndInventory";
 import Actions from "./Actions";
 import WorkingDiv from "./WorkingDiv";
-import InventoryDiv from "./InventoryDiv";
+import InventoryDiv, { InventoryItem } from "./InventoryDiv";
 
 const MainMenuCard = ({
   health = 50,
@@ -22,6 +22,17 @@ const MainMenuCard = ({
 }) => {
   const [isActing, setIsActing] = React.useState(false);
   const [isInIventory, setIsInInventory] = React.useState(false);
+
+  const testInventoryItems: InventoryItem[] = [
+    { id: "1", name: "Wood", quantity: 50, type: "wood" },
+    { id: "2", name: "Rock", quantity: 30, type: "rock" },
+    { id: "3", name: "Oak Wood", quantity: 15, type: "wood" },
+    { id: "4", name: "Granite", quantity: 25, type: "rock" },
+    { id: "5", name: "Pine Wood", quantity: 40, type: "wood" },
+    { id: "6", name: "Marble", quantity: 10, type: "rock" },
+    { id: "7", name: "Birch Wood", quantity: 20, type: "wood" },
+    { id: "8", name: "Sandstone", quantity: 35, type: "rock" },
+  ];
 
   return (
     <Card className="w-[300px]">
@@ -42,7 +53,10 @@ const MainMenuCard = ({
           />
           {isActing ? (
             isInIventory ? (
-              <InventoryDiv items={[]} setIsInInventory={setIsInInventory} />
+              <InventoryDiv
+                items={testInventoryItems}
+                setIsInInventory={setIsInInventory}
+              />
             ) : (
               <WorkingDiv
                 setIsActing={setIsActing}
