@@ -3,12 +3,12 @@ import { Separator } from "@/ui/elements/separator";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "@/hooks/usePlayer";
 import { useMediaQuery } from "react-responsive";
-import { Leaderboard } from "../modules/Leaderboard";
-import Connect from "../components/Connect";
+// import { Leaderboard } from "../modules/Leaderboard";
+// import Connect from "../components/Connect";
 import { ModeType } from "@/dojo/game/types/mode";
-import SettingsDropDown from "../components/SettingsDropDown";
-import MobileMenu from "../components/MobileMenu";
-import LevelIndicator from "../components/LevelIndicator";
+// import SettingsDropDown from "../components/SettingsDropDown";
+// import MobileMenu from "../components/MobileMenu";
+// import LevelIndicator from "../components/LevelIndicator";
 import useAccountCustom, { ACCOUNT_CONNECTOR } from "@/hooks/useAccountCustom";
 
 export const Header = () => {
@@ -32,19 +32,19 @@ export const Header = () => {
           onClick={handleClick}
         >
           <p className="text-4xl font-bold">zKube</p>
-          <Leaderboard />
+          {/* <Leaderboard /> */}
         </div>
         <div className="flex flex-col gap-4 items-center md:flex-row">
           {!!player && (
             <div className="flex gap-3">
               <p className="text-2xl max-w-66 truncate">{player.name}</p>
-              <LevelIndicator currentXP={player.points} />
+              {/* <LevelIndicator currentXP={player.points} /> */}
             </div>
           )}
 
-          {ACCOUNT_CONNECTOR === "controller" && <Connect />}
+          {/* {ACCOUNT_CONNECTOR === "controller" && <Connect />} */}
           <div className="flex gap-4">
-            <SettingsDropDown />
+            {/* <SettingsDropDown /> */}
             {/*<ModeToggle />*/}
           </div>
         </div>
@@ -53,7 +53,7 @@ export const Header = () => {
     </div>
   ) : (
     <div>
-      <MobileMenu />
+      {/* <MobileMenu /> */}
       <Separator />
     </div>
   );

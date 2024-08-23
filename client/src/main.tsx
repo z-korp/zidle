@@ -5,7 +5,7 @@ import { setup, SetupResult } from "./dojo/setup.ts";
 import { DojoProvider } from "./dojo/context.tsx";
 import { dojoConfig } from "../dojo.config.ts";
 import { Loading } from "@/ui/screens/Loading";
-import { MusicPlayerProvider } from "./contexts/music.tsx";
+// import { MusicPlayerProvider } from "./contexts/music.tsx";
 import { SoundPlayerProvider } from "./contexts/sound.tsx";
 import { ThemeProvider } from "./ui/elements/theme-provider.tsx";
 import { StarknetConfig, jsonRpcProvider, voyager } from "@starknet-react/core";
@@ -59,17 +59,17 @@ function Main() {
           explorer={voyager}
           provider={jsonRpcProvider({ rpc })}
         >
-          <MusicPlayerProvider>
-            {!loading && setupResult ? (
-              <DojoProvider value={setupResult}>
-                <SoundPlayerProvider>
-                  <App />
-                </SoundPlayerProvider>
-              </DojoProvider>
-            ) : (
-              <Loading enter={enter} setEnter={setEnter} />
-            )}
-          </MusicPlayerProvider>
+          {/* <MusicPlayerProvider> */}
+          {!loading && setupResult ? (
+            <DojoProvider value={setupResult}>
+              <SoundPlayerProvider>
+                <App />
+              </SoundPlayerProvider>
+            </DojoProvider>
+          ) : (
+            <Loading enter={enter} setEnter={setEnter} />
+          )}
+          {/* </MusicPlayerProvider> */}
         </StarknetConfig>
       </ThemeProvider>
     </React.StrictMode>

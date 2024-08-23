@@ -1,5 +1,5 @@
 import { Button } from "@/ui/elements/button";
-import ImageAssets from "@/ui/theme/ImageAssets";
+// import ImageAssets from "@/ui/theme/ImageAssets";
 import { useTheme } from "@/ui/elements/theme-provider";
 
 export const Loading = ({
@@ -11,7 +11,7 @@ export const Loading = ({
 }) => {
   //const { theme }: { theme: string } = useTheme() as { theme: string };
   const { themeTemplate } = useTheme();
-  const imgAssets = ImageAssets(themeTemplate);
+  // const imgAssets = ImageAssets(themeTemplate);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -19,18 +19,18 @@ export const Loading = ({
       <div className="absolute inset-0 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-50 animate-zoom-in-out"
-          style={{ backgroundImage: `url('${imgAssets.background}')` }}
+          style={{ backgroundColor: `red` }}
         />
       </div>
 
       {/* Logo */}
-      <div className="absolute md:top-1/2 top-1:3 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center w-full h-20">
+      {/* <div className="absolute md:top-1/2 top-1:3 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center w-full h-20">
         <img
           src={imgAssets.logo}
           alt="logo"
           className={`h-32 md:h-40  ${enter && "animate-load"}`}
         />
-      </div>
+      </div> */}
 
       {/* Enter Button */}
       <div

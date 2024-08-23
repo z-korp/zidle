@@ -2,10 +2,10 @@ import { Hammer } from "../elements/bonuses/hammer";
 import { Totem } from "../elements/bonuses/totem";
 import { Wave } from "../elements/bonuses/wave";
 
-import ImageAssets from "@/ui/theme/ImageAssets";
+// import ImageAssets from "@/ui/theme/ImageAssets";
 
 const theme = "theme-1";
-const imgAssets = ImageAssets(theme);
+// const imgAssets = ImageAssets(theme);
 
 export enum BonusType {
   None = "None",
@@ -48,18 +48,18 @@ export class Bonus {
     return this.value === BonusType.None;
   }
 
-  public getIcon(): string {
-    switch (this.value) {
-      case BonusType.Hammer:
-        return imgAssets.hammer;
-      case BonusType.Totem:
-        return imgAssets.tiki;
-      case BonusType.Wave:
-        return imgAssets.wave;
-      default:
-        return "";
-    }
-  }
+  // public getIcon(): string {
+  //   switch (this.value) {
+  //     case BonusType.Hammer:
+  //       return imgAssets.hammer;
+  //     case BonusType.Totem:
+  //       return imgAssets.tiki;
+  //     case BonusType.Wave:
+  //       return imgAssets.wave;
+  //     default:
+  //       return "";
+  //   }
+  // }
 
   public getCount(score: number, combo: number, max_combo: number): number {
     switch (this.value) {

@@ -41,6 +41,7 @@ export const Home = () => {
 
   return (
     <div className="relative flex flex-col h-screen">
+      <h1>HELLO</h1>
       <Header />
       <div className="relative flex flex-col gap-8 grow items-center justify-start">
         <div className="absolute flex flex-col items-center gap-4 w-full p-2 max-w-4xl mt-4">
