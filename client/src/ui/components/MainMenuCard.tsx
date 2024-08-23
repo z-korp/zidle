@@ -38,7 +38,12 @@ const MainMenuCard = ({
             level={level}
           />
           {isActing ? (
-            <WorkingDiv setIsActing={setIsActing} />
+            <WorkingDiv
+              setIsActing={setIsActing}
+              resourceName="Wood"
+              secondsPerResource={10}
+              xpPerResource={5}
+            />
           ) : (
             <Actions setIsActing={setIsActing} />
           )}
