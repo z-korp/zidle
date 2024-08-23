@@ -37,7 +37,7 @@ const policies = [
     target: import.meta.env.VITE_PUBLIC_FEE_TOKEN_ADDRESS,
     method: "approve",
   },
-  // account
+  account
   {
     target: account_contract_address,
     method: "create",
@@ -46,7 +46,7 @@ const policies = [
     target: account_contract_address,
     method: "rename",
   },
-  // play
+  play
   {
     target: play_contract_address,
     method: "start",
@@ -70,7 +70,7 @@ const options: ControllerOptions = {
 };
 
 const cartridgeConnector = new CartridgeConnector(
-  policies,
+  [],
   options,
 ) as never as Connector;
 
