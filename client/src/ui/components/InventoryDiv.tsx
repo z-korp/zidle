@@ -43,7 +43,7 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
         {items.map((item) => (
           <div
             key={item.id}
-            className="flex items-center space-x-2 bg-gray-100 p-2 rounded-lg"
+            className="flex items-center space-x-2 p-2 rounded-lg"
           >
             <div className="relative">
               <img
