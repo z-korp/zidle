@@ -1,6 +1,10 @@
 import { Button } from "@/ui/elements/button";
 // import ImageAssets from "@/ui/theme/ImageAssets";
 import { useTheme } from "@/ui/elements/theme-provider";
+import { Card, CardContent, CardHeader, CardTitle } from "../elements/card";
+import { ChevronDown } from "lucide-react";
+import { Progress } from "../elements/ui/progress";
+import MainMenuCard from "../components/MainMenuCard";
 
 export const Loading = ({
   enter,
@@ -33,7 +37,9 @@ export const Loading = ({
       </div> */}
 
       {/* Enter Button */}
-      <div
+
+      <MainMenuCard />
+      {/* <div
         className={`absolute bottom-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center z-[2000] ${enter && "hidden"}`}
       >
         <Button
@@ -43,7 +49,7 @@ export const Loading = ({
         >
           Enter
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
