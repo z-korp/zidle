@@ -1,0 +1,22 @@
+[package]
+name = "zidle"
+cairo-version = "=2.7.0"
+version = "0.1.0"
+edition = "2023_10"
+
+[cairo]
+sierra-replace-ids = true
+
+[scripts]
+dev = "sozo --profile dev clean && sozo --profile dev build && sozo --profile dev migrate apply"
+slot = "sozo --profile slot clean && sozo --profile slot build && sozo --profile slot migrate apply"
+slotdev = "sozo --profile slotdev clean && sozo --profile slotdev build && sozo --profile slotdev migrate apply -vvv"
+
+[dependencies]
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.5" }
+
+[[target.dojo]]
+
+# Custom profiles
+[profile.slot]
+[profile.slotdev]

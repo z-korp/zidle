@@ -5,7 +5,7 @@ import { ControllerOptions } from "@cartridge/controller";
 
 import local from "../../contracts/manifests/dev/deployment/manifest.json";
 import slot from "../../contracts/manifests/dev/deployment/manifest.json";
-import slotdev from "../../contracts/manifests/slotdev/deployment/manifest.json";
+import slotdev from "../../contracts/manifests/dev/deployment/manifest.json";
 import sepolia from "../../contracts/manifests/dev/deployment/manifest.json";
 
 const manifest =

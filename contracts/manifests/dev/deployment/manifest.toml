@@ -1,0 +1,53 @@
+[world]
+kind = "WorldContract"
+class_hash = "0x76ced5a15cb43c7be7176cff4779cd57c56638a46ddf2c9da709d22298c5e5a"
+original_class_hash = "0x76ced5a15cb43c7be7176cff4779cd57c56638a46ddf2c9da709d22298c5e5a"
+abi = "manifests/dev/deployment/abis/dojo-world.json"
+address = "0x1586b68ba3f6bb3b59e8cde3186593cb688e09a3f83701e4fee8756186940eb"
+transaction_hash = "0x1cbd8228a4892786b7adb582866aecf1fb2f01191c6e18669ec5d65d3d6cede"
+block_number = 89
+seed = "zIdle"
+manifest_name = "dojo-world"
+
+[world.metadata]
+profile_name = "dev"
+rpc_url = "http://localhost:5050/"
+
+[base]
+kind = "Class"
+class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+original_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/dev/deployment/abis/dojo-base.json"
+tag = "dojo-base"
+manifest_name = "dojo-base"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x5710cb3d5ab93dfa283d2556ae4d33c5630cbfabc13c26364588b2074c5fd56"
+class_hash = "0x4816157f38a3cae8204651c0d1a2271e87dea34fa6e8f4b62f2505a6448eadc"
+original_class_hash = "0x4816157f38a3cae8204651c0d1a2271e87dea34fa6e8f4b62f2505a6448eadc"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/dev/deployment/abis/contracts/zIdle-account-63d21c71.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "zIdle-account"
+manifest_name = "zIdle-account-63d21c71"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x1d80b88912fba8df0d0d1863914bf30a643a0bd114b28bb7837796b7f87e387"
+original_class_hash = "0x1d80b88912fba8df0d0d1863914bf30a643a0bd114b28bb7837796b7f87e387"
+abi = "manifests/dev/deployment/abis/models/zIdle-Player-46d20110.json"
+tag = "zIdle-Player"
+manifest_name = "zIdle-Player-46d20110"
+
+[[models.members]]
+name = "id"
+type = "felt252"
+key = true
+
+[[models.members]]
+name = "name"
+type = "felt252"
+key = false
