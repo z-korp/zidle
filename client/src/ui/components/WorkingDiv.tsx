@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "../elements/button";
 import { Progress } from "../elements/ui/progress";
@@ -8,7 +8,6 @@ interface WorkingDivProps {
   resourceName: string;
   secondsPerResource: number;
   xpPerResource: number;
-  // totalTime: number; // Temps total en secondes
 }
 
 const WorkingDiv: React.FC<WorkingDivProps> = ({
@@ -16,31 +15,35 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
   resourceName,
   secondsPerResource,
   xpPerResource,
-  // totalTime,
 }) => {
   const [progress, setProgress] = useState(0);
-  const [elapsedTime, setElapsedTime] = useState(0);
+  const [resourcesProduced, setResourcesProduced] = useState(0);
+  const startTimeRef = useRef(Date.now());
+  const animationFrameRef = useRef<number>();
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setElapsedTime((prevTime) => {
-        const newTime = prevTime + 1;
-        if (newTime >= secondsPerResource) {
-          clearInterval(timer);
-          return secondsPerResource;
-        }
-        return newTime;
-      });
-    }, 1000);
+    const updateProgress = () => {
+      const currentTime = Date.now();
+      const elapsedTime = (currentTime - startTimeRef.current) / 1000;
+      const newProgress =
+        ((elapsedTime % secondsPerResource) / secondsPerResource) * 100;
+      const newResourcesProduced = Math.floor(elapsedTime / secondsPerResource);
 
-    return () => clearInterval(timer);
+      setProgress(newProgress);
+      setResourcesProduced(newResourcesProduced);
+
+      animationFrameRef.current = requestAnimationFrame(updateProgress);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(updateProgress);
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, [secondsPerResource]);
 
-  useEffect(() => {
-    setProgress((elapsedTime / secondsPerResource) * 100);
-  }, [elapsedTime, secondsPerResource]);
-
-  const resourcesProduced = Math.floor(elapsedTime / secondsPerResource);
   const totalXP = resourcesProduced * xpPerResource;
 
   return (
