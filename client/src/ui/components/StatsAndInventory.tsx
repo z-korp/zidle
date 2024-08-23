@@ -22,7 +22,7 @@ const StatsAndInventory = ({
   setIsInInventory: (state: boolean) => void;
 }) => (
   <div className="space-y-1">
-    <div className="grid grid-cols-3 gap-1 text-sm items-center">
+    <div className="grid grid-cols-3 gap-1 text-sm items-center h-42">
       <div className="space-y-2">
         <div>Health: {health}</div>
         <div>Attack: {attack}</div>
