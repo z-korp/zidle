@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "../elements/card";
 import { SpriteAnimator } from "react-sprite-animator";
 import StatsAndInventory from "./StatsAndInventory";
 import Actions from "./Actions";
+import WorkingDiv from "./WorkingDiv";
 
 const MainMenuCard = ({
   health = 50,
@@ -36,8 +37,11 @@ const MainMenuCard = ({
             forging={forging}
             level={level}
           />
-          {/* Actions */}
-          <Actions setIsActing={setIsActing} />
+          {isActing ? (
+            <WorkingDiv setIsActing={setIsActing} />
+          ) : (
+            <Actions setIsActing={setIsActing} />
+          )}
         </div>
       </CardContent>
     </Card>
