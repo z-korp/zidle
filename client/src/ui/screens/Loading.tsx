@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../elements/card";
 import { ChevronDown } from "lucide-react";
 import { Progress } from "../elements/ui/progress";
 import MainMenuCard from "../components/MainMenuCard";
+import React from "react";
 
 export const Loading = ({
   enter,
@@ -16,7 +17,6 @@ export const Loading = ({
   //const { theme }: { theme: string } = useTheme() as { theme: string };
   const { themeTemplate } = useTheme();
   // const imgAssets = ImageAssets(themeTemplate);
-
   return (
     <div className="w-full h-screen flex justify-center items-center">
       {/* Background */}
@@ -39,6 +39,7 @@ export const Loading = ({
       {/* Enter Button */}
 
       <MainMenuCard />
+
       {/* <div
         className={`absolute bottom-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center z-[2000] ${enter && "hidden"}`}
       >
