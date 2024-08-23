@@ -21,7 +21,7 @@ const MainMenuCard = ({
   rockProgress = 0,
 }) => {
   const [isActing, setIsActing] = React.useState(false);
-  const [isInIventory, setIsInInventory] = React.useState(false);
+  const [isInInventory, setIsInInventory] = React.useState(false);
 
   const testInventoryItems: InventoryItem[] = [
     { id: "1", name: "Wood", quantity: 50, type: "wood" },
@@ -33,6 +33,28 @@ const MainMenuCard = ({
     { id: "7", name: "Birch Wood", quantity: 20, type: "wood" },
     { id: "8", name: "Sandstone", quantity: 35, type: "rock" },
   ];
+
+  const renderContent = () => {
+    if (isInInventory) {
+      return (
+        <InventoryDiv
+          items={testInventoryItems}
+          setIsInInventory={setIsInInventory}
+        />
+      );
+    } else if (isActing) {
+      return (
+        <WorkingDiv
+          setIsActing={setIsActing}
+          resourceName="Wood"
+          secondsPerResource={10}
+          xpPerResource={5}
+        />
+      );
+    } else {
+      return <Actions setIsActing={setIsActing} />;
+    }
+  };
 
   return (
     <Card className="w-[300px]">
@@ -51,23 +73,7 @@ const MainMenuCard = ({
             level={level}
             setIsInInventory={setIsInInventory}
           />
-          {isActing ? (
-            isInIventory ? (
-              <InventoryDiv
-                items={testInventoryItems}
-                setIsInInventory={setIsInInventory}
-              />
-            ) : (
-              <WorkingDiv
-                setIsActing={setIsActing}
-                resourceName="Wood"
-                secondsPerResource={10}
-                xpPerResource={5}
-              />
-            )
-          ) : (
-            <Actions setIsActing={setIsActing} />
-          )}
+          {renderContent()}
         </div>
       </CardContent>
     </Card>
