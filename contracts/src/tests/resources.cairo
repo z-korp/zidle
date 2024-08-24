@@ -24,13 +24,14 @@ fn test_resources_harvest() {
     let (world, systems, context) = setup::create_account();
     let store = StoreTrait::new(world);
 
-    set_block_timestamp(0);
+    set_block_timestamp(1724541505);
 
     // [Assert] Player
     let player = store.player(context.player_id);
     assert(player.id == context.player_id, 'Create: wrong player id');
     assert(player.name == context.player_name, 'Create: wrong player name');
 
+    // Change contract address to user address
     set_contract_address(context.player_address);
 
     // [Assert] Miner
@@ -38,11 +39,18 @@ fn test_resources_harvest() {
 
     let miner = store.miner(context.player_id, 1);
     assert(miner.id == context.player_id, 'Create: wrong miner id');
+    assert(miner.timestamp != 0, 'Create: wrong miner timestamp');
 
-    set_block_timestamp(100);
+    set_block_timestamp(1724541505 + 60 * 10); // 10 minutes later
 
     // [Assert] Harvest
     systems.resources.harvest(1);
     let miner = store.miner(context.player_id, 1);
-    println!("miner: {}, {}, {}, {}", miner.xp, miner.timestamp, miner.subresource_type, miner.rcs);
+    println!(
+        "miner: xp: {}, timestamp: {}, subresource_type: {}, rcs: {}",
+        miner.xp,
+        miner.timestamp,
+        miner.subresource_type,
+        miner.rcs
+    );
 }

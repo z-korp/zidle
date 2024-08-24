@@ -89,3 +89,55 @@ impl ZeroableMinerImpl of core::Zeroable<Miner> {
         !self.is_zero()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    // Core imports
+
+    use core::debug::PrintTrait;
+    use core::Default;
+
+    // Local imports
+
+    use super::{Miner, MinerImpl};
+
+    // Constants
+
+    const TIME: u64 = 1710347593;
+
+    #[test]
+    fn test_miner_new() {
+        // [Setup]
+        let id: felt252 = 1;
+        let resource_type: u8 = 1;
+
+        // [Execute]
+        let miner: Miner = MinerImpl::new(id, resource_type);
+
+        // [Assert]
+        assert(miner.id == id, 'Create: wrong miner id');
+        assert(miner.resource_type == resource_type, 'Create: wrong miner rcs type');
+        assert(miner.xp == 0, 'Create: wrong miner xp');
+        assert(miner.timestamp == 0, 'Create: wrong miner timestamp');
+        assert(miner.subresource_type == 0, 'Create: wrong miner subrcs type');
+        assert(miner.rcs == 0, 'Create: wrong miner rcs');
+    }
+
+    #[test]
+    fn test_miner_mine() {
+        // [Setup]
+        let id: felt252 = 1;
+        let resource_type: u8 = 1;
+        let subresource_type: u8 = 1;
+        let timestamp: u64 = TIME;
+
+        let mut miner: Miner = MinerImpl::new(id, resource_type);
+
+        // [Execute]
+        miner.mine(subresource_type, timestamp);
+
+        // [Assert]
+        assert(miner.timestamp == timestamp, 'Mine: wrong miner timestamp');
+        assert(miner.subresource_type == subresource_type, 'Mine: wrong miner subrcs type');
+    }
+}

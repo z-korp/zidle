@@ -79,7 +79,9 @@ mod resources {
             if (miner.is_zero()) {
                 miner = MinerImpl::new(caller.into(), rcs_type);
             }
+            store.set_miner(miner);
 
+            let mut miner = store.miner(caller.into(), rcs_type);
             // [Check] Player level
             let level = XpLevel::get_level_from_xp(miner.xp);
             let rcs = ResourceImpl::from(rcs_type, rcs_sub_type);
