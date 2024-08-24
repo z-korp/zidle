@@ -3,13 +3,7 @@ import { Separator } from "@/ui/elements/separator";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "@/hooks/usePlayer";
 import { useMediaQuery } from "react-responsive";
-// import { Leaderboard } from "../modules/Leaderboard";
-// import Connect from "../components/Connect";
-import { ModeType } from "@/dojo/game/types/mode";
-// import SettingsDropDown from "../components/SettingsDropDown";
-// import MobileMenu from "../components/MobileMenu";
-// import LevelIndicator from "../components/LevelIndicator";
-import useAccountCustom, { ACCOUNT_CONNECTOR } from "@/hooks/useAccountCustom";
+import useAccountCustom from "@/hooks/useAccountCustom";
 
 export const Header = () => {
   const { account } = useAccountCustom();

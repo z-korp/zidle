@@ -2,7 +2,6 @@ import { useDojo } from "@/dojo/useDojo";
 import { useCallback, useMemo, useState } from "react";
 import { Account } from "starknet";
 import { Button } from "@/ui/elements/button";
-import { useGame } from "@/hooks/useGame";
 import { usePlayer } from "@/hooks/usePlayer";
 import {
   Dialog,
@@ -23,9 +22,6 @@ export const Surrender = () => {
     },
   } = useDojo();
   const { player } = usePlayer({ playerId: account?.address });
-  const { game } = useGame({
-    gameId: player?.game_id || "0x0",
-  });
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,10 +35,8 @@ export const Surrender = () => {
   }, [account]);
 
   const disabled = useMemo(() => {
-    return (
-      !account || !master || account === master || !player || !game || game.over
-    );
-  }, [account, master, player, game]);
+    return !account || !master || account === master || !player;
+  }, [account, master, player]);
 
   if (disabled) return null;
 

@@ -2,17 +2,11 @@ import { useDojo } from "@/dojo/useDojo";
 import { useCallback, useMemo, useState } from "react";
 import { Account } from "starknet";
 import { Button } from "@/ui/elements/button";
-import { useGame } from "@/hooks/useGame";
 import { usePlayer } from "@/hooks/usePlayer";
 import { fetchVrfData } from "@/api/vrf";
-import { Mode, ModeType } from "@/dojo/game/types/mode";
 import useAccountCustom from "@/hooks/useAccountCustom";
 
-interface StartProps {
-  mode: ModeType;
-}
-
-export const Start: React.FC<StartProps> = ({ mode }) => {
+export const Start = () => {
   const {
     master,
     setup: {
@@ -23,10 +17,6 @@ export const Start: React.FC<StartProps> = ({ mode }) => {
   const { account } = useAccountCustom();
 
   const { player } = usePlayer({ playerId: account?.address });
-
-  const { game } = useGame({
-    gameId: player?.game_id || "0x0",
-  });
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,9 +33,9 @@ export const Start: React.FC<StartProps> = ({ mode }) => {
         beta,
       } = await fetchVrfData();
 
-      await start({
+      /*await start({
         account: account as Account,
-        mode: new Mode(mode).into(),
+        mode: "game",
         seed,
         x: proof_gamma_x,
         y: proof_gamma_y,
@@ -53,21 +43,15 @@ export const Start: React.FC<StartProps> = ({ mode }) => {
         s: proof_s,
         sqrt_ratio_hint: proof_verify_hint,
         beta: beta,
-      });
+      });*/
     } finally {
       setIsLoading(false);
     }
-  }, [account, mode]);
+  }, [account]);
 
   const disabled = useMemo(() => {
-    return (
-      !account ||
-      !master ||
-      account === master ||
-      !player ||
-      (!!game && !game.isOver())
-    );
-  }, [account, master, player, game]);
+    return !account || !master || account === master || !player;
+  }, [account, master, player]);
 
   if (disabled) return null;
 
@@ -78,7 +62,7 @@ export const Start: React.FC<StartProps> = ({ mode }) => {
       onClick={handleClick}
       className="text-xl w-[200px]"
     >
-      {`Start ${mode}`}
+      {`Start`}
     </Button>
   );
 };

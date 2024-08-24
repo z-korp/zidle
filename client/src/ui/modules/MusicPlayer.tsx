@@ -1,11 +1,11 @@
 import { Button } from "@/ui/elements/button";
 import { Slider } from "@/ui/elements/slider";
-import { useMusicPlayer } from "@/contexts/music";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeHigh, faVolumeMute } from "@fortawesome/free-solid-svg-icons";
+import { useMusicPlayer } from "@/contexts/music";
 
 export const MusicPlayer = () => {
-  const { playTheme, isPlaying, stopTheme, volume, setVolume } =
+  /*onst { playTheme, isPlaying, stopTheme, volume, setVolume } =
     useMusicPlayer();
 
   const handlePlay = () => {
@@ -40,5 +40,6 @@ export const MusicPlayer = () => {
         />
       </div>
     </>
-  );
+  );*/
+  return null;
 };
