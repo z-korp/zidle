@@ -67,8 +67,8 @@ impl ResourceImpl of ResourceTrait {
         match resource_type {
             0 => ResourceType::None,
             1 => ResourceType::Wood(WoodType::Pine),
-            2 => ResourceType::Food(FoodType::Pine),
-            3 => ResourceType::Mineral(MineralType::Pine),
+            2 => ResourceType::Food(FoodType::Berries),
+            3 => ResourceType::Mineral(MineralType::Coal),
             _ => ResourceType::None,
         }
     }

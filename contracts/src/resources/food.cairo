@@ -1,12 +1,12 @@
 #[derive(Copy, Drop, Serde, PartialEq, Introspect)]
 enum FoodType {
-    Pine,
-    Oak,
-    Maple,
-    Walnut,
-    Mahogany,
-    Ebony,
-    Eldertree,
+    Berries,
+    Wheat,
+    Vegetables,
+    Fruits,
+    Herbs,
+    Mushrooms,
+    Ambrosia,
 }
 
 trait FoodTrait {
@@ -22,49 +22,49 @@ trait FoodTrait {
 impl FoodImpl of FoodTrait {
     fn min_level(self: FoodType) -> u8 {
         match self {
-            FoodType::Pine => 0,
-            FoodType::Oak => 15,
-            FoodType::Maple => 30,
-            FoodType::Walnut => 45,
-            FoodType::Mahogany => 60,
-            FoodType::Ebony => 75,
-            FoodType::Eldertree => 90,
+            FoodType::Berries => 0,
+            FoodType::Wheat => 15,
+            FoodType::Vegetables => 30,
+            FoodType::Fruits => 45,
+            FoodType::Herbs => 60,
+            FoodType::Mushrooms => 75,
+            FoodType::Ambrosia => 90,
         }
     }
 
     fn max_level(self: FoodType) -> u8 {
         match self {
-            FoodType::Pine => 14,
-            FoodType::Oak => 29,
-            FoodType::Maple => 44,
-            FoodType::Walnut => 59,
-            FoodType::Mahogany => 74,
-            FoodType::Ebony => 89,
-            FoodType::Eldertree => 99,
+            FoodType::Berries => 14,
+            FoodType::Wheat => 29,
+            FoodType::Vegetables => 44,
+            FoodType::Fruits => 59,
+            FoodType::Herbs => 74,
+            FoodType::Mushrooms => 89,
+            FoodType::Ambrosia => 99,
         }
     }
 
     fn hardness(self: FoodType) -> u8 {
         match self {
-            FoodType::Pine => 10,
-            FoodType::Oak => 15,
-            FoodType::Maple => 20,
-            FoodType::Walnut => 25,
-            FoodType::Mahogany => 30,
-            FoodType::Ebony => 35,
-            FoodType::Eldertree => 40,
+            FoodType::Berries => 10,
+            FoodType::Wheat => 15,
+            FoodType::Vegetables => 20,
+            FoodType::Fruits => 25,
+            FoodType::Herbs => 30,
+            FoodType::Mushrooms => 35,
+            FoodType::Ambrosia => 40,
         }
     }
 
     fn base_xp(self: FoodType) -> u8 {
         match self {
-            FoodType::Pine => 5,
-            FoodType::Oak => 10,
-            FoodType::Maple => 15,
-            FoodType::Walnut => 20,
-            FoodType::Mahogany => 25,
-            FoodType::Ebony => 30,
-            FoodType::Eldertree => 50,
+            FoodType::Berries => 5,
+            FoodType::Wheat => 10,
+            FoodType::Vegetables => 15,
+            FoodType::Fruits => 20,
+            FoodType::Herbs => 25,
+            FoodType::Mushrooms => 30,
+            FoodType::Ambrosia => 50,
         }
     }
 
@@ -84,14 +84,14 @@ impl FoodImpl of FoodTrait {
 
     fn from(value: u8) -> FoodType {
         match value {
-            0 => FoodType::Pine,
-            1 => FoodType::Oak,
-            2 => FoodType::Maple,
-            3 => FoodType::Walnut,
-            4 => FoodType::Mahogany,
-            5 => FoodType::Ebony,
-            6 => FoodType::Eldertree,
-            _ => FoodType::Pine,
+            0 => FoodType::Berries,
+            1 => FoodType::Wheat,
+            2 => FoodType::Vegetables,
+            3 => FoodType::Fruits,
+            4 => FoodType::Herbs,
+            5 => FoodType::Mushrooms,
+            6 => FoodType::Ambrosia,
+            _ => FoodType::Berries,
         }
     }
 }

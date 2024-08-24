@@ -1,12 +1,12 @@
 #[derive(Copy, Drop, Serde, PartialEq, Introspect)]
 enum MineralType {
-    Pine,
-    Oak,
-    Maple,
-    Walnut,
-    Mahogany,
-    Ebony,
-    Eldertree,
+    Coal,
+    Copper,
+    Iron,
+    Silver,
+    Gold,
+    Mithril,
+    Adamantium
 }
 
 trait MineralTrait {
@@ -22,49 +22,49 @@ trait MineralTrait {
 impl MineralImpl of MineralTrait {
     fn min_level(self: MineralType) -> u8 {
         match self {
-            MineralType::Pine => 0,
-            MineralType::Oak => 15,
-            MineralType::Maple => 30,
-            MineralType::Walnut => 45,
-            MineralType::Mahogany => 60,
-            MineralType::Ebony => 75,
-            MineralType::Eldertree => 90,
+            MineralType::Coal => 0,
+            MineralType::Copper => 15,
+            MineralType::Iron => 30,
+            MineralType::Silver => 45,
+            MineralType::Gold => 60,
+            MineralType::Mithril => 75,
+            MineralType::Adamantium => 90,
         }
     }
 
     fn max_level(self: MineralType) -> u8 {
         match self {
-            MineralType::Pine => 14,
-            MineralType::Oak => 29,
-            MineralType::Maple => 44,
-            MineralType::Walnut => 59,
-            MineralType::Mahogany => 74,
-            MineralType::Ebony => 89,
-            MineralType::Eldertree => 99,
+            MineralType::Coal => 14,
+            MineralType::Copper => 29,
+            MineralType::Iron => 44,
+            MineralType::Silver => 59,
+            MineralType::Gold => 74,
+            MineralType::Mithril => 89,
+            MineralType::Adamantium => 99,
         }
     }
 
     fn hardness(self: MineralType) -> u8 {
         match self {
-            MineralType::Pine => 10,
-            MineralType::Oak => 15,
-            MineralType::Maple => 20,
-            MineralType::Walnut => 25,
-            MineralType::Mahogany => 30,
-            MineralType::Ebony => 35,
-            MineralType::Eldertree => 40,
+            MineralType::Coal => 10,
+            MineralType::Copper => 15,
+            MineralType::Iron => 20,
+            MineralType::Silver => 25,
+            MineralType::Gold => 30,
+            MineralType::Mithril => 35,
+            MineralType::Adamantium => 40,
         }
     }
 
     fn base_xp(self: MineralType) -> u8 {
         match self {
-            MineralType::Pine => 5,
-            MineralType::Oak => 10,
-            MineralType::Maple => 15,
-            MineralType::Walnut => 20,
-            MineralType::Mahogany => 25,
-            MineralType::Ebony => 30,
-            MineralType::Eldertree => 50,
+            MineralType::Coal => 5,
+            MineralType::Copper => 10,
+            MineralType::Iron => 15,
+            MineralType::Silver => 20,
+            MineralType::Gold => 25,
+            MineralType::Mithril => 30,
+            MineralType::Adamantium => 50,
         }
     }
 
@@ -84,14 +84,14 @@ impl MineralImpl of MineralTrait {
 
     fn from(value: u8) -> MineralType {
         match value {
-            0 => MineralType::Pine,
-            1 => MineralType::Oak,
-            2 => MineralType::Maple,
-            3 => MineralType::Walnut,
-            4 => MineralType::Mahogany,
-            5 => MineralType::Ebony,
-            6 => MineralType::Eldertree,
-            _ => MineralType::Pine, // Default to Pine for invalid values
+            0 => MineralType::Coal,
+            1 => MineralType::Copper,
+            2 => MineralType::Iron,
+            3 => MineralType::Silver,
+            4 => MineralType::Gold,
+            5 => MineralType::Mithril,
+            6 => MineralType::Adamantium,
+            _ => MineralType::Coal, // Default to Pine for invalid values
         }
     }
 }
