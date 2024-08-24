@@ -57,7 +57,7 @@ const MainMenuCard = ({
   };
 
   return (
-    <Card className="w-[300px]">
+    <Card className="w-[350px]">
       <CardHeader>
         <CardTitle className="text-center">ZIdle</CardTitle>
       </CardHeader>

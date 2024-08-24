@@ -1,6 +1,7 @@
 import { SpriteAnimator } from "react-sprite-animator";
 import { Button } from "../elements/button";
 import warriorBlue from "/assets/Warrior_Blue.png";
+import LevelIndicator from "./LevelIndicator";
 
 const StatsAndInventory = ({
   health,
@@ -39,13 +40,26 @@ const StatsAndInventory = ({
           />
         </div>
       </div>
-      <div className="space-y-2">
-        <div>Wood cut: {woodCut}</div>
-        <div>Rock mine: {rockMine}</div>
-        <div>Forging: {forging}</div>
+      <div className="space-y-2 w-full ">
+        <div className="text-sm flex items-center justify-between">
+          <span className="font-medium">Chop:</span>
+          <LevelIndicator currentXP={3000} />
+        </div>
+        <div className="text-sm flex items-center justify-between">
+          <span className="font-medium">Mine:</span>
+          <LevelIndicator currentXP={3000} />
+        </div>
+        <div className="text-sm flex items-center justify-between">
+          <span className="font-medium">Forging:</span>
+          <LevelIndicator currentXP={3000} />
+        </div>
       </div>
     </div>
-    <div className="text-sm">lvl {level}</div>
+    {/* <div className="text-sm">lvl {level}</div> */}
+    <div className="text-sm flex items-center space-x-2">
+      <span className="font-medium self-center">lvl</span>
+      <LevelIndicator currentXP={3000} />
+    </div>
     <Button
       variant="outline"
       className="w-full"
