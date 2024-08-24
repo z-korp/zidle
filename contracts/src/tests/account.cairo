@@ -14,36 +14,24 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 use zidle::store::{Store, StoreTrait};
 use zidle::models::player::{Player, PlayerTrait, PlayerAssert};
-use zidle::models::team::{Team, TeamTrait, TeamAssert};
-use zidle::models::shop::{Shop, ShopTrait, ShopAssert};
 use zidle::systems::account::IAccountDispatcherTrait;
 use zidle::tests::setup::{setup, setup::{Systems, PLAYER}};
 
 #[test]
-fn test_account_spawn() {
+fn test_account_create() {
     // [Setup]
-    let (world, systems, context) = setup::spawn_game();
+    let (world, systems, context) = setup::create_account();
     let store = StoreTrait::new(world);
 
     // [Assert] Player
     let player = store.player(context.player_id);
     assert(player.id == context.player_id, 'Create: wrong player id');
     assert(player.name == context.player_name, 'Create: wrong player name');
-    assert(player.team_count == 0, 'Create: wrong player team_count');
 
     // [Spawn]
-    systems.account.spawn(world);
+    systems.account.create('PLAYER1');
 
     // [Assert] Player
     let player = store.player(context.player_id);
-    assert(player.team_count == 1, 'Spawn: wrong player team_count');
-
-    // [Assert] Team
-    let team = store.team(context.player_id, player.team_id());
-    assert(team.id == player.team_id(), 'Spawn: wrong team id');
-    team.assert_exists();
-
-    // [Assert] Shop
-    let shop = store.shop(context.player_id, team.id);
-    shop.assert_exists();
+    player.assert_exists();
 }

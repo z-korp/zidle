@@ -14,7 +14,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Models imports
 
-use zidle::models::index::{Player};
+use zidle::models::index::{Player, Miner};
 
 
 /// Store struct.
@@ -38,10 +38,20 @@ impl StoreImpl of StoreTrait {
         get!(self.world, player_id, (Player))
     }
 
+    #[inline(always)]
+    fn miner(self: Store, player_id: felt252, resource_type: u8) -> Miner {
+        get!(self.world, (player_id, resource_type), (Miner))
+    }
+
     // Setters
 
     #[inline(always)]
     fn set_player(self: Store, player: Player) {
         set!(self.world, (player))
+    }
+
+    #[inline(always)]
+    fn set_miner(self: Store, miner: Miner) {
+        set!(self.world, (miner))
     }
 }
