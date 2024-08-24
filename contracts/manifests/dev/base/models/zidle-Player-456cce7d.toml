@@ -1,0 +1,16 @@
+kind = "DojoModel"
+class_hash = "0x1054d19be10d194ee864ea750219a2412636f8c157a7eaa7cf13e4079c6b25e"
+original_class_hash = "0x1054d19be10d194ee864ea750219a2412636f8c157a7eaa7cf13e4079c6b25e"
+abi = "manifests/dev/base/abis/models/zidle-Player-456cce7d.json"
+tag = "zidle-Player"
+manifest_name = "zidle-Player-456cce7d"
+
+[[members]]
+name = "id"
+type = "felt252"
+key = true
+
+[[members]]
+name = "name"
+type = "felt252"
+key = false

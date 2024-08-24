@@ -363,12 +363,12 @@
   },
   {
     "type": "impl",
-    "name": "resourceImpl",
-    "interface_name": "zidle::models::index::Iresource"
+    "name": "minerImpl",
+    "interface_name": "zidle::models::index::Iminer"
   },
   {
     "type": "struct",
-    "name": "zidle::models::index::Resource",
+    "name": "zidle::models::index::Miner",
     "members": [
       {
         "name": "id",
@@ -380,21 +380,25 @@
       },
       {
         "name": "xp",
-        "type": "core::integer::u32"
+        "type": "core::integer::u64"
       },
       {
         "name": "timestamp",
-        "type": "core::felt252"
+        "type": "core::integer::u64"
       },
       {
         "name": "subresource_type",
         "type": "core::integer::u8"
+      },
+      {
+        "name": "rcs",
+        "type": "core::integer::u64"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "zidle::models::index::Iresource",
+    "name": "zidle::models::index::Iminer",
     "items": [
       {
         "type": "function",
@@ -402,7 +406,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "zidle::models::index::Resource"
+            "type": "zidle::models::index::Miner"
           }
         ],
         "outputs": [],
@@ -412,7 +416,7 @@
   },
   {
     "type": "event",
-    "name": "zidle::models::index::resource::Event",
+    "name": "zidle::models::index::miner::Event",
     "kind": "enum",
     "variants": []
   }

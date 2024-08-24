@@ -4,7 +4,7 @@ use core::debug::PrintTrait;
 // Constants
 const MAX_LEVEL: u8 = 99;
 const BASE_XP: u64 = 100;
-const XP_MULTIPLIER: u64 = 50;
+const CURVE_FACTOR: u64 = 10; // Adjusts the steepness of the curve
 
 // Errors
 mod errors {
@@ -15,26 +15,18 @@ mod errors {
 #[generate_trait]
 impl XpLevel of XpLevelTrait {
     fn get_level_from_xp(xp: u64) -> u8 {
-        if xp < Self::xp_for_level(1) {
+        if xp < BASE_XP + CURVE_FACTOR {
             return 0;
         }
-        if xp >= Self::xp_for_level(MAX_LEVEL) {
-            return MAX_LEVEL;
-        }
-        let mut left: u8 = 1;
-        let mut right: u8 = MAX_LEVEL;
+
+        let mut level = 1;
         loop {
-            if left >= right {
+            if level == MAX_LEVEL || xp < Self::xp_for_level(level + 1) {
                 break;
             }
-            let mid = (left + right + 1) / 2;
-            if Self::xp_for_level(mid) <= xp {
-                left = mid;
-            } else {
-                right = mid - 1;
-            }
+            level += 1;
         };
-        left
+        level
     }
 
     #[inline(always)]
@@ -44,7 +36,7 @@ impl XpLevel of XpLevelTrait {
             return 0;
         }
         let level_u64: u64 = level.into();
-        BASE_XP + (level_u64 - 1) * (level_u64 + XP_MULTIPLIER)
+        BASE_XP + CURVE_FACTOR * level_u64 * level_u64
     }
 
     #[inline(always)]
@@ -64,44 +56,93 @@ mod tests {
 
     #[test]
     fn test_get_level_from_xp() {
-        assert(XpLevel::get_level_from_xp(0) == 0, 'Level should be 0');
-        assert(XpLevel::get_level_from_xp(100) == 1, 'Level should be 1');
-        assert(XpLevel::get_level_from_xp(249) == 1, 'Level should be 1');
-        assert(XpLevel::get_level_from_xp(250) == 2, 'Level should be 2');
-        assert(
-            XpLevel::get_level_from_xp(XpLevel::xp_for_level(MAX_LEVEL)) == MAX_LEVEL,
-            'Should be max level'
-        );
+        let test_cases = array![
+            (0, 0),
+            (99, 0),
+            (100, 0),
+            (109, 0),
+            (110, 1),
+            (139, 1),
+            (140, 2),
+            (189, 2),
+            (190, 3),
+            (259, 3),
+            (260, 4),
+            (1099, 9),
+            (1100, 10),
+            (24599, 49),
+            (24600, 49),
+            (25099, 49),
+            (25100, 50),
+            (97109, 98),
+            (97110, 98),
+            (98109, 98),
+            (98110, 99),
+            (1000000, 99)
+        ];
+
+        let mut i = 0;
+        loop {
+            if i >= test_cases.len() {
+                break;
+            }
+            let (xp, expected_level) = *test_cases.at(i);
+            let result = XpLevel::get_level_from_xp(xp);
+            //println!("xp: {}, expected_level: {}, result: {}", xp, expected_level, result);
+            assert(result == expected_level, 'Incorrect level');
+            i += 1;
+        };
     }
 
     #[test]
     fn test_xp_for_level() {
         assert(XpLevel::xp_for_level(0) == 0, 'XP for level 0 incorrect');
-        assert(XpLevel::xp_for_level(1) == 100, 'XP for level 1 incorrect');
-        assert(XpLevel::xp_for_level(2) == 250, 'XP for level 2 incorrect');
-        assert(XpLevel::xp_for_level(10) == 5050, 'XP for level 10 incorrect');
-        assert(XpLevel::xp_for_level(50) == 125050, 'XP for level 50 incorrect');
-    // Uncomment and adjust the following line based on your desired XP for max level
-    // assert(XpLevel::xp_for_level(MAX_LEVEL) == 5_000_000, 'XP for max level incorrect');
+        assert(XpLevel::xp_for_level(1) == 110, 'XP for level 1 incorrect');
+        assert(XpLevel::xp_for_level(2) == 140, 'XP for level 2 incorrect');
+        assert(XpLevel::xp_for_level(3) == 190, 'XP for level 3 incorrect');
+        assert(XpLevel::xp_for_level(4) == 260, 'XP for level 4 incorrect');
+        assert(XpLevel::xp_for_level(10) == 1100, 'XP for level 10 incorrect');
+        assert(XpLevel::xp_for_level(50) == 25100, 'XP for level 50 incorrect');
+        assert(XpLevel::xp_for_level(99) == 98110, 'XP for level 99 incorrect');
     }
 
     #[test]
     fn test_xp_for_next_level() {
-        assert(XpLevel::xp_for_next_level(0) == 100, 'XP for next level incorrect');
-        assert(XpLevel::xp_for_next_level(100) == 150, 'XP for next level incorrect');
-        assert(
-            XpLevel::xp_for_next_level(XpLevel::xp_for_level(MAX_LEVEL) - 1) == 1,
-            'XP for next level incorrect'
-        );
-        assert(
-            XpLevel::xp_for_next_level(XpLevel::xp_for_level(MAX_LEVEL)) == 0,
-            'XP for max level incorrect'
-        );
+        assert(XpLevel::xp_for_next_level(0) == 110, 'XP for next level incorrect');
+        assert(XpLevel::xp_for_next_level(109) == 1, 'XP for next level incorrect');
+        assert(XpLevel::xp_for_next_level(110) == 30, 'XP for next level incorrect');
+        assert(XpLevel::xp_for_next_level(139) == 1, 'XP for next level incorrect');
+        assert(XpLevel::xp_for_next_level(140) == 50, 'XP for next level incorrect');
+        assert(XpLevel::xp_for_next_level(1099) == 1, 'XP for next level incorrect');
+        assert(XpLevel::xp_for_next_level(1100) == 210, 'XP for next level incorrect');
+        assert(XpLevel::xp_for_next_level(98109) == 1, 'XP for next level incorrect');
+        assert(XpLevel::xp_for_next_level(98110) == 0, 'XP for max level incorrect');
     }
 
     #[test]
     #[should_panic(expected: ('XpLevel: invalid level',))]
     fn test_invalid_level() {
         XpLevel::xp_for_level(MAX_LEVEL + 1);
+    }
+
+    #[test]
+    fn test_level_progression() {
+        let mut previous_xp = 0;
+        let mut i = 0;
+        loop {
+            if i > MAX_LEVEL {
+                break;
+            }
+            let current_xp = XpLevel::xp_for_level(i);
+            assert(current_xp >= previous_xp, 'XP should not decrease');
+            assert(XpLevel::get_level_from_xp(current_xp) == i, 'Level mismatch');
+            if i > 0 {
+                assert(
+                    XpLevel::get_level_from_xp(current_xp - 1) == i - 1, 'Previous level mismatch'
+                );
+            }
+            previous_xp = current_xp;
+            i += 1;
+        };
     }
 }

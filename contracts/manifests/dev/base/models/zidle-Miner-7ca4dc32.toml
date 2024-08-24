@@ -1,0 +1,36 @@
+kind = "DojoModel"
+class_hash = "0x76693618dbf05987982bc0832c3a4f4abe340b4fc8e9ca10ed47adb25644367"
+original_class_hash = "0x76693618dbf05987982bc0832c3a4f4abe340b4fc8e9ca10ed47adb25644367"
+abi = "manifests/dev/base/abis/models/zidle-Miner-7ca4dc32.json"
+tag = "zidle-Miner"
+manifest_name = "zidle-Miner-7ca4dc32"
+
+[[members]]
+name = "id"
+type = "felt252"
+key = true
+
+[[members]]
+name = "resource_type"
+type = "u8"
+key = true
+
+[[members]]
+name = "xp"
+type = "u64"
+key = false
+
+[[members]]
+name = "timestamp"
+type = "u64"
+key = false
+
+[[members]]
+name = "subresource_type"
+type = "u8"
+key = false
+
+[[members]]
+name = "rcs"
+type = "u64"
+key = false
