@@ -52,7 +52,7 @@ const MainMenuCard = ({
         />
       );
     } else {
-      return <Actions setIsActing={setIsActing} />;
+      return <Actions setIsActing={setIsActing} playerLevel={5} />;
     }
   };
 
