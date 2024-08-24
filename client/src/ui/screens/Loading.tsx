@@ -1,9 +1,4 @@
-import { Button } from "@/ui/elements/button";
-// import ImageAssets from "@/ui/theme/ImageAssets";
 import { useTheme } from "@/ui/elements/theme-provider";
-import { Card, CardContent, CardHeader, CardTitle } from "../elements/card";
-import { ChevronDown } from "lucide-react";
-import { Progress } from "../elements/ui/progress";
 import MainMenuCard from "../components/MainMenuCard";
 import React from "react";
 
