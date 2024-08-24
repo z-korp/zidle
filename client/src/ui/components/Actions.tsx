@@ -15,16 +15,16 @@ import {
 interface ActionsProps {
   setIsActing: (value: boolean) => void;
   playerLevel: number;
+  selectedResource: SelectedResource | null;
+  setSelectedResource: (resource: SelectedResource | null) => void;
 }
 
-type SelectedResource = {
+export type SelectedResource = {
   type: ResourceType;
   value: WoodType | MineralType | FoodType | null;
 };
 
-const Actions: React.FC<ActionsProps> = ({ setIsActing, playerLevel }) => {
-  const [selectedResource, setSelectedResource] =
-    useState<SelectedResource | null>(null);
+const Actions: React.FC<ActionsProps> = ({ setIsActing, playerLevel,selectedResource, setSelectedResource }) => {
 
   const handleSelect = (
     resourceType: ResourceType,

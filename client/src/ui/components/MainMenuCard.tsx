@@ -5,11 +5,16 @@ import { Button } from "../elements/button";
 import { Card, CardHeader, CardTitle, CardContent } from "../elements/card";
 import { SpriteAnimator } from "react-sprite-animator";
 import StatsAndInventory from "./StatsAndInventory";
-import Actions from "./Actions";
+import Actions, { SelectedResource } from "./Actions";
 import WorkingDiv from "./WorkingDiv";
 import InventoryDiv, { InventoryItem } from "./InventoryDiv";
+import { FoodType } from "@/dojo/game/elements/resources/food";
+import { MineralType } from "@/dojo/game/elements/resources/mineral";
+import { WoodType } from "@/dojo/game/elements/resources/wood";
+import { Resource, ResourceType } from "@/dojo/game/types/resource";
 
 const MainMenuCard = ({
+  playerLevel = 5,
   health = 50,
   woodCut = 1,
   attack = 5,
@@ -22,6 +27,8 @@ const MainMenuCard = ({
 }) => {
   const [isActing, setIsActing] = React.useState(false);
   const [isInInventory, setIsInInventory] = React.useState(false);
+  const [selectedResource, setSelectedResource] = React.useState<SelectedResource | null>(null);
+  
 
   const testInventoryItems: InventoryItem[] = [
     { id: "1", name: "Wood", quantity: 50, type: "wood" },
@@ -33,6 +40,10 @@ const MainMenuCard = ({
     { id: "7", name: "Birch Wood", quantity: 20, type: "wood" },
     { id: "8", name: "Sandstone", quantity: 35, type: "rock" },
   ];
+  const selectedValue = selectedResource?.value ?? null;
+  const resource = selectedValue
+    ? new Resource(selectedResource?.type as ResourceType, selectedValue)
+    : null;
 
   const renderContent = () => {
     if (isInInventory) {
@@ -42,17 +53,24 @@ const MainMenuCard = ({
           setIsInInventory={setIsInInventory}
         />
       );
-    } else if (isActing) {
+    } else if (isActing && selectedResource) {
       return (
         <WorkingDiv
           setIsActing={setIsActing}
-          resourceName="Wood"
-          secondsPerResource={10}
-          xpPerResource={5}
+          resourceName={resource?.getSubresourceName() ??''}
+          secondsPerResource={resource?.calculateGatheringSpeed(playerLevel) ?? 0}
+          xpPerResource={resource?.calculateXp(playerLevel) ?? 0}
         />
       );
     } else {
-      return <Actions setIsActing={setIsActing} playerLevel={5} />;
+      return (
+        <Actions
+          setIsActing={setIsActing}
+          playerLevel={5}
+          selectedResource={selectedResource}
+          setSelectedResource={setSelectedResource}
+        />
+      );
     }
   };
 
