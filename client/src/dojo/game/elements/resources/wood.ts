@@ -70,19 +70,19 @@ export class Wood {
   public hardness(): number {
     switch (this.value) {
       case WoodType.Pine:
-        return 10;
+        return 1;
       case WoodType.Oak:
-        return 15;
+        return 1.5;
       case WoodType.Maple:
-        return 20;
+        return 2.0;
       case WoodType.Walnut:
-        return 25;
+        return 2.5;
       case WoodType.Mahogany:
-        return 30;
+        return 3.0;
       case WoodType.Ebony:
-        return 35;
+        return 3.5;
       case WoodType.Eldertree:
-        return 40;
+        return 4.0;
       default:
         return 0;
     }
@@ -111,7 +111,7 @@ export class Wood {
 
   public calculateXp(playerLevel: number): number {
     const base = this.baseXp();
-    const levelBonus = (playerLevel - this.minLevel()) * 2;
+    const levelBonus = Math.max(0, (playerLevel - this.minLevel()) * 2);
     return base + levelBonus;
   }
 
@@ -119,7 +119,6 @@ export class Wood {
     const baseSpeed = 100; // Base speed of 1 unit per minute, scaled by 100 for precision
     const levelBonus = playerLevel * 2; // 2% increase per level
     const hardnessFactor = this.hardness();
-
-    return Math.floor((baseSpeed + levelBonus) / hardnessFactor);
+    return Math.floor((baseSpeed + levelBonus) * hardnessFactor);
   }
 }
