@@ -36,4 +36,5 @@ mod systems {
 mod tests {
     mod setup;
     mod account;
+    mod resources;
 }

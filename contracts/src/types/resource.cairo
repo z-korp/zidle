@@ -3,6 +3,10 @@ use zidle::resources::wood::{WoodType, WoodTrait};
 use zidle::resources::food::{FoodType, FoodTrait};
 use zidle::resources::mineral::{MineralType, MineralTrait};
 
+mod errors {
+    const LVL_NOT_VALID: felt252 = 'ResourceType: level not valid';
+}
+
 impl ResourceImpl of ResourceTrait {
     fn min_level(self: ResourceType) -> u8 {
         match self {
@@ -111,5 +115,13 @@ impl ResourceTypeIntoU8 of core::Into<ResourceType, u8> {
             ResourceType::Food => 2,
             ResourceType::Mineral => 3,
         }
+    }
+}
+
+#[generate_trait]
+impl ResourceTypeAssert of AssertTrait {
+    #[inline(always)]
+    fn assert_level(self: ResourceType, player_level: u8) {
+        assert(self.min_level() <= player_level, errors::LVL_NOT_VALID);
     }
 }

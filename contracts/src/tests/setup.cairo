@@ -36,6 +36,7 @@ mod setup {
 
     #[derive(Drop)]
     struct Context {
+        player_address: ContractAddress,
         player_id: felt252,
         player_name: felt252,
         owner: ContractAddress
@@ -70,7 +71,10 @@ mod setup {
         set_contract_address(PLAYER());
         systems.account.create(PLAYER_NAME);
         let context = Context {
-            player_id: PLAYER().into(), player_name: PLAYER_NAME, owner: owner
+            player_address: PLAYER(),
+            player_id: PLAYER().into(),
+            player_name: PLAYER_NAME,
+            owner: owner
         };
 
         // [Set] Caller back to owner

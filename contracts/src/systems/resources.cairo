@@ -33,6 +33,7 @@ mod resources {
     use zidle::models::miner::{MinerImpl, MinerAssert, ZeroableMinerImpl};
     use zidle::models::player::{PlayerAssert};
     use zidle::helpers::level::{XpLevel};
+    use zidle::types::resource::{ResourceType, ResourceTypeAssert, ResourceImpl};
 
     // Components
 
@@ -78,6 +79,11 @@ mod resources {
             if (miner.is_zero()) {
                 miner = MinerImpl::new(caller.into(), rcs_type);
             }
+
+            // [Check] Player level
+            let level = XpLevel::get_level_from_xp(miner.xp);
+            let rcs = ResourceImpl::from(rcs_type, rcs_sub_type);
+            rcs.assert_level(level);
 
             // [Effect] Start mining
             miner.mine(rcs_sub_type, get_block_timestamp());
