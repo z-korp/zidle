@@ -7,6 +7,7 @@ import { SpriteAnimator } from "react-sprite-animator";
 import StatsAndInventory from "./StatsAndInventory";
 import Actions from "./Actions";
 import WorkingDiv from "./WorkingDiv";
+import InventoryDiv, { InventoryItem } from "./InventoryDiv";
 
 const MainMenuCard = ({
   health = 50,
@@ -20,9 +21,43 @@ const MainMenuCard = ({
   rockProgress = 0,
 }) => {
   const [isActing, setIsActing] = React.useState(false);
+  const [isInInventory, setIsInInventory] = React.useState(false);
+
+  const testInventoryItems: InventoryItem[] = [
+    { id: "1", name: "Wood", quantity: 50, type: "wood" },
+    { id: "2", name: "Rock", quantity: 30, type: "rock" },
+    { id: "3", name: "Oak Wood", quantity: 15, type: "wood" },
+    { id: "4", name: "Granite", quantity: 25, type: "rock" },
+    { id: "5", name: "Pine Wood", quantity: 40, type: "wood" },
+    { id: "6", name: "Marble", quantity: 10, type: "rock" },
+    { id: "7", name: "Birch Wood", quantity: 20, type: "wood" },
+    { id: "8", name: "Sandstone", quantity: 35, type: "rock" },
+  ];
+
+  const renderContent = () => {
+    if (isInInventory) {
+      return (
+        <InventoryDiv
+          items={testInventoryItems}
+          setIsInInventory={setIsInInventory}
+        />
+      );
+    } else if (isActing) {
+      return (
+        <WorkingDiv
+          setIsActing={setIsActing}
+          resourceName="Wood"
+          secondsPerResource={10}
+          xpPerResource={5}
+        />
+      );
+    } else {
+      return <Actions setIsActing={setIsActing} />;
+    }
+  };
 
   return (
-    <Card className="w-[300px]">
+    <Card className="w-[350px]">
       <CardHeader>
         <CardTitle className="text-center">ZIdle</CardTitle>
       </CardHeader>
@@ -36,17 +71,9 @@ const MainMenuCard = ({
             rockMine={rockMine}
             forging={forging}
             level={level}
+            setIsInInventory={setIsInInventory}
           />
-          {isActing ? (
-            <WorkingDiv
-              setIsActing={setIsActing}
-              resourceName="Wood"
-              secondsPerResource={10}
-              xpPerResource={5}
-            />
-          ) : (
-            <Actions setIsActing={setIsActing} />
-          )}
+          {renderContent()}
         </div>
       </CardContent>
     </Card>

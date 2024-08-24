@@ -29,7 +29,12 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
         ((elapsedTime % secondsPerResource) / secondsPerResource) * 100;
       const newResourcesProduced = Math.floor(elapsedTime / secondsPerResource);
 
-      setProgress(newProgress);
+      if (newProgress === 100) {
+        setProgress(0); // Reset instantaneously when progress reaches 100%
+      } else {
+        setProgress(newProgress);
+      }
+
       setResourcesProduced(newResourcesProduced);
 
       animationFrameRef.current = requestAnimationFrame(updateProgress);
