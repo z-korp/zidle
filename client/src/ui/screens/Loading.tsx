@@ -56,7 +56,7 @@ export const Loading = ({
             ],
           },
         });
-      }, 1000); // Simule un délai de 1 seconde
+      }, 1); // Simule un délai de 1 seconde
     });
   };
 
