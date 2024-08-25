@@ -9,6 +9,7 @@ export interface InventoryItem {
   id: string;
   name: string;
   quantity: number;
+  unitPrice: number;
   type: "wood" | "rock";
 }
 
@@ -82,7 +83,7 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
           <div className="space-y-4">
             <p>Quantity: {selectedItem?.quantity}</p>
             <p>Type: {selectedItem?.type}</p>
-            {/* Ajoutez d'autres informations ici */}
+            <p>Unit price: {selectedItem?.unitPrice || 1} golds</p>
             <div>
               <label htmlFor="sellQuantity" className="block text-sm font-medium text-gray-700">
                 Quantity to sell
@@ -90,13 +91,14 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
               <Input
                 id="sellQuantity"
                 type="number"
-                value={sellQuantity}
+                value={sellQuantity || ''}
                 onChange={(e) => setSellQuantity(Number(e.target.value))}
                 min={1}
                 max={selectedItem?.quantity || 1}
                 className="mt-1"
               />
             </div>
+            <p>Total price: {(selectedItem?.unitPrice || 1) * sellQuantity} golds</p>
           </div>
           <DialogFooter>
             <Button onClick={handleSell}>Sell</Button>

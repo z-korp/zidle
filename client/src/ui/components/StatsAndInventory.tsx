@@ -56,9 +56,15 @@ const StatsAndInventory = ({
       </div>
     </div>
     {/* <div className="text-sm">lvl {level}</div> */}
-    <div className="text-sm flex items-center space-x-2">
-      <span className="font-medium self-center">lvl</span>
-      <LevelIndicator currentXP={3000} />
+    <div className="text-sm flex items-center justify-between">
+      <div className="flex items-center space-x-2">
+        <span className="font-medium">lvl</span>
+        <LevelIndicator currentXP={3000} />
+      </div>
+      <div className="flex items-center space-x-2">
+        <span className="font-medium">Gold :</span>
+        <span>1000</span>
+      </div>
     </div>
     <Button
       variant="outline"
