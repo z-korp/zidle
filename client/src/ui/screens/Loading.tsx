@@ -1,6 +1,20 @@
+import React, { useState, useEffect } from "react";
 import { useTheme } from "@/ui/elements/theme-provider";
 import MainMenuCard from "../components/MainMenuCard";
-import React from "react";
+import ReconnectionSummary from "../components/ReconnectionSummary.tsx";
+
+interface ReconnectionResponse {
+  isReconnecting: boolean;
+  data: {
+    timePassed: string;
+    resourcesGained: { name: string; quantity: number }[];
+  };
+}
+
+interface ReconnectionData {
+  timePassed: string;
+  resourcesGained: { name: string; quantity: number }[];
+}
 
 export const Loading = ({
   enter,
@@ -9,9 +23,43 @@ export const Loading = ({
   enter: boolean;
   setEnter: (state: boolean) => void;
 }) => {
-  //const { theme }: { theme: string } = useTheme() as { theme: string };
   const { themeTemplate } = useTheme();
-  // const imgAssets = ImageAssets(themeTemplate);
+  const [isReconnecting, setIsReconnecting] = useState(false);
+  const [reconnectionData, setReconnectionData] =
+    useState<ReconnectionData | null>(null);
+
+  useEffect(() => {
+    // Simuler une vérification de reconnexion
+    const checkReconnection = async () => {
+      // Ici, vous feriez normalement un appel API pour vérifier l'état de la session
+      const response: ReconnectionResponse = await mockReconnectionCheck();
+      if (response.isReconnecting) {
+        setIsReconnecting(true);
+        setReconnectionData(response.data);
+      }
+    };
+
+    checkReconnection();
+  }, []);
+
+  // Fonction de simulation pour le test
+  const mockReconnectionCheck = (): Promise<ReconnectionResponse> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          isReconnecting: true,
+          data: {
+            timePassed: "2 hours",
+            resourcesGained: [
+              { name: "Wood", quantity: 120 },
+              { name: "Stone", quantity: 80 },
+            ],
+          },
+        });
+      }, 1000); // Simule un délai de 1 seconde
+    });
+  };
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
       {/* Background */}
@@ -22,30 +70,18 @@ export const Loading = ({
         />
       </div>
 
-      {/* Logo */}
-      {/* <div className="absolute md:top-1/2 top-1:3 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center w-full h-20">
-        <img
-          src={imgAssets.logo}
-          alt="logo"
-          className={`h-32 md:h-40  ${enter && "animate-load"}`}
+      {isReconnecting ? (
+        <ReconnectionSummary
+          data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
+          onContinue={() => {
+            console.log("Continuing from reconnection...");
+            setIsReconnecting(false);
+            // Ajoutez ici d'autres actions nécessaires après la reconnexion
+          }}
         />
-      </div> */}
-
-      {/* Enter Button */}
-
-      <MainMenuCard />
-
-      {/* <div
-        className={`absolute bottom-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center z-[2000] ${enter && "hidden"}`}
-      >
-        <Button
-          onClick={() => setEnter(true)}
-          className="text-2xl"
-          variant="default"
-        >
-          Enter
-        </Button>
-      </div> */}
+      ) : (
+        <MainMenuCard />
+      )}
     </div>
   );
 };
