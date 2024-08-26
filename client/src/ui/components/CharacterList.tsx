@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Button } from "../elements/button";
 import { Input } from "../elements/input";
-import AnimatedSprite from '../components/AnimatedSprite';
+import AnimatedSprite from "../components/AnimatedSprite";
 import { useDojo } from "@/dojo/useDojo";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { Account } from "starknet";
-import { Character } from '@/types/types';
-
+import { Character } from "@/types/types";
 
 interface CharacterListProps {
   onCharacterSelect: (character: Character) => void;
@@ -18,7 +17,9 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   const [currentAnimation, setCurrentAnimation] = useState("idle");
 
   const {
-    setup: { systemCalls: { create } },
+    setup: {
+      systemCalls: { create },
+    },
   } = useDojo();
   const { account } = useAccountCustom();
 
@@ -29,8 +30,34 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   const fetchCharacters = async () => {
     // TODO: Implement the actual fetching of characters from your backend
     const mockCharacters: Character[] = [
-      { id: '1', name: 'Character 1' },
-      { id: '2', name: 'Character 2' },
+      {
+        id: "1",
+        name: "Character 1",
+        playerLevel: 1,
+        health: 100,
+        woodCut: 0,
+        attack: 10,
+        rockMine: 0,
+        critical: 0,
+        forging: 0,
+        level: 0,
+        woodProgress: 0, // Add woodProgress property
+        rockProgress: 0, // Add rockProgress property
+      },
+      {
+        id: "2",
+        name: "Character 2",
+        playerLevel: 1,
+        health: 100,
+        woodCut: 0,
+        attack: 10,
+        rockMine: 0,
+        critical: 0,
+        forging: 0,
+        level: 0,
+        woodProgress: 0, // Add woodProgress property
+        rockProgress: 0, // Add rockProgress property
+      },
     ];
     setCharacters(mockCharacters);
   };
@@ -48,11 +75,9 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
     <div className="flex flex-col items-center space-y-6">
       <h3>Your Characters</h3>
       <div className="grid grid-cols-2 gap-4">
-        {characters.map(char => (
+        {characters.map((char) => (
           <div key={char.id} className="flex flex-col items-center">
-            <Button onClick={() => onCharacterSelect(char)}>
-              {char.name}
-            </Button>
+            <Button onClick={() => onCharacterSelect(char)}>{char.name}</Button>
             <AnimatedSprite
               width={192}
               height={192}
@@ -70,8 +95,8 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
         onChange={(e) => setPlayerName(e.target.value)}
         className="w-full bg-gray-700 text-white border-gray-600"
       />
-      <Button 
-        onClick={handleMint} 
+      <Button
+        onClick={handleMint}
         className="w-full bg-blue-600 hover:bg-blue-700"
       >
         Mint New Character

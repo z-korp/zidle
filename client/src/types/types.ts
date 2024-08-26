@@ -14,5 +14,19 @@ export interface Piece {
 export interface Character {
   id: string;
   name: string;
-  // Add other character properties as needed
+  playerLevel: number;
+  health: number;
+  woodCut: number;
+  attack: number;
+  rockMine: number;
+  critical: number;
+  forging: number;
+  level: number;
+  woodProgress: number;
+  rockProgress: number;
+}
+
+export interface ReconnectionData {
+  timePassed: string;
+  resourcesGained: { name: string; quantity: number }[];
 }

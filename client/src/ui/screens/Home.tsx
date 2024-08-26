@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Header } from "@/ui/containers/Header";
 import { usePlayer } from "@/hooks/usePlayer";
 import { useDojo } from "@/dojo/useDojo";
@@ -7,15 +7,8 @@ import useAccountCustom from "@/hooks/useAccountCustom";
 import ReconnectionSummary from "../components/ReconnectionSummary";
 import MainMenuCard from "../components/MainMenuCard";
 import { Card, CardHeader, CardTitle, CardContent } from "../elements/card";
-import { Button } from '../elements/button';
-import { Character } from '@/types/types';
-import CharacterList from '../components/CharacterList';
-
-interface ReconnectionData {
-  timePassed: string;
-  resourcesGained: { name: string; quantity: number }[];
-}
-
+import { Character, ReconnectionData } from "@/types/types";
+import CharacterList from "../components/CharacterList";
 
 export const Home = () => {
   const {
@@ -28,9 +21,11 @@ export const Home = () => {
   const { player } = usePlayer({ playerId: account?.address });
 
   const [isReconnecting, setIsReconnecting] = useState(false);
-  const [reconnectionData, setReconnectionData] = useState<ReconnectionData | null>(null);
-  const [showSummary, setShowSummary] = useState(false);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [reconnectionData, setReconnectionData] =
+    useState<ReconnectionData | null>(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null,
+  );
 
   useEffect(() => {
     const checkReconnection = async () => {
@@ -44,7 +39,10 @@ export const Home = () => {
     checkReconnection();
   }, []);
 
-  const mockReconnectionCheck = (): Promise<{ isReconnecting: boolean; data: ReconnectionData }> => {
+  const mockReconnectionCheck = (): Promise<{
+    isReconnecting: boolean;
+    data: ReconnectionData;
+  }> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
@@ -63,11 +61,6 @@ export const Home = () => {
 
   const handleCharacterSelect = (character: Character) => {
     setSelectedCharacter(character);
-    setShowSummary(true);
-  };
-
-  const handleCloseSummary = () => {
-    setShowSummary(false);
   };
 
   return (
@@ -75,21 +68,7 @@ export const Home = () => {
       <Header />
       <div className="relative flex flex-col gap-8 grow items-center justify-start">
         <div className="absolute flex flex-col items-center gap-4 w-full p-2 max-w-4xl mt-4">
-          {isReconnecting ? (
-            <ReconnectionSummary
-              data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
-              onContinue={() => {
-                console.log("Continuing from reconnection...");
-                setIsReconnecting(false);
-              }}
-            />
-          ) : showSummary ? (
-            <div>
-              <h2>Character Summary</h2>
-              {/* Add your character summary component here */}
-              <Button onClick={handleCloseSummary}>Close Summary</Button>
-            </div>
-          ) : (
+          {selectedCharacter == null ? (
             <Card className="w-[350px] bg-gray-800 text-white shadow-xl">
               <CardHeader>
                 <CardTitle className="text-center text-2xl">ZIdle</CardTitle>
@@ -98,8 +77,9 @@ export const Home = () => {
                 <CharacterList onCharacterSelect={handleCharacterSelect} />
               </CardContent>
             </Card>
+          ) : (
+            <MainMenuCard character={selectedCharacter as Character} />
           )}
-          {selectedCharacter && !showSummary && <MainMenuCard />}
         </div>
       </div>
     </div>
