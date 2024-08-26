@@ -10,3 +10,9 @@ export interface Piece {
   width: number;
   element: string;
 }
+
+export interface Character {
+  id: string;
+  name: string;
+  // Add other character properties as needed
+}

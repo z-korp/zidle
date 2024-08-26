@@ -5,6 +5,7 @@ import AnimatedSprite from '../components/AnimatedSprite';
 import { useDojo } from "@/dojo/useDojo";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { Account } from "starknet";
+import { Character } from '@/types/types';
 
 
 interface CharacterListProps {
