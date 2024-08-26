@@ -17,7 +17,7 @@ source = "git+https://github.com/dojoengine/dojo?rev=f15def33#f15def330c0d099e79
 [[package]]
 name = "origami_token"
 version = "1.0.0-alpha.7"
-source = "git+https://github.com/dojoengine/origami?tag=v1.0.0-alpha.7#51707903c8e657cf742c999927be6df689751e86"
+source = "git+https://github.com/Matth26/origami-roger?branch=balance_enumerable-not-finished#e86d7c93ce45a7d02d0c624e4a5b6c9b114f60e4"
 dependencies = [
  "dojo",
 ]
