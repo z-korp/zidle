@@ -1,0 +1,8 @@
+tag = "zidle-resources"
+writes = [
+  "zidle-Char",
+  "zidle-Player",
+  "zidle-Miner",
+  "zidle-TokenConfig",
+]
+init_calldata = []

@@ -1,0 +1,10 @@
+tag = "zidle-character_minter"
+writes = [
+  "zidle-TokenConfig",
+]
+init_calldata = [
+  "$contract_address:zidle-character_token",
+  "10000",  # max supply
+  "100",    # max per wallet
+  "1",      # is_open
+]
