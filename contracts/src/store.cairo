@@ -14,7 +14,10 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Models imports
 
-use zidle::models::index::{Player, Miner};
+use zidle::models::player::{Player};
+use zidle::models::miner::{Miner};
+use zidle::models::character::{Character};
+use zidle::models::token_config::{TokenConfig};
 
 
 /// Store struct.
@@ -43,6 +46,16 @@ impl StoreImpl of StoreTrait {
         get!(self.world, (player_id, resource_type), (Miner))
     }
 
+    #[inline(always)]
+    fn character(self: Store, token_id: u128) -> Character {
+        get!(self.world, (token_id), Character)
+    }
+
+    #[inline(always)]
+    fn token_config(self: Store, token_address: ContractAddress) -> TokenConfig {
+        get!(self.world, token_address, TokenConfig)
+    }
+
     // Setters
 
     #[inline(always)]
@@ -53,5 +66,15 @@ impl StoreImpl of StoreTrait {
     #[inline(always)]
     fn set_miner(self: Store, miner: Miner) {
         set!(self.world, (miner))
+    }
+
+    #[inline(always)]
+    fn set_character(self: Store, character: Character) {
+        set!(self.world, (character))
+    }
+
+    #[inline(always)]
+    fn set_token_config(self: Store, token_config: TokenConfig) {
+        set!(self.world, (token_config))
     }
 }

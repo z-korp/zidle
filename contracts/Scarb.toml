@@ -13,9 +13,30 @@ slot = "sozo --profile slot clean && sozo --profile slot build && sozo --profile
 slotdev = "sozo --profile slotdev clean && sozo --profile slotdev build && sozo --profile slotdev migrate apply -vvv"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.5" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.7" }
+origami_token = { git = "https://github.com/dojoengine/origami", tag = "v1.0.0-alpha.7" }
 
 [[target.dojo]]
+build-external-contracts = [
+  "origami_token::components::introspection::src5::SRC5Model",
+  "origami_token::components::security::initializable::InitializableModel",
+  # erc20
+  "origami_token::components::token::erc20::erc20_balance::ERC20BalanceModel",
+  "origami_token::components::token::erc20::erc20_metadata::ERC20MetadataModel",
+  "origami_token::components::token::erc20::erc20_allowance::ERC20AllowanceModel",
+  "origami_token::components::token::erc20::erc20_bridgeable::ERC20BridgeableModel",
+  # erc721
+  "origami_token::components::token::erc721::erc721_owner::ERC721OwnerModel",
+  "origami_token::components::token::erc721::erc721_balance::ERC721BalanceModel",
+  "origami_token::components::token::erc721::erc721_metadata::ERC721MetaModel",
+  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableIndexModel",
+  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableOwnerIndexModel",
+  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableOwnerTokenModel",
+  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableTokenModel",
+  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableTotalModel",
+  "origami_token::components::token::erc721::erc721_approval::ERC721TokenApprovalModel",
+  "origami_token::components::token::erc721::erc721_approval::ERC721OperatorApprovalModel",
+]
 
 # Custom profiles
 [profile.slot]

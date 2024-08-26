@@ -2,13 +2,18 @@
 
 use starknet::ContractAddress;
 
-// Internal imports
-use zidle::models::index::Player;
-
 mod errors {
     const PLAYER_NOT_EXIST: felt252 = 'Player: does not exist';
     const PLAYER_ALREADY_EXIST: felt252 = 'Player: already exist';
     const PLAYER_INVALID_NAME: felt252 = 'Player: invalid name';
+}
+
+#[derive(Copy, Drop, Serde, IntrospectPacked)]
+#[dojo::model]
+pub struct Player {
+    #[key]
+    id: felt252,
+    name: felt252,
 }
 
 #[generate_trait]

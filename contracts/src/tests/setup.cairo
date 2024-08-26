@@ -49,9 +49,9 @@ mod setup {
 
         // [Setup] World
         let mut models = core::array::ArrayTrait::new();
-        models.append(zidle::models::index::player::TEST_CLASS_HASH);
-        models.append(zidle::models::index::miner::TEST_CLASS_HASH);
-        let world = spawn_test_world("zidle", models);
+        models.append(zidle::models::player::player::TEST_CLASS_HASH);
+        models.append(zidle::models::miner::miner::TEST_CLASS_HASH);
+        let world = spawn_test_world(["zidle"].span(), models.span());
 
         // [Setup] Systems
         let account_address = world

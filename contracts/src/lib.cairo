@@ -1,6 +1,28 @@
 mod constants;
 mod store;
 
+mod components {
+    mod emitter;
+    mod manageable;
+}
+
+mod helpers {
+    mod level;
+}
+
+mod interfaces {
+    mod ierc20;
+    mod ierc721;
+    mod systems;
+}
+
+mod models {
+    mod character;
+    mod miner;
+    mod player;
+    mod token_config;
+}
+
 mod resources {
     mod interface;
     mod wood;
@@ -8,28 +30,15 @@ mod resources {
     mod mineral;
 }
 
-mod types {
-    mod resource;
-}
-
-mod components {
-    mod emitter;
-    mod manageable;
-}
-
-mod models {
-    mod index;
-    mod player;
-    mod miner;
-}
-
-mod helpers {
-    mod level;
-}
-
 mod systems {
     mod account;
+    mod character_minter;
+    mod character_token;
     mod resources;
+}
+
+mod types {
+    mod resource;
 }
 
 #[cfg(test)]
@@ -37,4 +46,5 @@ mod tests {
     mod setup;
     mod account;
     mod resources;
+    mod character_token;
 }
