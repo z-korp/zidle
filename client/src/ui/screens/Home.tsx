@@ -73,10 +73,6 @@ export const Home = () => {
     }
   };
 
-  if (!enter) {
-    return <Loading enter={enter} setEnter={setEnter} />;
-  }
-
   return (
     <div className="relative flex flex-col h-screen">
       <Header />
@@ -124,7 +120,6 @@ export const Home = () => {
               </CardContent>
             </Card>
           )}
-          <Create />
         </div>
       </div>
     </div>
