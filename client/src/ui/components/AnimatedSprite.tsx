@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { SpriteAnimator } from 'react-sprite-animator';
 import knight_attack_large from "/assets/knight_attack_large.png";
 import knight_idle_large from "/assets/Warrior_Blue.png";
-import knight_run_large from "/assets/knight_defend_large.png";
-import knight_jump_large from "/assets/knight_walk_large.png";
+// import knight_run_large from "/assets/knight_defend_large.png";
+import knight_run from "/assets/knight_walk_large.png";
 
 interface AnimationConfig {
   sprite: string;
@@ -14,8 +14,8 @@ interface AnimationConfig {
 const animations: Record<string, AnimationConfig> = {
   attack: { sprite: knight_attack_large, frameCount: 6 },
   idle: { sprite: knight_idle_large, frameCount: 6 },
-  run: { sprite: knight_run_large, frameCount: 6 },
-  jump: { sprite: knight_jump_large, frameCount: 6 },
+  run: { sprite: knight_run, frameCount: 6 },
+  // jump: { sprite: knight_jump_large, frameCount: 6 },
 };
 
 interface AnimatedSpriteProps {
