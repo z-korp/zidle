@@ -36,7 +36,7 @@ use zidle::systems::character_minter::{
     character_minter, ICharacterMinterDispatcher, ICharacterMinterDispatcherTrait,
 };
 
-use zidle::models::character::{character};
+use zidle::models::char::{char};
 use zidle::models::miner::{miner};
 use zidle::models::player::{player};
 use zidle::models::token_config::{token_config};
@@ -96,7 +96,7 @@ fn setup_uninitialized() -> (
     testing::set_block_number(1);
     testing::set_block_timestamp(1);
     let mut world = spawn_test_world(
-        ["dojo", "origami_token", "zidle"].span(),
+        ["origami_token", "zidle"].span(),
         array![
             initializable_model::TEST_CLASS_HASH,
             src_5_model::TEST_CLASS_HASH,
@@ -111,7 +111,7 @@ fn setup_uninitialized() -> (
             erc_721_enumerable_total_model::TEST_CLASS_HASH,
             erc_721_operator_approval_model::TEST_CLASS_HASH,
             // zidle
-            character::TEST_CLASS_HASH,
+            char::TEST_CLASS_HASH,
             miner::TEST_CLASS_HASH,
             player::TEST_CLASS_HASH,
             token_config::TEST_CLASS_HASH,
@@ -174,16 +174,10 @@ fn setup_uninitialized() -> (
         contract_address: world
             .deploy_contract('salt2', character_minter::TEST_CLASS_HASH.try_into().unwrap())
     };
-    println!("bbbbb 2");
     world.grant_owner(dojo::utils::bytearray_hash(@"origami_token"), minter.contract_address);
-    println!("bbbbb 3");
     world.grant_writer(selector_from_tag!("zidle-TokenConfig"), minter.contract_address);
-    println!("bbbbb 4 {}", selector_from_tag!("zidle-Character"));
-    world.grant_writer(selector_from_tag!("zidle-Character"), minter.contract_address);
-    println!("bbbbb 5");
+    world.grant_writer(selector_from_tag!("zidle-Char"), minter.contract_address);
     world.init_contract(SELECTORS::CHARACTER_MINTER, minter_call_data.span());
-
-    println!("ccccc");
 
     utils::impersonate(OWNER());
 

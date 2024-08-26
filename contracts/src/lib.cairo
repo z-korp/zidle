@@ -17,7 +17,7 @@ mod interfaces {
 }
 
 mod models {
-    mod character;
+    mod char;
     mod miner;
     mod player;
     mod token_config;

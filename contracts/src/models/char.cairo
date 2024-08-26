@@ -14,7 +14,7 @@ use zidle::interfaces::systems::{WorldSystemsTrait};
 
 #[derive(Copy, Drop, Serde, IntrospectPacked)]
 #[dojo::model]
-pub struct Character {
+pub struct Char {
     #[key]
     token_id: u128,
     name: felt252,

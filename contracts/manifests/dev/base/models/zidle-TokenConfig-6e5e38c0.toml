@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x219acfbbaf0040f01aafd035d5381e1375d71800106e038ee718dca592edd71"
+original_class_hash = "0x219acfbbaf0040f01aafd035d5381e1375d71800106e038ee718dca592edd71"
+abi = "manifests/dev/base/abis/models/zidle-TokenConfig-6e5e38c0.json"
+tag = "zidle-TokenConfig"
+qualified_path = "zidle::models::token_config::token_config"
+manifest_name = "zidle-TokenConfig-6e5e38c0"
+
+[[members]]
+name = "token_address"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "max_supply"
+type = "u64"
+key = false
+
+[[members]]
+name = "minted_count"
+type = "u64"
+key = false
+
+[[members]]
+name = "max_per_wallet"
+type = "u64"
+key = false
+
+[[members]]
+name = "is_open"
+type = "bool"
+key = false

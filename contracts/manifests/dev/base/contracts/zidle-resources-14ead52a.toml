@@ -1,0 +1,14 @@
+kind = "DojoContract"
+class_hash = "0x42dce9e433b9af3a753df7446c077c0aa7f0ec77b1bf1323e677d9cdee82d05"
+original_class_hash = "0x42dce9e433b9af3a753df7446c077c0aa7f0ec77b1bf1323e677d9cdee82d05"
+base_class_hash = "0x0"
+abi = "manifests/dev/base/abis/contracts/zidle-resources-14ead52a.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "zidle-resources"
+systems = [
+    "mine",
+    "harvest",
+]
+manifest_name = "zidle-resources-14ead52a"

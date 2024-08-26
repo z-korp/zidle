@@ -3,6 +3,7 @@
 use starknet::ContractAddress;
 
 // Internal imports
+
 use zidle::types::resource::{ResourceTrait, ResourceType, ResourceImpl};
 
 mod errors {

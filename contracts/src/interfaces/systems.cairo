@@ -5,6 +5,7 @@ use zidle::systems::{
     account::{IAccountDispatcher, IAccountDispatcherTrait},
     character_minter::{ICharacterMinterDispatcher, ICharacterMinterDispatcherTrait},
     character_token::{ICharacterTokenDispatcher, ICharacterTokenDispatcherTrait},
+    resources::{IResourcesDispatcher, IResourcesDispatcherTrait},
 };
 use core::Zeroable;
 
@@ -12,6 +13,7 @@ mod SELECTORS {
     const ACCOUNT: felt252 = selector_from_tag!("zidle-account");
     const CHARACTER_MINTER: felt252 = selector_from_tag!("zidle-character_minter");
     const CHARACTER_TOKEN: felt252 = selector_from_tag!("zidle-character_token");
+    const RESOURCES: felt252 = selector_from_tag!("zidle-resources");
 }
 
 #[generate_trait]
@@ -42,6 +44,9 @@ impl WorldSystemsTraitImpl of WorldSystemsTrait {
         (ICharacterTokenDispatcher {
             contract_address: self.contract_address(SELECTORS::CHARACTER_TOKEN)
         })
+    }
+    fn resources_dispatcher(self: IWorldDispatcher) -> IResourcesDispatcher {
+        (IResourcesDispatcher { contract_address: self.contract_address(SELECTORS::RESOURCES) })
     }
 
     // validators

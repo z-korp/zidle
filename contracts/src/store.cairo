@@ -16,7 +16,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 use zidle::models::player::{Player};
 use zidle::models::miner::{Miner};
-use zidle::models::character::{Character};
+use zidle::models::char::{Char};
 use zidle::models::token_config::{TokenConfig};
 
 
@@ -47,8 +47,8 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline(always)]
-    fn character(self: Store, token_id: u128) -> Character {
-        get!(self.world, (token_id), Character)
+    fn character(self: Store, token_id: u128) -> Char {
+        get!(self.world, (token_id), Char)
     }
 
     #[inline(always)]
@@ -69,7 +69,7 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline(always)]
-    fn set_character(self: Store, character: Character) {
+    fn set_character(self: Store, character: Char) {
         set!(self.world, (character))
     }
 
