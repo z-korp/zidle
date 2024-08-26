@@ -68,11 +68,12 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
       <div className="flex items-center justify-between">
         <span>{`Chop ${resourceName}`}</span>
         <div className="flex items-center">
-          <Button variant="outline" size="sm">
-            <ChevronDown className="h-4 w-4" />
-          </Button>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button size="sm" className="ml-2" onClick={() => setIsActing(false)}>
+            <Button
+              size="sm"
+              className="ml-2"
+              onClick={() => setIsActing(false)}
+            >
               Harvest
             </Button>
           </motion.div>
@@ -94,9 +95,7 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
           )}
         </AnimatePresence>
       </div>
-      <motion.div
-        className="flex flex-col items-center border-4 border-grey-600 shadow-lg rounded-xl p-4"
-      >
+      <motion.div className="flex flex-col items-center border-4 border-grey-600 shadow-lg rounded-xl p-4">
         <span className="">{"Claimable:"}</span>
         {Object.entries(groupedResources).map(([name, quantity]) => (
           <motion.span
