@@ -14,16 +14,16 @@ export interface Piece {
 export interface Character {
   id: string;
   name: string;
-  playerLevel: number;
+  playerXp: number;
   health: number;
   woodCut: number;
   attack: number;
   rockMine: number;
   critical: number;
   forging: number;
-  level: number;
   woodProgress: number;
   rockProgress: number;
+  forgeProgress: number;
 }
 
 export interface ReconnectionData {

@@ -12,7 +12,7 @@ const StatsAndInventory = ({
   woodCut,
   rockMine,
   forging,
-  level,
+  playerXp,
   setIsInInventory,
 }: {
   health: number;
@@ -21,7 +21,7 @@ const StatsAndInventory = ({
   woodCut: number;
   rockMine: number;
   forging: number;
-  level: number;
+  playerXp: number;
   setIsInInventory: (state: boolean) => void;
 }) => {
   const [currentAnimation, setCurrentAnimation] = React.useState("run");
@@ -48,15 +48,15 @@ const StatsAndInventory = ({
         <div className="space-y-2 w-full ">
           <div className="text-sm flex items-center justify-between">
             <span className="font-medium">Chop:</span>
-            <LevelIndicator currentXP={3000} />
+            <LevelIndicator currentXP={woodCut} />
           </div>
           <div className="text-sm flex items-center justify-between">
             <span className="font-medium">Mine:</span>
-            <LevelIndicator currentXP={3000} />
+            <LevelIndicator currentXP={rockMine} />
           </div>
           <div className="text-sm flex items-center justify-between">
             <span className="font-medium">Forging:</span>
-            <LevelIndicator currentXP={3000} />
+            <LevelIndicator currentXP={forging} />
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@ const StatsAndInventory = ({
       <div className="text-sm flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <span className="font-medium">lvl</span>
-          <LevelIndicator currentXP={3000} />
+          <LevelIndicator currentXP={playerXp} />
         </div>
         <div className="flex items-center space-x-2">
           <span className="font-medium">Gold :</span>

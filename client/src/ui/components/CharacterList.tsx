@@ -33,7 +33,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
       {
         id: "1",
         name: "Character 1",
-        playerLevel: 1,
+        playerXp: 1,
         health: 100,
         woodCut: 0,
         attack: 10,
@@ -47,7 +47,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
       {
         id: "2",
         name: "Character 2",
-        playerLevel: 1,
+        playerXp: 1,
         health: 100,
         woodCut: 0,
         attack: 10,

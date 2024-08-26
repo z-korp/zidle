@@ -70,16 +70,16 @@ const MainMenuCard = ({ character }: { character: Character }) => {
           setIsActing={setIsActing}
           resourceName={resource?.getSubresourceName() ?? ""}
           secondsPerResource={
-            resource?.calculateGatheringSpeed(character.playerLevel) ?? 0
+            resource?.calculateGatheringSpeed(character.playerXp) ?? 0
           }
-          xpPerResource={resource?.calculateXp(character.playerLevel) ?? 0}
+          xpPerResource={resource?.calculateXp(character.playerXp) ?? 0}
         />
       );
     } else {
       return (
         <Actions
           setIsActing={setIsActing}
-          playerLevel={character.playerLevel}
+          playerLevel={character.playerXp}
           selectedResource={selectedResource}
           setSelectedResource={setSelectedResource}
         />
@@ -117,7 +117,7 @@ const MainMenuCard = ({ character }: { character: Character }) => {
             woodCut={character.woodCut}
             rockMine={character.rockMine}
             forging={character.forging}
-            level={character.level}
+            playerXp={character.playerXp}
             setIsInInventory={setIsInInventory}
           />
           {renderContent()}
