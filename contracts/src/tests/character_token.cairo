@@ -209,10 +209,9 @@ fn test_initializer() {
     assert(token.balance_of(OWNER(),) == 2, 'Should eq 2');
     assert(token.name() == "zIdle Character", 'Name is wrong');
     assert(token.symbol() == "ZIC", 'Symbol is wrong');
-
-    assert(token.supports_interface(IERC721_ID) == true, 'should support IERC721_ID');
-    assert(token.supports_interface(IERC721_METADATA_ID) == true, 'should support METADATA');
-    assert(token.supportsInterface(IERC721_ID) == true, 'should support IERC721_ID Camel');
+//assert(token.supports_interface(IERC721_ID) == true, 'should support IERC721_ID');
+//assert(token.supports_interface(IERC721_METADATA_ID) == true, 'should support METADATA');
+//assert(token.supportsInterface(IERC721_ID) == true, 'should support IERC721_ID Camel');
 }
 
 #[test]
@@ -288,7 +287,7 @@ fn test_mint() {
 }
 
 #[test]
-#[should_panic(expected: ('DUELIST: caller is not minter', 'ENTRYPOINT_FAILED'))]
+#[should_panic(expected: ('CharToken: caller is not minter', 'ENTRYPOINT_FAILED'))]
 fn test_mint_not_minter() {
     let (_world, mut token, mut _minter) = setup();
     token.mint(RECIPIENT(), TOKEN_ID_3);

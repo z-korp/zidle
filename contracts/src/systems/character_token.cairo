@@ -218,7 +218,7 @@ mod character_token {
         let BASE_URI = "";
 
         self.erc721_metadata.initialize(TOKEN_NAME, TOKEN_SYMBOL, BASE_URI);
-        //self.erc721_enumerable.initialize();
+        self.erc721_enumerable.initialize();
         self.initializable.initialize();
     }
 

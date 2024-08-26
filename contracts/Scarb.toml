@@ -14,7 +14,7 @@ slotdev = "sozo --profile slotdev clean && sozo --profile slotdev build && sozo 
 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.7" }
-origami_token = { git = "https://github.com/dojoengine/origami", tag = "v1.0.0-alpha.7" }
+origami_token = { git = "https://github.com/Matth26/origami-roger", branch = "balance_enumerable-not-finished" }
 
 [[target.dojo]]
 build-external-contracts = [
