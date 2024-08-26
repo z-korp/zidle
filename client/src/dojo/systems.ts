@@ -112,35 +112,19 @@ export function systems({
     );
   };
 
-  const start = async ({ account, ...props }: SystemTypes.Start) => {
+  const mine = async ({ account, ...props }: SystemTypes.Mine) => {
     await handleTransaction(
       account,
-      () => client.play.start({ account, ...props }),
-      "Game has been started.",
+      () => client.resources.mine({ account, ...props }),
+      "Miner has been mined.",
     );
   };
 
-  const surrender = async ({ account, ...props }: SystemTypes.Signer) => {
+  const harvest = async ({ account, ...props }: SystemTypes.Harvest) => {
     await handleTransaction(
       account,
-      () => client.play.surrender({ account, ...props }),
-      "Game has been surrendered.",
-    );
-  };
-
-  const move = async ({ account, ...props }: SystemTypes.Move) => {
-    await handleTransaction(
-      account,
-      () => client.play.move({ account, ...props }),
-      "Player has been moved.",
-    );
-  };
-
-  const applyBonus = async ({ account, ...props }: SystemTypes.Bonus) => {
-    await handleTransaction(
-      account,
-      () => client.play.bonus({ account, ...props }),
-      "Bonus has been applied.",
+      () => client.resources.harvest({ account, ...props }),
+      "Miner has been harvested.",
     );
   };
 
@@ -148,10 +132,12 @@ export function systems({
     // account
     create,
     rename,
-    // play
-    start,
-    surrender,
-    move,
-    applyBonus,
+    mine,
+    harvest,
+    // // play
+    // start,
+    // surrender,
+    // move,
+    // applyBonus,
   };
 }

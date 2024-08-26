@@ -16,6 +16,15 @@ export interface Rename extends Signer {
   name: string;
 }
 
+export interface Mine extends Signer {
+  rcs_type: bigint;
+  rcs_sub_type: bigint;
+}
+
+export interface Harvest extends Signer {
+  rcs_sub_type: bigint;
+}
+
 export interface Start extends Signer {
   mode: number;
   x: bigint;
@@ -109,115 +118,63 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
     };
   }
 
-  function play() {
-    const contract_name = "play";
-    const contract = config.manifest.contracts.find((c: any) =>
-      c.tag.includes(contract_name),
-    );
-    if (!contract) {
-      throw new Error(`Contract ${contract_name} not found in manifest`);
-    }
+function resources() {
+  const contract_name = "resources";
 
-    console.log("play contract", contract);
-
-    const start = async ({
-      account,
-      mode,
-      x,
-      y,
-      c,
-      s,
-      sqrt_ratio_hint,
-      seed,
-      beta,
-    }: Start) => {
-      try {
-        return await provider.execute(
-          account,
-          {
-            contractName: contract_name,
-            entrypoint: "create",
-            calldata: [mode, x, y, c, s, sqrt_ratio_hint, seed, beta],
-          },
-          NAMESPACE,
-          details,
-        );
-      } catch (error) {
-        console.error("Error executing start:", error);
-        throw error;
-      }
-    };
-
-    const surrender = async ({ account }: Signer) => {
-      try {
-        return await provider.execute(
-          account,
-          {
-            contractName: contract_name,
-            entrypoint: "surrender",
-            calldata: [],
-          },
-          NAMESPACE,
-          details,
-        );
-      } catch (error) {
-        console.error("Error executing surrender:", error);
-        throw error;
-      }
-    };
-
-    const move = async ({
-      account,
-      row_index,
-      start_index,
-      final_index,
-    }: Move) => {
-      try {
-        return await provider.execute(
-          account,
-          {
-            contractName: contract_name,
-            entrypoint: "move",
-            calldata: [row_index, start_index, final_index],
-          },
-          NAMESPACE,
-          details,
-        );
-      } catch (error) {
-        console.error("Error executing move:", error);
-        throw error;
-      }
-    };
-
-    const bonus = async ({ account, bonus, row_index, block_index }: Bonus) => {
-      try {
-        return await provider.execute(
-          account,
-          {
-            contractName: contract_name,
-            entrypoint: "apply_bonus",
-            calldata: [bonus, row_index, block_index],
-          },
-          NAMESPACE,
-          details,
-        );
-      } catch (error) {
-        console.error("Error executing bonus:", error);
-        throw error;
-      }
-    };
-
-    return {
-      address: contract.address,
-      start,
-      surrender,
-      move,
-      bonus,
-    };
+  const contract = config.manifest.contracts.find((c: any) =>
+    c.tag.includes(contract_name),
+  );
+  if (!contract) {
+    throw new Error(`Contract ${contract_name} not found in manifest`);
   }
+
+ console.log("miner contract", contract);
+
+
+ const mine = async ({account, rcs_type, rcs_sub_type}: Mine) => {
+  try {
+    return await provider.execute(
+      account,
+      {
+        contractName: contract_name,
+        entrypoint: "mine",
+        calldata: [rcs_type, rcs_sub_type],
+      },
+      NAMESPACE,
+      details,
+    );
+  } catch (error) {
+    console.error("Error executing mine:", error);
+    throw error;
+  }
+ }
+
+ const harvest = async ({account, rcs_sub_type}: Harvest) => {
+  try {
+    return await provider.execute(
+      account,
+      {
+        contractName: contract_name,
+        entrypoint: "harvest",
+        calldata: [rcs_sub_type],
+      },
+      NAMESPACE,
+      details,
+    );
+  } catch (error) {
+    console.error("Error executing harvest:", error);
+    throw error;
+  }
+ }
+
+ return {
+  mine,
+  harvest,
+ }
+}
 
   return {
     account: account(),
-    play: play(),
+    resources: resources(),
   };
 }
