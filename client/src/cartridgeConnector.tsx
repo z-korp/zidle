@@ -19,7 +19,7 @@ const manifest =
 
 const account_contract_address = getContractByName(
   manifest,
-  "zIdle",
+  "zidle",
   "account",
 )?.address;
 
