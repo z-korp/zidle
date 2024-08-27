@@ -24,15 +24,19 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   } = useDojo();
   const { account } = useAccountCustom();
 
-  const { player, loading: playerLoading } = usePlayer({ playerId: account?.address });
-  const { miners, loading: minersLoading } = useMiners({ playerId: player?.id });
+  const { player, loading: playerLoading } = usePlayer({
+    playerId: account?.address,
+  });
+  const { miners, loading: minersLoading } = useMiners({
+    playerId: account?.address,
+  });
 
   console.log("PLAYERS", player);
   console.log("Miners", miners);
 
   const handleMint = async () => {
     if (playerName.trim()) {
-      console.log("enter mint")
+      console.log("enter mint");
       await create({ account: account as Account, name: playerName });
       console.log(`Minting character for ${playerName}`);
       setPlayerName(""); // Clear the input
@@ -69,7 +73,9 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
       <h3>Your Characters</h3>
       <div className="grid grid-cols-2 gap-4">
         <div key={player.id} className="flex flex-col items-center">
-          <Button onClick={() => onCharacterSelect(player)}>{player.name}</Button>
+          <Button onClick={() => onCharacterSelect(player)}>
+            {player.name}
+          </Button>
           <AnimatedSprite
             width={192}
             height={192}
@@ -78,18 +84,6 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
             currentAnimation={currentAnimation}
           />
         </div>
-        {miners && miners.map((miner) => (
-          <div key={miner.id} className="flex flex-col items-center">
-            <Button onClick={() => onCharacterSelect(miner)}>{miner.name}</Button>
-            <AnimatedSprite
-              width={192}
-              height={192}
-              scale={1}
-              fps={10}
-              currentAnimation={currentAnimation}
-            />
-          </div>
-        ))}
       </div>
       <Input
         type="text"

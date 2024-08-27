@@ -70,14 +70,19 @@ mod account {
     #[abi(embed_v0)]
     impl AccountImpl of IAccount<ContractState> {
         fn create(ref world: IWorldDispatcher, name: felt252) {
+            // [Setup] Datastore
+            let store: Store = StoreImpl::new(world);
+
             // [Effect] Create a player
             self.manageable._create(world, name);
 
             // [Effect] Create miners for the player
+            let caller = get_caller_address();
             let mut index = 0;
             while (index < RESSOURCE_NUMBER) {
-                MinerTrait::new(get_caller_address().into(), index + 1); // 0 is None, start at 1
+                let miner = MinerTrait::new(caller.into(), index + 1); // 0 is None, start at 1
                 index += 1;
+                store.set_miner(miner);
             }
         }
 

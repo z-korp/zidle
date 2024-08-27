@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x219f96ba1a828a29bc6e2f0a16b25980c5734cf89a3efae1713f13b65d4f728"
-original_class_hash = "0x219f96ba1a828a29bc6e2f0a16b25980c5734cf89a3efae1713f13b65d4f728"
+class_hash = "0x403ab93abdcb4dbfa62dba85f774cccb1046a4ecd41ad50ab3b0eacadfc2340"
+original_class_hash = "0x403ab93abdcb4dbfa62dba85f774cccb1046a4ecd41ad50ab3b0eacadfc2340"
 abi = "manifests/dev/base/abis/models/zidle-Miner-7ca4dc32.json"
 tag = "zidle-Miner"
 qualified_path = "zidle::models::miner::miner"

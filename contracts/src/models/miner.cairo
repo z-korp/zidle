@@ -8,6 +8,7 @@ use zidle::types::resource::{ResourceTrait, ResourceType, ResourceImpl};
 
 mod errors {
     const MINER_NOT_EXIST: felt252 = 'Miner: not exist';
+    const MINER_NOT_MINING: felt252 = 'Miner: not mining';
     const MINER_ALREADY_EXIST: felt252 = 'Miner: already exist';
     const MINER_ALREADY_MINING: felt252 = 'Miner: already mining';
 }
@@ -35,6 +36,7 @@ pub struct Miner {
 impl MinerImpl of MinerTrait {
     #[inline(always)]
     fn new(id: felt252, resource_type: u8) -> Miner {
+        println!("New [Miner]  id: {}, resource_type: {}", id, resource_type);
         // [Return] Miner
         Miner {
             id,
@@ -65,7 +67,7 @@ impl MinerImpl of MinerTrait {
     #[inline(always)]
     fn harvest(ref self: Miner, timestamp: u64, player_level: u8) {
         // [Check] Mining is active
-        assert(self.timestamp != 0, errors::MINER_NOT_EXIST);
+        assert(self.timestamp != 0, errors::MINER_NOT_MINING);
 
         // [Effect] Harvest
         let resource: ResourceType = ResourceImpl::from(self.resource_type, self.subresource_type);

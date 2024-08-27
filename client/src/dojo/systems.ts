@@ -33,7 +33,7 @@ export function systems({
       label: "View",
       onClick: () =>
         window.open(
-          `https://worlds.dev/networks/slot/worlds/zkube/txs/${transaction_hash}`,
+          `https://worlds.dev/networks/slot/worlds/zidle/txs/${transaction_hash}`,
           //`https://sepolia.voyager.online/tx/${transaction_hash}`,
         ),
     };
