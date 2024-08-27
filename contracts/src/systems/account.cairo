@@ -30,6 +30,8 @@ mod account {
 
     use super::IAccount;
     use zidle::store::{Store, StoreImpl, StoreTrait};
+    use zidle::constants::{RESSOURCE_NUMBER};
+    use zidle::models::miner::{MinerTrait};
 
     // Components
 
@@ -70,6 +72,12 @@ mod account {
         fn create(ref world: IWorldDispatcher, name: felt252) {
             // [Effect] Create a player
             self.manageable._create(world, name);
+
+            // [Effect] Create miners for the player
+            let mut index = 0;
+            while (index < RESSOURCE_NUMBER) {
+                MinerTrait::new(get_caller_address().into(), index + 1); // 0 is None, start at 1
+            }
         }
 
         fn rename(ref world: IWorldDispatcher, name: felt252) {
