@@ -46,11 +46,4 @@ fn test_resources_harvest() {
     // [Assert] Harvest
     systems.resources.harvest(1);
     let miner = store.miner(context.player_id, 1);
-    println!(
-        "miner: xp: {}, timestamp: {}, subresource_type: {}, rcs: {}",
-        miner.xp,
-        miner.timestamp,
-        miner.subresource_type,
-        miner.rcs
-    );
 }

@@ -93,9 +93,6 @@ mod gold_minter {
             config.minted_count += amount;
             token.mint(to, amount);
 
-            println!("config.minted_count: {}", config.minted_count);
-            println!("config.max_supply: {}", config.max_supply);
-
             store.set_token_config(config);
         }
 
@@ -106,8 +103,6 @@ mod gold_minter {
             let token = (IGoldTokenDispatcher { contract_address: token_contract_address });
             let mut config: TokenConfig = get!(world, (token_contract_address), TokenConfig);
             let balance: u256 = token.balance_of(to);
-            println!("balance: {}", balance);
-            println!("config.minted_count: {}", config.minted_count);
             ((config.minted_count < config.max_supply)
                 && (config.is_open)
                 && (balance < config.max_per_wallet))
