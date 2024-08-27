@@ -129,7 +129,7 @@
   {
     "type": "impl",
     "name": "IDojoInitImpl",
-    "interface_name": "zidle::systems::character_minter::character_minter::IDojoInit"
+    "interface_name": "zidle::systems::gold_minter::gold_minter::IDojoInit"
   },
   {
     "type": "struct",
@@ -147,7 +147,7 @@
   },
   {
     "type": "interface",
-    "name": "zidle::systems::character_minter::character_minter::IDojoInit",
+    "name": "zidle::systems::gold_minter::gold_minter::IDojoInit",
     "items": [
       {
         "type": "function",
@@ -177,8 +177,8 @@
   },
   {
     "type": "impl",
-    "name": "CharacterMinterImpl",
-    "interface_name": "zidle::systems::character_minter::ICharacterMinter"
+    "name": "GoldMinterImpl",
+    "interface_name": "zidle::systems::gold_minter::IGoldMinter"
   },
   {
     "type": "enum",
@@ -196,7 +196,7 @@
   },
   {
     "type": "interface",
-    "name": "zidle::systems::character_minter::ICharacterMinter",
+    "name": "zidle::systems::gold_minter::IGoldMinter",
     "items": [
       {
         "type": "function",
@@ -207,15 +207,15 @@
             "type": "core::starknet::contract_address::ContractAddress"
           },
           {
+            "name": "amount",
+            "type": "core::integer::u256"
+          },
+          {
             "name": "token_contract_address",
             "type": "core::starknet::contract_address::ContractAddress"
           }
         ],
-        "outputs": [
-          {
-            "type": "core::integer::u128"
-          }
-        ],
+        "outputs": [],
         "state_mutability": "external"
       },
       {
@@ -305,7 +305,7 @@
   },
   {
     "type": "event",
-    "name": "zidle::systems::character_minter::character_minter::Event",
+    "name": "zidle::systems::gold_minter::gold_minter::Event",
     "kind": "enum",
     "variants": [
       {
