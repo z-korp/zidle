@@ -110,9 +110,6 @@ const MainMenuCard = ({ character }: { character: Character }) => {
     <Card className="w-[350px]">
       <CardHeader>
         <CardTitle className="text-center">ZIdle</CardTitle>
-        <Button onClick={() => setShowSummary(true)}>
-          View Character Summary
-        </Button>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">

@@ -24,13 +24,44 @@ export type SelectedResource = {
   value: WoodType | MineralType | FoodType | null;
 };
 
-const Actions: React.FC<ActionsProps> = ({ setIsActing, playerLevel,selectedResource, setSelectedResource }) => {
-
+const Actions: React.FC<ActionsProps> = ({
+  setIsActing,
+  playerLevel,
+  selectedResource,
+  setSelectedResource,
+}) => {
   const handleSelect = (
     resourceType: ResourceType,
     value: WoodType | MineralType | FoodType,
   ) => {
     setSelectedResource({ type: resourceType, value });
+  };
+
+  const getRequiredLevel = (
+    resourceType: ResourceType,
+    value: WoodType | MineralType | FoodType,
+  ): number => {
+    // Cette fonction doit retourner le niveau requis pour chaque ressource
+    // Vous devrez l'implémenter en fonction de la logique de votre jeu
+    // Voici un exemple simple :
+    const levels = {
+      [ResourceType.Wood]: {
+        [WoodType.Oak]: 1,
+        [WoodType.Maple]: 5,
+        [WoodType.Yew]: 10,
+      },
+      [ResourceType.Mineral]: {
+        [MineralType.Copper]: 1,
+        [MineralType.Iron]: 5,
+        [MineralType.Gold]: 10,
+      },
+      [ResourceType.Food]: {
+        [FoodType.Apple]: 1,
+        [FoodType.Bread]: 5,
+        [FoodType.Fish]: 10,
+      },
+    };
+    return levels[resourceType][value] || 1;
   };
 
   const renderResourceDropdown = (
@@ -58,14 +89,22 @@ const Actions: React.FC<ActionsProps> = ({ setIsActing, playerLevel,selectedReso
               <DropdownMenuContent>
                 {Object.values(options)
                   .filter((value) => value !== "None")
-                  .map((type) => (
-                    <DropdownMenuItem
-                      key={type}
-                      onSelect={() => handleSelect(resourceType, type)}
-                    >
-                      {type}
-                    </DropdownMenuItem>
-                  ))}
+                  .map((type) => {
+                    const requiredLevel = getRequiredLevel(resourceType, type);
+                    return (
+                      <DropdownMenuItem
+                        key={type}
+                        onSelect={() => handleSelect(resourceType, type)}
+                        disabled={playerLevel < requiredLevel}
+                        className="flex justify-between items-center"
+                      >
+                        <span>{type}</span>
+                        <span className="ml-2 text-sm text-gray-500">
+                          Lvl {requiredLevel}
+                        </span>
+                      </DropdownMenuItem>
+                    );
+                  })}
               </DropdownMenuContent>
             </DropdownMenu>
             <Button
