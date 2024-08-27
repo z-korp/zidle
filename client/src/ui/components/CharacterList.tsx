@@ -6,13 +6,14 @@ import { useDojo } from "@/dojo/useDojo";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { Account } from "starknet";
 import { Character } from "@/types/types";
+import { usePlayer } from "@/hooks/usePlayer";
+import { useMiners } from "@/hooks/useMiners";
 
 interface CharacterListProps {
   onCharacterSelect: (character: Character) => void;
 }
 
 const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
-  const [characters, setCharacters] = useState<Character[]>([]);
   const [playerName, setPlayerName] = useState("");
   const [currentAnimation, setCurrentAnimation] = useState("idle");
 
@@ -23,61 +24,63 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   } = useDojo();
   const { account } = useAccountCustom();
 
-  useEffect(() => {
-    fetchCharacters();
-  }, []);
+  const { player, loading: playerLoading } = usePlayer({ playerId: account?.address });
+  const { miners, loading: minersLoading } = useMiners({ playerId: player?.id });
 
-  const fetchCharacters = async () => {
-    // TODO: Implement the actual fetching of characters from your backend
-    const mockCharacters: Character[] = [
-      {
-        id: "1",
-        name: "Character 1",
-        playerXp: 1,
-        health: 100,
-        woodCut: 0,
-        attack: 10,
-        rockMine: 0,
-        critical: 0,
-        forging: 0,
-        level: 0,
-        woodProgress: 0, // Add woodProgress property
-        rockProgress: 0, // Add rockProgress property
-      },
-      {
-        id: "2",
-        name: "Character 2",
-        playerXp: 1,
-        health: 100,
-        woodCut: 0,
-        attack: 10,
-        rockMine: 0,
-        critical: 0,
-        forging: 0,
-        level: 0,
-        woodProgress: 0, // Add woodProgress property
-        rockProgress: 0, // Add rockProgress property
-      },
-    ];
-    setCharacters(mockCharacters);
-  };
+  console.log("PLAYERS", player);
+  console.log("Miners", miners);
 
   const handleMint = async () => {
     if (playerName.trim()) {
+      console.log("enter mint")
       await create({ account: account as Account, name: playerName });
       console.log(`Minting character for ${playerName}`);
-      fetchCharacters(); // Refresh the character list
       setPlayerName(""); // Clear the input
     }
   };
+
+  if (playerLoading || minersLoading) {
+    return <div>Loading characters...</div>;
+  }
+
+  if (!player) {
+    return (
+      <div className="flex flex-col items-center space-y-6">
+        <h3>Create Your First Character</h3>
+        <Input
+          type="text"
+          placeholder="Enter character name"
+          value={playerName}
+          onChange={(e) => setPlayerName(e.target.value)}
+          className="w-full bg-gray-700 text-white border-gray-600"
+        />
+        <Button
+          onClick={handleMint}
+          className="w-full bg-blue-600 hover:bg-blue-700"
+        >
+          Mint New Character
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center space-y-6">
       <h3>Your Characters</h3>
       <div className="grid grid-cols-2 gap-4">
-        {characters.map((char) => (
-          <div key={char.id} className="flex flex-col items-center">
-            <Button onClick={() => onCharacterSelect(char)}>{char.name}</Button>
+        <div key={player.id} className="flex flex-col items-center">
+          <Button onClick={() => onCharacterSelect(player)}>{player.name}</Button>
+          <AnimatedSprite
+            width={192}
+            height={192}
+            scale={1}
+            fps={10}
+            currentAnimation={currentAnimation}
+          />
+        </div>
+        {miners && miners.map((miner) => (
+          <div key={miner.id} className="flex flex-col items-center">
+            <Button onClick={() => onCharacterSelect(miner)}>{miner.name}</Button>
             <AnimatedSprite
               width={192}
               height={192}

@@ -16,11 +16,8 @@ export interface Character {
   name: string;
   playerXp: number;
   health: number;
-  woodCut: number;
   attack: number;
-  rockMine: number;
   critical: number;
-  forging: number;
   woodProgress: number;
   rockProgress: number;
   forgeProgress: number;

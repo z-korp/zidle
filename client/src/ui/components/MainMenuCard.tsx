@@ -14,6 +14,9 @@ import { WoodType } from "@/dojo/game/elements/resources/wood";
 import { Resource, ResourceType } from "@/dojo/game/types/resource";
 import ReconnectionSummary from "./ReconnectionSummary";
 import { Character, ReconnectionData } from "@/types/types";
+import { useMiners } from "@/hooks/useMiners";
+import useAccountCustom from "@/hooks/useAccountCustom";
+import { usePlayer } from "@/hooks/usePlayer";
 
 const MainMenuCard = ({ character }: { character: Character }) => {
   const [isActing, setIsActing] = useState(false);
@@ -22,7 +25,9 @@ const MainMenuCard = ({ character }: { character: Character }) => {
     useState<SelectedResource | null>(null);
   const [showSummary, setShowSummary] = useState(true);
 
-  const [isReconnecting, setIsReconnecting] = useState(false);
+  const { account } = useAccountCustom();
+  const { player } = usePlayer({ playerId: account?.address });
+  const { miners, currentMiner } = useMiners({ playerId: player?.id });
   const [reconnectionData, setReconnectionData] =
     useState<ReconnectionData | null>({
       timePassed: "10 minutes",
@@ -31,6 +36,14 @@ const MainMenuCard = ({ character }: { character: Character }) => {
         { name: "resource2", quantity: 20 },
       ],
     });
+
+  console.log("MINERS", miners);
+  console.log("Current MINERS", currentMiner);
+  if(miners && miners[0]){
+    console.log(miners[0].resource);
+    console.log(miners[0].resource_number);
+    console.log(miners[0].xp);
+  }
 
   const testInventoryItems: InventoryItem[] = [
     { id: "1", name: "Wood", quantity: 50, type: "wood", unitPrice: 1 },
@@ -59,7 +72,7 @@ const MainMenuCard = ({ character }: { character: Character }) => {
           data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
           onContinue={() => {
             console.log("Continuing from reconnection...");
-            setIsReconnecting(false);
+            setShowSummary(false);
           }}
         />
       );
@@ -117,9 +130,9 @@ const MainMenuCard = ({ character }: { character: Character }) => {
             health={character.health}
             attack={character.attack}
             critical={character.critical}
-            woodCut={character.woodCut}
-            rockMine={character.rockMine}
-            forging={character.forging}
+            woodCut={character.woodProgress}
+            rockMine={character.rockProgress}
+            forging={character.forgeProgress}
             playerXp={character.playerXp}
             setIsInInventory={setIsInInventory}
           />

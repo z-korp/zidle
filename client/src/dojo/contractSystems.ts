@@ -2,7 +2,7 @@ import { DojoProvider } from "@dojoengine/core";
 import { Config } from "../../dojo.config.ts";
 import { Account, UniversalDetails, shortString } from "starknet";
 
-const NAMESPACE = "zkube";
+const NAMESPACE = "zidle";
 
 export interface Signer {
   account: Account;
@@ -118,60 +118,59 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
     };
   }
 
-function resources() {
-  const contract_name = "resources";
+  function resources() {
+    const contract_name = "resources";
 
-  const contract = config.manifest.contracts.find((c: any) =>
-    c.tag.includes(contract_name),
-  );
-  if (!contract) {
-    throw new Error(`Contract ${contract_name} not found in manifest`);
-  }
-
- console.log("miner contract", contract);
-
-
- const mine = async ({account, rcs_type, rcs_sub_type}: Mine) => {
-  try {
-    return await provider.execute(
-      account,
-      {
-        contractName: contract_name,
-        entrypoint: "mine",
-        calldata: [rcs_type, rcs_sub_type],
-      },
-      NAMESPACE,
-      details,
+    const contract = config.manifest.contracts.find((c: any) =>
+      c.tag.includes(contract_name),
     );
-  } catch (error) {
-    console.error("Error executing mine:", error);
-    throw error;
-  }
- }
+    if (!contract) {
+      throw new Error(`Contract ${contract_name} not found in manifest`);
+    }
 
- const harvest = async ({account, rcs_sub_type}: Harvest) => {
-  try {
-    return await provider.execute(
-      account,
-      {
-        contractName: contract_name,
-        entrypoint: "harvest",
-        calldata: [rcs_sub_type],
-      },
-      NAMESPACE,
-      details,
-    );
-  } catch (error) {
-    console.error("Error executing harvest:", error);
-    throw error;
-  }
- }
+    console.log("miner contract", contract);
 
- return {
-  mine,
-  harvest,
- }
-}
+    const mine = async ({ account, rcs_type, rcs_sub_type }: Mine) => {
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: contract_name,
+            entrypoint: "mine",
+            calldata: [rcs_type, rcs_sub_type],
+          },
+          NAMESPACE,
+          details,
+        );
+      } catch (error) {
+        console.error("Error executing mine:", error);
+        throw error;
+      }
+    };
+
+    const harvest = async ({ account, rcs_sub_type }: Harvest) => {
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: contract_name,
+            entrypoint: "harvest",
+            calldata: [rcs_sub_type],
+          },
+          NAMESPACE,
+          details,
+        );
+      } catch (error) {
+        console.error("Error executing harvest:", error);
+        throw error;
+      }
+    };
+
+    return {
+      mine,
+      harvest,
+    };
+  }
 
   return {
     account: account(),
