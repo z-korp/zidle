@@ -180,6 +180,26 @@
         ],
         "outputs": [],
         "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "sell",
+        "inputs": [
+          {
+            "name": "rcs_type",
+            "type": "core::integer::u8"
+          },
+          {
+            "name": "rcs_sub_type",
+            "type": "core::integer::u8"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u64"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
       }
     ]
   },

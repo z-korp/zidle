@@ -8,6 +8,15 @@ mod errors {
 }
 
 impl ResourceImpl of ResourceTrait {
+    fn unit_price(self: ResourceType) -> u64 {
+        match self {
+            ResourceType::Wood(wood_type) => wood_type.unit_price(),
+            ResourceType::Food(food_type) => food_type.unit_price(),
+            ResourceType::Mineral(mineral_type) => mineral_type.unit_price(),
+            ResourceType::None => 0,
+        }
+    }
+
     fn min_level(self: ResourceType) -> u8 {
         match self {
             ResourceType::Wood(wood_type) => wood_type.min_level(),

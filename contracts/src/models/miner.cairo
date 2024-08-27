@@ -22,7 +22,13 @@ pub struct Miner {
     xp: u64,
     timestamp: u64, // Unix timestamp, if 0 then the mining is not active
     subresource_type: u8,
-    rcs: u64,
+    rcs_1: u64,
+    rcs_2: u64,
+    rcs_3: u64,
+    rcs_4: u64,
+    rcs_5: u64,
+    rcs_6: u64,
+    rcs_7: u64,
 }
 
 #[generate_trait]
@@ -30,7 +36,20 @@ impl MinerImpl of MinerTrait {
     #[inline(always)]
     fn new(id: felt252, resource_type: u8) -> Miner {
         // [Return] Miner
-        Miner { id, resource_type, xp: 0, timestamp: 0, subresource_type: 0, rcs: 0 }
+        Miner {
+            id,
+            resource_type,
+            xp: 0,
+            timestamp: 0,
+            subresource_type: 0,
+            rcs_1: 0,
+            rcs_2: 0,
+            rcs_3: 0,
+            rcs_4: 0,
+            rcs_5: 0,
+            rcs_6: 0,
+            rcs_7: 0,
+        }
     }
 
     #[inline(always)]
@@ -58,8 +77,22 @@ impl MinerImpl of MinerTrait {
         self.xp += xp_gained;
 
         let rcs_gained: u64 = (time_elapsed.into() * gathering_speed.into()) / 1000;
-        let rcs = self.rcs + rcs_gained;
-        self.rcs = rcs;
+
+        if (self.subresource_type == 1) {
+            self.rcs_1 += rcs_gained;
+        } else if (self.subresource_type == 2) {
+            self.rcs_2 += rcs_gained;
+        } else if (self.subresource_type == 3) {
+            self.rcs_3 += rcs_gained;
+        } else if (self.subresource_type == 4) {
+            self.rcs_4 += rcs_gained;
+        } else if (self.subresource_type == 5) {
+            self.rcs_5 += rcs_gained;
+        } else if (self.subresource_type == 6) {
+            self.rcs_6 += rcs_gained;
+        } else if (self.subresource_type == 7) {
+            self.rcs_7 += rcs_gained;
+        }
 
         // [Effect] Stop mining
         self.timestamp = 0;
@@ -88,7 +121,13 @@ impl ZeroableMinerImpl of core::Zeroable<Miner> {
             xp: 0,
             timestamp: core::Zeroable::zero(),
             subresource_type: 0,
-            rcs: 0,
+            rcs_1: 0,
+            rcs_2: 0,
+            rcs_3: 0,
+            rcs_4: 0,
+            rcs_5: 0,
+            rcs_6: 0,
+            rcs_7: 0,
         }
     }
 
@@ -133,7 +172,13 @@ mod tests {
         assert(miner.xp == 0, 'Create: wrong miner xp');
         assert(miner.timestamp == 0, 'Create: wrong miner timestamp');
         assert(miner.subresource_type == 0, 'Create: wrong miner subrcs type');
-        assert(miner.rcs == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs1 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs2 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs3 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs4 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs5 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs6 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs7 == 0, 'Create: wrong miner rcs');
     }
 
     #[test]

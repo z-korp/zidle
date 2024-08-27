@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x4482655baa24985ced4c17b3cad937d609b921c496918f42d97da74692967b"
-class_hash = "0x5656f131b62aef850be84ffefd5d8e17df33ffe972ba05f9d6c0c403670dc67"
-original_class_hash = "0x5656f131b62aef850be84ffefd5d8e17df33ffe972ba05f9d6c0c403670dc67"
+class_hash = "0x30db996453c34171f587347813b5d8f74a960fcc1062219f147432370932a74"
+original_class_hash = "0x30db996453c34171f587347813b5d8f74a960fcc1062219f147432370932a74"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-account-60aa04fd.json"
 reads = []
@@ -144,8 +144,8 @@ manifest_name = "zidle-gold_token-3cef4f4d"
 [[contracts]]
 kind = "DojoContract"
 address = "0x56e0f2455f917a62998a79bdd9b470198b0a4a670ea68a0e231517c80fe2dfa"
-class_hash = "0x42dce9e433b9af3a753df7446c077c0aa7f0ec77b1bf1323e677d9cdee82d05"
-original_class_hash = "0x42dce9e433b9af3a753df7446c077c0aa7f0ec77b1bf1323e677d9cdee82d05"
+class_hash = "0x1b0978914222b401f8e432244cba90fc842c45773eb80856a6a1769f6c63756"
+original_class_hash = "0x1b0978914222b401f8e432244cba90fc842c45773eb80856a6a1769f6c63756"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-resources-14ead52a.json"
 reads = []
@@ -160,6 +160,7 @@ tag = "zidle-resources"
 systems = [
     "mine",
     "harvest",
+    "sell",
 ]
 manifest_name = "zidle-resources-14ead52a"
 
@@ -569,8 +570,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x3475971771834b8e80d593185dd8cd9b82dc20e6ce2366bd8a3fb63adc282c8"
-original_class_hash = "0x3475971771834b8e80d593185dd8cd9b82dc20e6ce2366bd8a3fb63adc282c8"
+class_hash = "0x219f96ba1a828a29bc6e2f0a16b25980c5734cf89a3efae1713f13b65d4f728"
+original_class_hash = "0x219f96ba1a828a29bc6e2f0a16b25980c5734cf89a3efae1713f13b65d4f728"
 abi = "manifests/dev/deployment/abis/models/zidle-Miner-7ca4dc32.json"
 tag = "zidle-Miner"
 qualified_path = "zidle::models::miner::miner"
@@ -602,7 +603,37 @@ type = "u8"
 key = false
 
 [[models.members]]
-name = "rcs"
+name = "rcs_1"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_2"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_3"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_4"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_5"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_6"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_7"
 type = "u64"
 key = false
 

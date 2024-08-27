@@ -10,6 +10,7 @@ enum MineralType {
 }
 
 trait MineralTrait {
+    fn unit_price(self: MineralType) -> u64;
     fn min_level(self: MineralType) -> u8;
     fn max_level(self: MineralType) -> u8;
     fn hardness(self: MineralType) -> u8;
@@ -20,6 +21,18 @@ trait MineralTrait {
 }
 
 impl MineralImpl of MineralTrait {
+    fn unit_price(self: MineralType) -> u64 {
+        match self {
+            MineralType::Coal => 1,
+            MineralType::Copper => 2,
+            MineralType::Iron => 3,
+            MineralType::Silver => 4,
+            MineralType::Gold => 5,
+            MineralType::Mithril => 6,
+            MineralType::Adamantium => 10,
+        }
+    }
+
     fn min_level(self: MineralType) -> u8 {
         match self {
             MineralType::Coal => 0,

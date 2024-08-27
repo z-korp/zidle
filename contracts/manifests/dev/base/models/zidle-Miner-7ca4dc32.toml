@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x3475971771834b8e80d593185dd8cd9b82dc20e6ce2366bd8a3fb63adc282c8"
-original_class_hash = "0x3475971771834b8e80d593185dd8cd9b82dc20e6ce2366bd8a3fb63adc282c8"
+class_hash = "0x219f96ba1a828a29bc6e2f0a16b25980c5734cf89a3efae1713f13b65d4f728"
+original_class_hash = "0x219f96ba1a828a29bc6e2f0a16b25980c5734cf89a3efae1713f13b65d4f728"
 abi = "manifests/dev/base/abis/models/zidle-Miner-7ca4dc32.json"
 tag = "zidle-Miner"
 qualified_path = "zidle::models::miner::miner"
@@ -32,6 +32,36 @@ type = "u8"
 key = false
 
 [[members]]
-name = "rcs"
+name = "rcs_1"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_2"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_3"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_4"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_5"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_6"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_7"
 type = "u64"
 key = false

@@ -391,7 +391,31 @@
         "type": "core::integer::u8"
       },
       {
-        "name": "rcs",
+        "name": "rcs_1",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "rcs_2",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "rcs_3",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "rcs_4",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "rcs_5",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "rcs_6",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "rcs_7",
         "type": "core::integer::u64"
       }
     ]

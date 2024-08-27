@@ -10,6 +10,7 @@ use dojo::world::IWorldDispatcher;
 trait IResources<TContractState> {
     fn mine(ref world: IWorldDispatcher, rcs_type: u8, rcs_sub_type: u8);
     fn harvest(ref world: IWorldDispatcher, rcs_type: u8);
+    fn sell(ref world: IWorldDispatcher, rcs_type: u8, rcs_sub_type: u8, amount: u64);
 }
 
 #[dojo::contract]
@@ -112,6 +113,16 @@ mod resources {
 
             // [Effect] Update miner
             store.set_miner(miner);
+        }
+
+        fn sell(ref world: IWorldDispatcher, rcs_type: u8, rcs_sub_type: u8, amount: u64) {
+            // [Setup] Datastore
+            let store: Store = StoreImpl::new(world);
+
+            // [Check] Player exists
+            let caller = get_caller_address();
+            let mut player = store.player(caller.into());
+            player.assert_exists();
         }
     }
 }

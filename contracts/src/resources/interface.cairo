@@ -11,6 +11,7 @@ enum ResourceType {
 }
 
 trait ResourceTrait {
+    fn unit_price(self: ResourceType) -> u64;
     fn min_level(self: ResourceType) -> u8;
     fn max_level(self: ResourceType) -> u8;
     fn hardness(self: ResourceType) -> u8;

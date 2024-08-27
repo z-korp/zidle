@@ -10,6 +10,7 @@ enum FoodType {
 }
 
 trait FoodTrait {
+    fn unit_price(self: FoodType) -> u64;
     fn min_level(self: FoodType) -> u8;
     fn max_level(self: FoodType) -> u8;
     fn hardness(self: FoodType) -> u8;
@@ -20,6 +21,18 @@ trait FoodTrait {
 }
 
 impl FoodImpl of FoodTrait {
+    fn unit_price(self: FoodType) -> u64 {
+        match self {
+            FoodType::Berries => 1,
+            FoodType::Wheat => 2,
+            FoodType::Vegetables => 3,
+            FoodType::Fruits => 4,
+            FoodType::Herbs => 5,
+            FoodType::Mushrooms => 6,
+            FoodType::Ambrosia => 10,
+        }
+    }
+
     fn min_level(self: FoodType) -> u8 {
         match self {
             FoodType::Berries => 0,

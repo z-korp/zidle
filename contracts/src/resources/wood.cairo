@@ -10,6 +10,7 @@ enum WoodType {
 }
 
 trait WoodTrait {
+    fn unit_price(self: WoodType) -> u64;
     fn min_level(self: WoodType) -> u8;
     fn max_level(self: WoodType) -> u8;
     fn hardness(self: WoodType) -> u8;
@@ -20,6 +21,18 @@ trait WoodTrait {
 }
 
 impl WoodImpl of WoodTrait {
+    fn unit_price(self: WoodType) -> u64 {
+        match self {
+            WoodType::Pine => 1,
+            WoodType::Oak => 2,
+            WoodType::Maple => 3,
+            WoodType::Walnut => 4,
+            WoodType::Mahogany => 5,
+            WoodType::Ebony => 6,
+            WoodType::Eldertree => 10,
+        }
+    }
+
     fn min_level(self: WoodType) -> u8 {
         match self {
             WoodType::Pine => 0,
