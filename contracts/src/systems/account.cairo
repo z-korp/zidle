@@ -77,6 +77,7 @@ mod account {
             let mut index = 0;
             while (index < RESSOURCE_NUMBER) {
                 MinerTrait::new(get_caller_address().into(), index + 1); // 0 is None, start at 1
+                index += 1;
             }
         }
 
