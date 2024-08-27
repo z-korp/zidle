@@ -4,7 +4,9 @@ writes = [
 ]
 init_calldata = [
   "$contract_address:zidle-character_token",
-  "10000",  # max supply
-  "100",    # max per wallet
+  "10000",  # max supply (low)
+  "0",      # max supply (high)
+  "100",    # max per wallet (low)
+  "0",      # max per wallet (high)
   "1",      # is_open
 ]
