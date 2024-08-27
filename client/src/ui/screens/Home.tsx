@@ -19,45 +19,9 @@ export const Home = () => {
 
   const { account } = useAccountCustom();
   const { player } = usePlayer({ playerId: account?.address });
-
-  const [isReconnecting, setIsReconnecting] = useState(false);
-  const [reconnectionData, setReconnectionData] =
-    useState<ReconnectionData | null>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null,
   );
-
-  useEffect(() => {
-    const checkReconnection = async () => {
-      const response = await mockReconnectionCheck();
-      if (response.isReconnecting) {
-        setIsReconnecting(true);
-        setReconnectionData(response.data);
-      }
-    };
-
-    checkReconnection();
-  }, []);
-
-  const mockReconnectionCheck = (): Promise<{
-    isReconnecting: boolean;
-    data: ReconnectionData;
-  }> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          isReconnecting: true,
-          data: {
-            timePassed: "2 hours",
-            resourcesGained: [
-              { name: "Wood", quantity: 120 },
-              { name: "Stone", quantity: 80 },
-            ],
-          },
-        });
-      }, 1000);
-    });
-  };
 
   const handleCharacterSelect = (character: Character) => {
     setSelectedCharacter(character);
