@@ -14,6 +14,7 @@ pub struct Player {
     #[key]
     id: felt252,
     name: felt252,
+    gold: felt252,
 }
 
 #[generate_trait]
@@ -24,7 +25,7 @@ impl PlayerImpl of PlayerTrait {
         assert(name != 0, errors::PLAYER_INVALID_NAME);
 
         // [Return] Player
-        Player { id, name }
+        Player { id, name, gold: 0 }
     }
 
     #[inline(always)]
@@ -33,6 +34,12 @@ impl PlayerImpl of PlayerTrait {
         assert(name != 0, errors::PLAYER_INVALID_NAME);
         // [Effect] Change the name
         self.name = name;
+    }
+
+    #[inline(always)]
+    fn add_tokens(ref self: Player, amount: u64) {
+        // [Effect] Add tokens
+        self.gold += amount;
     }
 }
 
@@ -52,7 +59,7 @@ impl PlayerAssert of AssertTrait {
 impl ZeroablePlayerImpl of core::Zeroable<Player> {
     #[inline(always)]
     fn zero() -> Player {
-        Player { id: core::Zeroable::zero(), name: 0 }
+        Player { id: core::Zeroable::zero(), name: 0, gold: 0 }
     }
 
     #[inline(always)]

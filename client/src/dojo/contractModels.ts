@@ -12,11 +12,12 @@ export function defineContractComponents(world: World) {
         {
           id: RecsType.BigInt,
           name: RecsType.BigInt,
+          gold: RecsType.Number,
         },
         {
           metadata: {
             name: "zidle-Player",
-            types: ["felt252", "felt252"],
+            types: ["felt252", "felt252", "u64"],
             customTypes: [],
           },
         },

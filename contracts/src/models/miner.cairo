@@ -99,6 +99,49 @@ impl MinerImpl of MinerTrait {
         // [Effect] Stop mining
         self.timestamp = 0;
     }
+
+    #[inline(always)]
+    fn get_available_rcs(ref self: Miner, subresource_type: u8) -> u64 {
+        if (subresource_type == 1) {
+            self.rcs_1
+        } else if (subresource_type == 2) {
+            self.rcs_2
+        } else if (subresource_type == 3) {
+            self.rcs_3
+        } else if (subresource_type == 4) {
+            self.rcs_4
+        } else if (subresource_type == 5) {
+            self.rcs_5
+        } else if (subresource_type == 6) {
+            self.rcs_6
+        } else if (subresource_type == 7) {
+            self.rcs_7
+        } else {
+            0
+        }
+    }
+
+    #[inline(always)]
+    fn sell(ref self: Miner, subresource_type: u8, amount: u64) {
+        let rcs: u64 = self.get_available_rcs(subresource_type);
+        assert(rcs >= amount, 'Miner: not enough rcs');
+
+        if (subresource_type == 1) {
+            self.rcs_1 -= amount;
+        } else if (subresource_type == 2) {
+            self.rcs_2 -= amount;
+        } else if (subresource_type == 3) {
+            self.rcs_3 -= amount;
+        } else if (subresource_type == 4) {
+            self.rcs_4 -= amount;
+        } else if (subresource_type == 5) {
+            self.rcs_5 -= amount;
+        } else if (subresource_type == 6) {
+            self.rcs_6 -= amount;
+        } else if (subresource_type == 7) {
+            self.rcs_7 -= amount;
+        }
+    }
 }
 
 #[generate_trait]

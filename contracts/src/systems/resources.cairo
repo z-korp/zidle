@@ -123,6 +123,24 @@ mod resources {
             let caller = get_caller_address();
             let mut player = store.player(caller.into());
             player.assert_exists();
+
+            // [Check] Resource exists
+            let mut miner = store.miner(caller.into(), rcs_type);
+            miner.assert_exists();
+
+            // [Check] Resource type
+
+            let rcs_available = miner.get_available_rcs(rcs_sub_type);
+            assert(rcs_available >= amount, 'Resources: not enough resources');
+
+            // [Effect] Sell resources
+            miner.sell(rcs_sub_type, amount);
+            let rcs = ResourceImpl::from(rcs_type, rcs_sub_type);
+            let tokens = rcs.unit_price() * amount;
+            player.add_tokens(tokens);
+
+            store.set_miner(miner);
+            store.set_player(player);
         }
     }
 }

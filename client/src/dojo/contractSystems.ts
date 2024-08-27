@@ -25,6 +25,11 @@ export interface Harvest extends Signer {
   rcs_sub_type: bigint;
 }
 
+export interface Sell extends Signer {
+  rcs_sub_type: bigint;
+  amount: bigint;
+}
+
 export interface Start extends Signer {
   mode: number;
   x: bigint;
@@ -166,9 +171,28 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
       }
     };
 
+    const sell = async ({ account, rcs_sub_type, amount }: Sell) => {
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: contract_name,
+            entrypoint: "sell",
+            calldata: [rcs_sub_type, amount],
+          },
+          NAMESPACE,
+          details,
+        );
+      } catch (error) {
+        console.error("Error executing sell:", error);
+        throw error;
+      }
+    };
+
     return {
       mine,
       harvest,
+      sell,
     };
   }
 
