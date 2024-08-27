@@ -34,6 +34,8 @@ mod systems {
     mod account;
     mod character_minter;
     mod character_token;
+    mod gold_minter;
+    mod gold_token;
     mod resources;
 }
 
@@ -47,4 +49,5 @@ mod tests {
     mod account;
     mod resources;
     mod character_token;
+    mod gold_token;
 }

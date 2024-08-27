@@ -165,10 +165,15 @@ fn setup_uninitialized() -> (
     world.init_contract(SELECTORS::CHARACTER_TOKEN, [].span());
 
     // deploy minter
+    let max_supply: u256 = 3;
+    let max_per_wallet: u256 = 2;
     let minter_call_data: Array<felt252> = array![
-        token.contract_address.into(), 3, // max_supply
-         2, // wallet_max
-         1, // is_open
+        token.contract_address.into(),
+        max_supply.low.into(),
+        max_supply.high.into(),
+        max_per_wallet.low.into(),
+        max_per_wallet.high.into(),
+        1, // is_open
     ];
     let mut minter = ICharacterMinterDispatcher {
         contract_address: world
@@ -305,9 +310,9 @@ fn test_mint_maxed_out() {
 #[should_panic(expected: ('MINTER: minted out', 'ENTRYPOINT_FAILED'))]
 fn test_mint_minted_out() {
     let (_world, mut token, mut minter) = setup();
-    assert(minter.can_mint(RECIPIENT(), token.contract_address) == true, 'can_mint');
+    assert(minter.can_mint(RECIPIENT(), token.contract_address) == true, 'can_mint 1');
     minter.mint(RECIPIENT(), token.contract_address);
-    assert(minter.can_mint(RECIPIENT(), token.contract_address) == false, 'can_mint');
+    assert(minter.can_mint(RECIPIENT(), token.contract_address) == false, 'can_mint 2');
     minter.mint(RECIPIENT(), token.contract_address);
 }
 

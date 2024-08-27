@@ -1,0 +1,10 @@
+tag = "zidle-gold_token"
+writes = []
+init_calldata = [
+  "origami_token-SRC5Model",
+  "origami_token-InitializableModel",
+  "origami_token-Erc20BalanceModel",
+  "origami_token-ERC20MetadataModel",
+  "origami_token-ERC20MintableModel",
+  "origame_token-ERC20AllowanceModel"
+]

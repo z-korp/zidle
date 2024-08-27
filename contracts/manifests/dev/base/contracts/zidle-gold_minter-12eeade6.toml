@@ -1,0 +1,14 @@
+kind = "DojoContract"
+class_hash = "0x1aad844524678f7153b03516838327e8276d7a12eb92adb80e696c9dd366518"
+original_class_hash = "0x1aad844524678f7153b03516838327e8276d7a12eb92adb80e696c9dd366518"
+base_class_hash = "0x0"
+abi = "manifests/dev/base/abis/contracts/zidle-gold_minter-12eeade6.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "zidle-gold_minter"
+systems = [
+    "mint",
+    "set_open",
+]
+manifest_name = "zidle-gold_minter-12eeade6"

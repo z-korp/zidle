@@ -88,7 +88,6 @@ mod tests {
             }
             let (xp, expected_level) = *test_cases.at(i);
             let result = XpLevel::get_level_from_xp(xp);
-            //println!("xp: {}, expected_level: {}, result: {}", xp, expected_level, result);
             assert(result == expected_level, 'Incorrect level');
             i += 1;
         };

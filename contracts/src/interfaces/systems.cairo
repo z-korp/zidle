@@ -5,6 +5,8 @@ use zidle::systems::{
     account::{IAccountDispatcher, IAccountDispatcherTrait},
     character_minter::{ICharacterMinterDispatcher, ICharacterMinterDispatcherTrait},
     character_token::{ICharacterTokenDispatcher, ICharacterTokenDispatcherTrait},
+    gold_minter::{IGoldMinterDispatcher, IGoldMinterDispatcherTrait},
+    gold_token::{IGoldTokenDispatcher, IGoldTokenDispatcherTrait},
     resources::{IResourcesDispatcher, IResourcesDispatcherTrait},
 };
 use core::Zeroable;
@@ -13,6 +15,8 @@ mod SELECTORS {
     const ACCOUNT: felt252 = selector_from_tag!("zidle-account");
     const CHARACTER_MINTER: felt252 = selector_from_tag!("zidle-character_minter");
     const CHARACTER_TOKEN: felt252 = selector_from_tag!("zidle-character_token");
+    const GOLD_MINTER: felt252 = selector_from_tag!("zidle-gold_minter");
+    const GOLD_TOKEN: felt252 = selector_from_tag!("zidle-gold_token");
     const RESOURCES: felt252 = selector_from_tag!("zidle-resources");
 }
 
@@ -31,6 +35,10 @@ impl WorldSystemsTraitImpl of WorldSystemsTrait {
         (self.contract_address(SELECTORS::CHARACTER_TOKEN))
     }
 
+    fn gold_token_address(self: IWorldDispatcher) -> ContractAddress {
+        (self.contract_address(SELECTORS::GOLD_TOKEN))
+    }
+
     // dispatchers
     fn account_dispatcher(self: IWorldDispatcher) -> IAccountDispatcher {
         (IAccountDispatcher { contract_address: self.contract_address(SELECTORS::ACCOUNT) })
@@ -45,6 +53,12 @@ impl WorldSystemsTraitImpl of WorldSystemsTrait {
             contract_address: self.contract_address(SELECTORS::CHARACTER_TOKEN)
         })
     }
+    fn gold_minter_dispatcher(self: IWorldDispatcher) -> IGoldMinterDispatcher {
+        (IGoldMinterDispatcher { contract_address: self.contract_address(SELECTORS::GOLD_MINTER) })
+    }
+    fn gold_token_dispatcher(self: IWorldDispatcher) -> IGoldTokenDispatcher {
+        (IGoldTokenDispatcher { contract_address: self.contract_address(SELECTORS::GOLD_TOKEN) })
+    }
     fn resources_dispatcher(self: IWorldDispatcher) -> IResourcesDispatcher {
         (IResourcesDispatcher { contract_address: self.contract_address(SELECTORS::RESOURCES) })
     }
@@ -52,5 +66,8 @@ impl WorldSystemsTraitImpl of WorldSystemsTrait {
     // validators
     fn is_character_minter_contract(self: IWorldDispatcher, address: ContractAddress) -> bool {
         (address == self.contract_address(SELECTORS::CHARACTER_MINTER))
+    }
+    fn is_gold_minter_contract(self: IWorldDispatcher, address: ContractAddress) -> bool {
+        (address == self.contract_address(SELECTORS::GOLD_MINTER))
     }
 }

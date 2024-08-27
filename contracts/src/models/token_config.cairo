@@ -5,8 +5,8 @@ use starknet::ContractAddress;
 pub struct TokenConfig {
     #[key]
     token_address: ContractAddress,
-    max_supply: u64,
-    minted_count: u64,
-    max_per_wallet: u64,
+    max_supply: u256,
+    minted_count: u256,
+    max_per_wallet: u256,
     is_open: bool,
 }
