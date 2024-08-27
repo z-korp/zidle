@@ -2,10 +2,8 @@ import React from 'react';
 import { Button } from "@/ui/elements/button";
 
 export const Loading = ({
-  enter,
   setEnter,
 }: {
-  enter: boolean;
   setEnter: (state: boolean) => void;
 }) => {
 
@@ -26,7 +24,7 @@ export const Loading = ({
 
       {/* Enter Button */}
       <div
-        className={`absolute bottom-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center z-[2000] ${enter && "hidden"}`}
+        className={`absolute bottom-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center z-[2000]`}
       >
         <Button
           onClick={() => setEnter(true)}

@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { setup, SetupResult } from "./dojo/setup.ts";
 import { DojoProvider } from "./dojo/context.tsx";
 import { dojoConfig } from "../dojo.config.ts";
 import { Loading } from "@/ui/screens/Loading";
-// import { MusicPlayerProvider } from "./contexts/music.tsx";
 import { SoundPlayerProvider } from "./contexts/sound.tsx";
 import { ThemeProvider } from "./ui/elements/theme-provider.tsx";
 import { StarknetConfig, jsonRpcProvider, voyager } from "@starknet-react/core";
@@ -32,22 +31,28 @@ function Main() {
   const [enter, setEnter] = useState(false);
 
   const loading = useMemo(
-    () => !enter || !setupResult || !ready,
+    () => {
+      return!enter || !setupResult || !ready
+    },
     [enter, setupResult, ready],
   );
 
-  useEffect(() => {
-    async function initialize() {
-      const result = await setup(dojoConfig());
-      setSetupResult(result);
-    }
-    initialize();
-  }, [enter]);
 
   useEffect(() => {
-    if (!enter) return;
-    setTimeout(() => setReady(true), 2000);
-  }, [enter]);
+    async function initialize() {
+      try {
+        const result = await setup(dojoConfig());
+        setSetupResult(result);
+        setReady(true);
+        
+      } catch (error) {
+        console.error("Setup failed:", error);
+        setReady(false);
+      }
+    }
+    initialize();
+  }, []);
+
 
   return (
     <React.StrictMode>
@@ -59,20 +64,21 @@ function Main() {
           explorer={voyager}
           provider={jsonRpcProvider({ rpc })}
         >
-          {/* <MusicPlayerProvider> */}
-          {!loading && setupResult ? (
+          {loading ? (
+            <Loading setEnter={() => setEnter(!enter)} /> // Utilisation d'une fonction pour éviter l'appel immédiat
+          ) : setupResult ? (
             <DojoProvider value={setupResult}>
               <SoundPlayerProvider>
                 <App />
               </SoundPlayerProvider>
             </DojoProvider>
           ) : (
-            <Loading enter={enter} setEnter={setEnter} />
+            <div>Error during initialization</div>
           )}
-          {/* </MusicPlayerProvider> */}
         </StarknetConfig>
       </ThemeProvider>
     </React.StrictMode>
   );
 }
+
 root.render(<Main />);
