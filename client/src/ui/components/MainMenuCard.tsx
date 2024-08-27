@@ -24,7 +24,13 @@ const MainMenuCard = ({ character }: { character: Character }) => {
 
   const [isReconnecting, setIsReconnecting] = useState(false);
   const [reconnectionData, setReconnectionData] =
-    useState<ReconnectionData | null>(null);
+    useState<ReconnectionData | null>({
+      timePassed: "10 minutes",
+      resourcesGained: [
+        { name: "resource1", quantity: 10 },
+        { name: "resource2", quantity: 20 },
+      ],
+    });
 
   const testInventoryItems: InventoryItem[] = [
     { id: "1", name: "Wood", quantity: 50, type: "wood", unitPrice: 1 },

@@ -24,7 +24,7 @@ const StatsAndInventory = ({
   playerXp: number;
   setIsInInventory: (state: boolean) => void;
 }) => {
-  const [currentAnimation, setCurrentAnimation] = React.useState("run");
+  const [currentAnimation, setCurrentAnimation] = React.useState("idle");
 
   return (
     <div className="space-y-1">
