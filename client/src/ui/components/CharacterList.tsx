@@ -28,11 +28,8 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
     playerId: account?.address,
   });
   const { miners, loading: minersLoading } = useMiners({
-    playerId: account?.address,
+    playerId: player?.id,
   });
-
-  console.log("PLAYERS", player);
-  console.log("Miners", miners);
 
   const handleMint = async () => {
     if (playerName.trim()) {

@@ -78,9 +78,9 @@ mod account {
 
             // [Effect] Create miners for the player
             let caller = get_caller_address();
-            let mut index = 0;
+            let mut index = 1; // 0 is None, start at 1
             while (index < RESSOURCE_NUMBER) {
-                let miner = MinerTrait::new(caller.into(), index + 1); // 0 is None, start at 1
+                let miner = MinerTrait::new(caller.into(), index);
                 index += 1;
                 store.set_miner(miner);
             }

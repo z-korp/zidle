@@ -37,9 +37,7 @@ const MainMenuCard = ({ character }: { character: Character }) => {
       ],
     });
 
-  console.log("MINERS", miners);
-  console.log("Current MINERS", currentMiner);
-  if(miners && miners[0]){
+  if (miners && miners[0]) {
     console.log(miners[0].resource);
     console.log(miners[0].resource_number);
     console.log(miners[0].xp);
@@ -134,6 +132,7 @@ const MainMenuCard = ({ character }: { character: Character }) => {
             rockMine={character.rockProgress}
             forging={character.forgeProgress}
             playerXp={character.playerXp}
+            playerGold={player?.gold ? player.gold : 0}
             setIsInInventory={setIsInInventory}
           />
           {renderContent()}

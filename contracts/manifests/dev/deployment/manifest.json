@@ -1251,8 +1251,8 @@
     {
       "kind": "DojoContract",
       "address": "0x4482655baa24985ced4c17b3cad937d609b921c496918f42d97da74692967b",
-      "class_hash": "0x45f6d1f10cbc872a01b3775bf7ef50da97fa8652e5ade334613c6494b7e9fe7",
-      "original_class_hash": "0x45f6d1f10cbc872a01b3775bf7ef50da97fa8652e5ade334613c6494b7e9fe7",
+      "class_hash": "0x43fab6c5d10772cacfaced810b16aea97a921550c90ec3682b79134712584db",
+      "original_class_hash": "0x43fab6c5d10772cacfaced810b16aea97a921550c90ec3682b79134712584db",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -3980,8 +3980,8 @@
     {
       "kind": "DojoContract",
       "address": "0x56e0f2455f917a62998a79bdd9b470198b0a4a670ea68a0e231517c80fe2dfa",
-      "class_hash": "0x435085c73d56964658a5b75e2346f31da293c1f9905e77b00aaa651c969ff7d",
-      "original_class_hash": "0x435085c73d56964658a5b75e2346f31da293c1f9905e77b00aaa651c969ff7d",
+      "class_hash": "0x354f19e73f3de3f9996023287bcca9a3dd2d690b611c696e21741533214de4d",
+      "original_class_hash": "0x354f19e73f3de3f9996023287bcca9a3dd2d690b611c696e21741533214de4d",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -11902,10 +11902,15 @@
           "name": "name",
           "type": "felt252",
           "key": false
+        },
+        {
+          "name": "gold",
+          "type": "u64",
+          "key": false
         }
       ],
-      "class_hash": "0x51a8c5fccb48d29d595997e571366e92c5cd50387cf94e1845202c41e269e3",
-      "original_class_hash": "0x51a8c5fccb48d29d595997e571366e92c5cd50387cf94e1845202c41e269e3",
+      "class_hash": "0x2235b2f7b9ac313ef90de9c33e6b0fd0503d4f1f2f229317e2012dc11a23343",
+      "original_class_hash": "0x2235b2f7b9ac313ef90de9c33e6b0fd0503d4f1f2f229317e2012dc11a23343",
       "abi": [
         {
           "type": "impl",
@@ -12285,6 +12290,10 @@
             {
               "name": "name",
               "type": "core::felt252"
+            },
+            {
+              "name": "gold",
+              "type": "core::integer::u64"
             }
           ]
         },

@@ -14,7 +14,7 @@ pub struct Player {
     #[key]
     id: felt252,
     name: felt252,
-    gold: felt252,
+    gold: u64,
 }
 
 #[generate_trait]

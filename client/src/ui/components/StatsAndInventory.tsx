@@ -13,6 +13,7 @@ const StatsAndInventory = ({
   rockMine,
   forging,
   playerXp,
+  playerGold,
   setIsInInventory,
 }: {
   health: number;
@@ -22,6 +23,7 @@ const StatsAndInventory = ({
   rockMine: number;
   forging: number;
   playerXp: number;
+  playerGold: number;
   setIsInInventory: (state: boolean) => void;
 }) => {
   const [currentAnimation, setCurrentAnimation] = React.useState("idle");
@@ -68,7 +70,7 @@ const StatsAndInventory = ({
         </div>
         <div className="flex items-center space-x-2">
           <span className="font-medium">Gold :</span>
-          <span>1000</span>
+          <span>{playerGold}</span>
         </div>
       </div>
       <Button

@@ -1,6 +1,6 @@
 kind = "DojoContract"
-class_hash = "0x45f6d1f10cbc872a01b3775bf7ef50da97fa8652e5ade334613c6494b7e9fe7"
-original_class_hash = "0x45f6d1f10cbc872a01b3775bf7ef50da97fa8652e5ade334613c6494b7e9fe7"
+class_hash = "0x43fab6c5d10772cacfaced810b16aea97a921550c90ec3682b79134712584db"
+original_class_hash = "0x43fab6c5d10772cacfaced810b16aea97a921550c90ec3682b79134712584db"
 base_class_hash = "0x0"
 abi = "manifests/dev/base/abis/contracts/zidle-account-60aa04fd.json"
 reads = []

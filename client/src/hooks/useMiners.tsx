@@ -3,12 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useEntityQuery } from "@dojoengine/react";
 import {
   ComponentValue,
-  Entity,
   getComponentValue,
   Has,
   HasValue,
 } from "@dojoengine/recs";
-import { getEntityIdFromKeys } from "@dojoengine/utils";
 
 export const useMiners = ({ playerId }: { playerId: string | undefined }) => {
   const {
@@ -35,7 +33,7 @@ export const useMiners = ({ playerId }: { playerId: string | undefined }) => {
       if (!component) {
         return undefined;
       }
-      return new MinerClass(component);
+      return component;
     });
     setMiners(
       components

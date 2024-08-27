@@ -32,7 +32,7 @@ mod resources {
     use super::IResources;
     use zidle::store::{Store, StoreImpl, StoreTrait};
     use zidle::models::miner::{MinerImpl, MinerAssert, ZeroableMinerImpl};
-    use zidle::models::player::{PlayerAssert};
+    use zidle::models::player::{PlayerAssert, PlayerImpl};
     use zidle::helpers::level::{XpLevel};
     use zidle::types::resource::{ResourceType, ResourceTypeAssert, ResourceImpl};
 
