@@ -17,12 +17,12 @@ export interface Rename extends Signer {
 }
 
 export interface Mine extends Signer {
-  rcs_type: bigint;
-  rcs_sub_type: bigint;
+  rcs_type: number;
+  rcs_sub_type: number;
 }
 
 export interface Harvest extends Signer {
-  rcs_sub_type: bigint;
+  rcs_sub_type: number;
 }
 
 export interface Sell extends Signer {

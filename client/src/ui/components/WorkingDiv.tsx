@@ -4,9 +4,12 @@ import { Button } from "../elements/button";
 import { Progress } from "../elements/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { Resource } from "@/dojo/game/types/resource";
-import { Character } from "@/types/types";
 import { useResourceProgress } from "@/hooks/useResourceProgress";
 import { useResourceCalculations } from "@/hooks/useResourceCalculations";
+import { Character } from "@/hooks/useCharacter";
+import { useDojo } from "@/dojo/useDojo";
+import useAccountCustom from "@/hooks/useAccountCustom";
+import { Account } from "starknet";
 
 interface WorkingDivProps {
   setIsActing: (value: boolean) => void;
@@ -19,12 +22,31 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
   selectedResource,
   character,
 }) => {
+  const {
+    setup: {
+      systemCalls: { harvest },
+    },
+  } = useDojo();
+
+  const { account } = useAccountCustom();
+
   const { progress, amountProduced, showSparkle } = useResourceProgress(selectedResource, character);
   const { totalXP } = useResourceCalculations(selectedResource, character, amountProduced);
 
+  const handleStopAction = async () => {
+    if (account && selectedResource) {
+      console.log("selectedResource", selectedResource.getSubresource())
+      await harvest({ 
+        account: account as Account, 
+        rcs_sub_type: selectedResource.into()
+      });
+      setIsActing(false);
+    }
+  };
+
   return (
     <div className="space-y-2 border-4 border-grey-600 shadow-lg rounded-xl p-4">
-      <Header setIsActing={setIsActing} selectedResource={selectedResource} />
+      <Header handleStopAction={handleStopAction} selectedResource={selectedResource} />
       <ProgressBar progress={progress} showSparkle={showSparkle} />
       <ResourceInfo 
         amountProduced={amountProduced} 
@@ -35,11 +57,11 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
   );
 };
 
-const Header: React.FC<{ setIsActing: (value: boolean) => void; selectedResource: Resource }> = ({ setIsActing, selectedResource }) => (
+const Header: React.FC<{ handleStopAction: () => Promise<void>; selectedResource: Resource }> = ({ handleStopAction, selectedResource }) => (
   <div className="flex items-center justify-between">
     <span>{`Chop ${selectedResource.getSubresourceName()}`}</span>
     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-      <Button size="sm" className="ml-2" onClick={() => setIsActing(false)}>
+      <Button size="sm" className="ml-2" onClick={handleStopAction}>
         Harvest
       </Button>
     </motion.div>

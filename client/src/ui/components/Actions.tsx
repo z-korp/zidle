@@ -12,6 +12,8 @@ import { Miner } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { getLevelFromXp } from "@/utils/level";
+import { useDojo } from "@/dojo/useDojo";
+import { Account } from "starknet";
 
 interface ActionsProps {
   setIsActing: (value: boolean) => void;
@@ -31,6 +33,12 @@ const Actions: React.FC<ActionsProps> = ({
     [ResourceType.Mineral]: null,
     [ResourceType.Food]: null,
   });
+
+  const {
+    setup: {
+      systemCalls: { mine },
+    },
+  } = useDojo();
   const { account } = useAccountCustom();
 
   const { character} = useCharacter(account?.address);
@@ -51,12 +59,18 @@ const Actions: React.FC<ActionsProps> = ({
     }));
   };
 
-  const handleGo = (resourceType: ResourceType) => {
+  const handleGo = async (resourceType: ResourceType) => {
     const selectedResource = localSelections[resourceType];
     if (selectedResource) {
       setSelectedResource(selectedResource);
       setIsActing(true);
     }
+
+    await mine({ 
+      account: account as Account, 
+      rcs_type: selectedResource?.into() ?? 0, 
+      rcs_sub_type: selectedResource?.getSubresource().into() ?? 0
+    });
   };
   const getLevelForResourceType = (resourceType: ResourceType): number => {
     if (!character) return 0;

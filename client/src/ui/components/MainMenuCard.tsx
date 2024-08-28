@@ -6,21 +6,23 @@ import WorkingDiv from "./WorkingDiv";
 import InventoryDiv from "./InventoryDiv";
 import { Resource } from "@/dojo/game/types/resource";
 import ReconnectionSummary from "./ReconnectionSummary";
-import { Character, ReconnectionData } from "@/types/types";
-import { useMiners } from "@/hooks/useMiners";
-import useAccountCustom from "@/hooks/useAccountCustom";
-import { usePlayer } from "@/hooks/usePlayer";
+import { ReconnectionData } from "@/types/types";
 import { InventoryItem } from "@/dojo/game/models/miner";
+import { useCharacter } from "@/hooks/useCharacter";
+import useAccountCustom from "@/hooks/useAccountCustom";
 
-const MainMenuCard = ({ character }: { character: Character }) => {
+const MainMenuCard = () => {
   const [isActing, setIsActing] = useState(false);
   const [isInInventory, setIsInInventory] = useState(false);
-  const [selectedResource, setSelectedRessource] =
-    useState<Resource | null>(null);
-  const [showSummary, setShowSummary] = useState(true);
   const { account } = useAccountCustom();
-  const { player } = usePlayer({ playerId: account?.address });
-  const { miners, currentMiner } = useMiners({ playerId: player?.id });
+  const { character} = useCharacter(account?.address)
+  const [selectedResource, setSelectedResource] = useState<Resource | null>(
+    character?.miningRessource ?? null
+  );
+  const [showSummary, setShowSummary] = useState(true);
+
+
+
   const [reconnectionData, setReconnectionData] =
     useState<ReconnectionData | null>({
       timePassed: "10 minutes",
@@ -33,15 +35,25 @@ const MainMenuCard = ({ character }: { character: Character }) => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
   useEffect(() => {
-    if (miners.length > 0) {
+    if(character)
+    {
+    if (character.miners.length > 0) {
       const array = [
-        ...miners[0].inventory,
-        ...miners[1].inventory,
-        ...miners[2].inventory,
+        ...character.miners[0].inventory,
+        ...character.miners[1].inventory,
+        ...character.miners[2].inventory,
       ];
       setInventory(array);
     }
-  }, [miners]);
+  }
+  }, [character?.miners]);
+
+  useEffect(() => {
+    if(character)
+    {
+    setSelectedResource(character.miningRessource)
+  }
+  }, [character]);
 
 
   const renderContent = () => {
@@ -63,7 +75,7 @@ const MainMenuCard = ({ character }: { character: Character }) => {
       return (
         <InventoryDiv items={inventory} setIsInInventory={setIsInInventory} />
       );
-    } else if (isActing && selectedResource) {
+    } else if (selectedResource) {
       return (
         <WorkingDiv
           setIsActing={setIsActing}
@@ -75,8 +87,8 @@ const MainMenuCard = ({ character }: { character: Character }) => {
       return (
         <Actions
           setIsActing={setIsActing}
-          setSelectedResource={setSelectedRessource}
-          miners={miners}
+          setSelectedResource={setSelectedResource}
+          miners={character.miners}
         />
       );
     }
@@ -103,14 +115,14 @@ const MainMenuCard = ({ character }: { character: Character }) => {
       <CardContent>
         <div className="space-y-4">
           <StatsAndInventory
-            health={character.health}
-            attack={character.attack}
-            critical={character.critical}
+            health={100}
+            attack={10}
+            critical={5}
             woodCut={character.woodProgress}
             rockMine={character.rockProgress}
-            forging={character.forgeProgress}
-            playerXp={character.playerXp}
-            playerGold={player?.gold ? player.gold : 0}
+            forging={character.foodProgress}
+            playerXp={10}
+            playerGold={character?.gold ? character.gold : 0}
             setIsInInventory={setIsInInventory}
           />
           {renderContent()}

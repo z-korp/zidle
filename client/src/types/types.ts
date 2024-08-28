@@ -11,18 +11,6 @@ export interface Piece {
   element: string;
 }
 
-export interface Character {
-  id: string;
-  name: string;
-  playerXp: number;
-  health: number;
-  attack: number;
-  critical: number;
-  woodProgress: number;
-  rockProgress: number;
-  forgeProgress: number;
-}
-
 export interface ReconnectionData {
   timePassed: string;
   resourcesGained: { name: string; quantity: number }[];

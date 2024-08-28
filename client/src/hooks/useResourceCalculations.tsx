@@ -27,7 +27,6 @@ export const useResourceCalculations = (selectedResource: Resource, character: C
         seconds = selectedResource.calculateGatheringSpeed(getLevelFromXp(character.forgeProgress));
         break;
     }
-
     setSecondsPerResource(seconds);
     setTotalXP(amountProduced * xp);
   }, [selectedResource, character, amountProduced]);
