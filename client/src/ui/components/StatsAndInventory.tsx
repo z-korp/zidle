@@ -2,16 +2,13 @@ import { Button } from "../elements/button";
 import LevelIndicator from "./LevelIndicator";
 import AnimatedSprite from "./AnimatedSprite";
 import React from "react";
+import { useCharacter } from "@/hooks/useCharacter";
+import useAccountCustom from "@/hooks/useAccountCustom";
 
 const StatsAndInventory = ({
   health,
   attack,
   critical,
-  woodCut,
-  rockMine,
-  forging,
-  playerXp,
-  playerGold,
   setIsInInventory,
 }: {
   health: number;
@@ -25,6 +22,9 @@ const StatsAndInventory = ({
   setIsInInventory: (state: boolean) => void;
 }) => {
   const [currentAnimation, setCurrentAnimation] = React.useState("idle");
+  const { account } = useAccountCustom();
+
+  const { character} = useCharacter(account?.address);
 
   return (
     <div className="space-y-1">
@@ -48,27 +48,23 @@ const StatsAndInventory = ({
         <div className="space-y-2 w-full ">
           <div className="text-sm flex items-center justify-between">
             <span className="font-medium">Chop:</span>
-            <LevelIndicator currentXP={woodCut} />
+            <LevelIndicator currentXP={character?.woodProgress ?? 0} />
           </div>
           <div className="text-sm flex items-center justify-between">
             <span className="font-medium">Mine:</span>
-            <LevelIndicator currentXP={rockMine} />
+            <LevelIndicator currentXP={character?.rockProgress ?? 0} />
           </div>
           <div className="text-sm flex items-center justify-between">
-            <span className="font-medium">Forging:</span>
-            <LevelIndicator currentXP={forging} />
+            <span className="font-medium">Food:</span>
+            <LevelIndicator currentXP={character?.foodProgress ?? 0} />
           </div>
         </div>
       </div>
       {/* <div className="text-sm">lvl {level}</div> */}
       <div className="text-sm flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <span className="font-medium">lvl</span>
-          <LevelIndicator currentXP={playerXp} />
-        </div>
-        <div className="flex items-center space-x-2">
           <span className="font-medium">Gold :</span>
-          <span>{playerGold}</span>
+          <span>{character?.gold ?? 0}</span>
         </div>
       </div>
       <Button

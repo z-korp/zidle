@@ -6,6 +6,7 @@ import { ResourceType } from "@/dojo/game/types/resource";
 export interface Character {
   id: string;
   name: string;
+  gold: number;
 //   playerXp: number;
 //   health: number;
 //   attack: number;
@@ -30,6 +31,7 @@ export const useCharacter = (playerId: string | undefined) => {
     return {
       id: player.id,
       name: player.name,
+      gold: player.gold,
     //   playerXp: totalXp,
     //   health: 100, // Vous pouvez ajuster cela en fonction de votre logique de jeu
     //   attack: Math.floor(totalXp / 100), // Exemple de calcul, ajustez selon vos besoins
