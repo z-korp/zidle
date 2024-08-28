@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "../elements/card";
 import StatsAndInventory from "./StatsAndInventory";
-import Actions, { SelectedResource } from "./Actions";
+import Actions from "./Actions";
 import WorkingDiv from "./WorkingDiv";
 import InventoryDiv from "./InventoryDiv";
 import { Resource, ResourceType } from "@/dojo/game/types/resource";
@@ -15,8 +15,8 @@ import { InventoryItem } from "@/dojo/game/models/miner";
 const MainMenuCard = ({ character }: { character: Character }) => {
   const [isActing, setIsActing] = useState(false);
   const [isInInventory, setIsInInventory] = useState(false);
-  const [selectedResource, setSelectedResource] =
-    useState<SelectedResource | null>(null);
+  const [selectedResource, setSelectedRessource] =
+    useState<Resource | null>(null);
   const [showSummary, setShowSummary] = useState(true);
 
   const { account } = useAccountCustom();
@@ -44,10 +44,6 @@ const MainMenuCard = ({ character }: { character: Character }) => {
     }
   }, [miners]);
 
-  const selectedValue = selectedResource?.value ?? null;
-  const resource = selectedValue
-    ? new Resource(selectedResource?.type as ResourceType, selectedValue)
-    : null;
 
   const renderContent = () => {
     if (!character) {
@@ -72,11 +68,11 @@ const MainMenuCard = ({ character }: { character: Character }) => {
       return (
         <WorkingDiv
           setIsActing={setIsActing}
-          resourceName={resource?.getSubresourceName() ?? ""}
+          resourceName={selectedResource?.getSubresourceName() ?? ""}
           secondsPerResource={
-            resource?.calculateGatheringSpeed(character.playerXp) ?? 0
+            selectedResource?.calculateGatheringSpeed(character.playerXp) ?? 0
           }
-          xpPerResource={resource?.calculateXp(character.playerXp) ?? 0}
+          xpPerResource={selectedResource?.calculateXp(character.playerXp) ?? 0}
         />
       );
     } else {
@@ -85,7 +81,8 @@ const MainMenuCard = ({ character }: { character: Character }) => {
           setIsActing={setIsActing}
           playerLevel={character.playerXp}
           selectedResource={selectedResource}
-          setSelectedResource={setSelectedResource}
+          setSelectedResource={setSelectedRessource}
+          miners={miners}
         />
       );
     }
