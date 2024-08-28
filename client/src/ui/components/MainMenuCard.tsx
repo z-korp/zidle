@@ -32,7 +32,7 @@ const MainMenuCard = ({ character }: { character: Character }) => {
     });
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
-  console.log("character", character);
+
   useEffect(() => {
     if (miners.length > 0) {
       const array = [

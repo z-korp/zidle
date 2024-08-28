@@ -11,6 +11,7 @@ import {
 import { Miner } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
 import useAccountCustom from "@/hooks/useAccountCustom";
+import { getLevelFromXp } from "@/utils/level";
 
 interface ActionsProps {
   setIsActing: (value: boolean) => void;
@@ -58,17 +59,26 @@ const Actions: React.FC<ActionsProps> = ({
       setIsActing(true);
     }
   };
-
+  const getLevelForResourceType = (resourceType: ResourceType): number => {
+    if (!character) return 0;
+    switch (resourceType) {
+      case ResourceType.Wood:
+        return getLevelFromXp(character.woodProgress);
+      case ResourceType.Mineral:
+        return getLevelFromXp(character.rockProgress);
+      case ResourceType.Food:
+        return getLevelFromXp(character.foodProgress);
+      default:
+        return 0;
+    }
+  };
   const renderMinerDropdown = (resourceType: ResourceType) => {
-    console.log("miners", miners);
     const filteredMiners = miners.filter(miner => miner.resource.value === resourceType);
    
     const actionText = resourceType === ResourceType.Wood ? 'Chop wood' :
                        resourceType === ResourceType.Mineral ? 'Mine rock' :
                        'Hunt for food';
 
-                       console.log("type", resourceType);
-                       console.log("filteredMiners", filteredMiners);
     const resourceItems = filteredMiners.flatMap((miner) => 
       miner.inventory?.filter(item => item.rcs.value === resourceType).map((item, index) => ({
         id: `${miner.id}-${index}`,
@@ -77,7 +87,9 @@ const Actions: React.FC<ActionsProps> = ({
     );
 
     const localSelectedResource = localSelections[resourceType];
+    const currentLevel = getLevelForResourceType(resourceType);
 
+   
     return (
       <div className="space-y-2">
         <div className="flex items-center justify-between">
@@ -96,6 +108,7 @@ const Actions: React.FC<ActionsProps> = ({
                     key={item.id}
                     onSelect={() => handleSelect(resourceType, item.resource)}
                     className="flex justify-between items-center"
+                    disabled={currentLevel < item.resource.minLevel()}
                   >
                     <span>{item.resource.getSubresourceName()}</span>
                     <span className="ml-2 text-sm text-gray-500">
