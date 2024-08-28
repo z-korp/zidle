@@ -25,6 +25,27 @@ export class Food {
     return new Food(food);
   }
 
+  public unitPrice(): number {
+    switch (this.value) {
+      case FoodType.Berries:
+        return 1;
+      case FoodType.Wheat:
+        return 2;
+      case FoodType.Vegetables:
+        return 3;
+      case FoodType.Fruits:
+        return 4;
+      case FoodType.Herbs:
+        return 5;
+      case FoodType.Mushrooms:
+        return 6;
+      case FoodType.Ambrosia:
+        return 10;
+      default:
+        return 0;
+    }
+  }
+
   public minLevel(): number {
     switch (this.value) {
       case FoodType.Berries:

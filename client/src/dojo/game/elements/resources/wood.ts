@@ -25,6 +25,27 @@ export class Wood {
     return new Wood(wood);
   }
 
+  public unitPrice(): number {
+    switch (this.value) {
+      case WoodType.Pine:
+        return 1;
+      case WoodType.Oak:
+        return 2;
+      case WoodType.Maple:
+        return 3;
+      case WoodType.Walnut:
+        return 4;
+      case WoodType.Mahogany:
+        return 5;
+      case WoodType.Ebony:
+        return 6;
+      case WoodType.Eldertree:
+        return 10;
+      default:
+        return 0;
+    }
+  }
+
   public minLevel(): number {
     switch (this.value) {
       case WoodType.Pine:

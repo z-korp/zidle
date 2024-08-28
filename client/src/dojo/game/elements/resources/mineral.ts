@@ -1,3 +1,5 @@
+import { WoodType } from "./wood";
+
 export enum MineralType {
   None = "None",
   Coal = "Coal",
@@ -23,6 +25,27 @@ export class Mineral {
   public static from(index: number): Mineral {
     const wood = Object.values(MineralType)[index];
     return new Mineral(wood);
+  }
+
+  public unitPrice(): number {
+    switch (this.value) {
+      case MineralType.Coal:
+        return 1;
+      case MineralType.Copper:
+        return 2;
+      case MineralType.Iron:
+        return 3;
+      case MineralType.Silver:
+        return 4;
+      case MineralType.Gold:
+        return 5;
+      case MineralType.Mithril:
+        return 6;
+      case MineralType.Adamantium:
+        return 10;
+      default:
+        return 0;
+    }
   }
 
   public minLevel(): number {

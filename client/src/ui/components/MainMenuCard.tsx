@@ -1,22 +1,16 @@
-import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
-import { Progress } from "@radix-ui/react-progress";
-import { Button } from "../elements/button";
+import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "../elements/card";
-import { SpriteAnimator } from "react-sprite-animator";
 import StatsAndInventory from "./StatsAndInventory";
 import Actions, { SelectedResource } from "./Actions";
 import WorkingDiv from "./WorkingDiv";
-import InventoryDiv, { InventoryItem } from "./InventoryDiv";
-import { FoodType } from "@/dojo/game/elements/resources/food";
-import { MineralType } from "@/dojo/game/elements/resources/mineral";
-import { WoodType } from "@/dojo/game/elements/resources/wood";
+import InventoryDiv from "./InventoryDiv";
 import { Resource, ResourceType } from "@/dojo/game/types/resource";
 import ReconnectionSummary from "./ReconnectionSummary";
 import { Character, ReconnectionData } from "@/types/types";
 import { useMiners } from "@/hooks/useMiners";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { usePlayer } from "@/hooks/usePlayer";
+import { InventoryItem } from "@/dojo/game/models/miner";
 
 const MainMenuCard = ({ character }: { character: Character }) => {
   const [isActing, setIsActing] = useState(false);
@@ -43,7 +37,9 @@ const MainMenuCard = ({ character }: { character: Character }) => {
     console.log(miners[0].xp);
   }
 
-  const testInventoryItems: InventoryItem[] = [
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+
+  /*const testInventoryItems: InventoryItem[] = [
     { id: "1", name: "Wood", quantity: 50, type: "wood", unitPrice: 1 },
     { id: "2", name: "Rock", quantity: 30, type: "rock", unitPrice: 2 },
     { id: "3", name: "Oak Wood", quantity: 15, type: "wood", unitPrice: 3 },
@@ -52,7 +48,19 @@ const MainMenuCard = ({ character }: { character: Character }) => {
     { id: "6", name: "Marble", quantity: 10, type: "rock", unitPrice: 6 },
     { id: "7", name: "Birch Wood", quantity: 20, type: "wood", unitPrice: 7 },
     { id: "8", name: "Sandstone", quantity: 35, type: "rock", unitPrice: 8 },
-  ];
+  ];*/
+
+  useEffect(() => {
+    if (miners.length > 0) {
+      console.log("miners[0].inventory", miners[0].inventory);
+      const array = [
+        ...miners[0].inventory,
+        ...miners[1].inventory,
+        ...miners[2].inventory,
+      ];
+      setInventory(array);
+    }
+  }, [miners]);
 
   const selectedValue = selectedResource?.value ?? null;
   const resource = selectedValue
@@ -76,10 +84,7 @@ const MainMenuCard = ({ character }: { character: Character }) => {
       );
     } else if (isInInventory) {
       return (
-        <InventoryDiv
-          items={testInventoryItems}
-          setIsInInventory={setIsInInventory}
-        />
+        <InventoryDiv items={inventory} setIsInInventory={setIsInInventory} />
       );
     } else if (isActing && selectedResource) {
       return (

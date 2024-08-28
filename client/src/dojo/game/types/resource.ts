@@ -98,4 +98,8 @@ export class Resource {
   public calculateGatheringSpeed(level: number): number {
     return this.subresource.calculateGatheringSpeed(level);
   }
+
+  public getUnitPrice(): number {
+    return this.subresource.unitPrice();
+  }
 }

@@ -44,13 +44,13 @@ impl MinerImpl of MinerTrait {
             xp: 0,
             timestamp: 0,
             subresource_type: 0,
-            rcs_1: 0,
-            rcs_2: 0,
-            rcs_3: 0,
-            rcs_4: 0,
-            rcs_5: 0,
-            rcs_6: 0,
-            rcs_7: 0,
+            rcs_1: 1,
+            rcs_2: 2,
+            rcs_3: 3,
+            rcs_4: 4,
+            rcs_5: 5,
+            rcs_6: 6,
+            rcs_7: 7,
         }
     }
 
