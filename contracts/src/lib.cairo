@@ -4,10 +4,14 @@ mod store;
 mod components {
     mod emitter;
     mod manageable;
+    mod erc721 {
+        mod erc721_wallet;
+    }
 }
 
 mod helpers {
     mod level;
+    mod account_deployer;
 }
 
 mod interfaces {

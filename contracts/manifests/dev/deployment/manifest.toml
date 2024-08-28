@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x4482655baa24985ced4c17b3cad937d609b921c496918f42d97da74692967b"
-class_hash = "0x10e3a8d4b1bf9e8dd6dc86513d958f2a316b797bc46b4fff87fb9859e47b7c8"
-original_class_hash = "0x10e3a8d4b1bf9e8dd6dc86513d958f2a316b797bc46b4fff87fb9859e47b7c8"
+class_hash = "0xf1eddbdaec886d494a0dcc2558f5e2494fbcb64c2f10da6207e92bc4e63d17"
+original_class_hash = "0xf1eddbdaec886d494a0dcc2558f5e2494fbcb64c2f10da6207e92bc4e63d17"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-account-60aa04fd.json"
 reads = []
@@ -67,8 +67,8 @@ manifest_name = "zidle-character_minter-65ab56f7"
 [[contracts]]
 kind = "DojoContract"
 address = "0x5a1e560754f03e7c654e1b4882f79a05a6870f5546d826135f757fd7c1ea32d"
-class_hash = "0x2f6780845e72ee5d7eac0a24dfa88c77be4365b89b6339a0c6fea874ed3f8f0"
-original_class_hash = "0x2f6780845e72ee5d7eac0a24dfa88c77be4365b89b6339a0c6fea874ed3f8f0"
+class_hash = "0x66a312c2b90a81692a5357a5cbf3f0dfbb6df43fda7ef3cfa690658c6e2b430"
+original_class_hash = "0x66a312c2b90a81692a5357a5cbf3f0dfbb6df43fda7ef3cfa690658c6e2b430"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-character_token-219118e6.json"
 reads = []
@@ -144,8 +144,8 @@ manifest_name = "zidle-gold_token-3cef4f4d"
 [[contracts]]
 kind = "DojoContract"
 address = "0x56e0f2455f917a62998a79bdd9b470198b0a4a670ea68a0e231517c80fe2dfa"
-class_hash = "0x7782f20b0c4303ac4182fcccc255c63913539090b03f79770831fdf699a884c"
-original_class_hash = "0x7782f20b0c4303ac4182fcccc255c63913539090b03f79770831fdf699a884c"
+class_hash = "0x23a207612584e8741e50233511b4c539f1bb61ccbb0c5ab0523d4e806407d06"
+original_class_hash = "0x23a207612584e8741e50233511b4c539f1bb61ccbb0c5ab0523d4e806407d06"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-resources-14ead52a.json"
 reads = []

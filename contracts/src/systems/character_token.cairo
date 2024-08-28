@@ -25,24 +25,8 @@ trait ICharacterToken<TState> {
 
     // IERC721Balance
     fn balance_of(self: @TState, account: ContractAddress) -> u256;
-    fn transfer_from(ref self: TState, from: ContractAddress, to: ContractAddress, token_id: u256);
-    fn safe_transfer_from(
-        ref self: TState,
-        from: ContractAddress,
-        to: ContractAddress,
-        token_id: u256,
-        data: Span<felt252>
-    );
     // IERC721CamelOnly
     fn balanceOf(self: @TState, account: ContractAddress) -> u256;
-    fn transferFrom(ref self: TState, from: ContractAddress, to: ContractAddress, token_id: u256);
-    fn safeTransferFrom(
-        ref self: TState,
-        from: ContractAddress,
-        to: ContractAddress,
-        token_id: u256,
-        data: Span<felt252>
-    );
 
     // IERC721Approval
     fn get_approved(self: @TState, token_id: u256) -> ContractAddress;
@@ -76,6 +60,22 @@ trait ICharacterToken<TState> {
 trait ICharacterTokenPublic<TState> {
     fn mint(ref self: TState, to: ContractAddress, token_id: u256);
     fn burn(ref self: TState, token_id: u256);
+    fn transfer_from(ref self: TState, from: ContractAddress, to: ContractAddress, token_id: u256);
+    fn safe_transfer_from(
+        ref self: TState,
+        from: ContractAddress,
+        to: ContractAddress,
+        token_id: u256,
+        data: Span<felt252>
+    );
+    fn transferFrom(ref self: TState, from: ContractAddress, to: ContractAddress, token_id: u256);
+    fn safeTransferFrom(
+        ref self: TState,
+        from: ContractAddress,
+        to: ContractAddress,
+        token_id: u256,
+        data: Span<felt252>
+    );
 }
 
 #[dojo::contract]
@@ -85,6 +85,7 @@ mod character_token {
     use starknet::{get_contract_address, get_caller_address};
 
     use zidle::interfaces::systems::{WorldSystemsTrait};
+    use zidle::helpers::account_deployer;
 
     use origami_token::components::security::initializable::initializable_component;
     use origami_token::components::introspection::src5::src5_component;
@@ -95,6 +96,9 @@ mod character_token {
     use origami_token::components::token::erc721::erc721_metadata::erc721_metadata_component;
     use origami_token::components::token::erc721::erc721_mintable::erc721_mintable_component;
     use origami_token::components::token::erc721::erc721_owner::erc721_owner_component;
+
+    // zidle components
+    use zidle::components::erc721::erc721_wallet::erc721_wallet_component;
 
     component!(path: initializable_component, storage: initializable, event: InitializableEvent);
     component!(path: src5_component, storage: src5, event: SRC5Event);
@@ -115,6 +119,7 @@ mod character_token {
         path: erc721_mintable_component, storage: erc721_mintable, event: ERC721MintableEvent
     );
     component!(path: erc721_owner_component, storage: erc721_owner, event: ERC721OwnerEvent);
+    component!(path: erc721_wallet_component, storage: erc721_wallet, event: ERC721WalletEvent);
 
     impl InitializableImpl = initializable_component::InitializableImpl<ContractState>;
     #[abi(embed_v0)]
@@ -150,6 +155,9 @@ mod character_token {
     #[abi(embed_v0)]
     impl ERC721OwnerCamelImpl =
         erc721_owner_component::ERC721OwnerCamelImpl<ContractState>;
+    #[abi(embed_v0)]
+    impl ERC721WalletImpl =
+        erc721_wallet_component::ERC721WalletImpl<ContractState>;
 
     //
     // Internal Impls
@@ -162,6 +170,7 @@ mod character_token {
     impl ERC721MetadataInternalImpl = erc721_metadata_component::InternalImpl<ContractState>;
     impl ERC721MintableInternalImpl = erc721_mintable_component::InternalImpl<ContractState>;
     impl ERC721OwnerInternalImpl = erc721_owner_component::InternalImpl<ContractState>;
+    impl ERC721WalletInternalImpl = erc721_wallet_component::InternalImpl<ContractState>;
 
     #[storage]
     struct Storage {
@@ -183,6 +192,8 @@ mod character_token {
         erc721_mintable: erc721_mintable_component::Storage,
         #[substorage(v0)]
         erc721_owner: erc721_owner_component::Storage,
+        #[substorage(v0)]
+        erc721_wallet: erc721_wallet_component::Storage,
     }
 
     #[event]
@@ -206,6 +217,8 @@ mod character_token {
         ERC721MintableEvent: erc721_mintable_component::Event,
         #[flat]
         ERC721OwnerEvent: erc721_owner_component::Event,
+        #[flat]
+        ERC721WalletEvent: erc721_wallet_component::Event,
     }
 
     mod Errors {
@@ -233,10 +246,52 @@ mod character_token {
                 Errors::CALLER_IS_NOT_MINTER
             );
             self.erc721_mintable.mint(to, token_id);
+
+            // Deploy an account contract for this NFT
+            let account_address = account_deployer::deploy_account(
+                get_contract_address(), token_id, to
+            );
+            self.erc721_wallet.set_wallet(token_id, account_address);
         }
 
         fn burn(ref self: ContractState, token_id: u256) {
             self.erc721_burnable.burn(token_id);
+        }
+
+        fn transfer_from(
+            ref self: ContractState, from: ContractAddress, to: ContractAddress, token_id: u256
+        ) {
+            self.erc721_balance.transfer_from(from, to, token_id);
+            self.erc721_wallet.set_wallet(token_id, to);
+        }
+
+        fn safe_transfer_from(
+            ref self: ContractState,
+            from: ContractAddress,
+            to: ContractAddress,
+            token_id: u256,
+            data: Span<felt252>
+        ) {
+            self.erc721_balance.safe_transfer_from(from, to, token_id, data);
+            self.erc721_wallet.set_wallet(token_id, to);
+        }
+
+        fn transferFrom(
+            ref self: ContractState, from: ContractAddress, to: ContractAddress, token_id: u256
+        ) {
+            self.erc721_balance.transfer_from(from, to, token_id);
+            self.erc721_wallet.set_wallet(token_id, to);
+        }
+
+        fn safeTransferFrom(
+            ref self: ContractState,
+            from: ContractAddress,
+            to: ContractAddress,
+            token_id: u256,
+            data: Span<felt252>
+        ) {
+            self.erc721_balance.safe_transfer_from(from, to, token_id, data);
+            self.erc721_wallet.set_wallet(token_id, to);
         }
     }
 }

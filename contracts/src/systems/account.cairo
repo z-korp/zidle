@@ -32,6 +32,9 @@ mod account {
     use zidle::store::{Store, StoreImpl, StoreTrait};
     use zidle::constants::{RESSOURCE_NUMBER};
     use zidle::models::miner::{MinerTrait};
+    use zidle::interfaces::systems::{
+        WorldSystemsTrait, ICharacterMinterDispatcher, ICharacterMinterDispatcherTrait
+    };
 
     // Components
 
@@ -83,7 +86,11 @@ mod account {
                 let miner = MinerTrait::new(caller.into(), index);
                 index += 1;
                 store.set_miner(miner);
-            }
+            };
+
+            let caller: ContractAddress = starknet::get_caller_address();
+            let minter_dispatcher: ICharacterMinterDispatcher = world.character_minter_dispatcher();
+            let token_id: u128 = minter_dispatcher.mint(caller, world.character_token_address());
         }
 
         fn rename(ref world: IWorldDispatcher, name: felt252) {
