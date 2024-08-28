@@ -25,8 +25,24 @@ trait ICharacterToken<TState> {
 
     // IERC721Balance
     fn balance_of(self: @TState, account: ContractAddress) -> u256;
+    fn transfer_from(ref self: TState, from: ContractAddress, to: ContractAddress, token_id: u256);
+    fn safe_transfer_from(
+        ref self: TState,
+        from: ContractAddress,
+        to: ContractAddress,
+        token_id: u256,
+        data: Span<felt252>
+    );
     // IERC721CamelOnly
     fn balanceOf(self: @TState, account: ContractAddress) -> u256;
+    fn transferFrom(ref self: TState, from: ContractAddress, to: ContractAddress, token_id: u256);
+    fn safeTransferFrom(
+        ref self: TState,
+        from: ContractAddress,
+        to: ContractAddress,
+        token_id: u256,
+        data: Span<felt252>
+    );
 
     // IERC721Approval
     fn get_approved(self: @TState, token_id: u256) -> ContractAddress;
@@ -60,22 +76,6 @@ trait ICharacterToken<TState> {
 trait ICharacterTokenPublic<TState> {
     fn mint(ref self: TState, to: ContractAddress, token_id: u256);
     fn burn(ref self: TState, token_id: u256);
-    fn transfer_from(ref self: TState, from: ContractAddress, to: ContractAddress, token_id: u256);
-    fn safe_transfer_from(
-        ref self: TState,
-        from: ContractAddress,
-        to: ContractAddress,
-        token_id: u256,
-        data: Span<felt252>
-    );
-    fn transferFrom(ref self: TState, from: ContractAddress, to: ContractAddress, token_id: u256);
-    fn safeTransferFrom(
-        ref self: TState,
-        from: ContractAddress,
-        to: ContractAddress,
-        token_id: u256,
-        data: Span<felt252>
-    );
 }
 
 #[dojo::contract]
@@ -256,42 +256,6 @@ mod character_token {
 
         fn burn(ref self: ContractState, token_id: u256) {
             self.erc721_burnable.burn(token_id);
-        }
-
-        fn transfer_from(
-            ref self: ContractState, from: ContractAddress, to: ContractAddress, token_id: u256
-        ) {
-            self.erc721_balance.transfer_from(from, to, token_id);
-            self.erc721_wallet.set_wallet(token_id, to);
-        }
-
-        fn safe_transfer_from(
-            ref self: ContractState,
-            from: ContractAddress,
-            to: ContractAddress,
-            token_id: u256,
-            data: Span<felt252>
-        ) {
-            self.erc721_balance.safe_transfer_from(from, to, token_id, data);
-            self.erc721_wallet.set_wallet(token_id, to);
-        }
-
-        fn transferFrom(
-            ref self: ContractState, from: ContractAddress, to: ContractAddress, token_id: u256
-        ) {
-            self.erc721_balance.transfer_from(from, to, token_id);
-            self.erc721_wallet.set_wallet(token_id, to);
-        }
-
-        fn safeTransferFrom(
-            ref self: ContractState,
-            from: ContractAddress,
-            to: ContractAddress,
-            token_id: u256,
-            data: Span<felt252>
-        ) {
-            self.erc721_balance.safe_transfer_from(from, to, token_id, data);
-            self.erc721_wallet.set_wallet(token_id, to);
         }
     }
 }

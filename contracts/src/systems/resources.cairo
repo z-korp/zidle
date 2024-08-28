@@ -137,7 +137,7 @@ mod resources {
             miner.sell(rcs_sub_type, amount);
             let rcs = ResourceImpl::from(rcs_type, rcs_sub_type);
             let tokens = rcs.unit_price() * amount;
-            player.add_tokens(tokens);
+            //player.add_tokens(tokens);
 
             store.set_miner(miner);
             store.set_player(player);
