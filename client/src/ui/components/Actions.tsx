@@ -132,16 +132,16 @@ const Actions: React.FC<ActionsProps> = ({
     <p>XP: {localSelectedResource.baseXp()}</p>
     <p>
       Time per unit:{" "}
-      {localSelectedResource.calculateGatheringSpeed(
-        resourceType === ResourceType.Wood ? character.woodProgress :
+      {localSelectedResource.calculateGatheringSpeed(getLevelFromXp(resourceType === ResourceType.Wood ? character.woodProgress :
         resourceType === ResourceType.Mineral ? character.rockProgress :
-        character.foodProgress
+        character.foodProgress)
+        
       ).toFixed(2)} seconds
     </p>
-    <p>XP gained: {localSelectedResource.calculateXp(
+    <p>XP gained: {localSelectedResource.calculateXp(getLevelFromXp(
       resourceType === ResourceType.Wood ? character.woodProgress :
       resourceType === ResourceType.Mineral ? character.rockProgress :
-      character.foodProgress
+      character.foodProgress)
     )} XP</p>
   </div>
 )}
