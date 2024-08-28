@@ -9,20 +9,18 @@ import {
   DropdownMenuItem,
 } from "@/ui/elements/dropdown-menu";
 import { Miner } from "@/dojo/game/models/miner";
+import { useCharacter } from "@/hooks/useCharacter";
+import useAccountCustom from "@/hooks/useAccountCustom";
 
 interface ActionsProps {
   setIsActing: (value: boolean) => void;
-  playerLevel: number;
   miners: Miner[];
-  selectedResource: Resource | null;
   setSelectedResource: (value: Resource | null) => void;
 }
 
 const Actions: React.FC<ActionsProps> = ({
   setIsActing,
-  playerLevel,
   miners,
-  selectedResource,
   setSelectedResource
 }) => {
   const [localSelections, setLocalSelections] = useState<{
@@ -32,6 +30,12 @@ const Actions: React.FC<ActionsProps> = ({
     [ResourceType.Mineral]: null,
     [ResourceType.Food]: null,
   });
+  const { account } = useAccountCustom();
+
+  const { character} = useCharacter(account?.address);
+
+
+  
 
   const handleSelect = (resourceType: ResourceType, resource: Resource) => {
     setLocalSelections(prev => ({
@@ -110,17 +114,25 @@ const Actions: React.FC<ActionsProps> = ({
             </Button>
           </div>
         </div>
-        {localSelectedResource && (
-          <div className="text-sm">
-            <p>Resource: {localSelectedResource.getSubresourceName()}</p>
-            <p>XP: {localSelectedResource.baseXp()}</p>
-            <p>
-              Time per unit:{" "}
-              {localSelectedResource.calculateGatheringSpeed(playerLevel).toFixed(2)} seconds
-            </p>
-            <p>XP gained: {localSelectedResource.calculateXp(playerLevel)} XP</p>
-          </div>
-        )}
+        {localSelectedResource && character && (
+  <div className="text-sm">
+    <p>Resource: {localSelectedResource.getSubresourceName()}</p>
+    <p>XP: {localSelectedResource.baseXp()}</p>
+    <p>
+      Time per unit:{" "}
+      {localSelectedResource.calculateGatheringSpeed(
+        resourceType === ResourceType.Wood ? character.woodProgress :
+        resourceType === ResourceType.Mineral ? character.rockProgress :
+        character.foodProgress
+      ).toFixed(2)} seconds
+    </p>
+    <p>XP gained: {localSelectedResource.calculateXp(
+      resourceType === ResourceType.Wood ? character.woodProgress :
+      resourceType === ResourceType.Mineral ? character.rockProgress :
+      character.foodProgress
+    )} XP</p>
+  </div>
+)}
       </div>
     );
   };

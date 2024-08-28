@@ -4,7 +4,7 @@ import StatsAndInventory from "./StatsAndInventory";
 import Actions from "./Actions";
 import WorkingDiv from "./WorkingDiv";
 import InventoryDiv from "./InventoryDiv";
-import { Resource, ResourceType } from "@/dojo/game/types/resource";
+import { Resource } from "@/dojo/game/types/resource";
 import ReconnectionSummary from "./ReconnectionSummary";
 import { Character, ReconnectionData } from "@/types/types";
 import { useMiners } from "@/hooks/useMiners";
@@ -32,7 +32,7 @@ const MainMenuCard = ({ character }: { character: Character }) => {
     });
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
-
+  console.log("character", character);
   useEffect(() => {
     if (miners.length > 0) {
       const array = [
@@ -79,8 +79,6 @@ const MainMenuCard = ({ character }: { character: Character }) => {
       return (
         <Actions
           setIsActing={setIsActing}
-          playerLevel={character.playerXp}
-          selectedResource={selectedResource}
           setSelectedResource={setSelectedRessource}
           miners={miners}
         />
