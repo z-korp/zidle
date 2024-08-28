@@ -42,13 +42,13 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline(always)]
-    fn miner(self: Store, player_id: felt252, resource_type: u8) -> Miner {
-        get!(self.world, (player_id, resource_type), (Miner))
+    fn miner(self: Store, token_id: u128, resource_type: u8) -> Miner {
+        get!(self.world, (token_id, resource_type), (Miner))
     }
 
     #[inline(always)]
-    fn character(self: Store, token_id: u128) -> Char {
-        get!(self.world, (token_id), Char)
+    fn character(self: Store, id: felt252, token_id: u128) -> Char {
+        get!(self.world, (id, token_id), Char)
     }
 
     #[inline(always)]

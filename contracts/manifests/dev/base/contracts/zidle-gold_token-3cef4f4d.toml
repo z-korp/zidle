@@ -1,0 +1,14 @@
+kind = "DojoContract"
+class_hash = "0x539bf8a9a5fa3bc93e7de7aaaec48a4fb77430887170dc000a30c65e94fadf0"
+original_class_hash = "0x539bf8a9a5fa3bc93e7de7aaaec48a4fb77430887170dc000a30c65e94fadf0"
+base_class_hash = "0x0"
+abi = "manifests/dev/base/abis/contracts/zidle-gold_token-3cef4f4d.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "zidle-gold_token"
+systems = [
+    "mint",
+    "burn",
+]
+manifest_name = "zidle-gold_token-3cef4f4d"

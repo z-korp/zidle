@@ -8,9 +8,11 @@ use dojo::world::IWorldDispatcher;
 
 #[dojo::interface]
 trait IResources<TContractState> {
-    fn mine(ref world: IWorldDispatcher, rcs_type: u8, rcs_sub_type: u8);
-    fn harvest(ref world: IWorldDispatcher, rcs_type: u8);
-    fn sell(ref world: IWorldDispatcher, rcs_type: u8, rcs_sub_type: u8, amount: u64);
+    fn mine(ref world: IWorldDispatcher, token_id: u128, rcs_type: u8, rcs_sub_type: u8);
+    fn harvest(ref world: IWorldDispatcher, token_id: u128, rcs_type: u8);
+    fn sell(
+        ref world: IWorldDispatcher, token_id: u128, rcs_type: u8, rcs_sub_type: u8, amount: u64
+    );
 }
 
 #[dojo::contract]
@@ -32,9 +34,14 @@ mod resources {
     use super::IResources;
     use zidle::store::{Store, StoreImpl, StoreTrait};
     use zidle::models::miner::{MinerImpl, MinerAssert, ZeroableMinerImpl};
-    use zidle::models::player::{PlayerAssert, PlayerImpl};
+    use zidle::models::char::{CharAssert};
     use zidle::helpers::level::{XpLevel};
     use zidle::types::resource::{ResourceType, ResourceTypeAssert, ResourceImpl};
+    use zidle::interfaces::systems::{
+        WorldSystemsTrait, IGoldTokenDispatcher, IGoldTokenDispatcherTrait,
+        ICharacterTokenDispatcher, ICharacterTokenDispatcherTrait, IGoldMinterDispatcher,
+        IGoldMinterDispatcherTrait
+    };
 
     // Components
 
@@ -66,23 +73,18 @@ mod resources {
 
     #[abi(embed_v0)]
     impl ResourcesImpl of IResources<ContractState> {
-        fn mine(ref world: IWorldDispatcher, rcs_type: u8, rcs_sub_type: u8) {
+        fn mine(ref world: IWorldDispatcher, token_id: u128, rcs_type: u8, rcs_sub_type: u8) {
             // [Setup] Datastore
             let store: Store = StoreImpl::new(world);
 
-            // [Check] Player exists
-            let caller = get_caller_address();
-            let mut player = store.player(caller.into());
-            player.assert_exists();
+            // [Check] Ownership
+            let character_token_dispatcher: ICharacterTokenDispatcher = world
+                .character_token_dispatcher();
+            let owner_address = character_token_dispatcher.owner_of(token_id.into());
+            assert(owner_address == get_caller_address(), 'Not the owner of this nft');
 
             // [Check] Resource exists
-            let mut miner = store.miner(caller.into(), rcs_type);
-            if (miner.is_zero()) {
-                miner = MinerImpl::new(caller.into(), rcs_type);
-            }
-            store.set_miner(miner);
-
-            let mut miner = store.miner(caller.into(), rcs_type);
+            let mut miner = store.miner(token_id, rcs_type);
             // [Check] Player level
             let level = XpLevel::get_level_from_xp(miner.xp);
             let rcs = ResourceImpl::from(rcs_type, rcs_sub_type);
@@ -95,17 +97,18 @@ mod resources {
             store.set_miner(miner);
         }
 
-        fn harvest(ref world: IWorldDispatcher, rcs_type: u8) {
+        fn harvest(ref world: IWorldDispatcher, token_id: u128, rcs_type: u8) {
             // [Setup] Datastore
             let store: Store = StoreImpl::new(world);
 
-            // [Check] Player exists
-            let caller = get_caller_address();
-            let mut player = store.player(caller.into());
-            player.assert_exists();
+            // [Check] Ownership
+            let character_token_dispatcher: ICharacterTokenDispatcher = world
+                .character_token_dispatcher();
+            let owner_address = character_token_dispatcher.owner_of(token_id.into());
+            assert(owner_address == get_caller_address(), 'Not the owner of this nft');
 
             // [Check] Resource exists
-            let mut miner = store.miner(caller.into(), rcs_type);
+            let mut miner = store.miner(token_id, rcs_type);
             miner.assert_exists();
 
             // [Effect] Harvest
@@ -115,21 +118,23 @@ mod resources {
             store.set_miner(miner);
         }
 
-        fn sell(ref world: IWorldDispatcher, rcs_type: u8, rcs_sub_type: u8, amount: u64) {
+        fn sell(
+            ref world: IWorldDispatcher, token_id: u128, rcs_type: u8, rcs_sub_type: u8, amount: u64
+        ) {
             // [Setup] Datastore
             let store: Store = StoreImpl::new(world);
 
-            // [Check] Player exists
-            let caller = get_caller_address();
-            let mut player = store.player(caller.into());
-            player.assert_exists();
+            // [Check] Character exists
+            let character_token_dispatcher: ICharacterTokenDispatcher = world
+                .character_token_dispatcher();
+            let owner_address = character_token_dispatcher.owner_of(token_id.into());
+            assert(owner_address == get_caller_address(), 'Not the owner of this nft');
 
-            // [Check] Resource exists
-            let mut miner = store.miner(caller.into(), rcs_type);
+            // [Check] Miner exists
+            let mut miner = store.miner(token_id, rcs_type);
             miner.assert_exists();
 
             // [Check] Resource type
-
             let rcs_available = miner.get_available_rcs(rcs_sub_type);
             assert(rcs_available >= amount, 'Resources: not enough resources');
 
@@ -137,10 +142,20 @@ mod resources {
             miner.sell(rcs_sub_type, amount);
             let rcs = ResourceImpl::from(rcs_type, rcs_sub_type);
             let tokens = rcs.unit_price() * amount;
-            //player.add_tokens(tokens);
+
+            //---------------------------------------
+            // Mint ERC20 Gold tokens
+            // Get NFT wallet
+            let character_token_dispatcher: ICharacterTokenDispatcher = world
+                .character_token_dispatcher();
+            let nft_wallet_address = character_token_dispatcher.wallet_of(token_id.into());
+
+            // Mint gold on NFT wallet
+            let gold_minter_dispatcher: IGoldMinterDispatcher = world.gold_minter_dispatcher();
+            gold_minter_dispatcher
+                .mint(nft_wallet_address, tokens.into(), world.gold_token_address());
 
             store.set_miner(miner);
-            store.set_player(player);
         }
     }
 }

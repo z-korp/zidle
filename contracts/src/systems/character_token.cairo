@@ -65,6 +65,9 @@ trait ICharacterToken<TState> {
     fn tokenByIndex(self: @TState, index: u256) -> u256;
     fn tokenOfOwnerByIndex(self: @TState, owner: ContractAddress, index: u256) -> u256;
 
+    // IERC721Wallet
+    fn wallet_of(self: @TState, token_id: u256) -> ContractAddress;
+
     // ICharacterTokenPublic
     fn mint(ref self: TState, to: ContractAddress, token_id: u256);
     fn burn(ref self: TState, token_id: u256);

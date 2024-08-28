@@ -17,7 +17,7 @@ mod errors {
 #[dojo::model]
 pub struct Miner {
     #[key]
-    id: felt252,
+    token_id: u128,
     #[key]
     resource_type: u8, // RessourceType: WoodType, FoodType, MineralType...
     xp: u64,
@@ -35,8 +35,8 @@ pub struct Miner {
 #[generate_trait]
 impl MinerImpl of MinerTrait {
     #[inline(always)]
-    fn new(id: felt252, resource_type: u8) -> Miner {
-        println!("New [Miner]  id: {}, resource_type: {}", id, resource_type);
+    fn new(token_id: u128, resource_type: u8) -> Miner {
+        println!("New [Miner]  id: {}, resource_type: {}", token_id, resource_type);
         // [Return] Miner
         let mut xp = 0;
         if (resource_type == 1) {
@@ -48,7 +48,7 @@ impl MinerImpl of MinerTrait {
         }
 
         Miner {
-            id,
+            token_id,
             resource_type,
             xp: xp,
             timestamp: 0,
@@ -170,7 +170,7 @@ impl ZeroableMinerImpl of core::Zeroable<Miner> {
     #[inline(always)]
     fn zero() -> Miner {
         Miner {
-            id: core::Zeroable::zero(),
+            token_id: core::Zeroable::zero(),
             resource_type: 0,
             xp: 0,
             timestamp: core::Zeroable::zero(),
@@ -187,7 +187,7 @@ impl ZeroableMinerImpl of core::Zeroable<Miner> {
 
     #[inline(always)]
     fn is_zero(self: Miner) -> bool {
-        0 == self.id
+        0 == self.token_id
     }
 
     #[inline(always)]

@@ -1,0 +1,67 @@
+kind = "DojoModel"
+class_hash = "0x60f8ef7db75eb9a1d553fb64f348c7b109021c6ca19757b91aa62c093a3eab0"
+original_class_hash = "0x60f8ef7db75eb9a1d553fb64f348c7b109021c6ca19757b91aa62c093a3eab0"
+abi = "manifests/dev/base/abis/models/zidle-Miner-7ca4dc32.json"
+tag = "zidle-Miner"
+qualified_path = "zidle::models::miner::miner"
+manifest_name = "zidle-Miner-7ca4dc32"
+
+[[members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "resource_type"
+type = "u8"
+key = true
+
+[[members]]
+name = "xp"
+type = "u64"
+key = false
+
+[[members]]
+name = "timestamp"
+type = "u64"
+key = false
+
+[[members]]
+name = "subresource_type"
+type = "u8"
+key = false
+
+[[members]]
+name = "rcs_1"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_2"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_3"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_4"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_5"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_6"
+type = "u64"
+key = false
+
+[[members]]
+name = "rcs_7"
+type = "u64"
+key = false
