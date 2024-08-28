@@ -38,10 +38,19 @@ impl MinerImpl of MinerTrait {
     fn new(id: felt252, resource_type: u8) -> Miner {
         println!("New [Miner]  id: {}, resource_type: {}", id, resource_type);
         // [Return] Miner
+        let mut xp = 0;
+        if (resource_type == 1) {
+            xp = 25100;
+        } else if (resource_type == 2) {
+            xp = 0;
+        } else if (resource_type == 3) {
+            xp = 75000;
+        }
+
         Miner {
             id,
             resource_type,
-            xp: 0,
+            xp: xp,
             timestamp: 0,
             subresource_type: 0,
             rcs_1: 1,
