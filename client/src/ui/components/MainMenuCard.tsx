@@ -18,7 +18,6 @@ const MainMenuCard = ({ character }: { character: Character }) => {
   const [selectedResource, setSelectedRessource] =
     useState<Resource | null>(null);
   const [showSummary, setShowSummary] = useState(true);
-
   const { account } = useAccountCustom();
   const { player } = usePlayer({ playerId: account?.address });
   const { miners, currentMiner } = useMiners({ playerId: player?.id });
@@ -68,12 +67,9 @@ const MainMenuCard = ({ character }: { character: Character }) => {
       return (
         <WorkingDiv
           setIsActing={setIsActing}
-          resourceName={selectedResource?.getSubresourceName() ?? ""}
-          secondsPerResource={
-            selectedResource?.calculateGatheringSpeed(character.playerXp) ?? 0
-          }
-          xpPerResource={selectedResource?.calculateXp(character.playerXp) ?? 0}
-        />
+          selectedResource={selectedResource}
+          character={character}
+           />
       );
     } else {
       return (

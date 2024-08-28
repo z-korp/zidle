@@ -35,10 +35,6 @@ const Actions: React.FC<ActionsProps> = ({
 
   const { character} = useCharacter(account?.address);
 
-  console.log(character);
-  console.log(getLevelFromXp(character?.foodProgress ?? 0));
-  console.log(getLevelFromXp(character?.rockProgress ?? 0));
-  console.log(getLevelFromXp(character?.woodProgress ?? 0));
   
 
   const handleSelect = (resourceType: ResourceType, resource: Resource) => {
