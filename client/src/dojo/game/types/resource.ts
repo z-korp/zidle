@@ -42,8 +42,18 @@ export class Resource {
 
   public static from(index: number, subresource_index: number): Resource {
     const resource = Object.values(ResourceType)[index];
-    const subresource = Object.values(WoodType)[subresource_index];
-    return new Resource(resource, subresource);
+    if (ResourceType.Wood === resource) {
+      const subresource = Object.values(WoodType)[subresource_index];
+      return new Resource(resource, subresource);
+    } else if (ResourceType.Food === resource) {
+      const subresource = Object.values(FoodType)[subresource_index];
+      return new Resource(resource, subresource);
+    } else if (ResourceType.Mineral === resource) {
+      const subresource = Object.values(MineralType)[subresource_index];
+      return new Resource(resource, subresource);
+    } else {
+      return new Resource(ResourceType.None, WoodType.None);
+    }
   }
 
   public isNone(): boolean {

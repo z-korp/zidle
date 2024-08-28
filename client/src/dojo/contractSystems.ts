@@ -26,8 +26,9 @@ export interface Harvest extends Signer {
 }
 
 export interface Sell extends Signer {
-  rcs_sub_type: bigint;
-  amount: bigint;
+  rcs_type: number;
+  rcs_sub_type: number;
+  amount: number;
 }
 
 export interface Start extends Signer {
@@ -133,8 +134,6 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
       throw new Error(`Contract ${contract_name} not found in manifest`);
     }
 
-    console.log("miner contract", contract);
-
     const mine = async ({ account, rcs_type, rcs_sub_type }: Mine) => {
       try {
         return await provider.execute(
@@ -171,14 +170,14 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
       }
     };
 
-    const sell = async ({ account, rcs_sub_type, amount }: Sell) => {
+    const sell = async ({ account, rcs_type, rcs_sub_type, amount }: Sell) => {
       try {
         return await provider.execute(
           account,
           {
             contractName: contract_name,
             entrypoint: "sell",
-            calldata: [rcs_sub_type, amount],
+            calldata: [rcs_type, rcs_sub_type, amount],
           },
           NAMESPACE,
           details,

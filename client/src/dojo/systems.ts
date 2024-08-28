@@ -128,16 +128,19 @@ export function systems({
     );
   };
 
+  const sell = async ({ account, ...props }: SystemTypes.Sell) => {
+    await handleTransaction(
+      account,
+      () => client.resources.sell({ account, ...props }),
+      "Resource has been sold.",
+    );
+  };
+
   return {
-    // account
     create,
     rename,
     mine,
     harvest,
-    // // play
-    // start,
-    // surrender,
-    // move,
-    // applyBonus,
+    sell,
   };
 }

@@ -75,9 +75,9 @@ impl ResourceImpl of ResourceTrait {
     fn from(resource_type: u8, subresource_type: u8) -> ResourceType {
         match resource_type {
             0 => ResourceType::None,
-            1 => ResourceType::Wood(WoodType::Pine),
-            2 => ResourceType::Food(FoodType::Berries),
-            3 => ResourceType::Mineral(MineralType::Coal),
+            1 => ResourceType::Wood(WoodTrait::from(subresource_type)),
+            2 => ResourceType::Food(FoodTrait::from(subresource_type)),
+            3 => ResourceType::Mineral(MineralTrait::from(subresource_type)),
             _ => ResourceType::None,
         }
     }

@@ -31,28 +31,10 @@ const MainMenuCard = ({ character }: { character: Character }) => {
       ],
     });
 
-  if (miners && miners[0]) {
-    console.log(miners[0].resource);
-    console.log(miners[0].resource_number);
-    console.log(miners[0].xp);
-  }
-
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
-
-  /*const testInventoryItems: InventoryItem[] = [
-    { id: "1", name: "Wood", quantity: 50, type: "wood", unitPrice: 1 },
-    { id: "2", name: "Rock", quantity: 30, type: "rock", unitPrice: 2 },
-    { id: "3", name: "Oak Wood", quantity: 15, type: "wood", unitPrice: 3 },
-    { id: "4", name: "Granite", quantity: 25, type: "rock", unitPrice: 4 },
-    { id: "5", name: "Pine Wood", quantity: 40, type: "wood", unitPrice: 5 },
-    { id: "6", name: "Marble", quantity: 10, type: "rock", unitPrice: 6 },
-    { id: "7", name: "Birch Wood", quantity: 20, type: "wood", unitPrice: 7 },
-    { id: "8", name: "Sandstone", quantity: 35, type: "rock", unitPrice: 8 },
-  ];*/
 
   useEffect(() => {
     if (miners.length > 0) {
-      console.log("miners[0].inventory", miners[0].inventory);
       const array = [
         ...miners[0].inventory,
         ...miners[1].inventory,

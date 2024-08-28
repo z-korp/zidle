@@ -1,5 +1,6 @@
 #[derive(Copy, Drop, Serde, PartialEq, Introspect)]
 enum WoodType {
+    None,
     Pine,
     Oak,
     Maple,
@@ -23,6 +24,7 @@ trait WoodTrait {
 impl WoodImpl of WoodTrait {
     fn unit_price(self: WoodType) -> u64 {
         match self {
+            WoodType::None => 0,
             WoodType::Pine => 1,
             WoodType::Oak => 2,
             WoodType::Maple => 3,
@@ -35,6 +37,7 @@ impl WoodImpl of WoodTrait {
 
     fn min_level(self: WoodType) -> u8 {
         match self {
+            WoodType::None => 0,
             WoodType::Pine => 0,
             WoodType::Oak => 15,
             WoodType::Maple => 30,
@@ -47,6 +50,7 @@ impl WoodImpl of WoodTrait {
 
     fn max_level(self: WoodType) -> u8 {
         match self {
+            WoodType::None => 0,
             WoodType::Pine => 14,
             WoodType::Oak => 29,
             WoodType::Maple => 44,
@@ -59,6 +63,7 @@ impl WoodImpl of WoodTrait {
 
     fn hardness(self: WoodType) -> u8 {
         match self {
+            WoodType::None => 0,
             WoodType::Pine => 10,
             WoodType::Oak => 15,
             WoodType::Maple => 20,
@@ -71,6 +76,7 @@ impl WoodImpl of WoodTrait {
 
     fn base_xp(self: WoodType) -> u8 {
         match self {
+            WoodType::None => 0,
             WoodType::Pine => 5,
             WoodType::Oak => 10,
             WoodType::Maple => 15,
@@ -97,45 +103,15 @@ impl WoodImpl of WoodTrait {
 
     fn from(value: u8) -> WoodType {
         match value {
-            0 => WoodType::Pine,
-            1 => WoodType::Oak,
-            2 => WoodType::Maple,
-            3 => WoodType::Walnut,
-            4 => WoodType::Mahogany,
-            5 => WoodType::Ebony,
-            6 => WoodType::Eldertree,
-            _ => WoodType::Pine, // Default to Pine for invalid values
+            0 => WoodType::None,
+            1 => WoodType::Pine,
+            2 => WoodType::Oak,
+            3 => WoodType::Maple,
+            4 => WoodType::Walnut,
+            5 => WoodType::Mahogany,
+            6 => WoodType::Ebony,
+            7 => WoodType::Eldertree,
+            _ => WoodType::None, // Default to None for invalid values
         }
     }
 }
-// impl WoodTypeIntoU8 of Into<WoodType, u8> {
-//     #[inline(always)]
-//     fn into(self: WoodType) -> {
-//         match self {
-//             WoodType::Pine => 0,
-//             WoodType::Oak => 1,
-//             WoodType::Maple => 2,
-//             WoodType::Walnut => 3,
-//             WoodType::Mahogany => 4,
-//             WoodType::Ebony => 5,
-//             WoodType::Eldertree => 6,
-//         }
-//     }
-// }
-
-// impl U8IntoWoodType of Into<u8, WoodType> {
-//     #[inline(always)]
-//     fn into(self: u8) -> {
-//         match self {
-//             0 => WoodType::Pine,
-//             1 => WoodType::Oak,
-//             2 => WoodType::Maple,
-//             3 => WoodType::Walnut,
-//             4 => WoodType::Mahogany,
-//             5 => WoodType::Ebony,
-//             6 => WoodType::Eldertree,
-//         }
-//     }
-// }
-
-

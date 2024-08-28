@@ -33,9 +33,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
 
   const handleMint = async () => {
     if (playerName.trim()) {
-      console.log("enter mint");
       await create({ account: account as Account, name: playerName });
-      console.log(`Minting character for ${playerName}`);
       setPlayerName(""); // Clear the input
     }
   };

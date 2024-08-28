@@ -23,8 +23,6 @@ const account_contract_address = getContractByName(
   "account",
 )?.address;
 
-console.log("account_contract_address", account_contract_address);
-
 const policies = [
   {
     target: import.meta.env.VITE_PUBLIC_FEE_TOKEN_ADDRESS,

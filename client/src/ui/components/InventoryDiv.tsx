@@ -13,6 +13,7 @@ import {
 import { Input } from "../elements/input";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import { ResourceType } from "@/dojo/game/types/resource";
+import { Sell } from "../actions/Sell";
 
 interface InventoryDivProps {
   items: InventoryItem[];
@@ -28,14 +29,6 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
 
   const getResourceImage = (type: ResourceType) => {
     return type === ResourceType.Wood ? wood : rock;
-  };
-
-  const handleSell = () => {
-    // Logique de vente à implémenter
-    console.log(
-      `Selling ${sellQuantity} ${selectedItem?.rcs.getSubresource()}`,
-    );
-    setSelectedItem(null);
   };
 
   return (
@@ -110,7 +103,14 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
             </p>
           </div>
           <DialogFooter>
-            <Button onClick={handleSell}>Sell</Button>
+            <Sell
+              rcs_type={selectedItem?.rcs.into()}
+              rcs_sub_type={selectedItem?.rcs.getSubresource().into()}
+              amount={sellQuantity}
+              afterSellCallback={() => {
+                setSelectedItem(null);
+              }}
+            />
           </DialogFooter>
         </DialogContent>
       </Dialog>

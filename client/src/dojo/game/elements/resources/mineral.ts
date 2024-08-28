@@ -1,5 +1,3 @@
-import { WoodType } from "./wood";
-
 export enum MineralType {
   None = "None",
   Coal = "Coal",

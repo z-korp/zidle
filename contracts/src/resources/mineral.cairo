@@ -1,5 +1,6 @@
 #[derive(Copy, Drop, Serde, PartialEq, Introspect)]
 enum MineralType {
+    None,
     Coal,
     Copper,
     Iron,
@@ -23,6 +24,7 @@ trait MineralTrait {
 impl MineralImpl of MineralTrait {
     fn unit_price(self: MineralType) -> u64 {
         match self {
+            MineralType::None => 0,
             MineralType::Coal => 1,
             MineralType::Copper => 2,
             MineralType::Iron => 3,
@@ -35,6 +37,7 @@ impl MineralImpl of MineralTrait {
 
     fn min_level(self: MineralType) -> u8 {
         match self {
+            MineralType::None => 0,
             MineralType::Coal => 0,
             MineralType::Copper => 15,
             MineralType::Iron => 30,
@@ -47,6 +50,7 @@ impl MineralImpl of MineralTrait {
 
     fn max_level(self: MineralType) -> u8 {
         match self {
+            MineralType::None => 0,
             MineralType::Coal => 14,
             MineralType::Copper => 29,
             MineralType::Iron => 44,
@@ -59,6 +63,7 @@ impl MineralImpl of MineralTrait {
 
     fn hardness(self: MineralType) -> u8 {
         match self {
+            MineralType::None => 0,
             MineralType::Coal => 10,
             MineralType::Copper => 15,
             MineralType::Iron => 20,
@@ -71,6 +76,7 @@ impl MineralImpl of MineralTrait {
 
     fn base_xp(self: MineralType) -> u8 {
         match self {
+            MineralType::None => 0,
             MineralType::Coal => 5,
             MineralType::Copper => 10,
             MineralType::Iron => 15,
@@ -97,14 +103,15 @@ impl MineralImpl of MineralTrait {
 
     fn from(value: u8) -> MineralType {
         match value {
-            0 => MineralType::Coal,
-            1 => MineralType::Copper,
-            2 => MineralType::Iron,
-            3 => MineralType::Silver,
-            4 => MineralType::Gold,
-            5 => MineralType::Mithril,
-            6 => MineralType::Adamantium,
-            _ => MineralType::Coal, // Default to Pine for invalid values
+            0 => MineralType::None,
+            1 => MineralType::Coal,
+            2 => MineralType::Copper,
+            3 => MineralType::Iron,
+            4 => MineralType::Silver,
+            5 => MineralType::Gold,
+            6 => MineralType::Mithril,
+            7 => MineralType::Adamantium,
+            _ => MineralType::None, // Default to None for invalid values
         }
     }
 }

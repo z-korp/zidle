@@ -1,5 +1,6 @@
 #[derive(Copy, Drop, Serde, PartialEq, Introspect)]
 enum FoodType {
+    None,
     Berries,
     Wheat,
     Vegetables,
@@ -23,6 +24,7 @@ trait FoodTrait {
 impl FoodImpl of FoodTrait {
     fn unit_price(self: FoodType) -> u64 {
         match self {
+            FoodType::None => 0,
             FoodType::Berries => 1,
             FoodType::Wheat => 2,
             FoodType::Vegetables => 3,
@@ -35,6 +37,7 @@ impl FoodImpl of FoodTrait {
 
     fn min_level(self: FoodType) -> u8 {
         match self {
+            FoodType::None => 0,
             FoodType::Berries => 0,
             FoodType::Wheat => 15,
             FoodType::Vegetables => 30,
@@ -47,6 +50,7 @@ impl FoodImpl of FoodTrait {
 
     fn max_level(self: FoodType) -> u8 {
         match self {
+            FoodType::None => 0,
             FoodType::Berries => 14,
             FoodType::Wheat => 29,
             FoodType::Vegetables => 44,
@@ -59,6 +63,7 @@ impl FoodImpl of FoodTrait {
 
     fn hardness(self: FoodType) -> u8 {
         match self {
+            FoodType::None => 0,
             FoodType::Berries => 10,
             FoodType::Wheat => 15,
             FoodType::Vegetables => 20,
@@ -71,6 +76,7 @@ impl FoodImpl of FoodTrait {
 
     fn base_xp(self: FoodType) -> u8 {
         match self {
+            FoodType::None => 0,
             FoodType::Berries => 5,
             FoodType::Wheat => 10,
             FoodType::Vegetables => 15,
@@ -97,14 +103,15 @@ impl FoodImpl of FoodTrait {
 
     fn from(value: u8) -> FoodType {
         match value {
-            0 => FoodType::Berries,
-            1 => FoodType::Wheat,
-            2 => FoodType::Vegetables,
-            3 => FoodType::Fruits,
-            4 => FoodType::Herbs,
-            5 => FoodType::Mushrooms,
-            6 => FoodType::Ambrosia,
-            _ => FoodType::Berries,
+            0 => FoodType::None,
+            1 => FoodType::Berries,
+            2 => FoodType::Wheat,
+            3 => FoodType::Vegetables,
+            4 => FoodType::Fruits,
+            5 => FoodType::Herbs,
+            6 => FoodType::Mushrooms,
+            7 => FoodType::Ambrosia,
+            _ => FoodType::None, // Default to None for invalid values
         }
     }
 }

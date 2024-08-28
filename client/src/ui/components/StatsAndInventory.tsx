@@ -1,6 +1,4 @@
-import { SpriteAnimator } from "react-sprite-animator";
 import { Button } from "../elements/button";
-import warriorBlue from "/assets/Warrior_Blue.png";
 import LevelIndicator from "./LevelIndicator";
 import AnimatedSprite from "./AnimatedSprite";
 import React from "react";

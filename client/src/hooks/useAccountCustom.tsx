@@ -13,10 +13,6 @@ const useAccountCustom = () => {
   const [customAccount, setCustomAccount] = useState<Account | null>(null);
 
   useEffect(() => {
-    console.log("------> customAccount", customAccount);
-  }, [customAccount]);
-
-  useEffect(() => {
     if (ACCOUNT_CONNECTOR === "burner") {
       if (burner.account) setCustomAccount(burner.account as Account);
     } else {
