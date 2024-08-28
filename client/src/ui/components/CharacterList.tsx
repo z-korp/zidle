@@ -5,9 +5,9 @@ import AnimatedSprite from "../components/AnimatedSprite";
 import { useDojo } from "@/dojo/useDojo";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { Account } from "starknet";
-import { Character } from "@/types/types";
 import { usePlayer } from "@/hooks/usePlayer";
 import { useMiners } from "@/hooks/useMiners";
+import { useCharacter } from "@/hooks/useCharacter";
 
 interface CharacterListProps {
   onCharacterSelect: (character: Character) => void;
@@ -23,7 +23,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
     },
   } = useDojo();
   const { account } = useAccountCustom();
-
+  const { character} = useCharacter(account?.address);
   const { player, loading: playerLoading } = usePlayer({
     playerId: account?.address,
   });
@@ -68,7 +68,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
       <h3>Your Characters</h3>
       <div className="grid grid-cols-2 gap-4">
         <div key={player.id} className="flex flex-col items-center">
-          <Button onClick={() => onCharacterSelect(player)}>
+        <Button onClick={() => character && onCharacterSelect(character)}>
             {player.name}
           </Button>
           <AnimatedSprite

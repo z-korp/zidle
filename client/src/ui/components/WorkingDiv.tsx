@@ -5,6 +5,7 @@ import { Progress } from "../elements/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { Resource } from "@/dojo/game/types/resource";
 import { Character } from "@/types/types";
+import { getLevelFromXp } from "@/utils/level";
 interface WorkingDivProps {
   setIsActing: (value: boolean) => void;
   selectedResource: Resource;
@@ -22,7 +23,7 @@ character,
   const animationFrameRef = useRef<number>();
   const [showSparkle, setShowSparkle] = useState(false);
   const [secondsPerResource, setSecondsPerResource] = useState(1);
-
+  const [totalXP, setTotalXP] = useState(0)
 
   useEffect(() => {
     const updateProgress = () => {
@@ -52,24 +53,24 @@ character,
     if(character)
     {
       const resourceType = selectedResource.getName() as string;
-      console.log(resourceType)
+      console.log(selectedResource.getSubresourceName());
+      console.log(character.woodProgress);
       switch (resourceType) {
-        case "wood":
-          xp=character.woodProgress;
+        case "Wood":
+          xp= selectedResource.calculateXp(getLevelFromXp(character.woodProgress));
+          setSecondsPerResource(selectedResource.calculateGatheringSpeed(getLevelFromXp(character.woodProgress)));
           break;
-        case "mineral":
-          xp=character.rockProgress
+        case "Mineral":
+          xp=selectedResource.calculateXp(getLevelFromXp(character.rockProgress));
+          setSecondsPerResource(selectedResource.calculateGatheringSpeed((character.rockProgress)));
           break;
-        case "food":
-          xp = character.forgeProgress
+        case "Food":
+          xp = selectedResource.calculateXp(getLevelFromXp(character.forgeProgress));
+          setSecondsPerResource(selectedResource.calculateGatheringSpeed(getLevelFromXp(character.forgeProgress)));
           break;
         default:
           xp= 1;
       }
-      // const xp = selectedResource.calculateXp(character.);
-      console.log("xp"+ xp)
-      setSecondsPerResource(selectedResource.calculateGatheringSpeed(xp));
-      console.log("secondsperResource", secondsPerResource);
     }
 
     animationFrameRef.current = requestAnimationFrame(updateProgress);
@@ -81,30 +82,23 @@ character,
     };
   }, [secondsPerResource, selectedResource]);
 
-  let totalXP = 0;
-  if (character) {
-    switch (selectedResource.getSubresourceType() as string) {
-      case "wood":
-        totalXP = amountProduced * character.woodProgress;
-        break;
-      case "mineral":
-        totalXP = amountProduced * character.rockProgress;
-        break;
-      case "food":
-        totalXP = amountProduced * character.forgeProgress;
-        break;
-      default:
-        totalXP = amountProduced;
+  useEffect(() => {
+    if (character) {
+      switch (selectedResource.getName() as string) {
+        case "Wood":
+          setTotalXP(amountProduced *   selectedResource.calculateXp(getLevelFromXp(character.woodProgress)));
+          break;
+        case "Mineral":
+          setTotalXP(amountProduced * selectedResource.calculateXp(getLevelFromXp(character.rockProgress)));
+          break;
+        case "Food":
+          setTotalXP(amountProduced * selectedResource.calculateXp(getLevelFromXp(character.forgeProgress)));
+          break;
+        default:
+          setTotalXP(amountProduced);
+      }
     }
-  }
-
-  const groupedResources = useMemo(() => {
-    const grouped = {};
-    if (amountProduced > 0) {
-      grouped[selectedResource.getSubresourceName()] = amountProduced;
-    }
-    return grouped;
-  }, [selectedResource, amountProduced]);
+  }, [amountProduced]);
 
   return (
     <div className="space-y-2 border-4 border-grey-600 shadow-lg rounded-xl p-4">
@@ -140,14 +134,11 @@ character,
       </div>
       <motion.div className="flex flex-col items-center border-4 border-grey-600 shadow-lg rounded-xl p-4">
         <span className="">{"Claimable:"}</span>
-        {Object.entries(groupedResources).map(([name, quantity]) => (
-          <motion.span
-            key={name}
-            initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >{`${quantity} ${name}`}</motion.span>
-        ))}
+        <motion.span
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >{`${amountProduced} ${selectedResource.getSubresourceName()}`}</motion.span>
         <motion.span
           key={totalXP}
           initial={{ y: -10, opacity: 0 }}
