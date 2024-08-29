@@ -62,5 +62,74 @@ export function defineContractComponents(world: World) {
         },
       );
     })(),
+    ERC721Balance: (() => {
+      return defineComponent(
+        world,
+        {
+          token: RecsType.BigInt,
+          account: RecsType.BigInt,
+          amount: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: "origami_token-ERC721BalanceModel",
+            types: ["felt252", "felt252", "u128"],
+            customTypes: [],
+          },
+        },
+      );
+    })(),
+    ERC20Balance: (() => {
+      return defineComponent(
+        world,
+        {
+          token: RecsType.BigInt,
+          account: RecsType.BigInt,
+          amount: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: "origami_token-ERC20BalanceModel",
+            types: ["felt252", "felt252", "u128"],
+            customTypes: [],
+          },
+        },
+      );
+    })(),
+    ERC721Owner: (() => {
+      return defineComponent(
+        world,
+        {
+          token: RecsType.BigInt,
+          token_id: RecsType.Number,
+          address: RecsType.BigInt,
+        },
+        {
+          metadata: {
+            name: "origami_token-ERC721OwnerModel",
+            types: ["felt252", "u128", "felt252"],
+            customTypes: [],
+          },
+        },
+      );
+    })(),
+    ERC721EnumerableOwnerIndex: (() => {
+      return defineComponent(
+        world,
+        {
+          token: RecsType.BigInt,
+          owner: RecsType.BigInt,
+          index: RecsType.Number,
+          token_id: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: "origami_token-ERC721EnumerableOwnerIndexModel",
+            types: ["felt252", "felt252", "u128", "u128"],
+            customTypes: [],
+          },
+        },
+      );
+    })(),
   };
 }

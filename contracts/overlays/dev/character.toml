@@ -1,0 +1,5 @@
+tag = "zidle-character"
+writes = [
+  "zidle-Miner",
+]
+init_calldata = []

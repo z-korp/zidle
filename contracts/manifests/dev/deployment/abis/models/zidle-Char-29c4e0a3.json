@@ -371,6 +371,10 @@
     "name": "zidle::models::char::Char",
     "members": [
       {
+        "name": "id",
+        "type": "core::felt252"
+      },
+      {
         "name": "token_id",
         "type": "core::integer::u128"
       },

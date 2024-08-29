@@ -7,13 +7,12 @@ use starknet::ContractAddress;
 use dojo::world::IWorldDispatcher;
 
 #[dojo::interface]
-trait IAccount<TContractState> {
+trait ICharacter<TContractState> {
     fn create(ref world: IWorldDispatcher, name: felt252);
-    fn rename(ref world: IWorldDispatcher, name: felt252);
 }
 
 #[dojo::contract]
-mod account {
+mod character {
     // Starknet imports
 
     use starknet::ContractAddress;
@@ -24,11 +23,10 @@ mod account {
     // Component imports
 
     use zidle::components::emitter::EmitterComponent;
-    use zidle::components::manageable::ManageableComponent;
 
     // Local imports
 
-    use super::IAccount;
+    use super::ICharacter;
     use zidle::store::{Store, StoreImpl, StoreTrait};
     use zidle::constants::{RESSOURCE_NUMBER};
     use zidle::models::miner::{MinerTrait};
@@ -40,8 +38,6 @@ mod account {
 
     component!(path: EmitterComponent, storage: emitter, event: EmitterEvent);
     impl EmitterImpl = EmitterComponent::EmitterImpl<ContractState>;
-    component!(path: ManageableComponent, storage: manageable, event: ManageableEvent);
-    impl ManageableInternalImpl = ManageableComponent::InternalImpl<ContractState>;
 
     // Storage
 
@@ -49,8 +45,6 @@ mod account {
     struct Storage {
         #[substorage(v0)]
         emitter: EmitterComponent::Storage,
-        #[substorage(v0)]
-        manageable: ManageableComponent::Storage,
     }
 
     // Events
@@ -60,8 +54,6 @@ mod account {
     enum Event {
         #[flat]
         EmitterEvent: EmitterComponent::Event,
-        #[flat]
-        ManageableEvent: ManageableComponent::Event,
     }
 
     // Constructor
@@ -71,30 +63,24 @@ mod account {
     // Implementations
 
     #[abi(embed_v0)]
-    impl AccountImpl of IAccount<ContractState> {
+    impl CharacterImpl of ICharacter<ContractState> {
         fn create(ref world: IWorldDispatcher, name: felt252) {
             // [Setup] Datastore
             let store: Store = StoreImpl::new(world);
 
-            // [Effect] Create a player
-            self.manageable._create(world, name);
-
-            // [Effect] Create miners for the player
-            let caller = get_caller_address();
-            let mut index = 1; // 0 is None, start at 1
-            while (index < RESSOURCE_NUMBER) {
-                let miner = MinerTrait::new(0, index);
-                index += 1;
-                store.set_miner(miner);
-            };
-
+            // [Effect] Create a NFT
             let caller: ContractAddress = starknet::get_caller_address();
             let minter_dispatcher: ICharacterMinterDispatcher = world.character_minter_dispatcher();
             let token_id: u128 = minter_dispatcher.mint(caller, world.character_token_address());
-        }
 
-        fn rename(ref world: IWorldDispatcher, name: felt252) {
-            self.manageable._rename(world, name);
+            // [Effect] Create miners for the NFT
+            let caller = get_caller_address();
+            let mut index = 1; // 0 is None, start at 1
+            while (index < RESSOURCE_NUMBER) {
+                let miner = MinerTrait::new(token_id.into(), index);
+                index += 1;
+                store.set_miner(miner);
+            };
         }
     }
 }

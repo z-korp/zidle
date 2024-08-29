@@ -24,8 +24,13 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x4482655baa24985ced4c17b3cad937d609b921c496918f42d97da74692967b"
+<<<<<<< HEAD
 class_hash = "0xea064b6bdc8cb4d06af20af26e7a7d82772cc607d4fcb8ddaf5216f4740451"
 original_class_hash = "0xea064b6bdc8cb4d06af20af26e7a7d82772cc607d4fcb8ddaf5216f4740451"
+=======
+class_hash = "0x12a3cd7523edc0e698c1e649fa9e5ddda257688f97bffe058497056a40dc058"
+original_class_hash = "0x12a3cd7523edc0e698c1e649fa9e5ddda257688f97bffe058497056a40dc058"
+>>>>>>> new-wallet-component
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-account-60aa04fd.json"
 reads = []
@@ -42,6 +47,20 @@ systems = [
     "rename",
 ]
 manifest_name = "zidle-account-60aa04fd"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x3c32550e6516325c80378d3bc8c87b908230c439a6d23a17aab703119bbd663"
+class_hash = "0x55a15138eac96c6261e837437e740fa1f45886d862aad9da136842e8ef566e7"
+original_class_hash = "0x55a15138eac96c6261e837437e740fa1f45886d862aad9da136842e8ef566e7"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/dev/deployment/abis/contracts/zidle-character-3dec6fe1.json"
+reads = []
+writes = ["zidle-Miner"]
+init_calldata = []
+tag = "zidle-character"
+systems = ["create"]
+manifest_name = "zidle-character-3dec6fe1"
 
 [[contracts]]
 kind = "DojoContract"
@@ -67,8 +86,8 @@ manifest_name = "zidle-character_minter-65ab56f7"
 [[contracts]]
 kind = "DojoContract"
 address = "0x5a1e560754f03e7c654e1b4882f79a05a6870f5546d826135f757fd7c1ea32d"
-class_hash = "0x2f6780845e72ee5d7eac0a24dfa88c77be4365b89b6339a0c6fea874ed3f8f0"
-original_class_hash = "0x2f6780845e72ee5d7eac0a24dfa88c77be4365b89b6339a0c6fea874ed3f8f0"
+class_hash = "0x1aa0129f01e73e7a9fd4618635cb67cf153d3561700ec9370581af28f7702fd"
+original_class_hash = "0x1aa0129f01e73e7a9fd4618635cb67cf153d3561700ec9370581af28f7702fd"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-character_token-219118e6.json"
 reads = []
@@ -85,6 +104,7 @@ writes = [
     "origami_token-ERC721EnumerableTotalModel",
     "origami_token-ERC721TokenApprovalModel",
     "origami_token-ERC721OperatorApprovalModel",
+    "zidle-ERC721WalletModel",
 ]
 init_calldata = []
 tag = "zidle-character_token"
@@ -144,8 +164,13 @@ manifest_name = "zidle-gold_token-3cef4f4d"
 [[contracts]]
 kind = "DojoContract"
 address = "0x56e0f2455f917a62998a79bdd9b470198b0a4a670ea68a0e231517c80fe2dfa"
+<<<<<<< HEAD
 class_hash = "0x329357a10bebb24a5fbb30e75122f3d382abc892f89f99de02a6d0954ca0459"
 original_class_hash = "0x329357a10bebb24a5fbb30e75122f3d382abc892f89f99de02a6d0954ca0459"
+=======
+class_hash = "0x3cf9b6e14facee1a99267e79363abab8cbc274142d47eed4054dded68061569"
+original_class_hash = "0x3cf9b6e14facee1a99267e79363abab8cbc274142d47eed4054dded68061569"
+>>>>>>> new-wallet-component
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-resources-14ead52a.json"
 reads = []
@@ -551,12 +576,17 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x7cf3722e0f0725453210c412eaf348e60eae1890ecb5b340b2a88cb6d8cc447"
-original_class_hash = "0x7cf3722e0f0725453210c412eaf348e60eae1890ecb5b340b2a88cb6d8cc447"
+class_hash = "0x4d7c7f6b335266ad573aff1edf01f7b2f1aff312a39d0bebc011f3b2ca92485"
+original_class_hash = "0x4d7c7f6b335266ad573aff1edf01f7b2f1aff312a39d0bebc011f3b2ca92485"
 abi = "manifests/dev/deployment/abis/models/zidle-Char-29c4e0a3.json"
 tag = "zidle-Char"
 qualified_path = "zidle::models::char::char"
 manifest_name = "zidle-Char-29c4e0a3"
+
+[[models.members]]
+name = "id"
+type = "felt252"
+key = true
 
 [[models.members]]
 name = "token_id"
@@ -570,16 +600,40 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x403ab93abdcb4dbfa62dba85f774cccb1046a4ecd41ad50ab3b0eacadfc2340"
-original_class_hash = "0x403ab93abdcb4dbfa62dba85f774cccb1046a4ecd41ad50ab3b0eacadfc2340"
+class_hash = "0x7e8fbb75820a4a4221d28e797e79663a27a9a6121ed4ea82cc64b3337864a27"
+original_class_hash = "0x7e8fbb75820a4a4221d28e797e79663a27a9a6121ed4ea82cc64b3337864a27"
+abi = "manifests/dev/deployment/abis/models/zidle-ERC721WalletModel-1250d651.json"
+tag = "zidle-ERC721WalletModel"
+qualified_path = "zidle::components::erc721::erc721_wallet::erc_721_wallet_model"
+manifest_name = "zidle-ERC721WalletModel-1250d651"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "address"
+type = "ContractAddress"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x60f8ef7db75eb9a1d553fb64f348c7b109021c6ca19757b91aa62c093a3eab0"
+original_class_hash = "0x60f8ef7db75eb9a1d553fb64f348c7b109021c6ca19757b91aa62c093a3eab0"
 abi = "manifests/dev/deployment/abis/models/zidle-Miner-7ca4dc32.json"
 tag = "zidle-Miner"
 qualified_path = "zidle::models::miner::miner"
 manifest_name = "zidle-Miner-7ca4dc32"
 
 [[models.members]]
-name = "id"
-type = "felt252"
+name = "token_id"
+type = "u128"
 key = true
 
 [[models.members]]

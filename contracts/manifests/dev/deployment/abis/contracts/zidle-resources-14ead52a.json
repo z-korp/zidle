@@ -158,6 +158,10 @@
         "name": "mine",
         "inputs": [
           {
+            "name": "token_id",
+            "type": "core::integer::u128"
+          },
+          {
             "name": "rcs_type",
             "type": "core::integer::u8"
           },
@@ -174,6 +178,10 @@
         "name": "harvest",
         "inputs": [
           {
+            "name": "token_id",
+            "type": "core::integer::u128"
+          },
+          {
             "name": "rcs_type",
             "type": "core::integer::u8"
           }
@@ -185,6 +193,10 @@
         "type": "function",
         "name": "sell",
         "inputs": [
+          {
+            "name": "token_id",
+            "type": "core::integer::u128"
+          },
           {
             "name": "rcs_type",
             "type": "core::integer::u8"

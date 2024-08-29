@@ -4,10 +4,14 @@ mod store;
 mod components {
     mod emitter;
     mod manageable;
+    mod erc721 {
+        mod erc721_wallet;
+    }
 }
 
 mod helpers {
     mod level;
+    mod account_deployer;
 }
 
 mod interfaces {
@@ -34,6 +38,7 @@ mod systems {
     mod account;
     mod character_minter;
     mod character_token;
+    mod character;
     mod gold_minter;
     mod gold_token;
     mod resources;

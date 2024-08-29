@@ -12,12 +12,50 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use zidle::interfaces::ierc721::{ierc721, IERC721Dispatcher, IERC721DispatcherTrait};
 use zidle::interfaces::systems::{WorldSystemsTrait};
 
+mod errors {
+    const CHAR_NOT_EXIST: felt252 = 'Char: does not exist';
+    const CHAR_ALREADY_EXIST: felt252 = 'Char: already exist';
+    const CHAR_INVALID_NAME: felt252 = 'Char: invalid name';
+}
+
 #[derive(Copy, Drop, Serde, IntrospectPacked)]
 #[dojo::model]
 pub struct Char {
     #[key]
+    id: felt252,
+    #[key]
     token_id: u128,
     name: felt252,
+}
+
+#[generate_trait]
+impl CharAssert of AssertTrait {
+    #[inline(always)]
+    fn assert_exists(self: Char) {
+        assert(self.is_non_zero(), errors::CHAR_NOT_EXIST);
+    }
+
+    #[inline(always)]
+    fn assert_not_exists(self: Char) {
+        assert(self.is_zero(), errors::CHAR_ALREADY_EXIST);
+    }
+}
+
+impl ZeroableCharImpl of core::Zeroable<Char> {
+    #[inline(always)]
+    fn zero() -> Char {
+        Char { id: core::Zeroable::zero(), token_id: 0, name: 0 }
+    }
+
+    #[inline(always)]
+    fn is_zero(self: Char) -> bool {
+        0 == self.name
+    }
+
+    #[inline(always)]
+    fn is_non_zero(self: Char) -> bool {
+        !self.is_zero()
+    }
 }
 
 //----------------------------------

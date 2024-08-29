@@ -12,5 +12,6 @@ writes = [
   "origami_token-ERC721EnumerableTotalModel",
   "origami_token-ERC721TokenApprovalModel",
   "origami_token-ERC721OperatorApprovalModel",
+  "zidle-ERC721WalletModel"
 ]
 init_calldata = []
