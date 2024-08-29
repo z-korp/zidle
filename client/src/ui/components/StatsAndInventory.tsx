@@ -100,12 +100,23 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
           <DialogDescription></DialogDescription>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Address</Label>
-              <Input id="address" className="col-span-3" />
+              <Label className="text-right">Adresse</Label>
+              <Input 
+                id="address" 
+                className="col-span-3" 
+                pattern="0x[a-fA-F0-9]{63,64}"
+                title="Enter a valid starknet address"
+              />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Amount</Label>
-              <Input id="amount" type="number" className="col-span-3" />
+              <Label className="text-right">Montant</Label>
+              <Input 
+                id="amount" 
+                type="number" 
+                className="col-span-3 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+                min="0" 
+                step="1"
+              />
             </div>
           </div>
           <Button onClick={() => setOpenModal(false)} className="w-full">
