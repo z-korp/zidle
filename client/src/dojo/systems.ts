@@ -131,10 +131,30 @@ export function systems({
     );
   };
 
+  const transfer_from = async ({
+    account,
+    ...props
+  }: SystemTypes.TransferFrom) => {
+    await handleTransaction(
+      account,
+      () => client.gold_token.transfer_from({ account, ...props }),
+      "Resource has been transferred.",
+    );
+  };
+
+  const transfer = async ({ account, ...props }: SystemTypes.Transfer) => {
+    await handleTransaction(
+      account,
+      () => client.gold_token.transfer({ account, ...props }),
+      "Gold has been transferred",
+    );
+  };
+
   return {
     mine,
     harvest,
     sell,
     createCharacter,
+    transferGold: transfer,
   };
 }

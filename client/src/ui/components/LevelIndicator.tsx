@@ -5,7 +5,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/ui/elements/tooltip";
-import { getLevelFromXp, xpForNextLevel, xpProgressToNextLevel } from "@/utils/level";
+import {
+  getLevelFromXp,
+  xpForNextLevel,
+  xpProgressToNextLevel,
+} from "@/utils/level";
 
 interface LevelIndicatorProps {
   currentXP: number;
@@ -14,8 +18,9 @@ interface LevelIndicatorProps {
 const LevelIndicator: React.FC<LevelIndicatorProps> = ({ currentXP }) => {
   const [displayXP, setDisplayXP] = useState(currentXP);
   const [shouldAnimate, setShouldAnimate] = useState(false);
-  const animationRef = useRef<number>();
-  const prevXPRef = useRef(currentXP);
+  const animationRef = useRef<number | null>(null);
+  const prevXPRef = useRef<number>(currentXP);
+  const firstUpdate = useRef(true); // Ref to track the first update
 
   const lerp = (start: number, end: number, t: number) => {
     return start * (1 - t) + end * t;
@@ -35,10 +40,15 @@ const LevelIndicator: React.FC<LevelIndicatorProps> = ({ currentXP }) => {
   const [currentLevel, progress, xpForNext] = calculateLevelInfo(displayXP);
 
   useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false; // Mark as not first load anymore
+      return; // Skip animation on first load
+    }
+
     if (currentXP !== prevXPRef.current) {
       setShouldAnimate(true);
+      prevXPRef.current = currentXP; // Update previous XP ref to the current XP
     }
-    prevXPRef.current = currentXP;
   }, [currentXP]);
 
   useEffect(() => {
@@ -47,25 +57,23 @@ const LevelIndicator: React.FC<LevelIndicatorProps> = ({ currentXP }) => {
       return;
     }
 
+    const animationDuration = 3000; // Animation lasts 3 seconds
     let startTime: number;
-    const startXP = displayXP;
-    const animationDuration = 3000;
 
     const animate = (time: number) => {
-      if (startTime === undefined) {
-        startTime = time;
-      }
-
+      if (startTime === undefined) startTime = time;
       const elapsed = time - startTime;
       const rawProgress = Math.min(elapsed / animationDuration, 1);
       const easedProgress = easeOutCubic(rawProgress);
 
-      setDisplayXP(Math.floor(lerp(startXP, currentXP, easedProgress)));
+      setDisplayXP(
+        Math.floor(lerp(prevXPRef.current, currentXP, easedProgress)),
+      );
 
       if (rawProgress < 1) {
         animationRef.current = requestAnimationFrame(animate);
       } else {
-        setShouldAnimate(false);
+        setShouldAnimate(false); // Stop animation
       }
     };
 
@@ -125,11 +133,7 @@ const LevelIndicator: React.FC<LevelIndicatorProps> = ({ currentXP }) => {
             <p>XP: {displayXP}</p>
             <p>Progress: {progress}%</p>
             <p>
-              Next Level:{" "}
-              {currentLevel < 99
-                ? xpForNext - displayXP
-                : "Max"}{" "}
-              XP
+              Next Level: {currentLevel < 99 ? xpForNext - displayXP : "Max"} XP
             </p>
           </div>
         </TooltipContent>

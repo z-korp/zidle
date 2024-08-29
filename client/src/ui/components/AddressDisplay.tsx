@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
-import { Copy, Check } from 'lucide-react';
-import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '../elements/tooltip';
+import { useState } from "react";
+import { Copy, Check } from "lucide-react";
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+} from "../elements/tooltip";
 
-const AddressDisplay = ({ address }) => {
+interface AddressDisplayProps {
+  address: string;
+}
+
+const AddressDisplay: React.FC<AddressDisplayProps> = ({ address }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -31,7 +40,7 @@ const AddressDisplay = ({ address }) => {
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{copied ? 'Copied!' : 'Copy address'}</p>
+            <p>{copied ? "Copied!" : "Copy address"}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

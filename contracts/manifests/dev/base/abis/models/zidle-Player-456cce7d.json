@@ -377,10 +377,6 @@
       {
         "name": "name",
         "type": "core::felt252"
-      },
-      {
-        "name": "gold",
-        "type": "core::integer::u64"
       }
     ]
   },

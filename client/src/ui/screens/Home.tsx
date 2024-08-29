@@ -5,6 +5,7 @@ import { useQuerySync } from "@dojoengine/react";
 import MainMenuCard from "../components/MainMenuCard";
 import { Card, CardHeader, CardTitle, CardContent } from "../elements/card";
 import CharacterList from "../components/CharacterList";
+import { ArrowLeft } from "lucide-react";
 
 export const Home = () => {
   const {
@@ -22,15 +23,18 @@ export const Home = () => {
         <div className="absolute flex flex-col items-center gap-4 w-full p-2 max-w-4xl mt-4">
           {selectedNft == null ? (
             <Card className="w-[350px] bg-gray-800 text-white shadow-xl">
-              <CardHeader>
-                <CardTitle className="text-center text-2xl">ZIdle</CardTitle>
+              <CardHeader className="flex">
+                <CardTitle className="text-center text-2xl">zIdle</CardTitle>
               </CardHeader>
               <CardContent>
                 <CharacterList onCharacterSelect={setSelectedNft} />
               </CardContent>
             </Card>
           ) : (
-            <MainMenuCard tokenId={selectedNft} />
+            <MainMenuCard
+              tokenId={selectedNft}
+              resetSelectedNft={() => setSelectedNft(null)}
+            />
           )}
         </div>
       </div>

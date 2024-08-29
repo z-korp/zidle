@@ -12,7 +12,6 @@ export function defineContractComponents(world: World) {
         {
           token_id: RecsType.BigInt,
           name: RecsType.BigInt,
-          gold: RecsType.Number,
         },
         {
           metadata: {
@@ -126,6 +125,23 @@ export function defineContractComponents(world: World) {
           metadata: {
             name: "origami_token-ERC721EnumerableOwnerIndexModel",
             types: ["felt252", "felt252", "u128", "u128"],
+            customTypes: [],
+          },
+        },
+      );
+    })(),
+    ERC721Wallet: (() => {
+      return defineComponent(
+        world,
+        {
+          token: RecsType.BigInt,
+          token_id: RecsType.Number,
+          address: RecsType.BigInt,
+        },
+        {
+          metadata: {
+            name: "zidle-ERC721WalletModel",
+            types: ["felt252", "u128", "felt252"],
             customTypes: [],
           },
         },

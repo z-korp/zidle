@@ -50,6 +50,22 @@ export interface CreateCharacter extends Signer {
   name: string;
 }
 
+export interface TransferFrom extends Signer {
+  sender: bigint;
+  recipient: bigint;
+  amount: number;
+}
+
+export interface Transfer extends Signer {
+  recipient: bigint;
+  amount: number;
+}
+
+export interface Approve extends Signer {
+  spender: bigint;
+  amount: number;
+}
+
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
 export const getContractByName = (manifest: any, name: string) => {
@@ -181,8 +197,93 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
     };
   }
 
+  function gold_token() {
+    const contract_name = "gold_token";
+
+    const contract = config.manifest.contracts.find((c: any) =>
+      c.tag.includes(contract_name),
+    );
+    if (!contract) {
+      throw new Error(`Contract ${contract_name} not found in manifest`);
+    }
+
+    /*const approve = async ({ account, spender, amount }: Approve) => {
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: contract_name,
+            entrypoint: "approve",
+            calldata: [spender, amount],
+          },
+          NAMESPACE,
+          details,
+        );
+      } catch (error) {
+        console.error("Error executing approve:", error);
+        throw error;
+      }
+    };*/
+
+    const transfer_from = async ({
+      account,
+      sender, // The address of the NFT-based account contract
+      recipient,
+      amount,
+    }: TransferFrom) => {
+      try {
+        return await provider.execute(
+          account,
+          [
+            {
+              contractName: contract_name,
+              entrypoint: "approve",
+              calldata: [recipient, amount, 0],
+            },
+            {
+              contractName: contract_name,
+              entrypoint: "transfer_from",
+              calldata: [sender, recipient, amount, 0],
+            },
+          ],
+          NAMESPACE,
+          details,
+        );
+      } catch (error) {
+        console.error("Error executing start:", error);
+        throw error;
+      }
+    };
+
+    const transfer = async ({ account, recipient, amount }: Transfer) => {
+      try {
+        return await provider.execute(
+          account,
+          [
+            {
+              contractName: contract_name,
+              entrypoint: "transfer",
+              calldata: [recipient, amount, 0],
+            },
+          ],
+          NAMESPACE,
+          details,
+        );
+      } catch (error) {
+        console.error("Error executing start:", error);
+        throw error;
+      }
+    };
+
+    return {
+      transfer_from,
+      transfer,
+    };
+  }
+
   return {
     resources: resources(),
     character: character(),
+    gold_token: gold_token(),
   };
 }

@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x3c32550e6516325c80378d3bc8c87b908230c439a6d23a17aab703119bbd663"
-class_hash = "0x6c49b71fe374a86ae84359acc8d08a36e5a26611f785e842ced819d707d7442"
-original_class_hash = "0x6c49b71fe374a86ae84359acc8d08a36e5a26611f785e842ced819d707d7442"
+class_hash = "0x5c7685f900c0fa9223c46f8667e04082a5372204fe94f4a203979ba03599f3b"
+original_class_hash = "0x5c7685f900c0fa9223c46f8667e04082a5372204fe94f4a203979ba03599f3b"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-character-3dec6fe1.json"
 reads = []
@@ -62,8 +62,8 @@ manifest_name = "zidle-character_minter-65ab56f7"
 [[contracts]]
 kind = "DojoContract"
 address = "0x5a1e560754f03e7c654e1b4882f79a05a6870f5546d826135f757fd7c1ea32d"
-class_hash = "0x1aa0129f01e73e7a9fd4618635cb67cf153d3561700ec9370581af28f7702fd"
-original_class_hash = "0x1aa0129f01e73e7a9fd4618635cb67cf153d3561700ec9370581af28f7702fd"
+class_hash = "0x31cbb2ddba6604f318160ac2e76134ff0104c00932ba45652e31c6562e605bf"
+original_class_hash = "0x31cbb2ddba6604f318160ac2e76134ff0104c00932ba45652e31c6562e605bf"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-character_token-219118e6.json"
 reads = []
@@ -664,8 +664,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x56d4e9966f7dae3370f9a4b33ace0c7e926b53cf9be5ad774dfeeae5de144f5"
-original_class_hash = "0x56d4e9966f7dae3370f9a4b33ace0c7e926b53cf9be5ad774dfeeae5de144f5"
+class_hash = "0x5e3c8d1dba5760cd045ac06d33d10c7d485c85f2032eecbb721a876c3902ab6"
+original_class_hash = "0x5e3c8d1dba5760cd045ac06d33d10c7d485c85f2032eecbb721a876c3902ab6"
 abi = "manifests/dev/deployment/abis/models/zidle-Player-456cce7d.json"
 tag = "zidle-Player"
 qualified_path = "zidle::models::player::player"
@@ -679,11 +679,6 @@ key = true
 [[models.members]]
 name = "name"
 type = "felt252"
-key = false
-
-[[models.members]]
-name = "gold"
-type = "u64"
 key = false
 
 [[models]]

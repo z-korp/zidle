@@ -9,12 +9,18 @@ import ReconnectionSummary from "./ReconnectionSummary";
 import { ReconnectionData } from "@/types/types";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "../elements/button";
 
 interface MainMenuCardProps {
   tokenId: string;
+  resetSelectedNft: () => void;
 }
 
-const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
+const MainMenuCard: React.FC<MainMenuCardProps> = ({
+  tokenId,
+  resetSelectedNft,
+}) => {
   const { character } = useCharacter(tokenId);
   const [isActing, setIsActing] = useState(false);
   const [isInInventory, setIsInInventory] = useState(false);
@@ -97,44 +103,47 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
     }
   };
 
-  if (!character) {
-    return (
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle className="text-center">ZIdle</CardTitle>
-        </CardHeader>
+  return (
+    <Card className="w-[350px]">
+      <CardHeader className="flex">
+        <Button
+          variant="outline"
+          className="absolute top-4 left-4 p-1"
+          onClick={resetSelectedNft}
+        >
+          <ArrowLeft />
+        </Button>
+
+        <CardTitle className="text-center mt-0">zIdle</CardTitle>
+      </CardHeader>
+      {!character ? (
         <CardContent>
           <div>No character data available. Please select a character.</div>
         </CardContent>
-      </Card>
-    );
-  }
-
-  return (
-    <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle className="text-center">ZIdle</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <StatsAndInventory
-            character={character}
-            health={100}
-            attack={10}
-            critical={5}
-            setIsInInventory={setIsInInventory}
-          />
-          {renderContent()}
-        </div>
-      </CardContent>
-      {showSummary && (
-        <ReconnectionSummary
-          data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
-          onContinue={() => {
-            console.log("Continuing from reconnection...");
-            setShowSummary(false);
-          }}
-        />
+      ) : (
+        <>
+          <CardContent>
+            <div className="space-y-4">
+              <StatsAndInventory
+                character={character}
+                health={100}
+                attack={10}
+                critical={5}
+                setIsInInventory={setIsInInventory}
+              />
+              {renderContent()}
+            </div>
+          </CardContent>
+          {showSummary && (
+            <ReconnectionSummary
+              data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
+              onContinue={() => {
+                console.log("Continuing from reconnection...");
+                setShowSummary(false);
+              }}
+            />
+          )}
+        </>
       )}
     </Card>
   );
