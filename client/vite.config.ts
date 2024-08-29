@@ -24,8 +24,8 @@ export default defineConfig({
         "/assets/masked-icon.svg",
       ],
       manifest: {
-        name: "zKube",
-        short_name: "zKube",
+        name: "zIdle",
+        short_name: "zIdle",
         description: "Solo strategy block game.",
         theme_color: "#000000",
         icons: [

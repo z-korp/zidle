@@ -25,7 +25,7 @@ export const Header = () => {
           className="cursor-pointer flex gap-8 items-center"
           onClick={handleClick}
         >
-          <p className="text-4xl font-bold">zKube</p>
+          <p className="text-4xl font-bold">zIdle</p>
           {/* <Leaderboard /> */}
         </div>
         <div className="flex flex-col gap-4 items-center md:flex-row">
