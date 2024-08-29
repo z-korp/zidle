@@ -14,7 +14,6 @@ interface CharacterListProps {
 
 const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   const [playerName, setPlayerName] = useState("");
-
   const {
     setup: {
       systemCalls: { createCharacter },
@@ -40,7 +39,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
             {tokenIds.map((tokenId) => (
               <NFTCard
                 tokenId={tokenId.toString()}
-                onCharacterSelect={onCharacterSelect}
+                onSelect={onCharacterSelect}
               />
             ))}
           </div>
