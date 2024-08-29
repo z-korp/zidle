@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "../elements/button";
 import { Input } from "../elements/input";
 import AnimatedSprite from "../components/AnimatedSprite";
@@ -8,22 +8,47 @@ import { Account } from "starknet";
 import { usePlayer } from "@/hooks/usePlayer";
 import { useMiners } from "@/hooks/useMiners";
 import { useCharacter } from "@/hooks/useCharacter";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../elements/card";
+
+interface Character {
+  id: string;
+  name: string;
+  gold: number;
+}
 
 interface CharacterListProps {
   onCharacterSelect: (character: Character) => void;
 }
 
+const CharacterCard: React.FC<{ character: Character; onSelect: () => void }> = ({ character, onSelect }) => (
+  <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-300" onClick={onSelect}>
+    <CardHeader>
+      <CardTitle>{character.name}</CardTitle>
+    </CardHeader>
+    <CardContent className="flex flex-col items-center space-y-4">
+      <AnimatedSprite
+        width={192}
+        height={192}
+        scale={1}
+        fps={10}
+        currentAnimation="idle"
+      />
+    </CardContent>
+    <CardFooter className="flex justify-between">
+      <p>Gold: {character.gold}</p>
+    </CardFooter>
+  </Card>
+);
+
 const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   const [playerName, setPlayerName] = useState("");
-  const [currentAnimation, setCurrentAnimation] = useState("idle");
-
   const {
     setup: {
       systemCalls: { create },
     },
   } = useDojo();
   const { account } = useAccountCustom();
-  const { character} = useCharacter(account?.address);
+  const { character } = useCharacter(account?.address);
   const { player, loading: playerLoading } = usePlayer({
     playerId: account?.address,
   });
@@ -32,9 +57,9 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   });
 
   const handleMint = async () => {
-    if (playerName.trim()) {
+    if (playerName.trim() && account) {
       await create({ account: account as Account, name: playerName });
-      setPlayerName(""); // Clear the input
+      setPlayerName("");
     }
   };
 
@@ -42,57 +67,49 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
     return <div>Loading characters...</div>;
   }
 
-  if (!player) {
-    return (
-      <div className="flex flex-col items-center space-y-6">
-        <h3>Create Your First Character</h3>
-        <Input
-          type="text"
-          placeholder="Enter character name"
-          value={playerName}
-          onChange={(e) => setPlayerName(e.target.value)}
-          className="w-full bg-gray-700 text-white border-gray-600"
-        />
-        <Button
-          onClick={handleMint}
-          className="w-full bg-blue-600 hover:bg-blue-700"
-        >
-          Mint New Character
-        </Button>
-      </div>
-    );
-  }
+  const characters: Character[] = player
+    ? [
+        {
+          id: player.id,
+          name: player.name,
+          gold: player.gold,
+        },
+      ]
+    : [];
 
   return (
     <div className="flex flex-col items-center space-y-6">
-      <h3>Your Characters</h3>
-      <div className="grid grid-cols-2 gap-4">
-        <div key={player.id} className="flex flex-col items-center">
-        <Button onClick={() => character && onCharacterSelect(character)}>
-            {player.name}
-          </Button>
-          <AnimatedSprite
-            width={192}
-            height={192}
-            scale={1}
-            fps={10}
-            currentAnimation={currentAnimation}
-          />
+      <h3 className="text-2xl font-bold">Your Characters</h3>
+      {characters.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {characters.map((char) => (
+            <CharacterCard
+              key={char.id}
+              character={char}
+              onSelect={() => character && onCharacterSelect(character)}
+            />
+          ))}
         </div>
-      </div>
-      <Input
-        type="text"
-        placeholder="Enter new character name"
-        value={playerName}
-        onChange={(e) => setPlayerName(e.target.value)}
-        className="w-full bg-gray-700 text-white border-gray-600"
-      />
-      <Button
-        onClick={handleMint}
-        className="w-full bg-blue-600 hover:bg-blue-700"
-      >
-        Mint New Character
-      </Button>
+      ) : (
+        <p>You don't have any characters yet. Create one below!</p>
+      )}
+      <Card className="w-full max-w-md">
+        <CardContent className="space-y-4 pt-6">
+          <Input
+            type="text"
+            placeholder="Enter new character name"
+            value={playerName}
+            onChange={(e) => setPlayerName(e.target.value)}
+            className="w-full"
+          />
+          <Button
+            onClick={handleMint}
+            className="w-full"
+          >
+            Mint New Character
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 };
