@@ -90,7 +90,6 @@ const Actions: React.FC<ActionsProps> = ({
     const filteredMiners = miners.filter(
       (miner) => miner.resource.value === resourceType,
     );
-
     const actionText =
       resourceType === ResourceType.Wood
         ? "Chop wood"
@@ -168,19 +167,6 @@ const Actions: React.FC<ActionsProps> = ({
                 )
                 .toFixed(2)}{" "}
               seconds
-            </p>
-            <p>
-              XP gained:{" "}
-              {localSelectedResource.calculateXp(
-                getLevelFromXp(
-                  resourceType === ResourceType.Wood
-                    ? character.woodProgress
-                    : resourceType === ResourceType.Mineral
-                      ? character.rockProgress
-                      : character.foodProgress,
-                ),
-              )}{" "}
-              XP
             </p>
           </div>
         )}

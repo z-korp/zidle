@@ -19,25 +19,19 @@ export const useResourceCalculations = (
 
     switch (resourceType) {
       case "Wood":
-        xp = selectedResource.calculateXp(
-          getLevelFromXp(character.woodProgress),
-        );
+        xp = selectedResource.baseXp()
         seconds = selectedResource.calculateGatheringDurationPerUnit(
           getLevelFromXp(character.woodProgress),
         );
         break;
       case "Mineral":
-        xp = selectedResource.calculateXp(
-          getLevelFromXp(character.rockProgress),
-        );
+        xp = selectedResource.baseXp();
         seconds = selectedResource.calculateGatheringDurationPerUnit(
           getLevelFromXp(character.rockProgress),
         );
         break;
       case "Food":
-        xp = selectedResource.calculateXp(
-          getLevelFromXp(character.forgeProgress),
-        );
+        xp = selectedResource.baseXp();
         seconds = selectedResource.calculateGatheringDurationPerUnit(
           getLevelFromXp(character.forgeProgress),
         );
