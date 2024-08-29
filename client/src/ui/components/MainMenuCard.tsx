@@ -38,7 +38,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
         setInventory(array);
       }
     }
-  }, [character?.miners]);
+  }, [character, character?.miners]);
 
   useEffect(() => {
     if (character) {
@@ -50,18 +50,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
     if (!character) {
       return <div>No character data available</div>;
     }
-
-    if (showSummary) {
-      return (
-        <ReconnectionSummary
-          data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
-          onContinue={() => {
-            console.log("Continuing from reconnection...");
-            setShowSummary(false);
-          }}
-        />
-      );
-    } else if (isInInventory) {
+    if (isInInventory) {
       return (
         <InventoryDiv
           tokenId={character.token_id}
@@ -117,7 +106,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
           {renderContent()}
         </div>
       </CardContent>
-      {showSummary && (
+      {showSummary && reconnectionData && (
         <ReconnectionSummary
           data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
           onContinue={() => {

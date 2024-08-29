@@ -33,7 +33,6 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
     character,
   );
 
-  console.log("Amound produced", amountProduced);
   const { totalXP } = useResourceCalculations(
     selectedResource,
     character,
