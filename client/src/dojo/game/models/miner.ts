@@ -27,27 +27,13 @@ export class Miner {
     rcs_7: number,
   ): InventoryItem[] {
     const inventory: InventoryItem[] = [];
-    if (rcs_1 > 0) {
       inventory.push({ rcs: Resource.from(resource_type, 1), quantity: rcs_1 });
-    }
-    if (rcs_2 > 0) {
       inventory.push({ rcs: Resource.from(resource_type, 2), quantity: rcs_2 });
-    }
-    if (rcs_3 > 0) {
       inventory.push({ rcs: Resource.from(resource_type, 3), quantity: rcs_3 });
-    }
-    if (rcs_4 > 0) {
       inventory.push({ rcs: Resource.from(resource_type, 4), quantity: rcs_4 });
-    }
-    if (rcs_5 > 0) {
-      inventory.push({ rcs: Resource.from(resource_type, 5), quantity: rcs_5 });
-    }
-    if (rcs_6 > 0) {
+      inventory.push({ rcs: Resource.from(resource_type, 5), quantity: rcs_5 });  
       inventory.push({ rcs: Resource.from(resource_type, 6), quantity: rcs_6 });
-    }
-    if (rcs_7 > 0) {
       inventory.push({ rcs: Resource.from(resource_type, 7), quantity: rcs_7 });
-    }
     return inventory;
   }
 

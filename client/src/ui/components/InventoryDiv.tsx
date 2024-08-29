@@ -46,7 +46,7 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
           </Button>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          {items.map((item, index) => (
+          {items.filter(item => item.quantity > 0).map((item, index) => (
             <div
               key={index}
               className="flex items-center space-x-2 py-1 px-2 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:bg-gray-600"
