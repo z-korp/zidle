@@ -12,13 +12,11 @@ import useAccountCustom from "@/hooks/useAccountCustom";
 import { Account } from "starknet";
 
 interface WorkingDivProps {
-  setIsActing: (value: boolean) => void;
   selectedResource: Resource;
   character: Character;
 }
 
 const WorkingDiv: React.FC<WorkingDivProps> = ({
-  setIsActing,
   selectedResource,
   character,
 }) => {
@@ -47,7 +45,6 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
         account: account as Account,
         rcs_sub_type: selectedResource.into(),
       });
-      setIsActing(false);
     }
   };
 

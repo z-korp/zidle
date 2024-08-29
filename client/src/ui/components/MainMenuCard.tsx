@@ -16,7 +16,6 @@ interface MainMenuCardProps {
 
 const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
   const { character } = useCharacter(tokenId);
-  const [isActing, setIsActing] = useState(false);
   const [isInInventory, setIsInInventory] = useState(false);
 
   const [selectedResource, setSelectedResource] = useState<Resource | null>(
@@ -80,7 +79,6 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
     } else if (selectedResource) {
       return (
         <WorkingDiv
-          setIsActing={setIsActing}
           selectedResource={selectedResource}
           character={character}
         />
@@ -89,7 +87,6 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
       return (
         <Actions
           tokenId={character.token_id}
-          setIsActing={setIsActing}
           setSelectedResource={setSelectedResource}
           miners={character.miners}
         />
