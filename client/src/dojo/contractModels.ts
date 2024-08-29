@@ -27,7 +27,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          id: RecsType.BigInt,
+          token_id: RecsType.BigInt,
           resource_type: RecsType.Number,
           xp: RecsType.Number,
           timestamp: RecsType.Number,

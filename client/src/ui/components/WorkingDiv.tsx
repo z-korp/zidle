@@ -30,14 +30,22 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
 
   const { account } = useAccountCustom();
 
-  const { progress, amountProduced, showSparkle } = useResourceProgress(selectedResource, character);
-  const { totalXP } = useResourceCalculations(selectedResource, character, amountProduced);
+  const { progress, amountProduced, showSparkle } = useResourceProgress(
+    selectedResource,
+    character,
+  );
+  const { totalXP } = useResourceCalculations(
+    selectedResource,
+    character,
+    amountProduced,
+  );
 
   const handleStopAction = async () => {
     if (account && selectedResource) {
-      await harvest({ 
-        account: account as Account, 
-        rcs_sub_type: selectedResource.into()
+      await harvest({
+        token_id: character.token_id,
+        account: account as Account,
+        rcs_sub_type: selectedResource.into(),
       });
       setIsActing(false);
     }
@@ -45,18 +53,24 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
 
   return (
     <div className="space-y-2 border-4 border-grey-600 shadow-lg rounded-xl p-4">
-      <Header handleStopAction={handleStopAction} selectedResource={selectedResource} />
+      <Header
+        handleStopAction={handleStopAction}
+        selectedResource={selectedResource}
+      />
       <ProgressBar progress={progress} showSparkle={showSparkle} />
-      <ResourceInfo 
-        amountProduced={amountProduced} 
-        totalXP={totalXP} 
-        resourceName={selectedResource.getSubresourceName()} 
+      <ResourceInfo
+        amountProduced={amountProduced}
+        totalXP={totalXP}
+        resourceName={selectedResource.getSubresourceName()}
       />
     </div>
   );
 };
 
-const Header: React.FC<{ handleStopAction: () => Promise<void>; selectedResource: Resource }> = ({ handleStopAction, selectedResource }) => (
+const Header: React.FC<{
+  handleStopAction: () => Promise<void>;
+  selectedResource: Resource;
+}> = ({ handleStopAction, selectedResource }) => (
   <div className="flex items-center justify-between">
     <span>{`Chop ${selectedResource.getSubresourceName()}`}</span>
     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -67,9 +81,12 @@ const Header: React.FC<{ handleStopAction: () => Promise<void>; selectedResource
   </div>
 );
 
-const ProgressBar: React.FC<{ progress: number; showSparkle: boolean }> = ({ progress, showSparkle }) => (
+const ProgressBar: React.FC<{ progress: number; showSparkle: boolean }> = ({
+  progress,
+  showSparkle,
+}) => (
   <div className="flex items-center relative">
-    <Progress value={progress}/>
+    <Progress value={progress} />
     <AnimatePresence>
       {showSparkle && (
         <motion.div
@@ -86,7 +103,11 @@ const ProgressBar: React.FC<{ progress: number; showSparkle: boolean }> = ({ pro
   </div>
 );
 
-const ResourceInfo: React.FC<{ amountProduced: number; totalXP: number; resourceName: string }> = ({ amountProduced, totalXP, resourceName }) => (
+const ResourceInfo: React.FC<{
+  amountProduced: number;
+  totalXP: number;
+  resourceName: string;
+}> = ({ amountProduced, totalXP, resourceName }) => (
   <motion.div className="flex flex-col items-center border-4 border-grey-600 shadow-lg rounded-xl p-4">
     <span>{"Claimable:"}</span>
     <AnimatedValue value={amountProduced} label={resourceName} />
@@ -94,7 +115,10 @@ const ResourceInfo: React.FC<{ amountProduced: number; totalXP: number; resource
   </motion.div>
 );
 
-const AnimatedValue: React.FC<{ value: number; label: string }> = ({ value, label }) => (
+const AnimatedValue: React.FC<{ value: number; label: string }> = ({
+  value,
+  label,
+}) => (
   <motion.span
     key={value}
     initial={{ y: -10, opacity: 0 }}

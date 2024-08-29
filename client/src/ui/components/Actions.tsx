@@ -16,12 +16,14 @@ import { useDojo } from "@/dojo/useDojo";
 import { Account } from "starknet";
 
 interface ActionsProps {
+  tokenId: string;
   setIsActing: (value: boolean) => void;
   miners: Miner[];
   setSelectedResource: (value: Resource | null) => void;
 }
 
 const Actions: React.FC<ActionsProps> = ({
+  tokenId,
   setIsActing,
   miners,
   setSelectedResource,
@@ -41,7 +43,7 @@ const Actions: React.FC<ActionsProps> = ({
   } = useDojo();
   const { account } = useAccountCustom();
 
-  const { character } = useCharacter(account?.address);
+  const { character } = useCharacter(tokenId);
 
   const handleSelect = (resourceType: ResourceType, resource: Resource) => {
     setLocalSelections((prev) => ({
@@ -67,8 +69,11 @@ const Actions: React.FC<ActionsProps> = ({
       setIsActing(true);
     }
 
+    if (!character?.token_id) return;
+
     await mine({
       account: account as Account,
+      token_id: tokenId,
       rcs_type: selectedResource?.into() ?? 0,
       rcs_sub_type: selectedResource?.getSubresource().into() ?? 0,
     });

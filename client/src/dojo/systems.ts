@@ -96,27 +96,11 @@ export function systems({
     }
   };
 
-  const create = async ({ account, ...props }: SystemTypes.Create) => {
-    await handleTransaction(
-      account,
-      () => client.account.create({ account, ...props }),
-      "Player has been created.",
-    );
-  };
-
-  const rename = async ({ account, ...props }: SystemTypes.Rename) => {
-    await handleTransaction(
-      account,
-      () => client.account.rename({ account, ...props }),
-      "Player has been renamed.",
-    );
-  };
-
   const mine = async ({ account, ...props }: SystemTypes.Mine) => {
     await handleTransaction(
       account,
       () => client.resources.mine({ account, ...props }),
-      "Miner has been mined.",
+      "Resource start mining.",
     );
   };
 
@@ -124,7 +108,7 @@ export function systems({
     await handleTransaction(
       account,
       () => client.resources.harvest({ account, ...props }),
-      "Miner has been harvested.",
+      "Resource has been harvested.",
     );
   };
 
@@ -148,8 +132,6 @@ export function systems({
   };
 
   return {
-    create,
-    rename,
     mine,
     harvest,
     sell,

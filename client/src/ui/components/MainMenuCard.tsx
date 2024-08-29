@@ -9,19 +9,20 @@ import ReconnectionSummary from "./ReconnectionSummary";
 import { ReconnectionData } from "@/types/types";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
-import useAccountCustom from "@/hooks/useAccountCustom";
 
-const MainMenuCard = () => {
+interface MainMenuCardProps {
+  tokenId: string;
+}
+
+const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
+  const { character } = useCharacter(tokenId);
   const [isActing, setIsActing] = useState(false);
   const [isInInventory, setIsInInventory] = useState(false);
-  const { account } = useAccountCustom();
-  const { character} = useCharacter(account?.address)
+
   const [selectedResource, setSelectedResource] = useState<Resource | null>(
-    character?.miningRessource ?? null
+    character?.miningRessource ?? null,
   );
   const [showSummary, setShowSummary] = useState(true);
-
-
 
   const [reconnectionData, setReconnectionData] =
     useState<ReconnectionData | null>({
@@ -35,26 +36,23 @@ const MainMenuCard = () => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
   useEffect(() => {
-    if(character)
-    {
-    if (character.miners.length > 0) {
-      const array = [
-        ...character.miners[0].inventory,
-        ...character.miners[1].inventory,
-        ...character.miners[2].inventory,
-      ];
-      setInventory(array);
+    if (character) {
+      if (character.miners.length > 0) {
+        const array = [
+          ...character.miners[0].inventory,
+          ...character.miners[1].inventory,
+          ...character.miners[2].inventory,
+        ];
+        setInventory(array);
+      }
     }
-  }
   }, [character?.miners]);
 
   useEffect(() => {
-    if(character)
-    {
-    setSelectedResource(character.miningRessource)
-  }
+    if (character) {
+      setSelectedResource(character.miningRessource);
+    }
   }, [character]);
-
 
   const renderContent = () => {
     if (!character) {
@@ -73,7 +71,11 @@ const MainMenuCard = () => {
       );
     } else if (isInInventory) {
       return (
-        <InventoryDiv items={inventory} setIsInInventory={setIsInInventory} />
+        <InventoryDiv
+          tokenId={character.token_id}
+          items={inventory}
+          setIsInInventory={setIsInInventory}
+        />
       );
     } else if (selectedResource) {
       return (
@@ -81,11 +83,12 @@ const MainMenuCard = () => {
           setIsActing={setIsActing}
           selectedResource={selectedResource}
           character={character}
-           />
+        />
       );
     } else {
       return (
         <Actions
+          tokenId={character.token_id}
           setIsActing={setIsActing}
           setSelectedResource={setSelectedResource}
           miners={character.miners}
@@ -115,14 +118,10 @@ const MainMenuCard = () => {
       <CardContent>
         <div className="space-y-4">
           <StatsAndInventory
+            character={character}
             health={100}
             attack={10}
             critical={5}
-            woodCut={character.woodProgress}
-            rockMine={character.rockProgress}
-            forging={character.foodProgress}
-            playerXp={10}
-            playerGold={character?.gold ? character.gold : 0}
             setIsInInventory={setIsInInventory}
           />
           {renderContent()}

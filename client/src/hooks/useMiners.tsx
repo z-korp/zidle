@@ -24,7 +24,7 @@ export const useMiners = ({ tokenId }: { tokenId: string | undefined }) => {
 
   const minerKeys = useEntityQuery([
     Has(Miner),
-    HasValue(Miner, { id: BigInt(tokenId ? tokenId : -1) }),
+    HasValue(Miner, { token_id: BigInt(tokenId ? tokenId : -1) }),
   ]);
 
   useEffect(() => {

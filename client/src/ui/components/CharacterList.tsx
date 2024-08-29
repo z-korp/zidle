@@ -9,7 +9,7 @@ import { useNFTs } from "@/hooks/useNFTs";
 import NFTCard from "./NFTCard";
 
 interface CharacterListProps {
-  onCharacterSelect: (character: Character) => void;
+  onCharacterSelect: (tokenId: string) => void;
 }
 
 const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
@@ -38,6 +38,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
           <div className="grid grid-cols-2 gap-4">
             {tokenIds.map((tokenId) => (
               <NFTCard
+                key={tokenId}
                 tokenId={tokenId.toString()}
                 onSelect={onCharacterSelect}
               />

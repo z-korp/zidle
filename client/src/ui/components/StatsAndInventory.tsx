@@ -2,15 +2,29 @@ import React, { useState } from "react";
 import { Button } from "../elements/button";
 import LevelIndicator from "./LevelIndicator";
 import AnimatedSprite from "./AnimatedSprite";
-import { useCharacter } from "@/hooks/useCharacter";
+import { Character, useCharacter } from "@/hooks/useCharacter";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { WalletIcon } from "lucide-react";
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/ui/elements/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/ui/elements/dialog";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Input } from "../elements/input";
 import AddressDisplay from "./AddressDisplay";
 
-const StatsAndInventory = ({
+interface StatsAndInventoryProps {
+  character: Character;
+  health: number;
+  attack: number;
+  critical: number;
+  setIsInInventory: (isInInventory: boolean) => void;
+}
+
+const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
+  character,
   health,
   attack,
   critical,
@@ -19,14 +33,12 @@ const StatsAndInventory = ({
   const [currentAnimation, setCurrentAnimation] = useState("idle");
   const [openModal, setOpenModal] = useState(false);
   const { account } = useAccountCustom();
-  const { character } = useCharacter(account?.address);
 
   return (
     <>
       <div className="space-y-1">
-      <AddressDisplay address={account?.address || ''} />
+        <AddressDisplay address={account?.address || ""} />
         <div className="grid grid-cols-3 gap-1 text-sm items-center h-42">
-        
           <div className="space-y-2 flex flex-col">
             <div>Health: {health}</div>
             <div>Attack: {attack}</div>
@@ -59,7 +71,10 @@ const StatsAndInventory = ({
           </div>
         </div>
         <div className="text-sm flex items-center justify-between">
-          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setOpenModal(true)}>
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => setOpenModal(true)}
+          >
             <span className="font-medium">Gold :</span>
             <span>{character?.gold ?? 0}</span>
             <WalletIcon />
@@ -76,20 +91,20 @@ const StatsAndInventory = ({
 
       <Dialog open={openModal} onOpenChange={setOpenModal}>
         <DialogContent>
-          <DialogTitle>Send Gold <span className="text-sm font-normal ml-2">Total golds: {character?.gold ?? 0}</span></DialogTitle>
-          <DialogDescription>
-          </DialogDescription>
+          <DialogTitle>
+            Send Gold{" "}
+            <span className="text-sm font-normal ml-2">
+              Total golds: {character?.gold ?? 0}
+            </span>
+          </DialogTitle>
+          <DialogDescription></DialogDescription>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">
-                Address
-              </Label>
+              <Label className="text-right">Address</Label>
               <Input id="address" className="col-span-3" />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">
-                Amount
-              </Label>
+              <Label className="text-right">Amount</Label>
               <Input id="amount" type="number" className="col-span-3" />
             </div>
           </div>

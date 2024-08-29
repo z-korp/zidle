@@ -18,18 +18,18 @@ export interface Rename extends Signer {
 }
 
 export interface Mine extends Signer {
-  token_id: number;
+  token_id: string;
   rcs_type: number;
   rcs_sub_type: number;
 }
 
 export interface Harvest extends Signer {
-  token_id: number;
+  token_id: string;
   rcs_sub_type: number;
 }
 
 export interface Sell extends Signer {
-  token_id: number;
+  token_id: string;
   rcs_type: number;
   rcs_sub_type: number;
   amount: number;

@@ -2,7 +2,6 @@ import { useDojo } from "@/dojo/useDojo";
 import { useEffect, useState } from "react";
 import { useEntityQuery } from "@dojoengine/react";
 import { getComponentValue, Has, HasValue } from "@dojoengine/recs";
-import useAccountCustom from "./useAccountCustom";
 
 const { VITE_PUBLIC_CHARACTER_TOKEN_ADDRESS } = import.meta.env;
 
