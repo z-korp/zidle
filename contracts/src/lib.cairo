@@ -18,6 +18,7 @@ mod interfaces {
     mod ierc20;
     mod ierc721;
     mod systems;
+    mod account;
 }
 
 mod models {

@@ -21,6 +21,7 @@ mod account {
         nft_contract: ContractAddress,
         token_id: u256,
         nft_owner: ContractAddress,
+        nft_owner_pub_key: felt252,
     }
 
     #[constructor]
@@ -28,11 +29,14 @@ mod account {
         ref self: ContractState,
         nft_contract: ContractAddress,
         token_id: u256,
-        initial_owner: ContractAddress
+        initial_owner: ContractAddress,
+        nft_owner_pub_key: felt252
     ) {
         self.nft_contract.write(nft_contract);
         self.token_id.write(token_id);
         self.nft_owner.write(initial_owner);
+        self.nft_owner_pub_key.write(nft_owner_pub_key);
+        println!("Account contract deployed: pubk={}", nft_owner_pub_key);
     }
 
     #[external(v0)]
@@ -71,7 +75,7 @@ mod account {
         fn __execute__(ref self: ContractState, calls: Array<Call>) -> Array<Span<felt252>> {
             self.only_protocol();
             self.only_supported_tx_version(SUPPORTED_TX_VERSION::INVOKE);
-            self.only_nft_owner();
+            //self.only_nft_owner();
             self.execute_multiple_calls(calls)
         }
 
@@ -135,9 +139,9 @@ mod account {
                 return false;
             }
 
-            let signer = self.nft_owner.read();
+            let pubkey = self.nft_owner_pub_key.read();
 
-            check_ecdsa_signature(hash, signer.into(), *signature.at(0_u32), *signature.at(1_u32))
+            check_ecdsa_signature(hash, pubkey, *signature.at(0_u32), *signature.at(1_u32))
         }
 
         fn validate_transaction(self: @ContractState) -> felt252 {

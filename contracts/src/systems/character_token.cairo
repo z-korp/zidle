@@ -89,6 +89,7 @@ mod character_token {
 
     use zidle::interfaces::systems::{WorldSystemsTrait};
     use zidle::helpers::account_deployer;
+    use zidle::interfaces::account::{iaccount, IAccountDispatcherTrait};
 
     use origami_token::components::security::initializable::initializable_component;
     use origami_token::components::introspection::src5::src5_component;
@@ -251,9 +252,13 @@ mod character_token {
             println!("Minting token_id: {} to: {:?}", token_id, to);
             self.erc721_mintable.mint(to, token_id);
 
+            // Get the owner public key
+            let account = iaccount(to);
+            let pubk = account.get_public_key();
+
             // Deploy an account contract for this NFT
             let account_address = account_deployer::deploy_account(
-                get_contract_address(), token_id, to
+                get_contract_address(), token_id, to, pubk
             );
             println!("Account deployed at: {:?} for token_id: {}", account_address, token_id);
             self.erc721_wallet.set_wallet(token_id, account_address);
