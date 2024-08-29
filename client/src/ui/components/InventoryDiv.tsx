@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Button } from "../elements/button";
-import wood from "/assets/wood2.png";
-import rock from "/assets/rock2.png";
 import {
   Dialog,
   DialogContent,
@@ -12,8 +10,8 @@ import {
 } from "../elements/dialog";
 import { Input } from "../elements/input";
 import { InventoryItem } from "@/dojo/game/models/miner";
-import { ResourceType } from "@/dojo/game/types/resource";
 import { Sell } from "../actions/Sell";
+import { getResourceImage } from "@/utils/resource";
 
 interface InventoryDivProps {
   tokenId: string;
@@ -29,9 +27,7 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [sellQuantity, setSellQuantity] = useState(1);
 
-  const getResourceImage = (type: ResourceType) => {
-    return type === ResourceType.Wood ? wood : rock;
-  };
+  
 
   return (
     <>

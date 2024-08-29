@@ -6,9 +6,9 @@ import WorkingDiv from "./WorkingDiv";
 import InventoryDiv from "./InventoryDiv";
 import { Resource } from "@/dojo/game/types/resource";
 import ReconnectionSummary from "./ReconnectionSummary";
-import { ReconnectionData } from "@/types/types";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
+import { useReconnectionData } from "@/hooks/useReconnectionData";
 
 interface MainMenuCardProps {
   tokenId: string;
@@ -23,14 +23,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({ tokenId }) => {
   );
   const [showSummary, setShowSummary] = useState(true);
 
-  const [reconnectionData, setReconnectionData] =
-    useState<ReconnectionData | null>({
-      timePassed: "10 minutes",
-      resourcesGained: [
-        { name: "resource1", quantity: 10 },
-        { name: "resource2", quantity: 20 },
-      ],
-    });
+  const reconnectionData = useReconnectionData(tokenId);
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 

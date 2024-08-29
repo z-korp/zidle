@@ -1,8 +1,7 @@
-// hooks/useResourceProgress.ts
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Resource } from "@/dojo/game/types/resource";
-import { getLevelFromXp } from "@/utils/level";
 import { Character } from "./useCharacter";
+import { calculateResourceGain } from "@/utils/resource";
 
 export const useResourceProgress = (
   selectedResource: Resource,
@@ -10,35 +9,33 @@ export const useResourceProgress = (
 ) => {
   const [progress, setProgress] = useState(0);
   const [amountProduced, setAmountProduced] = useState(0);
+  const [totalXP, setTotalXP] = useState(0);
   const [showSparkle, setShowSparkle] = useState(false);
-  const startTimeRef = useRef(Date.now());
   const animationFrameRef = useRef<number>();
 
   useEffect(() => {
-    const secondsPerResource = calculateSecondsPerResource(
-      selectedResource,
-      character,
-    );
-
     const updateProgress = () => {
-      const currentTime = Date.now();
-      const elapsedTime = (currentTime - startTimeRef.current) / 1000;
+      const currentMiner = character.miners.find(miner => miner.timestamp !== 0);
+      if (currentMiner?.resource) {
+      const { progress: newProgress, resourcesGained: newAmountProduced, totalXP: newTotalXP } = calculateResourceGain(
+        selectedResource,
+        character,
+        character.startTimestamp
+      );
+    
 
-      const newProgress =
-        ((elapsedTime % secondsPerResource) / secondsPerResource) * 100;
-      const newAmountProduced = Math.floor(elapsedTime / secondsPerResource);
+      setProgress(newProgress);
+      setAmountProduced(newAmountProduced);
+      setTotalXP(newTotalXP);
 
-      if (newProgress >= 100) {
-        setProgress(0);
+      if (newProgress >= 99) {
         setShowSparkle(true);
         setTimeout(() => setShowSparkle(false), 1000);
-      } else {
-        setProgress(newProgress);
+        setProgress(0);
       }
 
-      setAmountProduced(newAmountProduced);
-
       animationFrameRef.current = requestAnimationFrame(updateProgress);
+    }
     };
 
     animationFrameRef.current = requestAnimationFrame(updateProgress);
@@ -50,28 +47,5 @@ export const useResourceProgress = (
     };
   }, [selectedResource, character]);
 
-  return { progress, amountProduced, showSparkle };
+  return { progress, amountProduced, totalXP, showSparkle };
 };
-
-function calculateSecondsPerResource(
-  selectedResource: Resource,
-  character: Character,
-): number {
-  const resourceType = selectedResource.getName();
-  switch (resourceType) {
-    case "Wood":
-      return selectedResource.calculateGatheringDurationPerUnit(
-        getLevelFromXp(character.woodProgress),
-      );
-    case "Mineral":
-      return selectedResource.calculateGatheringDurationPerUnit(
-        getLevelFromXp(character.rockProgress),
-      );
-    case "Food":
-      return selectedResource.calculateGatheringDurationPerUnit(
-        getLevelFromXp(character.forgeProgress),
-      );
-    default:
-      return 1;
-  }
-}
