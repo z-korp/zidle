@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../elements/button";
 import LevelIndicator from "./LevelIndicator";
-import AnimatedSprite from "./AnimatedSprite";
+import AnimatedSprite, { AnimationType, MobType } from "./AnimatedSprite";
 import { Character, useCharacter } from "@/hooks/useCharacter";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { WalletIcon } from "lucide-react";
@@ -30,7 +30,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
   critical,
   setIsInInventory,
 }) => {
-  const [currentAnimation, setCurrentAnimation] = useState("idle");
+  const [currentAnimation, setCurrentAnimation] = useState(AnimationType.Idle);
   const [openModal, setOpenModal] = useState(false);
   const { account } = useAccountCustom();
 
@@ -52,6 +52,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
                 scale={1}
                 fps={10}
                 currentAnimation={currentAnimation}
+                mobType={MobType.Knight}
               />
             </div>
           </div>
