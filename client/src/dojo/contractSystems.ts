@@ -1,6 +1,7 @@
 import { DojoProvider } from "@dojoengine/core";
 import { Config } from "../../dojo.config.ts";
 import { Account, UniversalDetails, shortString } from "starknet";
+import { x } from "@starknet-react/core/dist/index-79NvzQC9";
 
 const NAMESPACE = "zidle";
 
@@ -42,16 +43,8 @@ export interface Start extends Signer {
   beta: bigint;
 }
 
-export interface Move extends Signer {
-  row_index: number;
-  start_index: number;
-  final_index: number;
-}
-
-export interface Bonus extends Signer {
-  bonus: number;
-  row_index: number;
-  block_index: number;
+export interface CreateCharacter extends Signer {
+  name: string;
 }
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
@@ -195,8 +188,45 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
     };
   }
 
+  function character() {
+    const contract_name = "character";
+
+    const contract = config.manifest.contracts.find((c: any) =>
+      c.tag.includes(contract_name),
+    );
+    if (!contract) {
+      throw new Error(`Contract ${contract_name} not found in manifest`);
+    }
+
+    const create = async ({ account, name }: CreateCharacter) => {
+      console.log("account", account);
+      console.log("name", name);
+      console.log("contract_name", contract_name);
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: contract_name,
+            entrypoint: "create",
+            calldata: [name],
+          },
+          NAMESPACE,
+          details,
+        );
+      } catch (error) {
+        console.error("Error executing create:", error);
+        throw error;
+      }
+    };
+
+    return {
+      create,
+    };
+  }
+
   return {
     account: account(),
     resources: resources(),
+    character: character(),
   };
 }

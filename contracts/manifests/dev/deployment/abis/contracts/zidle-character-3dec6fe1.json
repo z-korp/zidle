@@ -129,11 +129,11 @@
   {
     "type": "impl",
     "name": "IDojoInitImpl",
-    "interface_name": "zidle::systems::resources::resources::IDojoInit"
+    "interface_name": "zidle::systems::character::character::IDojoInit"
   },
   {
     "type": "interface",
-    "name": "zidle::systems::resources::resources::IDojoInit",
+    "name": "zidle::systems::character::character::IDojoInit",
     "items": [
       {
         "type": "function",
@@ -146,68 +146,20 @@
   },
   {
     "type": "impl",
-    "name": "ResourcesImpl",
-    "interface_name": "zidle::systems::resources::IResources"
+    "name": "CharacterImpl",
+    "interface_name": "zidle::systems::character::ICharacter"
   },
   {
     "type": "interface",
-    "name": "zidle::systems::resources::IResources",
+    "name": "zidle::systems::character::ICharacter",
     "items": [
       {
         "type": "function",
-        "name": "mine",
+        "name": "create",
         "inputs": [
           {
-            "name": "token_id",
-            "type": "core::integer::u128"
-          },
-          {
-            "name": "rcs_type",
-            "type": "core::integer::u8"
-          },
-          {
-            "name": "rcs_sub_type",
-            "type": "core::integer::u8"
-          }
-        ],
-        "outputs": [],
-        "state_mutability": "external"
-      },
-      {
-        "type": "function",
-        "name": "harvest",
-        "inputs": [
-          {
-            "name": "token_id",
-            "type": "core::integer::u128"
-          },
-          {
-            "name": "rcs_type",
-            "type": "core::integer::u8"
-          }
-        ],
-        "outputs": [],
-        "state_mutability": "external"
-      },
-      {
-        "type": "function",
-        "name": "sell",
-        "inputs": [
-          {
-            "name": "token_id",
-            "type": "core::integer::u128"
-          },
-          {
-            "name": "rcs_type",
-            "type": "core::integer::u8"
-          },
-          {
-            "name": "rcs_sub_type",
-            "type": "core::integer::u8"
-          },
-          {
-            "name": "amount",
-            "type": "core::integer::u64"
+            "name": "name",
+            "type": "core::felt252"
           }
         ],
         "outputs": [],
@@ -270,7 +222,7 @@
   },
   {
     "type": "event",
-    "name": "zidle::systems::resources::resources::Event",
+    "name": "zidle::systems::character::character::Event",
     "kind": "enum",
     "variants": [
       {

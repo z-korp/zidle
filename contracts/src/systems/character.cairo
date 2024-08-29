@@ -81,10 +81,6 @@ mod character {
                 index += 1;
                 store.set_miner(miner);
             };
-
-            // [Effect] Create a Char model in store
-            let char = Char { caller.into(), token_id, name };
-            store.set_character(char);
         }
     }
 }

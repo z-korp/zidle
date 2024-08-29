@@ -3,7 +3,7 @@ writes = [
   "origami_token-SRC5Model",
   "origami_token-InitializableModel",
   "origami_token-ERC721OwnerModel",
-  "origami_token-ERC721BalanceWalletModel",
+  "origami_token-ERC721BalanceModel",
   "origami_token-ERC721MetaModel",
   "origami_token-ERC721EnumerableIndexModel",
   "origami_token-ERC721EnumerableOwnerIndexModel",
@@ -12,5 +12,6 @@ writes = [
   "origami_token-ERC721EnumerableTotalModel",
   "origami_token-ERC721TokenApprovalModel",
   "origami_token-ERC721OperatorApprovalModel",
+  "zidle-ERC721WalletModel"
 ]
 init_calldata = []

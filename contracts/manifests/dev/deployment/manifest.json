@@ -1251,8 +1251,8 @@
     {
       "kind": "DojoContract",
       "address": "0x4482655baa24985ced4c17b3cad937d609b921c496918f42d97da74692967b",
-      "class_hash": "0xf1eddbdaec886d494a0dcc2558f5e2494fbcb64c2f10da6207e92bc4e63d17",
-      "original_class_hash": "0xf1eddbdaec886d494a0dcc2558f5e2494fbcb64c2f10da6207e92bc4e63d17",
+      "class_hash": "0x12a3cd7523edc0e698c1e649fa9e5ddda257688f97bffe058497056a40dc058",
+      "original_class_hash": "0x12a3cd7523edc0e698c1e649fa9e5ddda257688f97bffe058497056a40dc058",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1531,6 +1531,263 @@
         "rename"
       ],
       "manifest_name": "zidle-account-60aa04fd"
+    },
+    {
+      "kind": "DojoContract",
+      "address": "0x3c32550e6516325c80378d3bc8c87b908230c439a6d23a17aab703119bbd663",
+      "class_hash": "0x55a15138eac96c6261e837437e740fa1f45886d862aad9da136842e8ef566e7",
+      "original_class_hash": "0x55a15138eac96c6261e837437e740fa1f45886d862aad9da136842e8ef566e7",
+      "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "ContractImpl",
+          "interface_name": "dojo::contract::contract::IContract"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::contract::IContract",
+          "items": [
+            {
+              "type": "function",
+              "name": "contract_name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "tag",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "WorldProviderImpl",
+          "interface_name": "dojo::world::world_contract::IWorldProvider"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::world_contract::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::world::world_contract::IWorldProvider",
+          "items": [
+            {
+              "type": "function",
+              "name": "world",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::world::world_contract::IWorldDispatcher"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "IDojoInitImpl",
+          "interface_name": "zidle::systems::character::character::IDojoInit"
+        },
+        {
+          "type": "interface",
+          "name": "zidle::systems::character::character::IDojoInit",
+          "items": [
+            {
+              "type": "function",
+              "name": "dojo_init",
+              "inputs": [],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "CharacterImpl",
+          "interface_name": "zidle::systems::character::ICharacter"
+        },
+        {
+          "type": "interface",
+          "name": "zidle::systems::character::ICharacter",
+          "items": [
+            {
+              "type": "function",
+              "name": "create",
+              "inputs": [
+                {
+                  "name": "name",
+                  "type": "core::felt252"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "UpgradableImpl",
+          "interface_name": "dojo::contract::upgradeable::IUpgradeable"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::upgradeable::IUpgradeable",
+          "items": [
+            {
+              "type": "function",
+              "name": "upgrade",
+              "inputs": [
+                {
+                  "name": "new_class_hash",
+                  "type": "core::starknet::class_hash::ClassHash"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::upgradeable::upgradeable::Upgraded",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "class_hash",
+              "type": "core::starknet::class_hash::ClassHash",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::upgradeable::upgradeable::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "Upgraded",
+              "type": "dojo::contract::upgradeable::upgradeable::Upgraded",
+              "kind": "nested"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "zidle::components::emitter::EmitterComponent::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "zidle::systems::character::character::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "UpgradeableEvent",
+              "type": "dojo::contract::upgradeable::upgradeable::Event",
+              "kind": "nested"
+            },
+            {
+              "name": "EmitterEvent",
+              "type": "zidle::components::emitter::EmitterComponent::Event",
+              "kind": "flat"
+            }
+          ]
+        }
+      ],
+      "reads": [],
+      "writes": [
+        "zidle-Miner"
+      ],
+      "init_calldata": [],
+      "tag": "zidle-character",
+      "systems": [
+        "create"
+      ],
+      "manifest_name": "zidle-character-3dec6fe1"
     },
     {
       "kind": "DojoContract",
@@ -1877,8 +2134,8 @@
     {
       "kind": "DojoContract",
       "address": "0x5a1e560754f03e7c654e1b4882f79a05a6870f5546d826135f757fd7c1ea32d",
-      "class_hash": "0x66a312c2b90a81692a5357a5cbf3f0dfbb6df43fda7ef3cfa690658c6e2b430",
-      "original_class_hash": "0x66a312c2b90a81692a5357a5cbf3f0dfbb6df43fda7ef3cfa690658c6e2b430",
+      "class_hash": "0x1aa0129f01e73e7a9fd4618635cb67cf153d3561700ec9370581af28f7702fd",
+      "original_class_hash": "0x1aa0129f01e73e7a9fd4618635cb67cf153d3561700ec9370581af28f7702fd",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2711,6 +2968,33 @@
           ]
         },
         {
+          "type": "impl",
+          "name": "ERC721WalletImpl",
+          "interface_name": "zidle::components::erc721::erc721_wallet::IERC721Wallet"
+        },
+        {
+          "type": "interface",
+          "name": "zidle::components::erc721::erc721_wallet::IERC721Wallet",
+          "items": [
+            {
+              "type": "function",
+              "name": "wallet_of",
+              "inputs": [
+                {
+                  "name": "token_id",
+                  "type": "core::integer::u256"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
           "type": "event",
           "name": "dojo::contract::upgradeable::upgradeable::Upgraded",
           "kind": "struct",
@@ -2873,6 +3157,12 @@
         },
         {
           "type": "event",
+          "name": "zidle::components::erc721::erc721_wallet::erc721_wallet_component::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
           "name": "zidle::systems::character_token::character_token::Event",
           "kind": "enum",
           "variants": [
@@ -2925,6 +3215,11 @@
               "name": "ERC721OwnerEvent",
               "type": "origami_token::components::token::erc721::erc721_owner::erc721_owner_component::Event",
               "kind": "flat"
+            },
+            {
+              "name": "ERC721WalletEvent",
+              "type": "zidle::components::erc721::erc721_wallet::erc721_wallet_component::Event",
+              "kind": "flat"
             }
           ]
         }
@@ -2942,7 +3237,8 @@
         "origami_token-ERC721EnumerableTokenModel",
         "origami_token-ERC721EnumerableTotalModel",
         "origami_token-ERC721TokenApprovalModel",
-        "origami_token-ERC721OperatorApprovalModel"
+        "origami_token-ERC721OperatorApprovalModel",
+        "zidle-ERC721WalletModel"
       ],
       "init_calldata": [],
       "tag": "zidle-character_token",
@@ -3980,8 +4276,8 @@
     {
       "kind": "DojoContract",
       "address": "0x56e0f2455f917a62998a79bdd9b470198b0a4a670ea68a0e231517c80fe2dfa",
-      "class_hash": "0x23a207612584e8741e50233511b4c539f1bb61ccbb0c5ab0523d4e806407d06",
-      "original_class_hash": "0x23a207612584e8741e50233511b4c539f1bb61ccbb0c5ab0523d4e806407d06",
+      "class_hash": "0x3cf9b6e14facee1a99267e79363abab8cbc274142d47eed4054dded68061569",
+      "original_class_hash": "0x3cf9b6e14facee1a99267e79363abab8cbc274142d47eed4054dded68061569",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -4143,6 +4439,10 @@
               "name": "mine",
               "inputs": [
                 {
+                  "name": "token_id",
+                  "type": "core::integer::u128"
+                },
+                {
                   "name": "rcs_type",
                   "type": "core::integer::u8"
                 },
@@ -4159,6 +4459,10 @@
               "name": "harvest",
               "inputs": [
                 {
+                  "name": "token_id",
+                  "type": "core::integer::u128"
+                },
+                {
                   "name": "rcs_type",
                   "type": "core::integer::u8"
                 }
@@ -4170,6 +4474,10 @@
               "type": "function",
               "name": "sell",
               "inputs": [
+                {
+                  "name": "token_id",
+                  "type": "core::integer::u128"
+                },
                 {
                   "name": "rcs_type",
                   "type": "core::integer::u8"
@@ -10950,6 +11258,11 @@
       "kind": "DojoModel",
       "members": [
         {
+          "name": "id",
+          "type": "felt252",
+          "key": true
+        },
+        {
           "name": "token_id",
           "type": "u128",
           "key": true
@@ -10960,8 +11273,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x7cf3722e0f0725453210c412eaf348e60eae1890ecb5b340b2a88cb6d8cc447",
-      "original_class_hash": "0x7cf3722e0f0725453210c412eaf348e60eae1890ecb5b340b2a88cb6d8cc447",
+      "class_hash": "0x4d7c7f6b335266ad573aff1edf01f7b2f1aff312a39d0bebc011f3b2ca92485",
+      "original_class_hash": "0x4d7c7f6b335266ad573aff1edf01f7b2f1aff312a39d0bebc011f3b2ca92485",
       "abi": [
         {
           "type": "impl",
@@ -11335,6 +11648,10 @@
           "name": "zidle::models::char::Char",
           "members": [
             {
+              "name": "id",
+              "type": "core::felt252"
+            },
+            {
               "name": "token_id",
               "type": "core::integer::u128"
             },
@@ -11377,8 +11694,444 @@
       "kind": "DojoModel",
       "members": [
         {
-          "name": "id",
-          "type": "felt252",
+          "name": "token",
+          "type": "ContractAddress",
+          "key": true
+        },
+        {
+          "name": "token_id",
+          "type": "u128",
+          "key": true
+        },
+        {
+          "name": "address",
+          "type": "ContractAddress",
+          "key": false
+        }
+      ],
+      "class_hash": "0x7e8fbb75820a4a4221d28e797e79663a27a9a6121ed4ea82cc64b3337864a27",
+      "original_class_hash": "0x7e8fbb75820a4a4221d28e797e79663a27a9a6121ed4ea82cc64b3337864a27",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "DojoModelImpl",
+          "interface_name": "dojo::model::model::IModel"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::option::Option::<core::integer::u32>",
+          "variants": [
+            {
+              "name": "Some",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "None",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u8>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u8>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::layout::FieldLayout",
+          "members": [
+            {
+              "name": "selector",
+              "type": "core::felt252"
+            },
+            {
+              "name": "layout",
+              "type": "dojo::model::layout::Layout"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::FieldLayout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::Layout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::Layout>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::layout::Layout",
+          "variants": [
+            {
+              "name": "Fixed",
+              "type": "core::array::Span::<core::integer::u8>"
+            },
+            {
+              "name": "Struct",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            },
+            {
+              "name": "Enum",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Member",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "ty",
+              "type": "dojo::model::introspect::Ty"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Member>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Struct",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Enum",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Ty>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Ty>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::introspect::Ty",
+          "variants": [
+            {
+              "name": "Primitive",
+              "type": "core::felt252"
+            },
+            {
+              "name": "Struct",
+              "type": "dojo::model::introspect::Struct"
+            },
+            {
+              "name": "Enum",
+              "type": "dojo::model::introspect::Enum"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::model::model::IModel",
+          "items": [
+            {
+              "type": "function",
+              "name": "name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "tag",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "version",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::integer::u8"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "unpacked_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "packed_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "layout",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::layout::Layout"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "schema",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::introspect::Ty"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "erc_721_wallet_modelImpl",
+          "interface_name": "zidle::components::erc721::erc721_wallet::Ierc_721_wallet_model"
+        },
+        {
+          "type": "struct",
+          "name": "zidle::components::erc721::erc721_wallet::ERC721WalletModel",
+          "members": [
+            {
+              "name": "token",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "token_id",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "zidle::components::erc721::erc721_wallet::Ierc_721_wallet_model",
+          "items": [
+            {
+              "type": "function",
+              "name": "ensure_abi",
+              "inputs": [
+                {
+                  "name": "model",
+                  "type": "zidle::components::erc721::erc721_wallet::ERC721WalletModel"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "zidle::components::erc721::erc721_wallet::erc_721_wallet_model::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ],
+      "tag": "zidle-ERC721WalletModel",
+      "qualified_path": "zidle::components::erc721::erc721_wallet::erc_721_wallet_model",
+      "manifest_name": "zidle-ERC721WalletModel-1250d651"
+    },
+    {
+      "kind": "DojoModel",
+      "members": [
+        {
+          "name": "token_id",
+          "type": "u128",
           "key": true
         },
         {
@@ -11437,8 +12190,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x403ab93abdcb4dbfa62dba85f774cccb1046a4ecd41ad50ab3b0eacadfc2340",
-      "original_class_hash": "0x403ab93abdcb4dbfa62dba85f774cccb1046a4ecd41ad50ab3b0eacadfc2340",
+      "class_hash": "0x60f8ef7db75eb9a1d553fb64f348c7b109021c6ca19757b91aa62c093a3eab0",
+      "original_class_hash": "0x60f8ef7db75eb9a1d553fb64f348c7b109021c6ca19757b91aa62c093a3eab0",
       "abi": [
         {
           "type": "impl",
@@ -11812,8 +12565,8 @@
           "name": "zidle::models::miner::Miner",
           "members": [
             {
-              "name": "id",
-              "type": "core::felt252"
+              "name": "token_id",
+              "type": "core::integer::u128"
             },
             {
               "name": "resource_type",

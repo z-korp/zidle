@@ -248,12 +248,14 @@ mod character_token {
                 self.world().is_character_minter_contract(get_caller_address()),
                 Errors::CALLER_IS_NOT_MINTER
             );
+            println!("Minting token_id: {} to: {:?}", token_id, to);
             self.erc721_mintable.mint(to, token_id);
 
             // Deploy an account contract for this NFT
             let account_address = account_deployer::deploy_account(
                 get_contract_address(), token_id, to
             );
+            println!("Account deployed at: {:?} for token_id: {}", account_address, token_id);
             self.erc721_wallet.set_wallet(token_id, account_address);
         }
 

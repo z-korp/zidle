@@ -136,11 +136,23 @@ export function systems({
     );
   };
 
+  const createCharacter = async ({
+    account,
+    ...props
+  }: SystemTypes.CreateCharacter) => {
+    await handleTransaction(
+      account,
+      () => client.character.create({ account, ...props }),
+      "Character has been created.",
+    );
+  };
+
   return {
     create,
     rename,
     mine,
     harvest,
     sell,
+    createCharacter,
   };
 }

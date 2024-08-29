@@ -363,66 +363,30 @@
   },
   {
     "type": "impl",
-    "name": "minerImpl",
-    "interface_name": "zidle::models::miner::Iminer"
+    "name": "erc_721_wallet_modelImpl",
+    "interface_name": "zidle::components::erc721::erc721_wallet::Ierc_721_wallet_model"
   },
   {
     "type": "struct",
-    "name": "zidle::models::miner::Miner",
+    "name": "zidle::components::erc721::erc721_wallet::ERC721WalletModel",
     "members": [
+      {
+        "name": "token",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
       {
         "name": "token_id",
         "type": "core::integer::u128"
       },
       {
-        "name": "resource_type",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "xp",
-        "type": "core::integer::u64"
-      },
-      {
-        "name": "timestamp",
-        "type": "core::integer::u64"
-      },
-      {
-        "name": "subresource_type",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "rcs_1",
-        "type": "core::integer::u64"
-      },
-      {
-        "name": "rcs_2",
-        "type": "core::integer::u64"
-      },
-      {
-        "name": "rcs_3",
-        "type": "core::integer::u64"
-      },
-      {
-        "name": "rcs_4",
-        "type": "core::integer::u64"
-      },
-      {
-        "name": "rcs_5",
-        "type": "core::integer::u64"
-      },
-      {
-        "name": "rcs_6",
-        "type": "core::integer::u64"
-      },
-      {
-        "name": "rcs_7",
-        "type": "core::integer::u64"
+        "name": "address",
+        "type": "core::starknet::contract_address::ContractAddress"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "zidle::models::miner::Iminer",
+    "name": "zidle::components::erc721::erc721_wallet::Ierc_721_wallet_model",
     "items": [
       {
         "type": "function",
@@ -430,7 +394,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "zidle::models::miner::Miner"
+            "type": "zidle::components::erc721::erc721_wallet::ERC721WalletModel"
           }
         ],
         "outputs": [],
@@ -440,7 +404,7 @@
   },
   {
     "type": "event",
-    "name": "zidle::models::miner::miner::Event",
+    "name": "zidle::components::erc721::erc721_wallet::erc_721_wallet_model::Event",
     "kind": "enum",
     "variants": []
   }

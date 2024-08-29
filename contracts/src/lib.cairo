@@ -38,6 +38,7 @@ mod systems {
     mod account;
     mod character_minter;
     mod character_token;
+    mod character;
     mod gold_minter;
     mod gold_token;
     mod resources;
