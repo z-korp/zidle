@@ -1,5 +1,4 @@
 import React from "react";
-import { Sparkles } from "lucide-react";
 import { Button } from "../elements/button";
 import { Progress } from "../elements/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,15 +9,14 @@ import { Character } from "@/hooks/useCharacter";
 import { useDojo } from "@/dojo/useDojo";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { Account } from "starknet";
+import { getResourceImage } from "@/utils/resource";
 
 interface WorkingDivProps {
-  setIsActing: (value: boolean) => void;
   selectedResource: Resource;
   character: Character;
 }
 
 const WorkingDiv: React.FC<WorkingDivProps> = ({
-  setIsActing,
   selectedResource,
   character,
 }) => {
@@ -34,6 +32,7 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
     selectedResource,
     character,
   );
+
   const { totalXP } = useResourceCalculations(
     selectedResource,
     character,
@@ -47,7 +46,6 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
         account: account as Account,
         rcs_sub_type: selectedResource.into(),
       });
-      setIsActing(false);
     }
   };
 
@@ -57,7 +55,7 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
         handleStopAction={handleStopAction}
         selectedResource={selectedResource}
       />
-      <ProgressBar progress={progress} showSparkle={showSparkle} />
+      <ProgressBar progress={progress} showSparkle={showSparkle} selectedResource={selectedResource}/>
       <ResourceInfo
         amountProduced={amountProduced}
         totalXP={totalXP}
@@ -81,11 +79,12 @@ const Header: React.FC<{
   </div>
 );
 
-const ProgressBar: React.FC<{ progress: number; showSparkle: boolean }> = ({
+const ProgressBar: React.FC<{ progress: number; showSparkle: boolean , selectedResource: Resource}> = ({
   progress,
   showSparkle,
-}) => (
-  <div className="flex items-center relative">
+  selectedResource,
+}) => {
+  return(<div className="flex items-center relative">
     <Progress value={progress} />
     <AnimatePresence>
       {showSparkle && (
@@ -96,12 +95,12 @@ const ProgressBar: React.FC<{ progress: number; showSparkle: boolean }> = ({
           transition={{ duration: 0.3 }}
           className="absolute right-0 top-0"
         >
-          <Sparkles className="text-yellow-400" />
+          <img src={getResourceImage(selectedResource.value)} />
         </motion.div>
       )}
     </AnimatePresence>
-  </div>
-);
+  </div>)
+}
 
 const ResourceInfo: React.FC<{
   amountProduced: number;

@@ -1,8 +1,8 @@
 // hooks/useResourceCalculations.ts
 import { useState, useEffect } from "react";
 import { Resource } from "@/dojo/game/types/resource";
-import { Character } from "@/types/types";
 import { getLevelFromXp } from "@/utils/level";
+import { Character } from "./useCharacter";
 
 export const useResourceCalculations = (
   selectedResource: Resource,
@@ -33,7 +33,7 @@ export const useResourceCalculations = (
       case "Food":
         xp = selectedResource.baseXp();
         seconds = selectedResource.calculateGatheringDurationPerUnit(
-          getLevelFromXp(character.forgeProgress),
+          getLevelFromXp(character.foodProgress),
         );
         break;
     }

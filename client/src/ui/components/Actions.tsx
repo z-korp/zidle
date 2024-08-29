@@ -17,14 +17,12 @@ import { Account } from "starknet";
 
 interface ActionsProps {
   tokenId: string;
-  setIsActing: (value: boolean) => void;
   miners: Miner[];
   setSelectedResource: (value: Resource | null) => void;
 }
 
 const Actions: React.FC<ActionsProps> = ({
   tokenId,
-  setIsActing,
   miners,
   setSelectedResource,
 }) => {
@@ -66,7 +64,6 @@ const Actions: React.FC<ActionsProps> = ({
     const selectedResource = localSelections[resourceType];
     if (selectedResource) {
       setSelectedResource(selectedResource);
-      setIsActing(true);
     }
 
     if (!character?.token_id) return;

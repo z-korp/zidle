@@ -6,11 +6,11 @@ import WorkingDiv from "./WorkingDiv";
 import InventoryDiv from "./InventoryDiv";
 import { Resource } from "@/dojo/game/types/resource";
 import ReconnectionSummary from "./ReconnectionSummary";
-import { ReconnectionData } from "@/types/types";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "../elements/button";
+import { useReconnectionData } from "@/hooks/useReconnectionData";
 
 interface MainMenuCardProps {
   tokenId: string;
@@ -22,7 +22,6 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   resetSelectedNft,
 }) => {
   const { character } = useCharacter(tokenId);
-  const [isActing, setIsActing] = useState(false);
   const [isInInventory, setIsInInventory] = useState(false);
 
   const [selectedResource, setSelectedResource] = useState<Resource | null>(
@@ -30,14 +29,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   );
   const [showSummary, setShowSummary] = useState(true);
 
-  const [reconnectionData, setReconnectionData] =
-    useState<ReconnectionData | null>({
-      timePassed: "10 minutes",
-      resourcesGained: [
-        { name: "resource1", quantity: 10 },
-        { name: "resource2", quantity: 20 },
-      ],
-    });
+  const reconnectionData = useReconnectionData(tokenId);
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
@@ -52,7 +44,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
         setInventory(array);
       }
     }
-  }, [character?.miners]);
+  }, [character, character?.miners]);
 
   useEffect(() => {
     if (character) {
@@ -64,18 +56,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
     if (!character) {
       return <div>No character data available</div>;
     }
-
-    if (showSummary) {
-      return (
-        <ReconnectionSummary
-          data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
-          onContinue={() => {
-            console.log("Continuing from reconnection...");
-            setShowSummary(false);
-          }}
-        />
-      );
-    } else if (isInInventory) {
+    if (isInInventory) {
       return (
         <InventoryDiv
           tokenId={character.token_id}
@@ -85,17 +66,12 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
       );
     } else if (selectedResource) {
       return (
-        <WorkingDiv
-          setIsActing={setIsActing}
-          selectedResource={selectedResource}
-          character={character}
-        />
+        <WorkingDiv selectedResource={selectedResource} character={character} />
       );
     } else {
       return (
         <Actions
           tokenId={character.token_id}
-          setIsActing={setIsActing}
           setSelectedResource={setSelectedResource}
           miners={character.miners}
         />
@@ -134,7 +110,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
               {renderContent()}
             </div>
           </CardContent>
-          {showSummary && (
+          {showSummary && reconnectionData && (
             <ReconnectionSummary
               data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
               onContinue={() => {

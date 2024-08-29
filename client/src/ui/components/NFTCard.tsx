@@ -1,5 +1,5 @@
 import { useCharacter } from "@/hooks/useCharacter";
-import AnimatedSprite from "./AnimatedSprite";
+import AnimatedSprite, { AnimationType, MobType } from "./AnimatedSprite";
 import {
   Card,
   CardHeader,
@@ -31,7 +31,8 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, onSelect }) => {
           height={192}
           scale={1}
           fps={10}
-          currentAnimation="idle"
+          currentAnimation={AnimationType.Idle}
+          mobType={MobType.Knight}
         />
       </CardContent>
       <CardFooter className="flex justify-between">
