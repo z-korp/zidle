@@ -88,27 +88,6 @@ export class Food {
     }
   }
 
-  public hardness(): number {
-    switch (this.value) {
-      case FoodType.Berries:
-        return 10;
-      case FoodType.Wheat:
-        return 15;
-      case FoodType.Vegetables:
-        return 20;
-      case FoodType.Fruits:
-        return 25;
-      case FoodType.Herbs:
-        return 30;
-      case FoodType.Mushrooms:
-        return 35;
-      case FoodType.Ambrosia:
-        return 40;
-      default:
-        return 0;
-    }
-  }
-
   public baseXp(): number {
     switch (this.value) {
       case FoodType.Berries:
@@ -130,17 +109,38 @@ export class Food {
     }
   }
 
+  public baseTime(): number {
+    switch (this.value) {
+      case FoodType.None:
+        return 0;
+      case FoodType.Berries:
+        return 2000;
+      case FoodType.Wheat:
+        return 3000;
+      case FoodType.Vegetables:
+        return 4000;
+      case FoodType.Fruits:
+        return 5000;
+      case FoodType.Herbs:
+        return 6000;
+      case FoodType.Mushrooms:
+        return 10000;
+      case FoodType.Ambrosia:
+        return 15000;
+      default:
+        return 0;
+    }
+  }
+
   public calculateXp(playerLevel: number): number {
     const base = this.baseXp();
     const levelBonus = (playerLevel - this.minLevel()) * 2;
     return base + levelBonus;
   }
 
-  public calculateGatheringSpeed(playerLevel: number): number {
-    const baseSpeed = 100; // Base speed of 1 unit per minute, scaled by 100 for precision
-    const levelBonus = playerLevel * 2; // 2% increase per level
-    const hardnessFactor = this.hardness();
-
-    return Math.floor((baseSpeed + levelBonus) / hardnessFactor);
+  public calculateGatheringDurationPerUnit(playerLevel: number): number {
+    const levelBonus = playerLevel * 5; // 0.5% per level, multiplied by 10 for precision
+    const timeReduction = (this.baseTime() * levelBonus) / 1000; // Divide by 1000 to apply percentage
+    return this.baseTime() - timeReduction;
   }
 }

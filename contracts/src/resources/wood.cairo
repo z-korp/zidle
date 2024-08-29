@@ -14,10 +14,10 @@ trait WoodTrait {
     fn unit_price(self: WoodType) -> u64;
     fn min_level(self: WoodType) -> u8;
     fn max_level(self: WoodType) -> u8;
-    fn hardness(self: WoodType) -> u8;
+    fn base_time(self: WoodType) -> u16;
     fn base_xp(self: WoodType) -> u8;
     fn calculate_xp(self: WoodType, player_level: u8) -> u16;
-    fn calculate_gathering_speed(self: WoodType, player_level: u8) -> u16;
+    fn calculate_gathering_duration(self: WoodType, player_level: u8) -> u32;
     fn from(value: u8) -> WoodType;
 }
 
@@ -61,19 +61,6 @@ impl WoodImpl of WoodTrait {
         }
     }
 
-    fn hardness(self: WoodType) -> u8 {
-        match self {
-            WoodType::None => 0,
-            WoodType::Pine => 10,
-            WoodType::Oak => 15,
-            WoodType::Maple => 20,
-            WoodType::Walnut => 25,
-            WoodType::Mahogany => 30,
-            WoodType::Ebony => 35,
-            WoodType::Eldertree => 40,
-        }
-    }
-
     fn base_xp(self: WoodType) -> u8 {
         match self {
             WoodType::None => 0,
@@ -93,12 +80,28 @@ impl WoodImpl of WoodTrait {
         base + level_bonus
     }
 
-    fn calculate_gathering_speed(self: WoodType, player_level: u8) -> u16 {
-        let base_speed: u16 = 100; // Base speed of 1 unit per minute, scaled by 100 for precision
-        let level_bonus: u16 = player_level.into() * 2; // 2% increase per level
-        let hardness_factor: u16 = Self::hardness(self).into();
+    fn base_time(self: WoodType) -> u16 {
+        match self {
+            WoodType::None => 2000,
+            WoodType::Pine => 2000, // 2000ms (2 seconds)
+            WoodType::Oak => 3000,
+            WoodType::Maple => 4000,
+            WoodType::Walnut => 5000,
+            WoodType::Mahogany => 6000,
+            WoodType::Ebony => 10000,
+            WoodType::Eldertree => 15000,
+        }
+    }
 
-        (base_speed + level_bonus) / hardness_factor
+    fn calculate_gathering_duration(self: WoodType, player_level: u8) -> u32 {
+        // Calculate level bonus (0.5% reduction per level, max 49.5% at level 99)
+        let level_bonus = player_level * 5; // 0.5% per level, multiplied by 10 for precision
+        let time_reduction: u32 = (Self::base_time(self).into() * level_bonus.into())
+            / 1000; // Divide by 1000 to apply percentage
+
+        let final_time = Self::base_time(self).into() - time_reduction;
+
+        final_time
     }
 
     fn from(value: u8) -> WoodType {

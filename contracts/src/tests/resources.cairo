@@ -34,16 +34,26 @@ fn test_resources_harvest() {
     // Change contract address to user address
     set_contract_address(context.player_address);
 
-    // [Assert] Miner
-    systems.resources.mine(1, 1);
+    // [Assert] Miner xp
+    let rcs = 2; // Food
+    let miner = store.miner(context.player_id, rcs);
+    assert(miner.xp == 0, 'Miner: wrong miner xp 1');
 
-    let miner = store.miner(context.player_id, 1);
+    // [Assert] Miner
+    systems.resources.mine(rcs, 1); // Food, Berries, lvl 0 -> gathering speed 2000ms
+
+    let miner = store.miner(context.player_id, rcs);
     assert(miner.id == context.player_id, 'Create: wrong miner id');
     assert(miner.timestamp != 0, 'Create: wrong miner timestamp');
 
-    set_block_timestamp(1724541505 + 60 * 10); // 10 minutes later
+    set_block_timestamp(1724541505 + 10); // 10 secondes later
 
     // [Assert] Harvest
-    systems.resources.harvest(1);
-    let miner = store.miner(context.player_id, 1);
+    systems.resources.harvest(rcs);
+    let miner = store.miner(context.player_id, rcs);
+    assert(miner.timestamp == 0, 'Harvest: wrong miner timestamp');
+
+    // xp should be 5*base_berries_wp = 5*5 = 25
+    assert(miner.xp == 25, 'Harvest: wrong miner xp');
+    assert(miner.rcs_1 == 5, 'Harvest: wrong miner rcs');
 }

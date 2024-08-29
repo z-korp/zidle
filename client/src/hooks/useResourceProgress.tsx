@@ -1,10 +1,13 @@
 // hooks/useResourceProgress.ts
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 import { Resource } from "@/dojo/game/types/resource";
 import { Character } from "@/types/types";
 import { getLevelFromXp } from "@/utils/level";
 
-export const useResourceProgress = (selectedResource: Resource, character: Character) => {
+export const useResourceProgress = (
+  selectedResource: Resource,
+  character: Character,
+) => {
   const [progress, setProgress] = useState(0);
   const [amountProduced, setAmountProduced] = useState(0);
   const [showSparkle, setShowSparkle] = useState(false);
@@ -12,13 +15,17 @@ export const useResourceProgress = (selectedResource: Resource, character: Chara
   const animationFrameRef = useRef<number>();
 
   useEffect(() => {
-    const secondsPerResource = calculateSecondsPerResource(selectedResource, character);
+    const secondsPerResource = calculateSecondsPerResource(
+      selectedResource,
+      character,
+    );
 
     const updateProgress = () => {
       const currentTime = Date.now();
       const elapsedTime = (currentTime - startTimeRef.current) / 1000;
 
-      const newProgress = ((elapsedTime % secondsPerResource) / secondsPerResource) * 100;
+      const newProgress =
+        ((elapsedTime % secondsPerResource) / secondsPerResource) * 100;
       const newAmountProduced = Math.floor(elapsedTime / secondsPerResource);
 
       if (newProgress >= 100) {
@@ -46,15 +53,24 @@ export const useResourceProgress = (selectedResource: Resource, character: Chara
   return { progress, amountProduced, showSparkle };
 };
 
-function calculateSecondsPerResource(selectedResource: Resource, character: Character): number {
+function calculateSecondsPerResource(
+  selectedResource: Resource,
+  character: Character,
+): number {
   const resourceType = selectedResource.getName();
   switch (resourceType) {
     case "Wood":
-      return selectedResource.calculateGatheringSpeed(getLevelFromXp(character.woodProgress));
+      return selectedResource.calculateGatheringDurationPerUnit(
+        getLevelFromXp(character.woodProgress),
+      );
     case "Mineral":
-      return selectedResource.calculateGatheringSpeed(getLevelFromXp(character.rockProgress));
+      return selectedResource.calculateGatheringDurationPerUnit(
+        getLevelFromXp(character.rockProgress),
+      );
     case "Food":
-      return selectedResource.calculateGatheringSpeed(getLevelFromXp(character.forgeProgress));
+      return selectedResource.calculateGatheringDurationPerUnit(
+        getLevelFromXp(character.forgeProgress),
+      );
     default:
       return 1;
   }

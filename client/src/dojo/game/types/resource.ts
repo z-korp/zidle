@@ -93,10 +93,6 @@ export class Resource {
     return this.subresource.maxLevel();
   }
 
-  public hardness(): number {
-    return this.subresource.hardness();
-  }
-
   public baseXp(): number {
     return this.subresource.baseXp();
   }
@@ -105,8 +101,8 @@ export class Resource {
     return this.subresource.calculateXp(level);
   }
 
-  public calculateGatheringSpeed(level: number): number {
-    return this.subresource.calculateGatheringSpeed(level);
+  public calculateGatheringDurationPerUnit(level: number): number {
+    return this.subresource.calculateGatheringDurationPerUnit(level) / 1000;
   }
 
   public getUnitPrice(): number {

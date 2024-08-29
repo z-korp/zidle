@@ -1,10 +1,14 @@
 // hooks/useResourceCalculations.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { Resource } from "@/dojo/game/types/resource";
 import { Character } from "@/types/types";
 import { getLevelFromXp } from "@/utils/level";
 
-export const useResourceCalculations = (selectedResource: Resource, character: Character, amountProduced: number) => {
+export const useResourceCalculations = (
+  selectedResource: Resource,
+  character: Character,
+  amountProduced: number,
+) => {
   const [secondsPerResource, setSecondsPerResource] = useState(1);
   const [totalXP, setTotalXP] = useState(0);
 
@@ -15,16 +19,28 @@ export const useResourceCalculations = (selectedResource: Resource, character: C
 
     switch (resourceType) {
       case "Wood":
-        xp = selectedResource.calculateXp(getLevelFromXp(character.woodProgress));
-        seconds = selectedResource.calculateGatheringSpeed(getLevelFromXp(character.woodProgress));
+        xp = selectedResource.calculateXp(
+          getLevelFromXp(character.woodProgress),
+        );
+        seconds = selectedResource.calculateGatheringDurationPerUnit(
+          getLevelFromXp(character.woodProgress),
+        );
         break;
       case "Mineral":
-        xp = selectedResource.calculateXp(getLevelFromXp(character.rockProgress));
-        seconds = selectedResource.calculateGatheringSpeed(getLevelFromXp(character.rockProgress));
+        xp = selectedResource.calculateXp(
+          getLevelFromXp(character.rockProgress),
+        );
+        seconds = selectedResource.calculateGatheringDurationPerUnit(
+          getLevelFromXp(character.rockProgress),
+        );
         break;
       case "Food":
-        xp = selectedResource.calculateXp(getLevelFromXp(character.forgeProgress));
-        seconds = selectedResource.calculateGatheringSpeed(getLevelFromXp(character.forgeProgress));
+        xp = selectedResource.calculateXp(
+          getLevelFromXp(character.forgeProgress),
+        );
+        seconds = selectedResource.calculateGatheringDurationPerUnit(
+          getLevelFromXp(character.forgeProgress),
+        );
         break;
     }
     setSecondsPerResource(seconds);

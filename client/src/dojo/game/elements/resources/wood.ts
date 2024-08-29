@@ -88,27 +88,6 @@ export class Wood {
     }
   }
 
-  public hardness(): number {
-    switch (this.value) {
-      case WoodType.Pine:
-        return 1;
-      case WoodType.Oak:
-        return 1.5;
-      case WoodType.Maple:
-        return 2.0;
-      case WoodType.Walnut:
-        return 2.5;
-      case WoodType.Mahogany:
-        return 3.0;
-      case WoodType.Ebony:
-        return 3.5;
-      case WoodType.Eldertree:
-        return 4.0;
-      default:
-        return 0;
-    }
-  }
-
   public baseXp(): number {
     switch (this.value) {
       case WoodType.Pine:
@@ -130,16 +109,39 @@ export class Wood {
     }
   }
 
+  public baseTime(): number {
+    switch (this.value) {
+      case WoodType.None:
+        return 0;
+      case WoodType.Pine:
+        return 2000;
+      case WoodType.Oak:
+        return 3000;
+      case WoodType.Maple:
+        return 4000;
+      case WoodType.Walnut:
+        return 5000;
+      case WoodType.Mahogany:
+        return 6000;
+      case WoodType.Ebony:
+        return 10000;
+      case WoodType.Eldertree:
+        return 15000;
+      default:
+        return 0;
+    }
+  }
+
   public calculateXp(playerLevel: number): number {
     const base = this.baseXp();
     const levelBonus = Math.max(0, (playerLevel - this.minLevel()) * 2);
     return base + levelBonus;
   }
 
-  public calculateGatheringSpeed(playerLevel: number): number {
-    const baseSpeed = 100; // Base speed of 1 unit per minute, scaled by 100 for precision
-    const levelBonus = playerLevel * 2; // 2% increase per level
-    const hardnessFactor = this.hardness();
-    return Math.floor((baseSpeed + levelBonus) * hardnessFactor);
+  public calculateGatheringDurationPerUnit(playerLevel: number): number {
+    const levelBonus = playerLevel * 5; // 0.5% per level, multiplied by 10 for precision
+    const timeReduction = (this.baseTime() * levelBonus) / 1000; // Divide by 1000 to apply percentage
+
+    return this.baseTime() - timeReduction; // Minimum 1 second (1000ms)
   }
 }

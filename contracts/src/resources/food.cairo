@@ -14,10 +14,10 @@ trait FoodTrait {
     fn unit_price(self: FoodType) -> u64;
     fn min_level(self: FoodType) -> u8;
     fn max_level(self: FoodType) -> u8;
-    fn hardness(self: FoodType) -> u8;
+    fn base_time(self: FoodType) -> u16;
     fn base_xp(self: FoodType) -> u8;
     fn calculate_xp(self: FoodType, player_level: u8) -> u16;
-    fn calculate_gathering_speed(self: FoodType, player_level: u8) -> u16;
+    fn calculate_gathering_duration(self: FoodType, player_level: u8) -> u32;
     fn from(value: u8) -> FoodType;
 }
 
@@ -61,19 +61,6 @@ impl FoodImpl of FoodTrait {
         }
     }
 
-    fn hardness(self: FoodType) -> u8 {
-        match self {
-            FoodType::None => 0,
-            FoodType::Berries => 10,
-            FoodType::Wheat => 15,
-            FoodType::Vegetables => 20,
-            FoodType::Fruits => 25,
-            FoodType::Herbs => 30,
-            FoodType::Mushrooms => 35,
-            FoodType::Ambrosia => 40,
-        }
-    }
-
     fn base_xp(self: FoodType) -> u8 {
         match self {
             FoodType::None => 0,
@@ -89,16 +76,32 @@ impl FoodImpl of FoodTrait {
 
     fn calculate_xp(self: FoodType, player_level: u8) -> u16 {
         let base: u16 = Self::base_xp(self).into();
-        let level_bonus: u16 = (player_level.into() - self.min_level().into()) * 2;
-        base + level_bonus
+        //let level_bonus: u16 = (player_level.into() - self.min_level().into()) * 2;
+        base //+ level_bonus
     }
 
-    fn calculate_gathering_speed(self: FoodType, player_level: u8) -> u16 {
-        let base_speed: u16 = 100; // Base speed of 1 unit per minute, scaled by 100 for precision
-        let level_bonus: u16 = player_level.into() * 2; // 2% increase per level
-        let hardness_factor: u16 = Self::hardness(self).into();
+    fn base_time(self: FoodType) -> u16 {
+        match self {
+            FoodType::None => 2000,
+            FoodType::Berries => 2000, // 2000ms (2 seconds)
+            FoodType::Wheat => 3000,
+            FoodType::Vegetables => 4000,
+            FoodType::Fruits => 5000,
+            FoodType::Herbs => 6000,
+            FoodType::Mushrooms => 10000,
+            FoodType::Ambrosia => 15000,
+        }
+    }
 
-        (base_speed + level_bonus) / hardness_factor
+    fn calculate_gathering_duration(self: FoodType, player_level: u8) -> u32 {
+        // Calculate level bonus (0.5% reduction per level, max 49.5% at level 99)
+        let level_bonus = player_level * 5; // 0.5% per level, multiplied by 10 for precision
+        let time_reduction: u32 = (Self::base_time(self).into() * level_bonus.into())
+            / 1000; // Divide by 1000 to apply percentage
+
+        let final_time = Self::base_time(self).into() - time_reduction;
+
+        final_time
     }
 
     fn from(value: u8) -> FoodType {

@@ -35,20 +35,20 @@ impl ResourceImpl of ResourceTrait {
         }
     }
 
-    fn hardness(self: ResourceType) -> u8 {
-        match self {
-            ResourceType::Wood(wood_type) => wood_type.hardness(),
-            ResourceType::Food(food_type) => food_type.hardness(),
-            ResourceType::Mineral(mineral_type) => mineral_type.hardness(),
-            ResourceType::None => 0,
-        }
-    }
-
     fn base_xp(self: ResourceType) -> u8 {
         match self {
             ResourceType::Wood(wood_type) => wood_type.base_xp(),
             ResourceType::Food(food_type) => food_type.base_xp(),
             ResourceType::Mineral(mineral_type) => mineral_type.base_xp(),
+            ResourceType::None => 0,
+        }
+    }
+
+    fn base_time(self: ResourceType) -> u16 {
+        match self {
+            ResourceType::Wood(wood_type) => wood_type.base_time(),
+            ResourceType::Food(food_type) => food_type.base_time(),
+            ResourceType::Mineral(mineral_type) => mineral_type.base_time(),
             ResourceType::None => 0,
         }
     }
@@ -62,12 +62,12 @@ impl ResourceImpl of ResourceTrait {
         }
     }
 
-    fn calculate_gathering_speed(self: ResourceType, player_level: u8) -> u16 {
+    fn calculate_gathering_duration(self: ResourceType, player_level: u8) -> u32 {
         match self {
-            ResourceType::Wood(wood_type) => wood_type.calculate_gathering_speed(player_level),
-            ResourceType::Food(food_type) => food_type.calculate_gathering_speed(player_level),
+            ResourceType::Wood(wood_type) => wood_type.calculate_gathering_duration(player_level),
+            ResourceType::Food(food_type) => food_type.calculate_gathering_duration(player_level),
             ResourceType::Mineral(mineral_type) => mineral_type
-                .calculate_gathering_speed(player_level),
+                .calculate_gathering_duration(player_level),
             ResourceType::None => 0,
         }
     }

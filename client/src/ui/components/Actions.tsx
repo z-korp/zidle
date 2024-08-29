@@ -24,10 +24,10 @@ interface ActionsProps {
 const Actions: React.FC<ActionsProps> = ({
   setIsActing,
   miners,
-  setSelectedResource
+  setSelectedResource,
 }) => {
   const [localSelections, setLocalSelections] = useState<{
-    [key in ResourceType]?: Resource | null
+    [key in ResourceType]?: Resource | null;
   }>({
     [ResourceType.Wood]: null,
     [ResourceType.Mineral]: null,
@@ -41,21 +41,22 @@ const Actions: React.FC<ActionsProps> = ({
   } = useDojo();
   const { account } = useAccountCustom();
 
-  const { character} = useCharacter(account?.address);
-
-  
+  const { character } = useCharacter(account?.address);
 
   const handleSelect = (resourceType: ResourceType, resource: Resource) => {
-    setLocalSelections(prev => ({
+    setLocalSelections((prev) => ({
       ...prev,
       [resourceType]: resource,
       // Désélectionner les autres types de ressources
-      ...Object.values(ResourceType).reduce((acc, type) => {
-        if (type !== resourceType) {
-          acc[type] = null;
-        }
-        return acc;
-      }, {} as { [key in ResourceType]?: Resource | null })
+      ...Object.values(ResourceType).reduce(
+        (acc, type) => {
+          if (type !== resourceType) {
+            acc[type] = null;
+          }
+          return acc;
+        },
+        {} as { [key in ResourceType]?: Resource | null },
+      ),
     }));
   };
 
@@ -66,10 +67,10 @@ const Actions: React.FC<ActionsProps> = ({
       setIsActing(true);
     }
 
-    await mine({ 
-      account: account as Account, 
-      rcs_type: selectedResource?.into() ?? 0, 
-      rcs_sub_type: selectedResource?.getSubresource().into() ?? 0
+    await mine({
+      account: account as Account,
+      rcs_type: selectedResource?.into() ?? 0,
+      rcs_sub_type: selectedResource?.getSubresource().into() ?? 0,
     });
   };
   const getLevelForResourceType = (resourceType: ResourceType): number => {
@@ -86,23 +87,30 @@ const Actions: React.FC<ActionsProps> = ({
     }
   };
   const renderMinerDropdown = (resourceType: ResourceType) => {
-    const filteredMiners = miners.filter(miner => miner.resource.value === resourceType);
-   
-    const actionText = resourceType === ResourceType.Wood ? 'Chop wood' :
-                       resourceType === ResourceType.Mineral ? 'Mine rock' :
-                       'Hunt for food';
+    const filteredMiners = miners.filter(
+      (miner) => miner.resource.value === resourceType,
+    );
 
-    const resourceItems = filteredMiners.flatMap((miner) => 
-      miner.inventory?.filter(item => item.rcs.value === resourceType).map((item, index) => ({
-        id: `${miner.id}-${index}`,
-        resource: item.rcs
-      })) || []
+    const actionText =
+      resourceType === ResourceType.Wood
+        ? "Chop wood"
+        : resourceType === ResourceType.Mineral
+          ? "Mine rock"
+          : "Hunt for food";
+
+    const resourceItems = filteredMiners.flatMap(
+      (miner) =>
+        miner.inventory
+          ?.filter((item) => item.rcs.value === resourceType)
+          .map((item, index) => ({
+            id: `${miner.id}-${index}`,
+            resource: item.rcs,
+          })) || [],
     );
 
     const localSelectedResource = localSelections[resourceType];
     const currentLevel = getLevelForResourceType(resourceType);
 
-   
     return (
       <div className="space-y-2">
         <div className="flex items-center justify-between">
@@ -111,7 +119,9 @@ const Actions: React.FC<ActionsProps> = ({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm">
-                  {localSelectedResource ? localSelectedResource.getSubresourceName() : `Select resource`}{" "}
+                  {localSelectedResource
+                    ? localSelectedResource.getSubresourceName()
+                    : `Select resource`}{" "}
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -141,24 +151,39 @@ const Actions: React.FC<ActionsProps> = ({
           </div>
         </div>
         {localSelectedResource && character && (
-  <div className="text-sm">
-    <p>Resource: {localSelectedResource.getSubresourceName()}</p>
-    <p>XP: {localSelectedResource.baseXp()}</p>
-    <p>
-      Time per unit:{" "}
-      {localSelectedResource.calculateGatheringSpeed(getLevelFromXp(resourceType === ResourceType.Wood ? character.woodProgress :
-        resourceType === ResourceType.Mineral ? character.rockProgress :
-        character.foodProgress)
-        
-      ).toFixed(2)} seconds
-    </p>
-    <p>XP gained: {localSelectedResource.calculateXp(getLevelFromXp(
-      resourceType === ResourceType.Wood ? character.woodProgress :
-      resourceType === ResourceType.Mineral ? character.rockProgress :
-      character.foodProgress)
-    )} XP</p>
-  </div>
-)}
+          <div className="text-sm">
+            <p>Resource: {localSelectedResource.getSubresourceName()}</p>
+            <p>XP: {localSelectedResource.baseXp()}</p>
+            <p>
+              Time per unit:{" "}
+              {localSelectedResource
+                .calculateGatheringDurationPerUnit(
+                  getLevelFromXp(
+                    resourceType === ResourceType.Wood
+                      ? character.woodProgress
+                      : resourceType === ResourceType.Mineral
+                        ? character.rockProgress
+                        : character.foodProgress,
+                  ),
+                )
+                .toFixed(2)}{" "}
+              seconds
+            </p>
+            <p>
+              XP gained:{" "}
+              {localSelectedResource.calculateXp(
+                getLevelFromXp(
+                  resourceType === ResourceType.Wood
+                    ? character.woodProgress
+                    : resourceType === ResourceType.Mineral
+                      ? character.rockProgress
+                      : character.foodProgress,
+                ),
+              )}{" "}
+              XP
+            </p>
+          </div>
+        )}
       </div>
     );
   };

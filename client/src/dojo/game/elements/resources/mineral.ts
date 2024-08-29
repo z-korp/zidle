@@ -88,27 +88,6 @@ export class Mineral {
     }
   }
 
-  public hardness(): number {
-    switch (this.value) {
-      case MineralType.Coal:
-        return 10;
-      case MineralType.Copper:
-        return 15;
-      case MineralType.Iron:
-        return 20;
-      case MineralType.Silver:
-        return 25;
-      case MineralType.Gold:
-        return 30;
-      case MineralType.Mithril:
-        return 35;
-      case MineralType.Adamantium:
-        return 40;
-      default:
-        return 0;
-    }
-  }
-
   public baseXp(): number {
     switch (this.value) {
       case MineralType.Coal:
@@ -130,17 +109,39 @@ export class Mineral {
     }
   }
 
+  public baseTime(): number {
+    switch (this.value) {
+      case MineralType.None:
+        return 0;
+      case MineralType.Coal:
+        return 2000;
+      case MineralType.Copper:
+        return 3000;
+      case MineralType.Iron:
+        return 4000;
+      case MineralType.Silver:
+        return 5000;
+      case MineralType.Gold:
+        return 6000;
+      case MineralType.Mithril:
+        return 10000;
+      case MineralType.Adamantium:
+        return 15000;
+      default:
+        return 0;
+    }
+  }
+
   public calculateXp(playerLevel: number): number {
     const base = this.baseXp();
     const levelBonus = (playerLevel - this.minLevel()) * 2;
     return base + levelBonus;
   }
 
-  public calculateGatheringSpeed(playerLevel: number): number {
-    const baseSpeed = 100; // Base speed of 1 unit per minute, scaled by 100 for precision
-    const levelBonus = playerLevel * 2; // 2% increase per level
-    const hardnessFactor = this.hardness();
+  public calculateGatheringDurationPerUnit(playerLevel: number): number {
+    const levelBonus = playerLevel * 5; // 0.5% per level, multiplied by 10 for precision
+    const timeReduction = (this.baseTime() * levelBonus) / 1000; // Divide by 1000 to apply percentage
 
-    return Math.floor((baseSpeed + levelBonus) / hardnessFactor);
+    return this.baseTime() - timeReduction; // Minimum 1 second (1000ms)
   }
 }

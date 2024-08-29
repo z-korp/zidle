@@ -53,13 +53,13 @@ impl MinerImpl of MinerTrait {
             xp: xp,
             timestamp: 0,
             subresource_type: 0,
-            rcs_1: 1,
-            rcs_2: 2,
-            rcs_3: 3,
-            rcs_4: 4,
-            rcs_5: 5,
-            rcs_6: 6,
-            rcs_7: 7,
+            rcs_1: 0,
+            rcs_2: 0,
+            rcs_3: 0,
+            rcs_4: 0,
+            rcs_5: 0,
+            rcs_6: 0,
+            rcs_7: 0,
         }
     }
 
@@ -81,13 +81,13 @@ impl MinerImpl of MinerTrait {
         // [Effect] Harvest
         let resource: ResourceType = ResourceImpl::from(self.resource_type, self.subresource_type);
         let xp: u64 = resource.calculate_xp(player_level).into();
-        let gathering_speed: u16 = resource.calculate_gathering_speed(player_level);
+        let gathering_duration_per_unit: u32 = resource.calculate_gathering_duration(player_level);
 
         let time_elapsed: u64 = timestamp - self.timestamp;
-        let xp_gained: u64 = (time_elapsed * xp) / 1000;
-        self.xp += xp_gained;
 
-        let rcs_gained: u64 = (time_elapsed.into() * gathering_speed.into()) / 1000;
+        let rcs_gained: u64 = (time_elapsed.into() * 1000) / gathering_duration_per_unit.into();
+        let xp_gained: u64 = rcs_gained * xp;
+        self.xp += xp_gained;
 
         if (self.subresource_type == 1) {
             self.rcs_1 += rcs_gained;
@@ -215,7 +215,7 @@ mod tests {
     fn test_miner_new() {
         // [Setup]
         let id: felt252 = 1;
-        let resource_type: u8 = 1;
+        let resource_type: u8 = 2;
 
         // [Execute]
         let miner: Miner = MinerImpl::new(id, resource_type);
@@ -223,16 +223,17 @@ mod tests {
         // [Assert]
         assert(miner.id == id, 'Create: wrong miner id');
         assert(miner.resource_type == resource_type, 'Create: wrong miner rcs type');
+        println!("miner.xp: {}", miner.xp);
         assert(miner.xp == 0, 'Create: wrong miner xp');
         assert(miner.timestamp == 0, 'Create: wrong miner timestamp');
         assert(miner.subresource_type == 0, 'Create: wrong miner subrcs type');
-        assert(miner.rcs1 == 0, 'Create: wrong miner rcs');
-        assert(miner.rcs2 == 0, 'Create: wrong miner rcs');
-        assert(miner.rcs3 == 0, 'Create: wrong miner rcs');
-        assert(miner.rcs4 == 0, 'Create: wrong miner rcs');
-        assert(miner.rcs5 == 0, 'Create: wrong miner rcs');
-        assert(miner.rcs6 == 0, 'Create: wrong miner rcs');
-        assert(miner.rcs7 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs_1 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs_2 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs_3 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs_4 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs_5 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs_6 == 0, 'Create: wrong miner rcs');
+        assert(miner.rcs_7 == 0, 'Create: wrong miner rcs');
     }
 
     #[test]

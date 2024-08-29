@@ -5,7 +5,7 @@ original_class_hash = "0x3715f072aa1c07be724249fcda8b0322687f6c5c585eebc4402d162
 abi = "manifests/dev/deployment/abis/dojo-world.json"
 address = "0x5903f818fe01b1f48f3a234a2b186e92cc2825c32a9b62c4453f6989ff11709"
 transaction_hash = "0x194d42fd9c9f7dcea38e0e01b4ae87f1de2e2b56d230cc23016f2711fdf66bc"
-block_number = 3
+block_number = 5
 seed = "zIdle"
 manifest_name = "dojo-world"
 
@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x4482655baa24985ced4c17b3cad937d609b921c496918f42d97da74692967b"
-class_hash = "0x10e3a8d4b1bf9e8dd6dc86513d958f2a316b797bc46b4fff87fb9859e47b7c8"
-original_class_hash = "0x10e3a8d4b1bf9e8dd6dc86513d958f2a316b797bc46b4fff87fb9859e47b7c8"
+class_hash = "0xea064b6bdc8cb4d06af20af26e7a7d82772cc607d4fcb8ddaf5216f4740451"
+original_class_hash = "0xea064b6bdc8cb4d06af20af26e7a7d82772cc607d4fcb8ddaf5216f4740451"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-account-60aa04fd.json"
 reads = []
@@ -144,8 +144,8 @@ manifest_name = "zidle-gold_token-3cef4f4d"
 [[contracts]]
 kind = "DojoContract"
 address = "0x56e0f2455f917a62998a79bdd9b470198b0a4a670ea68a0e231517c80fe2dfa"
-class_hash = "0x7782f20b0c4303ac4182fcccc255c63913539090b03f79770831fdf699a884c"
-original_class_hash = "0x7782f20b0c4303ac4182fcccc255c63913539090b03f79770831fdf699a884c"
+class_hash = "0x329357a10bebb24a5fbb30e75122f3d382abc892f89f99de02a6d0954ca0459"
+original_class_hash = "0x329357a10bebb24a5fbb30e75122f3d382abc892f89f99de02a6d0954ca0459"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/zidle-resources-14ead52a.json"
 reads = []
