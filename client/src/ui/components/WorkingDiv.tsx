@@ -35,7 +35,6 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
 
   const handleStopAction = async () => {
     if (account && selectedResource) {
-      console.log("selectedResource", selectedResource.getSubresource())
       await harvest({ 
         account: account as Account, 
         rcs_sub_type: selectedResource.into()
@@ -70,7 +69,7 @@ const Header: React.FC<{ handleStopAction: () => Promise<void>; selectedResource
 
 const ProgressBar: React.FC<{ progress: number; showSparkle: boolean }> = ({ progress, showSparkle }) => (
   <div className="flex items-center relative">
-    <Progress value={progress} />
+    <Progress value={progress}/>
     <AnimatePresence>
       {showSparkle && (
         <motion.div

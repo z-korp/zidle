@@ -1,8 +1,8 @@
 // hooks/useResourceProgress.ts
 import { useState, useEffect, useRef } from "react";
 import { Resource } from "@/dojo/game/types/resource";
-import { Character } from "@/types/types";
 import { getLevelFromXp } from "@/utils/level";
+import { Character } from "./useCharacter";
 
 export const useResourceProgress = (
   selectedResource: Resource,
