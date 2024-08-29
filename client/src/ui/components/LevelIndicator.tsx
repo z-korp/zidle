@@ -64,9 +64,8 @@ const LevelIndicator: React.FC<LevelIndicatorProps> = ({ currentXP }) => {
 
       if (rawProgress < 1) {
         animationRef.current = requestAnimationFrame(animate);
-      } else {
-        setShouldAnimate(false);
-      }
+      } 
+      
     };
 
     animationRef.current = requestAnimationFrame(animate);
