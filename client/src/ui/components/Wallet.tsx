@@ -50,6 +50,8 @@ const Wallet: React.FC<WalletProps> = ({ character, setOpenModal }) => {
           <Input
             id="address"
             className="col-span-3"
+            pattern="0x[a-fA-F0-9]{63,64}"
+            title="Enter a valid starknet address"
             value={recipient}
             onChange={(e) => setRecipient(e.target.value)}
           />
@@ -59,7 +61,7 @@ const Wallet: React.FC<WalletProps> = ({ character, setOpenModal }) => {
           <Input
             id="amount"
             type="number"
-            className="col-span-3"
+            className="col-span-3 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             value={amount}
             onChange={handleAmountChange}
             min="0"
