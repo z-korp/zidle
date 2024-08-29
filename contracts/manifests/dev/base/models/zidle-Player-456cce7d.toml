@@ -1,13 +1,13 @@
 kind = "DojoModel"
-class_hash = "0x2235b2f7b9ac313ef90de9c33e6b0fd0503d4f1f2f229317e2012dc11a23343"
-original_class_hash = "0x2235b2f7b9ac313ef90de9c33e6b0fd0503d4f1f2f229317e2012dc11a23343"
+class_hash = "0x56d4e9966f7dae3370f9a4b33ace0c7e926b53cf9be5ad774dfeeae5de144f5"
+original_class_hash = "0x56d4e9966f7dae3370f9a4b33ace0c7e926b53cf9be5ad774dfeeae5de144f5"
 abi = "manifests/dev/base/abis/models/zidle-Player-456cce7d.json"
 tag = "zidle-Player"
 qualified_path = "zidle::models::player::player"
 manifest_name = "zidle-Player-456cce7d"
 
 [[members]]
-name = "id"
+name = "token_id"
 type = "felt252"
 key = true
 

@@ -35,7 +35,6 @@ mod resources {
 }
 
 mod systems {
-    mod account;
     mod character_minter;
     mod character_token;
     mod character;
@@ -51,7 +50,6 @@ mod types {
 #[cfg(test)]
 mod tests {
     mod setup;
-    mod account;
     mod resources;
     mod character_token;
     mod gold_token;

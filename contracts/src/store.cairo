@@ -37,8 +37,8 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline(always)]
-    fn player(self: Store, player_id: felt252) -> Player {
-        get!(self.world, player_id, (Player))
+    fn player(self: Store, token_id: felt252) -> Player {
+        get!(self.world, token_id, (Player))
     }
 
     #[inline(always)]

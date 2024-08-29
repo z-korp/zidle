@@ -30,6 +30,7 @@ mod character {
     use zidle::store::{Store, StoreImpl, StoreTrait};
     use zidle::constants::{RESSOURCE_NUMBER};
     use zidle::models::miner::{MinerTrait};
+    use zidle::models::player::{PlayerTrait};
     use zidle::interfaces::systems::{
         WorldSystemsTrait, ICharacterMinterDispatcher, ICharacterMinterDispatcherTrait
     };
@@ -81,6 +82,10 @@ mod character {
                 index += 1;
                 store.set_miner(miner);
             };
+
+            // [Effect] Create a player
+            let player = PlayerTrait::new(token_id.into(), name);
+            store.set_player(player);
         }
     }
 }

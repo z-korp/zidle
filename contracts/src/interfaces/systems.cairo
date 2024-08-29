@@ -2,7 +2,6 @@ use starknet::{ContractAddress, ClassHash};
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait, Resource};
 
 use zidle::systems::{
-    account::{IAccountDispatcher, IAccountDispatcherTrait},
     character_minter::{ICharacterMinterDispatcher, ICharacterMinterDispatcherTrait},
     character_token::{ICharacterTokenDispatcher, ICharacterTokenDispatcherTrait},
     gold_minter::{IGoldMinterDispatcher, IGoldMinterDispatcherTrait},
@@ -12,7 +11,6 @@ use zidle::systems::{
 use core::Zeroable;
 
 mod SELECTORS {
-    const ACCOUNT: felt252 = selector_from_tag!("zidle-account");
     const CHARACTER_MINTER: felt252 = selector_from_tag!("zidle-character_minter");
     const CHARACTER_TOKEN: felt252 = selector_from_tag!("zidle-character_token");
     const GOLD_MINTER: felt252 = selector_from_tag!("zidle-gold_minter");
@@ -40,9 +38,6 @@ impl WorldSystemsTraitImpl of WorldSystemsTrait {
     }
 
     // dispatchers
-    fn account_dispatcher(self: IWorldDispatcher) -> IAccountDispatcher {
-        (IAccountDispatcher { contract_address: self.contract_address(SELECTORS::ACCOUNT) })
-    }
     fn character_minter_dispatcher(self: IWorldDispatcher) -> ICharacterMinterDispatcher {
         (ICharacterMinterDispatcher {
             contract_address: self.contract_address(SELECTORS::CHARACTER_MINTER)

@@ -17,25 +17,10 @@ const manifest =
         ? local
         : local;
 
-const account_contract_address = getContractByName(
-  manifest,
-  "zidle",
-  "account",
-)?.address;
-
 const policies = [
   {
     target: import.meta.env.VITE_PUBLIC_FEE_TOKEN_ADDRESS,
     method: "approve",
-  },
-  // account
-  {
-    target: account_contract_address,
-    method: "create",
-  },
-  {
-    target: account_contract_address,
-    method: "rename",
   },
 ];
 

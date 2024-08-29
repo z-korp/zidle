@@ -10,7 +10,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          id: RecsType.BigInt,
+          token_id: RecsType.BigInt,
           name: RecsType.BigInt,
           gold: RecsType.Number,
         },

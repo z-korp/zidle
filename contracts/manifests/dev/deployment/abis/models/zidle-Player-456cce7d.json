@@ -371,7 +371,7 @@
     "name": "zidle::models::player::Player",
     "members": [
       {
-        "name": "id",
+        "name": "token_id",
         "type": "core::felt252"
       },
       {

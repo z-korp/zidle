@@ -6,7 +6,7 @@ import useAccountCustom from "./useAccountCustom";
 
 const { VITE_PUBLIC_CHARACTER_TOKEN_ADDRESS } = import.meta.env;
 
-export const useNFTs = () => {
+export const useNFTs = (playerId: string | undefined) => {
   const {
     setup: {
       clientModels: {
@@ -15,15 +15,13 @@ export const useNFTs = () => {
     },
   } = useDojo();
 
-  const { account } = useAccountCustom();
-
   const [numberNft, setNumberNft] = useState(0);
   const [tokenIds, setTokenIds] = useState<number[]>([]);
 
   const balanceKeys = useEntityQuery([
     HasValue(ERC721Balance, {
       token: BigInt(VITE_PUBLIC_CHARACTER_TOKEN_ADDRESS),
-      account: BigInt(account?.address ? account.address : 0),
+      account: BigInt(playerId ? playerId : 0),
     }),
   ]);
 
@@ -31,7 +29,7 @@ export const useNFTs = () => {
     Has(ERC721EnumerableOwnerIndex),
     HasValue(ERC721EnumerableOwnerIndex, {
       token: BigInt(VITE_PUBLIC_CHARACTER_TOKEN_ADDRESS),
-      owner: BigInt(account?.address ? account.address : 0),
+      owner: BigInt(playerId ? playerId : 0),
     }),
   ]);
 

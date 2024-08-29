@@ -18,15 +18,18 @@ export interface Rename extends Signer {
 }
 
 export interface Mine extends Signer {
+  token_id: number;
   rcs_type: number;
   rcs_sub_type: number;
 }
 
 export interface Harvest extends Signer {
+  token_id: number;
   rcs_sub_type: number;
 }
 
 export interface Sell extends Signer {
+  token_id: number;
   rcs_type: number;
   rcs_sub_type: number;
   amount: number;
@@ -63,60 +66,6 @@ export const getContractByName = (manifest: any, name: string) => {
 export async function setupWorld(provider: DojoProvider, config: Config) {
   const details: UniversalDetails | undefined = undefined; // { maxFee: 1e15 };
 
-  function account() {
-    const contract_name = "account";
-    const contract = config.manifest.contracts.find((c: any) =>
-      c.tag.includes(contract_name),
-    );
-    if (!contract) {
-      throw new Error(`Contract ${contract_name} not found in manifest`);
-    }
-
-    const create = async ({ account, name }: Create) => {
-      try {
-        const encoded_name = shortString.encodeShortString(name);
-        return await provider.execute(
-          account,
-          {
-            contractName: contract_name,
-            entrypoint: "create",
-            calldata: [encoded_name],
-          },
-          NAMESPACE,
-          details,
-        );
-      } catch (error) {
-        console.error("Error executing create:", error);
-        throw error;
-      }
-    };
-
-    const rename = async ({ account, name }: Rename) => {
-      try {
-        const encoded_name = shortString.encodeShortString(name);
-        return await provider.execute(
-          account,
-          {
-            contractName: contract_name,
-            entrypoint: "rename",
-            calldata: [encoded_name],
-          },
-          NAMESPACE,
-          details,
-        );
-      } catch (error) {
-        console.error("Error executing rename:", error);
-        throw error;
-      }
-    };
-
-    return {
-      address: contract.address,
-      create,
-      rename,
-    };
-  }
-
   function resources() {
     const contract_name = "resources";
 
@@ -127,14 +76,19 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
       throw new Error(`Contract ${contract_name} not found in manifest`);
     }
 
-    const mine = async ({ account, rcs_type, rcs_sub_type }: Mine) => {
+    const mine = async ({
+      account,
+      token_id,
+      rcs_type,
+      rcs_sub_type,
+    }: Mine) => {
       try {
         return await provider.execute(
           account,
           {
             contractName: contract_name,
             entrypoint: "mine",
-            calldata: [rcs_type, rcs_sub_type],
+            calldata: [token_id, rcs_type, rcs_sub_type],
           },
           NAMESPACE,
           details,
@@ -145,14 +99,14 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
       }
     };
 
-    const harvest = async ({ account, rcs_sub_type }: Harvest) => {
+    const harvest = async ({ account, token_id, rcs_sub_type }: Harvest) => {
       try {
         return await provider.execute(
           account,
           {
             contractName: contract_name,
             entrypoint: "harvest",
-            calldata: [rcs_sub_type],
+            calldata: [token_id, rcs_sub_type],
           },
           NAMESPACE,
           details,
@@ -163,14 +117,20 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
       }
     };
 
-    const sell = async ({ account, rcs_type, rcs_sub_type, amount }: Sell) => {
+    const sell = async ({
+      account,
+      token_id,
+      rcs_type,
+      rcs_sub_type,
+      amount,
+    }: Sell) => {
       try {
         return await provider.execute(
           account,
           {
             contractName: contract_name,
             entrypoint: "sell",
-            calldata: [rcs_type, rcs_sub_type, amount],
+            calldata: [token_id, rcs_type, rcs_sub_type, amount],
           },
           NAMESPACE,
           details,
@@ -199,9 +159,6 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
     }
 
     const create = async ({ account, name }: CreateCharacter) => {
-      console.log("account", account);
-      console.log("name", name);
-      console.log("contract_name", contract_name);
       try {
         return await provider.execute(
           account,
@@ -225,7 +182,6 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
   }
 
   return {
-    account: account(),
     resources: resources(),
     character: character(),
   };

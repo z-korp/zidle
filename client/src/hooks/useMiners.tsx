@@ -8,7 +8,7 @@ import {
   HasValue,
 } from "@dojoengine/recs";
 
-export const useMiners = ({ playerId }: { playerId: string | undefined }) => {
+export const useMiners = ({ tokenId }: { tokenId: string | undefined }) => {
   const {
     setup: {
       clientModels: {
@@ -24,7 +24,7 @@ export const useMiners = ({ playerId }: { playerId: string | undefined }) => {
 
   const minerKeys = useEntityQuery([
     Has(Miner),
-    HasValue(Miner, { id: BigInt(playerId ? playerId : -1) }),
+    HasValue(Miner, { id: BigInt(tokenId ? tokenId : -1) }),
   ]);
 
   useEffect(() => {
