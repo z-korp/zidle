@@ -75,9 +75,7 @@ impl MineralImpl of MineralTrait {
     }
 
     fn calculate_xp(self: MineralType, player_level: u8) -> u16 {
-        let base: u16 = Self::base_xp(self).into();
-        let level_bonus: u16 = (player_level.into() - self.min_level().into()) * 2;
-        base + level_bonus
+        Self::base_xp(self).into()
     }
 
     fn base_time(self: MineralType) -> u16 {
