@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "../elements/card";
+import { Card, CardContent } from "../elements/card";
 import StatsAndInventory from "./StatsAndInventory";
 import Actions from "./Actions";
 import WorkingDiv from "./WorkingDiv";
@@ -8,8 +8,6 @@ import { Resource } from "@/dojo/game/types/resource";
 import ReconnectionSummary from "./ReconnectionSummary";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "../elements/button";
 import { useReconnectionData } from "@/hooks/useReconnectionData";
 
 interface MainMenuCardProps {

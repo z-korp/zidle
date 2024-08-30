@@ -1,17 +1,17 @@
-tag = "zidle4-character_token"
+tag = "zidle-character_token"
 writes = [
-  "zidle_token4-SRC5Model",
-  "zidle_token4-InitializableModel",
-  "zidle_token4-ERC721OwnerModel",
-  "zidle_token4-ERC721BalanceModel",
-  "zidle_token4-ERC721MetaModel",
-  "zidle_token4-ERC721EnumerableIndexModel",
-  "zidle_token4-ERC721EnumerableOwnerIndexModel",
-  "zidle_token4-ERC721EnumerableOwnerTokenModel",
-  "zidle_token4-ERC721EnumerableTokenModel",
-  "zidle_token4-ERC721EnumerableTotalModel",
-  "zidle_token4-ERC721TokenApprovalModel",
-  "zidle_token4-ERC721OperatorApprovalModel",
-  "zidle4-ERC721WalletModel"
+  "origami_token-SRC5Model",
+  "origami_token-InitializableModel",
+  "origami_token-ERC721OwnerModel",
+  "origami_token-ERC721BalanceModel",
+  "origami_token-ERC721MetaModel",
+  "origami_token-ERC721EnumerableIndexModel",
+  "origami_token-ERC721EnumerableOwnerIndexModel",
+  "origami_token-ERC721EnumerableOwnerTokenModel",
+  "origami_token-ERC721EnumerableTokenModel",
+  "origami_token-ERC721EnumerableTotalModel",
+  "origami_token-ERC721TokenApprovalModel",
+  "origami_token-ERC721OperatorApprovalModel",
+  "zidle-ERC721WalletModel"
 ]
 init_calldata = []

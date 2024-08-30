@@ -1,6 +1,6 @@
-tag = "zidle4-character"
+tag = "zidle-character"
 writes = [
-  "zidle4-Miner",
-  "zidle4-Player",
+  "zidle-Miner",
+  "zidle-Player",
 ]
 init_calldata = []

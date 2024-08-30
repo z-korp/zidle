@@ -29,7 +29,7 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
 
   return (
     <>
-      <div className="space-y-2 border border-grey-600 shadow-lg rounded-xl p-4 bg-gray-800 text-white">
+      <div className="space-y-2 border border-gray-600 shadow-lg rounded-xl p-4 bg-gray-800 text-white">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-xl font-bold">Inventory</h2>
           <Button
@@ -47,7 +47,7 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
             .map((item, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 py-1 px-2 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:bg-gray-600"
+                className="flex items-center space-x-4 py-1 px-2 pt-2 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:bg-gray-600"
                 onClick={() => setSelectedItem(item)}
               >
                 <div className="relative flex-shrink-0">

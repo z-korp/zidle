@@ -1,6 +1,6 @@
-tag = "zidle4-character_minter"
+tag = "zidle-character_minter"
 writes = [
-  "zidle4-TokenConfig",
+  "zidle-TokenConfig",
 ]
 init_calldata = [
   "$contract_address:zidle-character_token",
