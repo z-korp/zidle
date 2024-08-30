@@ -84,7 +84,7 @@ export function defineContractComponents(world: World) {
         {
           token: RecsType.BigInt,
           account: RecsType.BigInt,
-          amount: RecsType.Number,
+          amount: RecsType.BigInt,
         },
         {
           metadata: {

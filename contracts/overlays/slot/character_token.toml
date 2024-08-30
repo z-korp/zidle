@@ -1,0 +1,17 @@
+tag = "zidle4-character_token"
+writes = [
+  "zidle_token4-SRC5Model",
+  "zidle_token4-InitializableModel",
+  "zidle_token4-ERC721OwnerModel",
+  "zidle_token4-ERC721BalanceModel",
+  "zidle_token4-ERC721MetaModel",
+  "zidle_token4-ERC721EnumerableIndexModel",
+  "zidle_token4-ERC721EnumerableOwnerIndexModel",
+  "zidle_token4-ERC721EnumerableOwnerTokenModel",
+  "zidle_token4-ERC721EnumerableTokenModel",
+  "zidle_token4-ERC721EnumerableTotalModel",
+  "zidle_token4-ERC721TokenApprovalModel",
+  "zidle_token4-ERC721OperatorApprovalModel",
+  "zidle4-ERC721WalletModel"
+]
+init_calldata = []

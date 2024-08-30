@@ -43,7 +43,6 @@ export const Header = () => {
           </div>
         </div>
       </div>
-      <Separator />
     </div>
   ) : (
     <div>

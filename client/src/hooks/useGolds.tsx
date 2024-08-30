@@ -52,7 +52,8 @@ export const useGolds = (tokenId: string | undefined) => {
         ? getComponentValue(ERC20Balance, balanceKeys[0])
         : null;
     if (balanceComponent) {
-      setGoldBalance(balanceComponent.amount);
+      console.log(balanceComponent);
+      setGoldBalance(Number(balanceComponent.amount.toString()));
     }
   }, [balanceKeys]);
 

@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x5c4ab582e8cd1c433129f66822622cfb2fb358467191c8a575eb860c9fafb32"
+original_class_hash = "0x5c4ab582e8cd1c433129f66822622cfb2fb358467191c8a575eb860c9fafb32"
+abi = "manifests/sepolia/base/abis/models/zidle_token4-ERC721EnumerableOwnerIndexModel-72573315.json"
+tag = "zidle_token4-ERC721EnumerableOwnerIndexModel"
+qualified_path = "origami_token::components::token::erc721::erc721_enumerable::erc_721_enumerable_owner_index_model"
+manifest_name = "zidle_token4-ERC721EnumerableOwnerIndexModel-72573315"
+
+[[members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "owner"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "index"
+type = "u128"
+key = true
+
+[[members]]
+name = "token_id"
+type = "u128"
+key = false

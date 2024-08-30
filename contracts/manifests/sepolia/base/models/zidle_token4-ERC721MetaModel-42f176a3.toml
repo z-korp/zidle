@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x2fe8f3cb5b65177042742bc4a53e49034e8523c32dc4939ef4c7ff04fc40eb4"
+original_class_hash = "0x2fe8f3cb5b65177042742bc4a53e49034e8523c32dc4939ef4c7ff04fc40eb4"
+abi = "manifests/sepolia/base/abis/models/zidle_token4-ERC721MetaModel-42f176a3.json"
+tag = "zidle_token4-ERC721MetaModel"
+qualified_path = "origami_token::components::token::erc721::erc721_metadata::erc_721_meta_model"
+manifest_name = "zidle_token4-ERC721MetaModel-42f176a3"
+
+[[members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "name"
+type = "ByteArray"
+key = false
+
+[[members]]
+name = "symbol"
+type = "ByteArray"
+key = false
+
+[[members]]
+name = "base_uri"
+type = "ByteArray"
+key = false

@@ -30,3 +30,5 @@ target
 .vercel
 
 client/dev-dist/
+
+dojo_sepolia.toml

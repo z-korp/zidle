@@ -10,7 +10,8 @@ sierra-replace-ids = true
 [scripts]
 dev = "sozo --profile dev clean && sozo --profile dev build && sozo --profile dev migrate apply"
 slot = "sozo --profile slot clean && sozo --profile slot build && sozo --profile slot migrate apply"
-slotdev = "sozo --profile slotdev clean && sozo --profile slotdev build && sozo --profile slotdev migrate apply -vvv"
+slotdev = "sozo --profile slotdev clean && sozo --profile slotdev build && sozo --profile slotdev migrate apply"
+sepolia = "sozo --profile sepolia clean && sozo --profile sepolia build && sozo --profile sepolia migrate apply -vvv"
 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.7" }
@@ -40,3 +41,4 @@ build-external-contracts = [
 # Custom profiles
 [profile.slot]
 [profile.slotdev]
+[profile.sepolia]

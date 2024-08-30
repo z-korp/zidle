@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x6e775153446eebf73db1137b9e0db621eb3eac4f411ec6aee8eeb593acec667"
+original_class_hash = "0x6e775153446eebf73db1137b9e0db621eb3eac4f411ec6aee8eeb593acec667"
+abi = "manifests/sepolia/base/abis/models/zidle_token4-ERC20BalanceModel-7f8642a9.json"
+tag = "zidle_token4-ERC20BalanceModel"
+qualified_path = "origami_token::components::token::erc20::erc20_balance::erc_20_balance_model"
+manifest_name = "zidle_token4-ERC20BalanceModel-7f8642a9"
+
+[[members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "account"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "amount"
+type = "u256"
+key = false

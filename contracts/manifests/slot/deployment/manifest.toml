@@ -1,0 +1,716 @@
+[world]
+kind = "WorldContract"
+class_hash = "0x3715f072aa1c07be724249fcda8b0322687f6c5c585eebc4402d162649c707c"
+original_class_hash = "0x3715f072aa1c07be724249fcda8b0322687f6c5c585eebc4402d162649c707c"
+abi = "manifests/slot/deployment/abis/dojo-world.json"
+address = "0x5903f818fe01b1f48f3a234a2b186e92cc2825c32a9b62c4453f6989ff11709"
+transaction_hash = "0x4129d490a86f512ec5854778bcae5cd9e492c3db6ff3d4dd029479005dc4331"
+block_number = 3
+seed = "zIdle"
+manifest_name = "dojo-world"
+
+[world.metadata]
+profile_name = "slot"
+rpc_url = "https://api.cartridge.gg/x/zidle-slot/katana"
+
+[base]
+kind = "Class"
+class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+original_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/slot/deployment/abis/dojo-base.json"
+tag = "dojo-base"
+manifest_name = "dojo-base"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x3c32550e6516325c80378d3bc8c87b908230c439a6d23a17aab703119bbd663"
+class_hash = "0x5c7685f900c0fa9223c46f8667e04082a5372204fe94f4a203979ba03599f3b"
+original_class_hash = "0x5c7685f900c0fa9223c46f8667e04082a5372204fe94f4a203979ba03599f3b"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/slot/deployment/abis/contracts/zidle-character-3dec6fe1.json"
+reads = []
+writes = [
+    "zidle-Miner",
+    "zidle-Player",
+]
+init_calldata = []
+tag = "zidle-character"
+systems = ["create"]
+manifest_name = "zidle-character-3dec6fe1"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0xb034a4f3f79f99c7804ab677499419071f808100d618c57b5328ab378e5887"
+class_hash = "0x596067199e1d3b47c0600eff9f76bc1565b241cb7161e0bb23e27ae83441027"
+original_class_hash = "0x596067199e1d3b47c0600eff9f76bc1565b241cb7161e0bb23e27ae83441027"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/slot/deployment/abis/contracts/zidle-character_minter-65ab56f7.json"
+reads = []
+writes = ["zidle-TokenConfig"]
+init_calldata = [
+    "$contract_address:zidle-character_token",
+    "10000",
+    "0",
+    "100",
+    "0",
+    "1",
+]
+tag = "zidle-character_minter"
+systems = ["set_open"]
+manifest_name = "zidle-character_minter-65ab56f7"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x5a1e560754f03e7c654e1b4882f79a05a6870f5546d826135f757fd7c1ea32d"
+class_hash = "0x31cbb2ddba6604f318160ac2e76134ff0104c00932ba45652e31c6562e605bf"
+original_class_hash = "0x31cbb2ddba6604f318160ac2e76134ff0104c00932ba45652e31c6562e605bf"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/slot/deployment/abis/contracts/zidle-character_token-219118e6.json"
+reads = []
+writes = [
+    "origami_token-SRC5Model",
+    "origami_token-InitializableModel",
+    "origami_token-ERC721OwnerModel",
+    "origami_token-ERC721BalanceModel",
+    "origami_token-ERC721MetaModel",
+    "origami_token-ERC721EnumerableIndexModel",
+    "origami_token-ERC721EnumerableOwnerIndexModel",
+    "origami_token-ERC721EnumerableOwnerTokenModel",
+    "origami_token-ERC721EnumerableTokenModel",
+    "origami_token-ERC721EnumerableTotalModel",
+    "origami_token-ERC721TokenApprovalModel",
+    "origami_token-ERC721OperatorApprovalModel",
+    "zidle-ERC721WalletModel",
+]
+init_calldata = []
+tag = "zidle-character_token"
+systems = [
+    "mint",
+    "burn",
+]
+manifest_name = "zidle-character_token-219118e6"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x6a009400934c09bb05d9e046479f9d6cd8a7b802d4c9bc82c19c2e635593700"
+class_hash = "0x33cdb2660e7eeaae009b1b9a8cc081b43da80d7ab2b0823e22753d905446c33"
+original_class_hash = "0x33cdb2660e7eeaae009b1b9a8cc081b43da80d7ab2b0823e22753d905446c33"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/slot/deployment/abis/contracts/zidle-gold_minter-12eeade6.json"
+reads = []
+writes = ["zidle-TokenConfig"]
+init_calldata = [
+    "$contract_address:zidle-gold_token",
+    "1000000000000000",
+    "0",
+    "1000000000000000",
+    "0",
+    "1",
+]
+tag = "zidle-gold_minter"
+systems = [
+    "mint",
+    "set_open",
+]
+manifest_name = "zidle-gold_minter-12eeade6"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0xd294dc6db0fd0acd97f286e08968a671298742084bb3846e32749f28d67869"
+class_hash = "0x539bf8a9a5fa3bc93e7de7aaaec48a4fb77430887170dc000a30c65e94fadf0"
+original_class_hash = "0x539bf8a9a5fa3bc93e7de7aaaec48a4fb77430887170dc000a30c65e94fadf0"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/slot/deployment/abis/contracts/zidle-gold_token-3cef4f4d.json"
+reads = []
+writes = [
+    "origami_token-SRC5Model",
+    "origami_token-InitializableModel",
+    "origami_token-ERC20BalanceModel",
+    "origami_token-ERC20MetadataModel",
+    "origami_token-ERC20AllowanceModel",
+]
+init_calldata = []
+tag = "zidle-gold_token"
+systems = [
+    "mint",
+    "burn",
+]
+manifest_name = "zidle-gold_token-3cef4f4d"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x56e0f2455f917a62998a79bdd9b470198b0a4a670ea68a0e231517c80fe2dfa"
+class_hash = "0x2774b732a0db71d9712e01a01b98504de0e7dbf4fad8d859b567117e2a4984f"
+original_class_hash = "0x2774b732a0db71d9712e01a01b98504de0e7dbf4fad8d859b567117e2a4984f"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/slot/deployment/abis/contracts/zidle-resources-14ead52a.json"
+reads = []
+writes = [
+    "zidle-Char",
+    "zidle-Player",
+    "zidle-Miner",
+    "zidle-TokenConfig",
+]
+init_calldata = []
+tag = "zidle-resources"
+systems = [
+    "mine",
+    "harvest",
+    "sell",
+]
+manifest_name = "zidle-resources-14ead52a"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x222d10acee2a214aed878d06010385b8624a48bbb61a8bc9a777f8facd9a36d"
+original_class_hash = "0x222d10acee2a214aed878d06010385b8624a48bbb61a8bc9a777f8facd9a36d"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC20AllowanceModel-4fcf1991.json"
+tag = "origami_token-ERC20AllowanceModel"
+qualified_path = "origami_token::components::token::erc20::erc20_allowance::erc_20_allowance_model"
+manifest_name = "origami_token-ERC20AllowanceModel-4fcf1991"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "owner"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "spender"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "amount"
+type = "u256"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x38c3c9f4ec3feea51cee2ec9be6592b50f711f5fa39e5b4f0ca0e770675505e"
+original_class_hash = "0x38c3c9f4ec3feea51cee2ec9be6592b50f711f5fa39e5b4f0ca0e770675505e"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC20BalanceModel-da267235.json"
+tag = "origami_token-ERC20BalanceModel"
+qualified_path = "origami_token::components::token::erc20::erc20_balance::erc_20_balance_model"
+manifest_name = "origami_token-ERC20BalanceModel-da267235"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "account"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "amount"
+type = "u256"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2a9e6b7d401e8c9fa77e5221dce4f049334ce8ed4d7a53f88adf72b3af968eb"
+original_class_hash = "0x2a9e6b7d401e8c9fa77e5221dce4f049334ce8ed4d7a53f88adf72b3af968eb"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC20MetadataModel-3368c0e3.json"
+tag = "origami_token-ERC20MetadataModel"
+qualified_path = "origami_token::components::token::erc20::erc20_metadata::erc_20_metadata_model"
+manifest_name = "origami_token-ERC20MetadataModel-3368c0e3"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "name"
+type = "ByteArray"
+key = false
+
+[[models.members]]
+name = "symbol"
+type = "ByteArray"
+key = false
+
+[[models.members]]
+name = "decimals"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "total_supply"
+type = "u256"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x36dc2b76dcd77b58fe987c0b8836c2ce7fa08cb9d44838634218fad353bec83"
+original_class_hash = "0x36dc2b76dcd77b58fe987c0b8836c2ce7fa08cb9d44838634218fad353bec83"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721BalanceModel-246a8e17.json"
+tag = "origami_token-ERC721BalanceModel"
+qualified_path = "origami_token::components::token::erc721::erc721_balance::erc_721_balance_model"
+manifest_name = "origami_token-ERC721BalanceModel-246a8e17"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "account"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "amount"
+type = "u128"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x5d3394057bbdf2262c0ba952ec0bbc13b8a315ad8bd9e684650225abc4152ac"
+original_class_hash = "0x5d3394057bbdf2262c0ba952ec0bbc13b8a315ad8bd9e684650225abc4152ac"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721EnumerableIndexModel-1a4200e7.json"
+tag = "origami_token-ERC721EnumerableIndexModel"
+qualified_path = "origami_token::components::token::erc721::erc721_enumerable::erc_721_enumerable_index_model"
+manifest_name = "origami_token-ERC721EnumerableIndexModel-1a4200e7"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "index"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2fd76867b943befb036da828bd1d2bec2386863ad70aafa770360c5b3e9acfc"
+original_class_hash = "0x2fd76867b943befb036da828bd1d2bec2386863ad70aafa770360c5b3e9acfc"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721EnumerableOwnerIndexModel-573cb336.json"
+tag = "origami_token-ERC721EnumerableOwnerIndexModel"
+qualified_path = "origami_token::components::token::erc721::erc721_enumerable::erc_721_enumerable_owner_index_model"
+manifest_name = "origami_token-ERC721EnumerableOwnerIndexModel-573cb336"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "owner"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "index"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x45871731d39993b19571f03348d6932fba0445f6eb94e1e37d2db5c4474d61c"
+original_class_hash = "0x45871731d39993b19571f03348d6932fba0445f6eb94e1e37d2db5c4474d61c"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721EnumerableOwnerTokenModel-74966560.json"
+tag = "origami_token-ERC721EnumerableOwnerTokenModel"
+qualified_path = "origami_token::components::token::erc721::erc721_enumerable::erc_721_enumerable_owner_token_model"
+manifest_name = "origami_token-ERC721EnumerableOwnerTokenModel-74966560"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "owner"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "index"
+type = "u128"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0xf5a9baf34c431fc11c05e15ddff7eb4750847ada1db57528ddad2966a7f3ec"
+original_class_hash = "0xf5a9baf34c431fc11c05e15ddff7eb4750847ada1db57528ddad2966a7f3ec"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721EnumerableTokenModel-5c383d9f.json"
+tag = "origami_token-ERC721EnumerableTokenModel"
+qualified_path = "origami_token::components::token::erc721::erc721_enumerable::erc_721_enumerable_token_model"
+manifest_name = "origami_token-ERC721EnumerableTokenModel-5c383d9f"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "index"
+type = "u128"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x476254a3660ac696486628f6fb9c531a94de4b0addcc00bc43eafc207638968"
+original_class_hash = "0x476254a3660ac696486628f6fb9c531a94de4b0addcc00bc43eafc207638968"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721EnumerableTotalModel-5674a124.json"
+tag = "origami_token-ERC721EnumerableTotalModel"
+qualified_path = "origami_token::components::token::erc721::erc721_enumerable::erc_721_enumerable_total_model"
+manifest_name = "origami_token-ERC721EnumerableTotalModel-5674a124"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "total_supply"
+type = "u128"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x4310a938ba169a6d12cd0aa9dbeaf2992ddc4b55621bdeb883c0b43a3726d6d"
+original_class_hash = "0x4310a938ba169a6d12cd0aa9dbeaf2992ddc4b55621bdeb883c0b43a3726d6d"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721MetaModel-423fffaa.json"
+tag = "origami_token-ERC721MetaModel"
+qualified_path = "origami_token::components::token::erc721::erc721_metadata::erc_721_meta_model"
+manifest_name = "origami_token-ERC721MetaModel-423fffaa"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "name"
+type = "ByteArray"
+key = false
+
+[[models.members]]
+name = "symbol"
+type = "ByteArray"
+key = false
+
+[[models.members]]
+name = "base_uri"
+type = "ByteArray"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x29f6fcd504ae293bec1139611e0fe870deda9be6a41ef7e1ffacfa5c76c4dd5"
+original_class_hash = "0x29f6fcd504ae293bec1139611e0fe870deda9be6a41ef7e1ffacfa5c76c4dd5"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721OperatorApprovalModel-1083d4d1.json"
+tag = "origami_token-ERC721OperatorApprovalModel"
+qualified_path = "origami_token::components::token::erc721::erc721_approval::erc_721_operator_approval_model"
+manifest_name = "origami_token-ERC721OperatorApprovalModel-1083d4d1"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "owner"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "operator"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "approved"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x356e5dea0e7529f6c2617074b151c03b23cfb408d0a1ef8e123c226502cf115"
+original_class_hash = "0x356e5dea0e7529f6c2617074b151c03b23cfb408d0a1ef8e123c226502cf115"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721OwnerModel-61577880.json"
+tag = "origami_token-ERC721OwnerModel"
+qualified_path = "origami_token::components::token::erc721::erc721_owner::erc_721_owner_model"
+manifest_name = "origami_token-ERC721OwnerModel-61577880"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "address"
+type = "ContractAddress"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x290d67abdcfd26f1d9768cec5ff48842cd405ce33417c6e8a212da0baa77e86"
+original_class_hash = "0x290d67abdcfd26f1d9768cec5ff48842cd405ce33417c6e8a212da0baa77e86"
+abi = "manifests/slot/deployment/abis/models/origami_token-ERC721TokenApprovalModel-560d5854.json"
+tag = "origami_token-ERC721TokenApprovalModel"
+qualified_path = "origami_token::components::token::erc721::erc721_approval::erc_721_token_approval_model"
+manifest_name = "origami_token-ERC721TokenApprovalModel-560d5854"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "address"
+type = "ContractAddress"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x43c7452e01d3ecb9f7460490397bd17c0d3461bd322d93bbfac4925dc9ee1ed"
+original_class_hash = "0x43c7452e01d3ecb9f7460490397bd17c0d3461bd322d93bbfac4925dc9ee1ed"
+abi = "manifests/slot/deployment/abis/models/origami_token-InitializableModel-5c624096.json"
+tag = "origami_token-InitializableModel"
+qualified_path = "origami_token::components::security::initializable::initializable_model"
+manifest_name = "origami_token-InitializableModel-5c624096"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "initialized"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x25d17f5223a69a8f5a4b9bdd2bba1121a9da6e5bdb83592402943158e5946b9"
+original_class_hash = "0x25d17f5223a69a8f5a4b9bdd2bba1121a9da6e5bdb83592402943158e5946b9"
+abi = "manifests/slot/deployment/abis/models/origami_token-SRC5Model-72fc8945.json"
+tag = "origami_token-SRC5Model"
+qualified_path = "origami_token::components::introspection::src5::src_5_model"
+manifest_name = "origami_token-SRC5Model-72fc8945"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "interface_id"
+type = "felt252"
+key = true
+
+[[models.members]]
+name = "supports"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x4d7c7f6b335266ad573aff1edf01f7b2f1aff312a39d0bebc011f3b2ca92485"
+original_class_hash = "0x4d7c7f6b335266ad573aff1edf01f7b2f1aff312a39d0bebc011f3b2ca92485"
+abi = "manifests/slot/deployment/abis/models/zidle-Char-29c4e0a3.json"
+tag = "zidle-Char"
+qualified_path = "zidle::models::char::char"
+manifest_name = "zidle-Char-29c4e0a3"
+
+[[models.members]]
+name = "id"
+type = "felt252"
+key = true
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "name"
+type = "felt252"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x7e8fbb75820a4a4221d28e797e79663a27a9a6121ed4ea82cc64b3337864a27"
+original_class_hash = "0x7e8fbb75820a4a4221d28e797e79663a27a9a6121ed4ea82cc64b3337864a27"
+abi = "manifests/slot/deployment/abis/models/zidle-ERC721WalletModel-1250d651.json"
+tag = "zidle-ERC721WalletModel"
+qualified_path = "zidle::components::erc721::erc721_wallet::erc_721_wallet_model"
+manifest_name = "zidle-ERC721WalletModel-1250d651"
+
+[[models.members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "address"
+type = "ContractAddress"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x60f8ef7db75eb9a1d553fb64f348c7b109021c6ca19757b91aa62c093a3eab0"
+original_class_hash = "0x60f8ef7db75eb9a1d553fb64f348c7b109021c6ca19757b91aa62c093a3eab0"
+abi = "manifests/slot/deployment/abis/models/zidle-Miner-7ca4dc32.json"
+tag = "zidle-Miner"
+qualified_path = "zidle::models::miner::miner"
+manifest_name = "zidle-Miner-7ca4dc32"
+
+[[models.members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "resource_type"
+type = "u8"
+key = true
+
+[[models.members]]
+name = "xp"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "timestamp"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "subresource_type"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "rcs_1"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_2"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_3"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_4"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_5"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_6"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "rcs_7"
+type = "u64"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x5e3c8d1dba5760cd045ac06d33d10c7d485c85f2032eecbb721a876c3902ab6"
+original_class_hash = "0x5e3c8d1dba5760cd045ac06d33d10c7d485c85f2032eecbb721a876c3902ab6"
+abi = "manifests/slot/deployment/abis/models/zidle-Player-456cce7d.json"
+tag = "zidle-Player"
+qualified_path = "zidle::models::player::player"
+manifest_name = "zidle-Player-456cce7d"
+
+[[models.members]]
+name = "token_id"
+type = "felt252"
+key = true
+
+[[models.members]]
+name = "name"
+type = "felt252"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x78f9892bd89a70b23a04dce2bfcfe99a721beb1aa2c5d4b3669710addcccfc4"
+original_class_hash = "0x78f9892bd89a70b23a04dce2bfcfe99a721beb1aa2c5d4b3669710addcccfc4"
+abi = "manifests/slot/deployment/abis/models/zidle-TokenConfig-6e5e38c0.json"
+tag = "zidle-TokenConfig"
+qualified_path = "zidle::models::token_config::token_config"
+manifest_name = "zidle-TokenConfig-6e5e38c0"
+
+[[models.members]]
+name = "token_address"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "max_supply"
+type = "u256"
+key = false
+
+[[models.members]]
+name = "minted_count"
+type = "u256"
+key = false
+
+[[models.members]]
+name = "max_per_wallet"
+type = "u256"
+key = false
+
+[[models.members]]
+name = "is_open"
+type = "bool"
+key = false

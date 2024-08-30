@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x7e8fbb75820a4a4221d28e797e79663a27a9a6121ed4ea82cc64b3337864a27"
+original_class_hash = "0x7e8fbb75820a4a4221d28e797e79663a27a9a6121ed4ea82cc64b3337864a27"
+abi = "manifests/slot/base/abis/models/zidle-ERC721WalletModel-1250d651.json"
+tag = "zidle-ERC721WalletModel"
+qualified_path = "zidle::components::erc721::erc721_wallet::erc_721_wallet_model"
+manifest_name = "zidle-ERC721WalletModel-1250d651"
+
+[[members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "address"
+type = "ContractAddress"
+key = false

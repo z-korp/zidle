@@ -1,0 +1,11 @@
+kind = "DojoContract"
+class_hash = "0x5c7685f900c0fa9223c46f8667e04082a5372204fe94f4a203979ba03599f3b"
+original_class_hash = "0x5c7685f900c0fa9223c46f8667e04082a5372204fe94f4a203979ba03599f3b"
+base_class_hash = "0x0"
+abi = "manifests/slot/base/abis/contracts/zidle-character-3dec6fe1.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "zidle-character"
+systems = ["create"]
+manifest_name = "zidle-character-3dec6fe1"

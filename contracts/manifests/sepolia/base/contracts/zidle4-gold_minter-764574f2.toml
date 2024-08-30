@@ -1,0 +1,14 @@
+kind = "DojoContract"
+class_hash = "0x2dda6c8c5bfd38805bd27974a9bdd78d163de2096601b027700a7f8d81a3ad7"
+original_class_hash = "0x2dda6c8c5bfd38805bd27974a9bdd78d163de2096601b027700a7f8d81a3ad7"
+base_class_hash = "0x0"
+abi = "manifests/sepolia/base/abis/contracts/zidle4-gold_minter-764574f2.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "zidle4-gold_minter"
+systems = [
+    "mint",
+    "set_open",
+]
+manifest_name = "zidle4-gold_minter-764574f2"

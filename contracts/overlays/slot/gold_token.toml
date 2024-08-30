@@ -1,0 +1,9 @@
+tag = "zidle4-gold_token"
+writes = [
+  "zidle_token4-SRC5Model",
+  "zidle_token4-InitializableModel",
+  "zidle_token4-ERC20BalanceModel",
+  "zidle_token4-ERC20MetadataModel",
+  "zidle_token4-ERC20AllowanceModel"
+]
+init_calldata = []

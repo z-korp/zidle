@@ -1,7 +1,7 @@
 import { useDojo } from "@/dojo/useDojo";
 import { useCallback, useMemo, useState } from "react";
 import { Button } from "@/ui/elements/button";
-import { Account, RpcProvider, Signer } from "starknet";
+import { Account, RpcProvider } from "starknet";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { useGolds } from "@/hooks/useGolds";
 
@@ -34,8 +34,10 @@ export const TransferGold: React.FC<TransferGoldProps> = ({
     setIsLoading(true);
 
     const provider = new RpcProvider({
-      nodeUrl: import.meta.env.VITE_NODE_URL as string,
+      nodeUrl: import.meta.env.VITE_PUBLIC_NODE_URL as string,
     });
+    // We create the wallet account to send the gold from
+    // with the owner signer
     const walletAccount = new Account(provider, walletAddress, account.signer);
     try {
       await transferGold({

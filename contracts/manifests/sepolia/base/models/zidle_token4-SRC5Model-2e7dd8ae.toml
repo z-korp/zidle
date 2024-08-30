@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x557f688ac8ab214170486efea990d316d56e2ac6e549573e6a1384b356dfb73"
+original_class_hash = "0x557f688ac8ab214170486efea990d316d56e2ac6e549573e6a1384b356dfb73"
+abi = "manifests/sepolia/base/abis/models/zidle_token4-SRC5Model-2e7dd8ae.json"
+tag = "zidle_token4-SRC5Model"
+qualified_path = "origami_token::components::introspection::src5::src_5_model"
+manifest_name = "zidle_token4-SRC5Model-2e7dd8ae"
+
+[[members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "interface_id"
+type = "felt252"
+key = true
+
+[[members]]
+name = "supports"
+type = "bool"
+key = false

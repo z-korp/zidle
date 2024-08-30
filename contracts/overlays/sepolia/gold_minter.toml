@@ -1,0 +1,12 @@
+tag = "zidle4-gold_minter"
+writes = [
+  "zidle4-TokenConfig",
+]
+init_calldata = [
+  "$contract_address:zidle4-gold_token",
+  "1000000000000000",  # max supply (low)
+  "0",                 # max supply (high)
+  "1000000000000000",  # max per wallet (low)
+  "0",                 # max per wallet (high)
+  "1",                 # is_open
+]

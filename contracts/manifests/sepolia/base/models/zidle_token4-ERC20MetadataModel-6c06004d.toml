@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x49571dd250b65acabbf7acd49b0ae53653562c447781ffd82453daf4a6e62f2"
+original_class_hash = "0x49571dd250b65acabbf7acd49b0ae53653562c447781ffd82453daf4a6e62f2"
+abi = "manifests/sepolia/base/abis/models/zidle_token4-ERC20MetadataModel-6c06004d.json"
+tag = "zidle_token4-ERC20MetadataModel"
+qualified_path = "origami_token::components::token::erc20::erc20_metadata::erc_20_metadata_model"
+manifest_name = "zidle_token4-ERC20MetadataModel-6c06004d"
+
+[[members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "name"
+type = "ByteArray"
+key = false
+
+[[members]]
+name = "symbol"
+type = "ByteArray"
+key = false
+
+[[members]]
+name = "decimals"
+type = "u8"
+key = false
+
+[[members]]
+name = "total_supply"
+type = "u256"
+key = false

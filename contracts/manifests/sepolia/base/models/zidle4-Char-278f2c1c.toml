@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0xf83053119a31807663f48f62f8030c27a1f694fbac3b6b0a7a2b08c8950576"
+original_class_hash = "0xf83053119a31807663f48f62f8030c27a1f694fbac3b6b0a7a2b08c8950576"
+abi = "manifests/sepolia/base/abis/models/zidle4-Char-278f2c1c.json"
+tag = "zidle4-Char"
+qualified_path = "zidle::models::char::char"
+manifest_name = "zidle4-Char-278f2c1c"
+
+[[members]]
+name = "id"
+type = "felt252"
+key = true
+
+[[members]]
+name = "token_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "name"
+type = "felt252"
+key = false

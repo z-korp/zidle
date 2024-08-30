@@ -1,0 +1,15 @@
+kind = "DojoContract"
+class_hash = "0x2bbe2cf699d1eb83d4972988fa7294d95b18add1e2ffb185a918844913d64a0"
+original_class_hash = "0x2bbe2cf699d1eb83d4972988fa7294d95b18add1e2ffb185a918844913d64a0"
+base_class_hash = "0x0"
+abi = "manifests/sepolia/base/abis/contracts/zidle4-resources-601cc872.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "zidle4-resources"
+systems = [
+    "mine",
+    "harvest",
+    "sell",
+]
+manifest_name = "zidle4-resources-601cc872"

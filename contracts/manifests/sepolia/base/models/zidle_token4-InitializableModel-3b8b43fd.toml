@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x7148c780747dff5930d66eb3df4cd8a900fb8b53a50a7f381f815e9840c79a1"
+original_class_hash = "0x7148c780747dff5930d66eb3df4cd8a900fb8b53a50a7f381f815e9840c79a1"
+abi = "manifests/sepolia/base/abis/models/zidle_token4-InitializableModel-3b8b43fd.json"
+tag = "zidle_token4-InitializableModel"
+qualified_path = "origami_token::components::security::initializable::initializable_model"
+manifest_name = "zidle_token4-InitializableModel-3b8b43fd"
+
+[[members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "initialized"
+type = "bool"
+key = false

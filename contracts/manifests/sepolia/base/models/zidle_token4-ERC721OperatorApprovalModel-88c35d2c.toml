@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x6014eabd7f530279e07903c37ce7c6ba1a51be2d14b00e08b1fd31742103642"
+original_class_hash = "0x6014eabd7f530279e07903c37ce7c6ba1a51be2d14b00e08b1fd31742103642"
+abi = "manifests/sepolia/base/abis/models/zidle_token4-ERC721OperatorApprovalModel-88c35d2c.json"
+tag = "zidle_token4-ERC721OperatorApprovalModel"
+qualified_path = "origami_token::components::token::erc721::erc721_approval::erc_721_operator_approval_model"
+manifest_name = "zidle_token4-ERC721OperatorApprovalModel-88c35d2c"
+
+[[members]]
+name = "token"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "owner"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "operator"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "approved"
+type = "bool"
+key = false
