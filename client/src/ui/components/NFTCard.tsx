@@ -32,7 +32,7 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, onSelect }) => {
           scale={1}
           fps={10}
           currentAnimation={AnimationType.Idle}
-          mobType={MobType.Knight}
+          mobType={Object.values(MobType)[parseInt(character.token_id) % 3]}
         />
       </CardContent>
       <CardFooter className="flex justify-between">
