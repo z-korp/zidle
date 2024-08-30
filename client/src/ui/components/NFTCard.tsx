@@ -7,6 +7,7 @@ import {
   CardContent,
   CardFooter,
 } from "../elements/card";
+import gold from "/assets/gold.png";
 
 interface NFTCardProps {
   tokenId: string;
@@ -23,20 +24,28 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, onSelect }) => {
       onClick={() => onSelect(tokenId)}
     >
       <CardHeader>
-        <CardTitle>{character.name}</CardTitle>
+        <div className="flex justify-center items-center">
+          <CardTitle>{character.name}</CardTitle>
+          <div className="text-right">
+          
+          </div>
+        </div>
       </CardHeader>
-      <CardContent className="flex flex-col items-center space-y-4">
+      <CardContent className="flex flex-col items-center">
         <AnimatedSprite
           width={192}
           height={192}
-          scale={1}
+          scale={2}
           fps={10}
           currentAnimation={AnimationType.Idle}
           mobType={Object.values(MobType)[parseInt(character.token_id) % 3]}
         />
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <p>Gold: {character.gold}</p>
+      <CardFooter className="flex justify-center">
+        <div className="flex justify-aroun">
+          <img src={gold} alt="Gold" className="w-8 h-8 pixelated-image" />
+          <span className="text-lg">{character?.gold ?? 0}</span>
+        </div>
       </CardFooter>
     </Card>
   );
