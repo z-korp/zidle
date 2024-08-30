@@ -26,15 +26,13 @@ const root = ReactDOM.createRoot(
 function Main() {
   const connectors = [cartridgeConnector];
 
-  const [setupResult, setSetupResult] = useState<SetupResult | null>(null);
-  const [ready, setReady] = useState(false);
-  const [enter, setEnter] = useState(false);
+  const [setupResult, setSetupResult] = useState<SetupResult | null>(null);;
 
   const loading = useMemo(
     () => {
-      return!enter || !setupResult || !ready
+      return !setupResult
     },
-    [enter, setupResult, ready],
+    [setupResult],
   );
 
 
@@ -43,11 +41,9 @@ function Main() {
       try {
         const result = await setup(dojoConfig());
         setSetupResult(result);
-        setReady(true);
         
       } catch (error) {
         console.error("Setup failed:", error);
-        setReady(false);
       }
     }
     initialize();
