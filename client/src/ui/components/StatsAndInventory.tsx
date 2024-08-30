@@ -7,6 +7,7 @@ import { Dialog } from "@/ui/elements/dialog";
 import AddressDisplay from "./AddressDisplay";
 import { WalletIcon } from "lucide-react";
 import Wallet from "./Wallet";
+import gold from "/assets/gold.png";
 
 interface StatsAndInventoryProps {
   character: Character;
@@ -29,7 +30,19 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
   return (
     <>
       <div className="space-y-1">
-        <AddressDisplay address={character.walletAddress || ""} />
+        <div className="flex justify-between items-center">
+          <div>
+            <AddressDisplay address={character.walletAddress || ""} />
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="text-lg">{character?.gold ?? 0}</span>
+            <img src={gold} alt="Gold" className="w-8 h-8" />
+            <WalletIcon 
+              className="w-8 h-8 border border-gray-300 rounded-md p-1 hover:bg-gray-100 cursor-pointer" 
+              onClick={() => setOpenModal(true)}
+            />
+          </div>
+        </div>
         <div className="grid grid-cols-3 gap-1 text-sm items-center h-42">
           <div className="space-y-2 flex flex-col">
             <div>Health: {health}</div>
@@ -61,16 +74,6 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
               <span className="font-medium">Food:</span>
               <LevelIndicator currentXP={character?.foodProgress ?? 0} />
             </div>
-          </div>
-        </div>
-        <div className="text-sm flex items-center justify-between">
-          <div
-            className="flex items-center space-x-2 cursor-pointer"
-            onClick={() => setOpenModal(true)}
-          >
-            <span className="font-medium">Gold :</span>
-            <span>{character?.gold ?? 0}</span>
-            <WalletIcon />
           </div>
         </div>
         <Button
