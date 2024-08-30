@@ -56,7 +56,7 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
                   <img
                     src={getResourceImage(item.rcs.value)}
                     alt={item.rcs.getSubresourceName()}
-                    className="w-8 h-8 object-cover"
+                    className="w-8 h-8 pixelated-image object-cover" 
                   />
                   <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
                     {item.quantity}

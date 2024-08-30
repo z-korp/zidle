@@ -95,7 +95,7 @@ const ProgressBar: React.FC<{ progress: number; showSparkle: boolean , selectedR
           transition={{ duration: 0.3 }}
           className="absolute right-0 top-0"
         >
-          <img src={getResourceImage(selectedResource.value)} />
+          <img src={getResourceImage(selectedResource.value)} className="pixelated-image" />
         </motion.div>
       )}
     </AnimatePresence>

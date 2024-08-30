@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.pixelated-image {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges; /* Pour une meilleure compatibilité */
+  -ms-interpolation-mode: nearest-neighbor; /* Pour IE */
+}
+
 @layer base {
   @font-face {
     font-family: "Fredericka the Great";

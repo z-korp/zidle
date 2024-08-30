@@ -36,7 +36,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-lg">{character?.gold ?? 0}</span>
-            <img src={gold} alt="Gold" className="w-8 h-8" />
+            <img src={gold} alt="Gold" className="w-8 h-8 pixelated-image" />
             <WalletIcon 
               className="w-8 h-8 border border-gray-300 rounded-md p-1 hover:bg-gray-100 cursor-pointer" 
               onClick={() => setOpenModal(true)}
