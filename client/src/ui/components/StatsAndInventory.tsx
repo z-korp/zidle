@@ -60,7 +60,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
                 scale={1}
                 fps={10}
                 currentAnimation={currentAnimation}
-                mobType={MobType.Knight}
+                mobType={Object.values(MobType)[parseInt(character.token_id) % 3]}
               />
             </div>
           </div>
