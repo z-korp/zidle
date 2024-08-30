@@ -20,7 +20,7 @@ export const Home = () => {
     <div className="relative flex flex-col h-screen">
       <Header />
       <div className="relative flex flex-col gap-8 grow items-center justify-start ">
-        <div className="absolute flex flex-col items-center gap-4 w-full p-2 max-w-4xl -mt-14">
+        <div className="absolute flex flex-col items-center gap-4 w-full p-2 max-w-4xl">
           {selectedNft == null ? (
             <Card className="w-[350px] bg-gray-800 text-white shadow-xl border border-gray-600">
               <CardHeader className="p-3"></CardHeader>
