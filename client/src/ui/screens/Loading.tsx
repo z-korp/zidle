@@ -1,12 +1,6 @@
-import React from 'react';
-import { Button } from "@/ui/elements/button";
 import background from "/assets/bg-nuage.png";
 
-export const Loading = ({
-  setEnter,
-}: {
-  setEnter: (state: boolean) => void;
-}) => {
+export const Loading = () => {
 
   return (
     
