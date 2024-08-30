@@ -99,7 +99,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
               {renderContent()}
             </div>
           </CardContent>
-          {showSummary && reconnectionData && (
+          {showSummary && reconnectionData && (reconnectionData?.resourcesGained.findIndex(x=> x.quantity>0) !== -1)  && (
             <ReconnectionSummary
               data={reconnectionData ?? { timePassed: "", resourcesGained: [] }}
               onContinue={() => {

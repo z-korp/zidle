@@ -26,7 +26,7 @@ const root = ReactDOM.createRoot(
 function Main() {
   const connectors = [cartridgeConnector];
 
-  const [setupResult, setSetupResult] = useState<SetupResult | null>(null);;
+  const [setupResult, setSetupResult] = useState<SetupResult | null>(null);
 
   const loading = useMemo(
     () => {
@@ -61,7 +61,7 @@ function Main() {
           provider={jsonRpcProvider({ rpc })}
         >
           {loading ? (
-            <Loading setEnter={() => setEnter(!enter)} /> // Utilisation d'une fonction pour éviter l'appel immédiat
+            <Loading /> // Utilisation d'une fonction pour éviter l'appel immédiat
           ) : setupResult ? (
             <DojoProvider value={setupResult}>
               <SoundPlayerProvider>
