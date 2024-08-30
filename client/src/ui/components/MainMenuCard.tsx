@@ -30,11 +30,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   const reconnectionData = useReconnectionData(tokenId);
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
-  useEffect(() => {
-    if (!reconnectionData) {
-      setShowSummary(false);
-    }
-  }, [reconnectionData]);
+
   useEffect(() => {
     if (character) {
       if (character.miners.length > 0) {
