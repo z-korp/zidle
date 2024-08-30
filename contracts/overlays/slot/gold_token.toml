@@ -1,9 +1,9 @@
-tag = "zidle4-gold_token"
+tag = "zidle-gold_token"
 writes = [
-  "zidle_token4-SRC5Model",
-  "zidle_token4-InitializableModel",
-  "zidle_token4-ERC20BalanceModel",
-  "zidle_token4-ERC20MetadataModel",
-  "zidle_token4-ERC20AllowanceModel"
+  "origami_token-SRC5Model",
+  "origami_token-InitializableModel",
+  "origami_token-ERC20BalanceModel",
+  "origami_token-ERC20MetadataModel",
+  "origami_token-ERC20AllowanceModel"
 ]
 init_calldata = []

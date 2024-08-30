@@ -93,8 +93,9 @@ impl FoodImpl of FoodTrait {
 
     fn calculate_gathering_duration(self: FoodType, player_level: u8) -> u32 {
         // Calculate level bonus (0.5% reduction per level, max 49.5% at level 99)
-        let level_bonus = player_level * 5; // 0.5% per level, multiplied by 10 for precision
-        let time_reduction: u32 = (Self::base_time(self).into() * level_bonus.into())
+        let level_bonus: u32 = player_level.into()
+            * 5; // 0.5% per level, multiplied by 10 for precision
+        let time_reduction: u32 = (Self::base_time(self).into() * level_bonus)
             / 1000; // Divide by 1000 to apply percentage
 
         let final_time = Self::base_time(self).into() - time_reduction;
