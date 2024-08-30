@@ -93,8 +93,6 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
         >
           <ArrowLeft />
         </Button>
-
-        <CardTitle className="text-center mt-0">zIdle</CardTitle>
       </CardHeader>
       {!character ? (
         <CardContent>
@@ -103,7 +101,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
       ) : (
         <>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-4 mt-4">
               <StatsAndInventory
                 character={character}
                 health={100}
