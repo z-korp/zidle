@@ -5,9 +5,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
 } from "../elements/dialog";
+import gold from "/assets/gold.png";
 import { Input } from "../elements/input";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import { Sell } from "../actions/Sell";
@@ -27,11 +27,9 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [sellQuantity, setSellQuantity] = useState(1);
 
-  
-
   return (
     <>
-      <div className="space-y-2 border-4 border-grey-600 shadow-lg rounded-xl p-4 bg-gray-800 text-white">
+      <div className="space-y-2 border border-grey-600 shadow-lg rounded-xl p-4 bg-gray-800 text-white">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-xl font-bold">Inventory</h2>
           <Button
@@ -56,7 +54,7 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
                   <img
                     src={getResourceImage(item.rcs.value)}
                     alt={item.rcs.getSubresourceName()}
-                    className="w-8 h-8 pixelated-image object-cover" 
+                    className="w-8 h-8 pixelated-image object-cover"
                   />
                   <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
                     {item.quantity}
@@ -74,44 +72,66 @@ const InventoryDiv: React.FC<InventoryDivProps> = ({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{selectedItem?.rcs.getName()}</DialogTitle>
-            <DialogDescription>Item details and actions</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <p>Quantity: {selectedItem?.quantity}</p>
-            <p>Type: {selectedItem?.rcs.value}</p>
-            <p>Unit price: {selectedItem?.rcs.getUnitPrice() || 1} golds</p>
-            <div>
-              <label
-                htmlFor="sellQuantity"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Quantity to sell
-              </label>
-              <Input
-                id="sellQuantity"
-                type="number"
-                value={sellQuantity || ""}
-                onChange={(e) => setSellQuantity(Number(e.target.value))}
-                min={1}
-                max={selectedItem?.quantity || 1}
-                className="mt-1"
-              />
+            <div className="flex justify-between">
+              <p>Type: {selectedItem?.rcs.getSubresource().value}</p>
+              <p>Quantity: {selectedItem?.quantity}</p>
+              <div className="flex gap-1">
+                <p>Unit price: {selectedItem?.rcs.getUnitPrice() || 1}</p>
+                <img
+                  src={gold}
+                  alt="Gold"
+                  className="w-6 h-6 pixelated-image"
+                />
+              </div>
             </div>
-            <p>
-              Total price:{" "}
-              {(selectedItem?.rcs.getUnitPrice() || 1) * sellQuantity} golds
-            </p>
+
+            <div>
+              <div className="flex gap-2">
+                <Input
+                  id="sellQuantity"
+                  type="number"
+                  className="mt-1 col-span-3 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  value={sellQuantity || ""}
+                  onChange={(e) => setSellQuantity(Number(e.target.value))}
+                  min={1}
+                  max={selectedItem?.quantity || 1}
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-[36px] mt-1"
+                  onClick={() => setSellQuantity(selectedItem?.quantity || 1)}
+                >
+                  Max
+                </Button>
+              </div>
+            </div>
           </div>
           <DialogFooter>
-            <Sell
-              tokenId={tokenId}
-              rcs_type={selectedItem?.rcs.into()}
-              rcs_sub_type={selectedItem?.rcs.getSubresource().into()}
-              amount={sellQuantity}
-              afterSellCallback={() => {
-                setSelectedItem(null);
-              }}
-            />
+            <div className="flex items-center justify-between w-full">
+              <div className="flex gap-1">
+                <p className="">
+                  Total price:{" "}
+                  {(selectedItem?.rcs.getUnitPrice() || 1) * sellQuantity}
+                </p>
+                <img
+                  src={gold}
+                  alt="Gold"
+                  className="w-6 h-6 pixelated-image"
+                />
+              </div>
+              <Sell
+                tokenId={tokenId}
+                rcs_type={selectedItem?.rcs.into()}
+                rcs_sub_type={selectedItem?.rcs.getSubresource().into()}
+                amount={sellQuantity}
+                afterSellCallback={() => {
+                  setSelectedItem(null);
+                }}
+              />
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>

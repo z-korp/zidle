@@ -33,7 +33,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   useEffect(() => {
-    if(!reconnectionData){
+    if (!reconnectionData) {
       setShowSummary(false);
     }
   }, [reconnectionData]);
@@ -85,15 +85,6 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
 
   return (
     <Card className="w-[350px]">
-      <CardHeader className="flex">
-        <Button
-          variant="outline"
-          className="absolute top-4 left-4 p-1"
-          onClick={resetSelectedNft}
-        >
-          <ArrowLeft />
-        </Button>
-      </CardHeader>
       {!character ? (
         <CardContent>
           <div>No character data available. Please select a character.</div>
@@ -103,6 +94,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
           <CardContent>
             <div className="space-y-4 mt-4">
               <StatsAndInventory
+                resetSelectedNft={resetSelectedNft}
                 character={character}
                 health={100}
                 attack={10}

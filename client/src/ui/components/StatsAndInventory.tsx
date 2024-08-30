@@ -5,7 +5,7 @@ import AnimatedSprite, { AnimationType, MobType } from "./AnimatedSprite";
 import { Character } from "@/hooks/useCharacter";
 import { Dialog } from "@/ui/elements/dialog";
 import AddressDisplay from "./AddressDisplay";
-import { WalletIcon } from "lucide-react";
+import { ArrowLeft, WalletIcon } from "lucide-react";
 import Wallet from "./Wallet";
 import gold from "/assets/gold.png";
 import { InventoryItem } from "@/dojo/game/models/miner";
@@ -17,6 +17,7 @@ interface StatsAndInventoryProps {
   critical: number;
   setIsInInventory: (isInInventory: boolean) => void;
   inventory: InventoryItem[];
+  resetSelectedNft: () => void;
 }
 
 const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
@@ -25,7 +26,8 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
   attack,
   critical,
   setIsInInventory,
-  inventory
+  inventory,
+  resetSelectedNft,
 }) => {
   const [currentAnimation, setCurrentAnimation] = useState(AnimationType.Idle);
   const [openModal, setOpenModal] = useState(false);
@@ -34,14 +36,21 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
     <>
       <div className="space-y-1">
         <div className="flex justify-between items-center">
-          <div>
+          <Button
+            variant="outline"
+            className="absolute top-4 left-4 p-1"
+            onClick={resetSelectedNft}
+          >
+            <ArrowLeft />
+          </Button>
+          <div className="ml-9">
             <AddressDisplay address={character.walletAddress || ""} />
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-lg">{character?.gold ?? 0}</span>
             <img src={gold} alt="Gold" className="w-8 h-8 pixelated-image" />
-            <WalletIcon 
-              className="w-8 h-8 border border-gray-300 rounded-md p-1 hover:bg-gray-100 cursor-pointer" 
+            <WalletIcon
+              className="w-8 h-8 border border-gray-300 rounded-md p-1 hover:bg-gray-100 cursor-pointer"
               onClick={() => setOpenModal(true)}
             />
           </div>
@@ -60,7 +69,9 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
                 scale={1}
                 fps={10}
                 currentAnimation={currentAnimation}
-                mobType={Object.values(MobType)[parseInt(character.token_id) % 3]}
+                mobType={
+                  Object.values(MobType)[parseInt(character.token_id) % 3]
+                }
               />
             </div>
           </div>

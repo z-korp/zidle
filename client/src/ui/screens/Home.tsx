@@ -23,9 +23,7 @@ export const Home = () => {
         <div className="absolute flex flex-col items-center gap-4 w-full p-2 max-w-4xl mt-4">
           {selectedNft == null ? (
             <Card className="w-[350px] bg-gray-800 text-white shadow-xl">
-              <CardHeader className="flex">
-                <CardTitle className="text-center text-2xl">zIdle</CardTitle>
-              </CardHeader>
+              <CardHeader className="p-3"></CardHeader>
               <CardContent>
                 <CharacterList onCharacterSelect={setSelectedNft} />
               </CardContent>

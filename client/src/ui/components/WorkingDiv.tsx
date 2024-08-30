@@ -50,12 +50,16 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
   };
 
   return (
-    <div className="space-y-2 border-4 border-grey-600 shadow-lg rounded-xl p-4">
+    <div className="space-y-2 border border-grey-600 shadow-lg rounded-xl p-4">
       <Header
         handleStopAction={handleStopAction}
         selectedResource={selectedResource}
       />
-      <ProgressBar progress={progress} showSparkle={showSparkle} selectedResource={selectedResource}/>
+      <ProgressBar
+        progress={progress}
+        showSparkle={showSparkle}
+        selectedResource={selectedResource}
+      />
       <ResourceInfo
         amountProduced={amountProduced}
         totalXP={totalXP}
@@ -79,35 +83,40 @@ const Header: React.FC<{
   </div>
 );
 
-const ProgressBar: React.FC<{ progress: number; showSparkle: boolean , selectedResource: Resource}> = ({
-  progress,
-  showSparkle,
-  selectedResource,
-}) => {
-  return(<div className="flex items-center relative">
-    <Progress value={progress} />
-    <AnimatePresence>
-      {showSparkle && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          transition={{ duration: 0.3 }}
-          className="absolute right-0 top-0"
-        >
-          <img src={getResourceImage(selectedResource.value)} className="pixelated-image" />
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </div>)
-}
+const ProgressBar: React.FC<{
+  progress: number;
+  showSparkle: boolean;
+  selectedResource: Resource;
+}> = ({ progress, showSparkle, selectedResource }) => {
+  return (
+    <div className="flex items-center relative">
+      <Progress value={progress} />
+      <AnimatePresence>
+        {showSparkle && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            transition={{ duration: 0.3 }}
+            className="absolute right-0 top-0"
+          >
+            <img
+              src={getResourceImage(selectedResource.value)}
+              className="pixelated-image"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const ResourceInfo: React.FC<{
   amountProduced: number;
   totalXP: number;
   resourceName: string;
 }> = ({ amountProduced, totalXP, resourceName }) => (
-  <motion.div className="flex flex-col items-center border-4 border-grey-600 shadow-lg rounded-xl p-4">
+  <motion.div className="flex flex-col items-center border border-grey-600 shadow-lg rounded-xl p-4">
     <span>{"Claimable:"}</span>
     <AnimatedValue value={amountProduced} label={resourceName} />
     <AnimatedValue value={totalXP} label="XP" />

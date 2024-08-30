@@ -1,16 +1,10 @@
 import { useCallback } from "react";
 import { Separator } from "@/ui/elements/separator";
 import { useNavigate } from "react-router-dom";
-import { usePlayer } from "@/hooks/usePlayer";
 import { useMediaQuery } from "react-responsive";
-import useAccountCustom from "@/hooks/useAccountCustom";
 
 export const Header = () => {
-  const { account } = useAccountCustom();
-
   const isMdOrLarger = useMediaQuery({ query: "(min-width: 768px)" });
-
-  const { player } = usePlayer({ playerId: account?.address });
 
   const navigate = useNavigate();
 
@@ -29,13 +23,6 @@ export const Header = () => {
           {/* <Leaderboard /> */}
         </div>
         <div className="flex flex-col gap-4 items-center md:flex-row">
-          {!!player && (
-            <div className="flex gap-3">
-              <p className="text-2xl max-w-66 truncate">{player.name}</p>
-              {/* <LevelIndicator currentXP={player.points} /> */}
-            </div>
-          )}
-
           {/* {ACCOUNT_CONNECTOR === "controller" && <Connect />} */}
           <div className="flex gap-4">
             {/* <SettingsDropDown /> */}
