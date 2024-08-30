@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "../elements/button";
 import { Progress } from "../elements/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
-import { Resource } from "@/dojo/game/types/resource";
+import { Resource, ResourceType } from "@/dojo/game/types/resource";
 import { useResourceProgress } from "@/hooks/useResourceProgress";
 import { useResourceCalculations } from "@/hooks/useResourceCalculations";
 import { Character } from "@/hooks/useCharacter";
@@ -50,7 +50,7 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
   };
 
   return (
-    <div className="space-y-2 border border-grey-600 shadow-lg rounded-xl p-4">
+    <div className="space-y-2 border border-gray-600 shadow-lg rounded-xl p-4">
       <Header
         handleStopAction={handleStopAction}
         selectedResource={selectedResource}
@@ -69,12 +69,23 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
   );
 };
 
+const getVerb = (resource: ResourceType) => {
+  switch (resource) {
+    case ResourceType.Wood:
+      return "Chopping";
+    case ResourceType.Mineral:
+      return "Mining";
+    case ResourceType.Food:
+      return "Harvesting";
+  }
+};
+
 const Header: React.FC<{
   handleStopAction: () => Promise<void>;
   selectedResource: Resource;
 }> = ({ handleStopAction, selectedResource }) => (
-  <div className="flex items-center justify-between">
-    <span>{`Chop ${selectedResource.getSubresourceName()}`}</span>
+  <div className="flex items-center justify-between ">
+    <span>{`${getVerb(selectedResource.value)} ${selectedResource.getSubresourceName()}`}</span>
     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
       <Button size="sm" className="ml-2" onClick={handleStopAction}>
         Harvest
@@ -116,7 +127,7 @@ const ResourceInfo: React.FC<{
   totalXP: number;
   resourceName: string;
 }> = ({ amountProduced, totalXP, resourceName }) => (
-  <motion.div className="flex flex-col items-center border border-grey-600 shadow-lg rounded-xl p-4">
+  <motion.div className="flex flex-col items-center border border-gray-600 shadow-lg rounded-xl p-4">
     <span>{"Claimable:"}</span>
     <AnimatedValue value={amountProduced} label={resourceName} />
     <AnimatedValue value={totalXP} label="XP" />

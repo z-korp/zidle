@@ -7,8 +7,8 @@ import { Dialog } from "@/ui/elements/dialog";
 import AddressDisplay from "./AddressDisplay";
 import { ArrowLeft, WalletIcon } from "lucide-react";
 import Wallet from "./Wallet";
-import gold from "/assets/gold.png";
 import { InventoryItem } from "@/dojo/game/models/miner";
+import GoldImg from "./GoldImg";
 
 interface StatsAndInventoryProps {
   character: Character;
@@ -34,11 +34,11 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
 
   return (
     <>
-      <div className="space-y-1">
+      <div className="space-y-5">
         <div className="flex justify-between items-center">
           <Button
             variant="outline"
-            className="absolute top-4 left-4 p-1"
+            className="absolute top-4 left-4 p-1 h-[32px] w-[32px]"
             onClick={resetSelectedNft}
           >
             <ArrowLeft />
@@ -48,7 +48,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-lg">{character?.gold ?? 0}</span>
-            <img src={gold} alt="Gold" className="w-8 h-8 pixelated-image" />
+            <GoldImg />
             <WalletIcon
               className="w-8 h-8 border border-gray-300 rounded-md p-1 hover:bg-gray-100 cursor-pointer"
               onClick={() => setOpenModal(true)}
@@ -62,10 +62,10 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
             <div>Critical: {critical}%</div>
           </div>
           <div className="flex justify-center">
-            <div style={{ transform: `translate(-5%, -0%)` }}>
+            <div>
               <AnimatedSprite
                 width={192}
-                height={192}
+                height={140}
                 scale={1}
                 fps={10}
                 currentAnimation={currentAnimation}
@@ -77,22 +77,22 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
           </div>
           <div className="space-y-2 w-full ">
             <div className="text-sm flex items-center justify-between">
-              <span className="font-medium">Chop:</span>
+              <span className="font-medium">Chop lvl</span>
               <LevelIndicator currentXP={character?.woodProgress ?? 0} />
             </div>
             <div className="text-sm flex items-center justify-between">
-              <span className="font-medium">Mine:</span>
+              <span className="font-medium">Mine lvl</span>
               <LevelIndicator currentXP={character?.rockProgress ?? 0} />
             </div>
             <div className="text-sm flex items-center justify-between">
-              <span className="font-medium">Food:</span>
+              <span className="font-medium">Food lvl</span>
               <LevelIndicator currentXP={character?.foodProgress ?? 0} />
             </div>
           </div>
         </div>
         <Button
           variant="outline"
-          className="w-full"
+          className="w-full border border-gray-600"
           onClick={() => setIsInInventory(true)}
         >
           Inventory ({inventory.reduce((sum, item) => sum + item.quantity, 0)})

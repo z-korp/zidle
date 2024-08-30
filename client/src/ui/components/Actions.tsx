@@ -118,7 +118,10 @@ const Actions: React.FC<ActionsProps> = ({
           <span>{actionText}</span>
           <div className="flex items-center space-x-2">
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+              <DropdownMenuTrigger
+                asChild
+                className="w-[136px] flex justify-between items-center"
+              >
                 <Button variant="outline" size="sm">
                   {localSelectedResource
                     ? localSelectedResource.getSubresourceName()
@@ -154,22 +157,24 @@ const Actions: React.FC<ActionsProps> = ({
         {localSelectedResource && character && (
           <div className="text-sm">
             <p>Resource: {localSelectedResource.getSubresourceName()}</p>
-            <p>XP: {localSelectedResource.baseXp()}</p>
-            <p>
-              Time per unit:{" "}
-              {localSelectedResource
-                .calculateGatheringDurationPerUnit(
-                  getLevelFromXp(
-                    resourceType === ResourceType.Wood
-                      ? character.woodProgress
-                      : resourceType === ResourceType.Mineral
-                        ? character.rockProgress
-                        : character.foodProgress,
-                  ),
-                )
-                .toFixed(2)}{" "}
-              seconds
-            </p>
+            <div className="flex justify-between">
+              <p>XP: {localSelectedResource.baseXp()}</p>
+              <p>
+                Time per unit:{" "}
+                {localSelectedResource
+                  .calculateGatheringDurationPerUnit(
+                    getLevelFromXp(
+                      resourceType === ResourceType.Wood
+                        ? character.woodProgress
+                        : resourceType === ResourceType.Mineral
+                          ? character.rockProgress
+                          : character.foodProgress,
+                    ),
+                  )
+                  .toFixed(2)}{" "}
+                seconds
+              </p>
+            </div>
           </div>
         )}
       </div>

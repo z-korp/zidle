@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { SpriteAnimator } from 'react-sprite-animator';
+import React, { useState, useEffect } from "react";
+import { SpriteAnimator } from "react-sprite-animator";
 
 // Importer les ressources pour le chevalier
 import knight_attack_large from "/assets/knight_attack_large.png";
@@ -13,7 +13,6 @@ import archer_run from "/assets/archer_run.png";
 import pawn_attack from "/assets/pawn_attack.png";
 import pawn_idle from "/assets/pawn_idle.png";
 import pawn_run from "/assets/pawn_run.png";
-
 
 // Définir l'énumération pour les types de mobs
 export enum MobType {
@@ -74,11 +73,12 @@ const AnimatedSprite: React.FC<AnimatedSpriteProps> = ({
   const { sprite, frameCount } = animations[mobType][currentAnimation];
 
   useEffect(() => {
-    setKey(prevKey => prevKey + 1);
+    setKey((prevKey) => prevKey + 1);
   }, [currentAnimation, mobType]);
 
   return (
     <SpriteAnimator
+      className="-mt-14 pixelated-image"
       key={key}
       sprite={sprite}
       width={width}

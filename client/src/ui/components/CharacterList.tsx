@@ -31,7 +31,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-6">
+    <div className="flex flex-col items-center space-y-10">
       {numberNft > 0 && (
         <>
           <h3>Your Characters</h3>
@@ -46,19 +46,18 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
           </div>
         </>
       )}
-      <Input
-        type="text"
-        placeholder="Enter new character name"
-        value={playerName}
-        onChange={(e) => setPlayerName(e.target.value)}
-        className="w-full bg-gray-700 text-white border-gray-600"
-      />
-      <Button
-        onClick={handleMint}
-        className="w-full bg-blue-600 hover:bg-blue-700"
-      >
-        Mint New Character
-      </Button>
+      <div className="w-full flex flex-col gap-2">
+        <Input
+          type="text"
+          placeholder="Enter new character name"
+          value={playerName}
+          onChange={(e) => setPlayerName(e.target.value)}
+          className="w-full bg-gray-700 text-white border-gray-600"
+        />
+        <Button onClick={handleMint} className="w-full">
+          Mint New Character
+        </Button>
+      </div>
     </div>
   );
 };
