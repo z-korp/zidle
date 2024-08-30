@@ -8,6 +8,7 @@ import AddressDisplay from "./AddressDisplay";
 import { WalletIcon } from "lucide-react";
 import Wallet from "./Wallet";
 import gold from "/assets/gold.png";
+import { InventoryItem } from "@/dojo/game/models/miner";
 
 interface StatsAndInventoryProps {
   character: Character;
@@ -15,6 +16,7 @@ interface StatsAndInventoryProps {
   attack: number;
   critical: number;
   setIsInInventory: (isInInventory: boolean) => void;
+  inventory: InventoryItem[];
 }
 
 const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
@@ -23,6 +25,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
   attack,
   critical,
   setIsInInventory,
+  inventory
 }) => {
   const [currentAnimation, setCurrentAnimation] = useState(AnimationType.Idle);
   const [openModal, setOpenModal] = useState(false);
@@ -81,7 +84,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
           className="w-full"
           onClick={() => setIsInInventory(true)}
         >
-          Inventory
+          Inventory ({inventory.reduce((sum, item) => sum + item.quantity, 0)})
         </Button>
       </div>
 

@@ -107,6 +107,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 health={100}
                 attack={10}
                 critical={5}
+                inventory={inventory}
                 setIsInInventory={setIsInInventory}
               />
               {renderContent()}
