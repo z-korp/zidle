@@ -59,7 +59,7 @@ mod gold_token {
     use starknet::{get_caller_address, get_contract_address};
     use core::Zeroable;
 
-    use zidle::interfaces::systems::{WorldSystemsTrait};
+    use zidle::interfaces::systems::{SystemsTrait};
 
     use origami_token::components::security::initializable::initializable_component;
 

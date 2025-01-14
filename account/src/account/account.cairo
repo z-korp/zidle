@@ -1,15 +1,11 @@
-use starknet::ContractAddress;
-
 #[starknet::contract]
 mod account {
     use core::num::traits::Zero;
-    use account::account::interface::{
-        IAccount, INFT, INFTDispatcher, INFTDispatcherTrait, SUPPORTED_TX_VERSION
-    };
+    use account::account::interface::{IAccount, SUPPORTED_TX_VERSION};
+    use starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess,};
     use starknet::account::Call;
     use starknet::{ContractAddress, get_caller_address, get_tx_info, VALIDATED};
     use starknet::syscalls::call_contract_syscall;
-    use core::array::{ArrayTrait, SpanTrait};
     use core::ecdsa::check_ecdsa_signature;
 
     const SIMULATE_TX_VERSION_OFFSET: felt252 = 340282366920938463463374607431768211456; // 2**128
@@ -36,7 +32,6 @@ mod account {
         self.token_id.write(token_id);
         self.nft_owner.write(initial_owner);
         self.nft_owner_pub_key.write(nft_owner_pub_key);
-        println!("Account contract deployed: pubk={}", nft_owner_pub_key);
     }
 
     #[external(v0)]

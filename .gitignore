@@ -31,4 +31,7 @@ target
 
 client/dev-dist/
 
-dojo_sepolia.toml
+dojo_sepolia.tom
+
+downloaded_images/*
+scripts/*

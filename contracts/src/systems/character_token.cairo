@@ -87,7 +87,7 @@ mod character_token {
     use starknet::ContractAddress;
     use starknet::{get_contract_address, get_caller_address};
 
-    use zidle::interfaces::systems::{WorldSystemsTrait};
+    use zidle::interfaces::systems::{SystemsTrait};
     use zidle::helpers::account_deployer;
     use zidle::interfaces::account::{iaccount, IAccountDispatcherTrait};
 

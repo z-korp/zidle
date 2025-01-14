@@ -1,0 +1,13 @@
+{
+  "name": "zkube-nft-uploader",
+  "version": "1.0.0",
+  "description": "NFT uploader for zKube Credits",
+  "main": "upload.js",
+  "scripts": {
+    "upload": "node upload.js"
+  },
+  "dependencies": {
+    "@pinata/sdk": "^2.1.0",
+    "dotenv": "^16.0.0"
+  }
+}

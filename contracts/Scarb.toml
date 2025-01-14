@@ -1,8 +1,7 @@
 [package]
 name = "zidle"
-cairo-version = "=2.7.0"
+cairo-version = "=2.8.4"
 version = "0.1.0"
-edition = "2023_10"
 
 [cairo]
 sierra-replace-ids = true
@@ -14,28 +13,11 @@ slotdev = "sozo --profile slotdev clean && sozo --profile slotdev build && sozo 
 sepolia = "sozo --profile sepolia clean && sozo --profile sepolia build && sozo --profile sepolia migrate apply -vvv"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.7" }
-origami_token = { git = "https://github.com/Matth26/origami-roger", branch = "balance_enumerable-not-finished" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.10" }
 
-[[target.dojo]]
+[[target.starknet-contract]]
 build-external-contracts = [
-  "origami_token::components::introspection::src5::SRC5Model",
-  "origami_token::components::security::initializable::InitializableModel",
-  # erc20
-  "origami_token::components::token::erc20::erc20_balance::ERC20BalanceModel",
-  "origami_token::components::token::erc20::erc20_metadata::ERC20MetadataModel",
-  "origami_token::components::token::erc20::erc20_allowance::ERC20AllowanceModel",
-  # erc721
-  "origami_token::components::token::erc721::erc721_owner::ERC721OwnerModel",
-  "origami_token::components::token::erc721::erc721_balance::ERC721BalanceModel",
-  "origami_token::components::token::erc721::erc721_metadata::ERC721MetaModel",
-  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableIndexModel",
-  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableOwnerIndexModel",
-  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableOwnerTokenModel",
-  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableTokenModel",
-  "origami_token::components::token::erc721::erc721_enumerable::ERC721EnumerableTotalModel",
-  "origami_token::components::token::erc721::erc721_approval::ERC721TokenApprovalModel",
-  "origami_token::components::token::erc721::erc721_approval::ERC721OperatorApprovalModel",
+    "dojo::world::world_contract::world",
 ]
 
 # Custom profiles

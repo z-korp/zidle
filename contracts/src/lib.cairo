@@ -1,12 +1,13 @@
 mod constants;
 mod store;
 
+pub fn default_namespace() -> @ByteArray {
+    @"zidle"
+}
+
 mod components {
     mod emitter;
     mod manageable;
-    mod erc721 {
-        mod erc721_wallet;
-    }
 }
 
 mod helpers {
@@ -26,6 +27,8 @@ mod models {
     mod miner;
     mod player;
     mod token_config;
+    mod settings;
+    mod admin;
 }
 
 mod resources {
@@ -37,11 +40,10 @@ mod resources {
 
 mod systems {
     mod character_minter;
-    mod character_token;
     mod character;
     mod gold_minter;
-    mod gold_token;
     mod resources;
+    mod settings;
 }
 
 mod types {

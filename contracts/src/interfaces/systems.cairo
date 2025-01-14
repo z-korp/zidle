@@ -1,68 +1,70 @@
 use starknet::{ContractAddress, ClassHash};
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait, Resource};
+use dojo::world::{
+    WorldStorage, WorldStorageTrait, IWorldDispatcher, IWorldDispatcherTrait, Resource
+};
 
 use zidle::systems::{
     character_minter::{ICharacterMinterDispatcher, ICharacterMinterDispatcherTrait},
-    character_token::{ICharacterTokenDispatcher, ICharacterTokenDispatcherTrait},
     gold_minter::{IGoldMinterDispatcher, IGoldMinterDispatcherTrait},
-    gold_token::{IGoldTokenDispatcher, IGoldTokenDispatcherTrait},
     resources::{IResourcesDispatcher, IResourcesDispatcherTrait},
+    settings::{ISettingsDispatcher, ISettingsDispatcherTrait},
 };
 use core::Zeroable;
 
 mod SELECTORS {
     const CHARACTER_MINTER: felt252 = selector_from_tag!("zidle-character_minter");
-    const CHARACTER_TOKEN: felt252 = selector_from_tag!("zidle-character_token");
     const GOLD_MINTER: felt252 = selector_from_tag!("zidle-gold_minter");
-    const GOLD_TOKEN: felt252 = selector_from_tag!("zidle-gold_token");
     const RESOURCES: felt252 = selector_from_tag!("zidle-resources");
+    const SETTINGS: felt252 = selector_from_tag!("zidle-settings");
 }
 
 #[generate_trait]
-impl WorldSystemsTraitImpl of WorldSystemsTrait {
-    fn contract_address(self: IWorldDispatcher, selector: felt252) -> ContractAddress {
-        if let Resource::Contract((_, contract_address)) = self.resource(selector) {
-            (contract_address)
-        } else {
-            (Zeroable::zero())
+impl SystemsImpl of SystemsTrait {
+    fn contract_address(self: @WorldStorage, contract_name: @ByteArray) -> ContractAddress {
+        match self.dns(contract_name) {
+            Option::Some((contract_address, _)) => { (contract_address) },
+            Option::None => { (Zeroable::zero()) },
         }
     }
 
-    // system addresses
-    fn character_token_address(self: IWorldDispatcher) -> ContractAddress {
-        (self.contract_address(SELECTORS::CHARACTER_TOKEN))
+    // systems
+    #[inline(always)]
+    fn character_address(self: @WorldStorage) -> ContractAddress {
+        (self.contract_address(@"character"))
     }
-
-    fn gold_token_address(self: IWorldDispatcher) -> ContractAddress {
-        (self.contract_address(SELECTORS::GOLD_TOKEN))
+    #[inline(always)]
+    fn character_minter_address(self: @WorldStorage) -> ContractAddress {
+        (self.contract_address(@"character_minter"))
+    }
+    #[inline(always)]
+    fn gold_minter_address(self: @WorldStorage) -> ContractAddress {
+        (self.contract_address(@"gold_minter"))
+    }
+    #[inline(always)]
+    fn resources_address(self: @WorldStorage) -> ContractAddress {
+        (self.contract_address(@"resources"))
+    }
+    #[inline(always)]
+    fn settings_address(self: @WorldStorage) -> ContractAddress {
+        (self.contract_address(@"settings"))
     }
 
     // dispatchers
-    fn character_minter_dispatcher(self: IWorldDispatcher) -> ICharacterMinterDispatcher {
-        (ICharacterMinterDispatcher {
-            contract_address: self.contract_address(SELECTORS::CHARACTER_MINTER)
-        })
+    fn character_minter_dispatcher(self: @WorldStorage) -> ICharacterMinterDispatcher {
+        (ICharacterMinterDispatcher { contract_address: self.character_minter_address() })
     }
-    fn character_token_dispatcher(self: IWorldDispatcher) -> ICharacterTokenDispatcher {
-        (ICharacterTokenDispatcher {
-            contract_address: self.contract_address(SELECTORS::CHARACTER_TOKEN)
-        })
+    fn gold_minter_dispatcher(self: @WorldStorage) -> IGoldMinterDispatcher {
+        (IGoldMinterDispatcher { contract_address: self.gold_minter_address() })
     }
-    fn gold_minter_dispatcher(self: IWorldDispatcher) -> IGoldMinterDispatcher {
-        (IGoldMinterDispatcher { contract_address: self.contract_address(SELECTORS::GOLD_MINTER) })
-    }
-    fn gold_token_dispatcher(self: IWorldDispatcher) -> IGoldTokenDispatcher {
-        (IGoldTokenDispatcher { contract_address: self.contract_address(SELECTORS::GOLD_TOKEN) })
-    }
-    fn resources_dispatcher(self: IWorldDispatcher) -> IResourcesDispatcher {
-        (IResourcesDispatcher { contract_address: self.contract_address(SELECTORS::RESOURCES) })
+    fn resources_dispatcher(self: @WorldStorage) -> IResourcesDispatcher {
+        (IResourcesDispatcher { contract_address: self.resources_address() })
     }
 
     // validators
-    fn is_character_minter_contract(self: IWorldDispatcher, address: ContractAddress) -> bool {
-        (address == self.contract_address(SELECTORS::CHARACTER_MINTER))
+    fn is_character_minter_contract(self: @WorldStorage, address: ContractAddress) -> bool {
+        (address == self.character_minter_address())
     }
-    fn is_gold_minter_contract(self: IWorldDispatcher, address: ContractAddress) -> bool {
-        (address == self.contract_address(SELECTORS::GOLD_MINTER))
+    fn is_gold_minter_contract(self: @WorldStorage, address: ContractAddress) -> bool {
+        (address == self.gold_minter_address())
     }
 }

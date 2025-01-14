@@ -1,0 +1,14 @@
+{
+  "name": "nft-uploader",
+  "version": "1.0.0",
+  "description": "NFT collection uploader to IPFS",
+  "main": "upload.js",
+  "scripts": {
+    "upload": "node upload.js"
+  },
+  "dependencies": {
+    "@pinata/sdk": "^2.1.0",
+    "dotenv": "^16.0.0",
+    "axios": "^1.3.4"
+  }
+}

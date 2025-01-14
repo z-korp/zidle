@@ -1,7 +1,6 @@
 // Dojo imports
 
-use dojo::world::IWorldDispatcher;
-use dojo::world::IWorldDispatcherTrait;
+use dojo::world::WorldStorage;
 
 // Internal imports
 
@@ -17,9 +16,7 @@ mod EmitterComponent {
     // Dojo imports
 
     use dojo::world;
-    use dojo::world::IWorldDispatcher;
-    use dojo::world::IWorldDispatcherTrait;
-    use dojo::world::IWorldProvider;
+    use dojo::world::{WorldStorage, IWorldDispatcherTrait};
 
     // Internal imports
 

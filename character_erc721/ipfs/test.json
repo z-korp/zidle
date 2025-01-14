@@ -1,0 +1,29 @@
+{
+  "name": "zKube Credits Collection",
+  "description": "zKube Credit NFTs - Public and Airdropped variants",
+  "image": "ipfs://QmHash/collection.png",
+  "metadata": {
+    "public": {
+      "name": "zKube Credit - Public",
+      "description": "A publicly minted zKube Credit NFT",
+      "image": "ipfs://QmHash/public.png",
+      "attributes": [
+        {
+          "trait_type": "Mint Type",
+          "value": "Public"
+        }
+      ]
+    },
+    "airdrop": {
+      "name": "zKube Credit - Airdropped",
+      "description": "An airdropped zKube Credit NFT",
+      "image": "ipfs://QmHash/airdrop.png",
+      "attributes": [
+        {
+          "trait_type": "Mint Type",
+          "value": "Airdropped"
+        }
+      ]
+    }
+  }
+}

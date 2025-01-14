@@ -1,0 +1,12 @@
+{
+  "name": "zKube Game",
+  "description": "A zKube Game NFT",
+  "external_url": "https://app.zkube.xyz",
+  "image": "ipfs://QmdbtwQuR4y9fcKFsrKb8haBLTYPMAMAc2RmroVC811NmT/nft.png",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Game"
+    }
+  ]
+}

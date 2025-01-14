@@ -9,11 +9,11 @@ mod ManageableComponent {
 
     // Dojo imports
 
-    use dojo::world::IWorldDispatcher;
+    use dojo::world::{WorldStorage, IWorldDispatcherTrait};
 
     // Internal imports
 
-    use zidle::store::{Store, StoreImpl};
+    use zidle::store::{Store, StoreTrait};
     use zidle::models::player::{Player, PlayerImpl, PlayerAssert};
 
     // Storage
@@ -31,9 +31,9 @@ mod ManageableComponent {
     impl InternalImpl<
         TContractState, +HasComponent<TContractState>
     > of InternalTrait<TContractState> {
-        fn _create(self: @ComponentState<TContractState>, world: IWorldDispatcher, name: felt252) {
+        fn _create(self: @ComponentState<TContractState>, mut world: WorldStorage, name: felt252) {
             // [Setup] Datastore
-            let store: Store = StoreImpl::new(world);
+            let store: Store = StoreTrait::new(world);
 
             // [Check] Player not already exists
             let caller = get_caller_address();
@@ -45,9 +45,9 @@ mod ManageableComponent {
             store.set_player(player);
         }
 
-        fn _rename(self: @ComponentState<TContractState>, world: IWorldDispatcher, name: felt252,) {
+        fn _rename(self: @ComponentState<TContractState>, mut world: WorldStorage, name: felt252,) {
             // [Setup] Datastore
-            let store: Store = StoreImpl::new(world);
+            let store: Store = StoreTrait::new(world);
 
             // [Check] Player exists
             let caller = get_caller_address();

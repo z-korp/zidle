@@ -5,12 +5,13 @@ use core::Zeroable;
 
 // Dojo imports
 
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use dojo::world::{WorldStorage, WorldStorageTrait};
 
 // Internal imports
 
+use zidle::store::{Store, StoreTrait};
 use zidle::interfaces::ierc721::{ierc721, IERC721Dispatcher, IERC721DispatcherTrait};
-use zidle::interfaces::systems::{WorldSystemsTrait};
+use zidle::interfaces::systems::{SystemsTrait};
 
 mod errors {
     const CHAR_NOT_EXIST: felt252 = 'Char: does not exist';
@@ -64,14 +65,18 @@ impl ZeroableCharImpl of core::Zeroable<Char> {
 
 #[derive(Copy, Drop)]
 struct CharacterManager {
-    world: IWorldDispatcher,
+    world: WorldStorage,
     token_dispatcher: IERC721Dispatcher,
 }
 
 #[generate_trait]
 impl CharacterManagerTraitImpl of CharacterManagerTrait {
-    fn new(world: IWorldDispatcher) -> CharacterManager {
-        let contract_address: ContractAddress = world.character_token_address();
+    fn new(world: WorldStorage) -> CharacterManager {
+        // [Setup] Datastore
+        let store: Store = StoreTrait::new(world);
+        let settings = store.settings();
+
+        let contract_address: ContractAddress = settings.character_erc721_address;
         assert(contract_address != core::Zeroable::zero(), 'CharManager: null token addr');
         let token_dispatcher = ierc721(contract_address);
         (CharacterManager { world, token_dispatcher })

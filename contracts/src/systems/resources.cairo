@@ -1,18 +1,14 @@
 // Starknet imports
-
 use starknet::ContractAddress;
 
 // Dojo imports
+use dojo::world::WorldStorage;
 
-use dojo::world::IWorldDispatcher;
-
-#[dojo::interface]
-trait IResources<TContractState> {
-    fn mine(ref world: IWorldDispatcher, token_id: u128, rcs_type: u8, rcs_sub_type: u8);
-    fn harvest(ref world: IWorldDispatcher, token_id: u128, rcs_type: u8);
-    fn sell(
-        ref world: IWorldDispatcher, token_id: u128, rcs_type: u8, rcs_sub_type: u8, amount: u64
-    );
+#[starknet::interface]
+trait IResources<T> {
+    fn mine(ref self: T, token_id: u128, rcs_type: u8, rcs_sub_type: u8);
+    fn harvest(ref self: T, token_id: u128, rcs_type: u8);
+    fn sell(ref self: T, token_id: u128, rcs_type: u8, rcs_sub_type: u8, amount: u64);
 }
 
 #[dojo::contract]
@@ -31,17 +27,16 @@ mod resources {
 
     // Local imports
 
-    use super::IResources;
-    use zidle::store::{Store, StoreImpl, StoreTrait};
+    use super::{IResources, WorldStorage};
+    use zidle::store::{Store, StoreTrait};
     use zidle::models::miner::{MinerImpl, MinerAssert, ZeroableMinerImpl};
     use zidle::models::char::{CharAssert};
     use zidle::helpers::level::{XpLevel};
     use zidle::types::resource::{ResourceType, ResourceTypeAssert, ResourceImpl};
     use zidle::interfaces::systems::{
-        WorldSystemsTrait, IGoldTokenDispatcher, IGoldTokenDispatcherTrait,
-        ICharacterTokenDispatcher, ICharacterTokenDispatcherTrait, IGoldMinterDispatcher,
-        IGoldMinterDispatcherTrait
+        SystemsTrait, IGoldMinterDispatcher, IGoldMinterDispatcherTrait
     };
+    use zidle::interfaces::ierc721::{ierc721, IERC721Dispatcher, IERC721DispatcherTrait};
 
     // Components
 
@@ -67,19 +62,20 @@ mod resources {
 
     // Constructor
 
-    fn dojo_init(ref world: IWorldDispatcher) {}
+    fn dojo_init(ref self: ContractState) {}
 
     // Implementations
 
     #[abi(embed_v0)]
     impl ResourcesImpl of IResources<ContractState> {
-        fn mine(ref world: IWorldDispatcher, token_id: u128, rcs_type: u8, rcs_sub_type: u8) {
+        fn mine(ref self: ContractState, token_id: u128, rcs_type: u8, rcs_sub_type: u8) {
             // [Setup] Datastore
-            let store: Store = StoreImpl::new(world);
+            let mut world = self.world_default();
+            let store: Store = StoreTrait::new(world);
+            let settings = store.settings();
 
             // [Check] Ownership
-            let character_token_dispatcher: ICharacterTokenDispatcher = world
-                .character_token_dispatcher();
+            let character_token_dispatcher = ierc721(settings.character_erc721_address);
             let owner_address = character_token_dispatcher.owner_of(token_id.into());
             assert(owner_address == get_caller_address(), 'Not the owner of this nft');
 
@@ -97,13 +93,14 @@ mod resources {
             store.set_miner(miner);
         }
 
-        fn harvest(ref world: IWorldDispatcher, token_id: u128, rcs_type: u8) {
+        fn harvest(ref self: ContractState, token_id: u128, rcs_type: u8) {
             // [Setup] Datastore
-            let store: Store = StoreImpl::new(world);
+            let mut world = self.world_default();
+            let store: Store = StoreTrait::new(world);
+            let settings = store.settings();
 
             // [Check] Ownership
-            let character_token_dispatcher: ICharacterTokenDispatcher = world
-                .character_token_dispatcher();
+            let character_token_dispatcher = ierc721(settings.character_erc721_address);
             let owner_address = character_token_dispatcher.owner_of(token_id.into());
             assert(owner_address == get_caller_address(), 'Not the owner of this nft');
 
@@ -119,14 +116,15 @@ mod resources {
         }
 
         fn sell(
-            ref world: IWorldDispatcher, token_id: u128, rcs_type: u8, rcs_sub_type: u8, amount: u64
+            ref self: ContractState, token_id: u128, rcs_type: u8, rcs_sub_type: u8, amount: u64
         ) {
             // [Setup] Datastore
-            let store: Store = StoreImpl::new(world);
+            let mut world = self.world_default();
+            let store: Store = StoreTrait::new(world);
+            let settings = store.settings();
 
             // [Check] Character exists
-            let character_token_dispatcher: ICharacterTokenDispatcher = world
-                .character_token_dispatcher();
+            let character_token_dispatcher = ierc721(settings.character_erc721_address);
             let owner_address = character_token_dispatcher.owner_of(token_id.into());
             assert(owner_address == get_caller_address(), 'Not the owner of this nft');
 
@@ -146,16 +144,22 @@ mod resources {
             //---------------------------------------
             // Mint ERC20 Gold tokens
             // Get NFT wallet
-            let character_token_dispatcher: ICharacterTokenDispatcher = world
-                .character_token_dispatcher();
+            let character_token_dispatcher = ierc721(settings.character_erc721_address);
             let nft_wallet_address = character_token_dispatcher.wallet_of(token_id.into());
 
             // Mint gold on NFT wallet
             let gold_minter_dispatcher: IGoldMinterDispatcher = world.gold_minter_dispatcher();
             gold_minter_dispatcher
-                .mint(nft_wallet_address, tokens.into(), world.gold_token_address());
+                .mint(nft_wallet_address, tokens.into(), settings.gold_erc20_address);
 
             store.set_miner(miner);
+        }
+    }
+
+    #[generate_trait]
+    impl InternalImpl of InternalTrait {
+        fn world_default(self: @ContractState) -> WorldStorage {
+            self.world(crate::default_namespace())
         }
     }
 }

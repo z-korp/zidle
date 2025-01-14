@@ -1,0 +1,11 @@
+{
+  "name": "zKube Credit - Airdropped",
+  "description": "An airdropped zKube Credit NFT",
+  "image": "ipfs://QmTGVajVhckUB5QDh4okDdt9WadbK7DTaKgDiX1n5r3ThK/airdrop.png",
+  "attributes": [
+    {
+      "trait_type": "Mint Type",
+      "value": "Airdropped"
+    }
+  ]
+}

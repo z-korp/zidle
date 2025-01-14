@@ -1,30 +1,28 @@
 // Starknet imports
-
 use starknet::ContractAddress;
 
-#[dojo::interface]
-trait ICharacterMinter {
-    fn mint(
-        ref world: IWorldDispatcher, to: ContractAddress, token_contract_address: ContractAddress
-    ) -> u128;
-    fn can_mint(
-        world: @IWorldDispatcher, to: ContractAddress, token_contract_address: ContractAddress
-    ) -> bool;
-    fn set_open(
-        ref world: IWorldDispatcher, token_contract_address: ContractAddress, is_open: bool
-    );
+// Dojo imports
+use dojo::world::WorldStorage;
+
+#[starknet::interface]
+trait ICharacterMinter<T> {
+    fn mint(ref self: T, to: ContractAddress, token_contract_address: ContractAddress) -> u128;
+    fn can_mint(ref self: T, to: ContractAddress, token_contract_address: ContractAddress) -> bool;
+    fn set_open(ref self: T, token_contract_address: ContractAddress, is_open: bool);
 }
 
 #[dojo::contract]
 mod character_minter {
+    use dojo::world::{IWorldDispatcherTrait, WorldStorage};
+
     use super::{ICharacterMinter};
     use starknet::{ContractAddress, get_contract_address, get_caller_address};
 
-    use zidle::interfaces::systems::{
-        WorldSystemsTrait, ICharacterTokenDispatcher, ICharacterTokenDispatcherTrait,
-    };
+    use zidle::interfaces::systems::{SystemsTrait};
     use zidle::models::token_config::{TokenConfig};
-    use zidle::store::{Store, StoreImpl};
+    use zidle::store::{Store, StoreTrait};
+    use zidle::interfaces::ierc721::{ierc721, IERC721Dispatcher, IERC721DispatcherTrait};
+    use zidle::models::admin::{AdminTrait, AdminAssert};
 
     mod Errors {
         // admin
@@ -39,7 +37,7 @@ mod character_minter {
     }
 
     fn dojo_init(
-        ref world: IWorldDispatcher,
+        ref self: ContractState,
         token_address: ContractAddress,
         max_supply: u256,
         max_per_wallet: u256,
@@ -48,7 +46,8 @@ mod character_minter {
         assert(max_supply > 0, Errors::INVALID_SUPPLY);
 
         // [Setup] Datastore
-        let store: Store = StoreImpl::new(world);
+        let mut world = self.world_default();
+        let store: Store = StoreTrait::new(world);
 
         let token_config = TokenConfig {
             token_address,
@@ -66,15 +65,14 @@ mod character_minter {
     #[abi(embed_v0)]
     impl CharacterMinterImpl of ICharacterMinter<ContractState> {
         fn mint(
-            ref world: IWorldDispatcher,
-            to: ContractAddress,
-            token_contract_address: ContractAddress
+            ref self: ContractState, to: ContractAddress, token_contract_address: ContractAddress
         ) -> u128 {
             assert(token_contract_address != core::Zeroable::zero(), Errors::INVALID_TOKEN_ADDRESS);
-            let token = (ICharacterTokenDispatcher { contract_address: token_contract_address });
+            let token = ierc721(token_contract_address);
 
             // [Setup] Datastore
-            let store: Store = StoreImpl::new(world);
+            let mut world = self.world_default();
+            let store: Store = StoreTrait::new(world);
 
             // [Check] Availability
             let mut config = store.token_config(token_contract_address);
@@ -97,11 +95,15 @@ mod character_minter {
         }
 
         fn can_mint(
-            world: @IWorldDispatcher, to: ContractAddress, token_contract_address: ContractAddress
+            ref self: ContractState, to: ContractAddress, token_contract_address: ContractAddress
         ) -> bool {
             assert(token_contract_address != core::Zeroable::zero(), Errors::INVALID_TOKEN_ADDRESS);
-            let token = (ICharacterTokenDispatcher { contract_address: token_contract_address });
-            let mut config: TokenConfig = get!(world, (token_contract_address), TokenConfig);
+            // [Setup] Datastore
+            let mut world = self.world_default();
+            let store: Store = StoreTrait::new(world);
+
+            let token = ierc721(token_contract_address);
+            let mut config = store.token_config(token_contract_address);
             let balance: u256 = token.balance_of(to);
             ((config.minted_count < config.max_supply)
                 && (config.is_open)
@@ -109,20 +111,27 @@ mod character_minter {
         }
 
         fn set_open(
-            ref world: IWorldDispatcher, token_contract_address: ContractAddress, is_open: bool
+            ref self: ContractState, token_contract_address: ContractAddress, is_open: bool
         ) {
-            // assert(
-            //     world.admin_dispatcher().am_i_admin(get_caller_address()) == true,
-            //     Errors::NOT_ADMIN
-            // );
-            assert(world.is_owner(self.selector().into(), get_caller_address()), Errors::NOT_OWNER);
+            let mut world = self.world_default();
+            let caller = get_caller_address();
+            let store = StoreTrait::new(world);
+            let mut admin = store.admin(caller.into());
+            admin.assert_is_admin();
 
             // [Setup] Datastore
-            let store: Store = StoreImpl::new(world);
+            let store: Store = StoreTrait::new(world);
 
-            let mut config: TokenConfig = get!(world, (token_contract_address), TokenConfig);
+            let mut config = store.token_config(token_contract_address);
             config.is_open = is_open;
             store.set_token_config(config);
+        }
+    }
+
+    #[generate_trait]
+    impl InternalImpl of InternalTrait {
+        fn world_default(self: @ContractState) -> WorldStorage {
+            self.world(crate::default_namespace())
         }
     }
 }

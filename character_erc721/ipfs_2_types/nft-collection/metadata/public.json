@@ -1,0 +1,11 @@
+{
+  "name": "zKube Credit - Public",
+  "description": "A publicly minted zKube Credit NFT",
+  "image": "ipfs://QmTGVajVhckUB5QDh4okDdt9WadbK7DTaKgDiX1n5r3ThK/public.png",
+  "attributes": [
+    {
+      "trait_type": "Mint Type",
+      "value": "Public"
+    }
+  ]
+}

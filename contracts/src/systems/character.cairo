@@ -1,47 +1,43 @@
 // Starknet imports
-
 use starknet::ContractAddress;
 
 // Dojo imports
+use dojo::world::WorldStorage;
 
-use dojo::world::IWorldDispatcher;
-
-#[dojo::interface]
-trait ICharacter<TContractState> {
-    fn create(ref world: IWorldDispatcher, name: felt252);
+#[starknet::interface]
+trait ICharacter<T> {
+    fn create(ref self: T, name: felt252);
 }
 
 #[dojo::contract]
 mod character {
     // Starknet imports
-
     use starknet::ContractAddress;
     use starknet::info::{
         get_block_timestamp, get_block_number, get_caller_address, get_contract_address
     };
 
-    // Component imports
+    // Dojo imports
+    use dojo::world::WorldStorage;
 
+    // Component imports
     use zidle::components::emitter::EmitterComponent;
 
     // Local imports
-
     use super::ICharacter;
-    use zidle::store::{Store, StoreImpl, StoreTrait};
+    use zidle::store::{Store, StoreTrait};
     use zidle::constants::{RESSOURCE_NUMBER};
     use zidle::models::miner::{MinerTrait};
     use zidle::models::player::{PlayerTrait};
     use zidle::interfaces::systems::{
-        WorldSystemsTrait, ICharacterMinterDispatcher, ICharacterMinterDispatcherTrait
+        SystemsTrait, ICharacterMinterDispatcher, ICharacterMinterDispatcherTrait
     };
 
     // Components
-
     component!(path: EmitterComponent, storage: emitter, event: EmitterEvent);
     impl EmitterImpl = EmitterComponent::EmitterImpl<ContractState>;
 
     // Storage
-
     #[storage]
     struct Storage {
         #[substorage(v0)]
@@ -49,7 +45,6 @@ mod character {
     }
 
     // Events
-
     #[event]
     #[derive(Drop, starknet::Event)]
     enum Event {
@@ -58,24 +53,23 @@ mod character {
     }
 
     // Constructor
-
-    fn dojo_init(ref world: IWorldDispatcher) {}
+    fn dojo_init(ref self: ContractState) {}
 
     // Implementations
-
     #[abi(embed_v0)]
     impl CharacterImpl of ICharacter<ContractState> {
-        fn create(ref world: IWorldDispatcher, name: felt252) {
+        fn create(ref self: ContractState, name: felt252) {
             // [Setup] Datastore
-            let store: Store = StoreImpl::new(world);
+            let mut world = self.world_default();
+            let store: Store = StoreTrait::new(world);
+            let settings = store.settings();
 
             // [Effect] Create a NFT
             let caller: ContractAddress = starknet::get_caller_address();
             let minter_dispatcher: ICharacterMinterDispatcher = world.character_minter_dispatcher();
-            let token_id: u128 = minter_dispatcher.mint(caller, world.character_token_address());
+            let token_id: u128 = minter_dispatcher.mint(caller, settings.character_erc721_address);
 
             // [Effect] Create miners for the NFT
-            let caller = get_caller_address();
             let mut index = 1; // 0 is None, start at 1
             while (index < RESSOURCE_NUMBER) {
                 let miner = MinerTrait::new(token_id.into(), index);
@@ -86,6 +80,13 @@ mod character {
             // [Effect] Create a player
             let player = PlayerTrait::new(token_id.into(), name);
             store.set_player(player);
+        }
+    }
+
+    #[generate_trait]
+    impl InternalImpl of InternalTrait {
+        fn world_default(self: @ContractState) -> WorldStorage {
+            self.world(crate::default_namespace())
         }
     }
 }
