@@ -7,10 +7,20 @@ version = "0.1.0"
 sierra-replace-ids = true
 
 [scripts]
-dev = "sozo --profile dev clean && sozo --profile dev build && sozo --profile dev migrate apply"
-slot = "sozo --profile slot clean && sozo --profile slot build && sozo --profile slot migrate apply"
-slotdev = "sozo --profile slotdev clean && sozo --profile slotdev build && sozo --profile slotdev migrate apply"
-sepolia = "sozo --profile sepolia clean && sozo --profile sepolia build && sozo --profile sepolia migrate apply -vvv"
+dev = "sozo --profile dev clean && sozo --profile dev build && sozo --profile dev migrate"
+slot = "sozo --profile slot clean && sozo --profile slot build && sozo --profile slot migrate"
+slotdev = "sozo --profile slotdev clean && sozo --profile slotdev build && sozo --profile slotdev migrate"
+sepolia = "sozo --profile sepolia clean && sozo --profile sepolia build && sozo --profile sepolia migrate --walnut --keystore /Users/matthias/.starkli-wallets/sepolia/braavos_dojo_deployer/keystore.json --fee eth"
+sepoliadev1 = "sozo --profile sepoliadev1 clean && sozo --profile sepoliadev1 build && sozo --profile sepoliadev1 migrate --walnut --keystore /Users/matthias/.starkli-wallets/sepolia/braavos_dojo_deployer/keystore.json --fee eth"
+sepoliadev2 = "sozo --profile sepoliadev2 clean && sozo --profile sepoliadev2 build && sozo --profile sepoliadev2 migrate --walnut --keystore /Users/matthias/.starkli-wallets/sepolia/braavos_dojo_deployer/keystore.json --fee eth"
+playground = "sozo --profile playground clean && sozo --profile playground build && sozo --profile playground migrate --walnut"
+mainnet = "sozo --profile mainnet clean && sozo --profile mainnet build && sozo --profile mainnet migrate --walnut --keystore /Users/matthias/.starkli-wallets/mainnet/braavos_dojo_deployer/keystore.json --fee eth"
+
+inspect-slot = "sozo --profile slot clean && sozo --profile slot build && sozo --profile slot inspect"
+inspect-slotdev = "sozo --profile slotdev clean && sozo --profile slotdev build && sozo --profile slotdev inspect"
+inspect-sepoliadev1 = "sozo --profile sepoliadev1 clean && sozo --profile sepoliadev1 build && sozo --profile sepoliadev1 inspect"
+inspect-sepoliadev2 = "sozo --profile sepoliadev2 clean && sozo --profile sepoliadev2 build && sozo --profile sepoliadev2 inspect"
+inspect-mainnet = "sozo --profile mainnet clean && sozo --profile mainnet build && sozo --profile mainnet inspect"
 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.10" }
@@ -23,4 +33,9 @@ build-external-contracts = [
 # Custom profiles
 [profile.slot]
 [profile.slotdev]
+[profile.slottest]
 [profile.sepolia]
+[profile.sepoliadev1]
+[profile.sepoliadev2]
+[profile.playground]
+[profile.mainnet]

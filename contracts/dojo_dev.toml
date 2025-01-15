@@ -16,6 +16,37 @@ telegram = "https://t.me/dojoengine"
 default = "zidle"
 
 [env]
-rpc_url = "http://localhost:5050"
-account_address = "0x6b86e40118f29ebe393a75469b4d926c7a44c2e2681b6d319520b7c1156d114"
-private_key = "0x1c9053c053edf324aec366a34c6901b1095b07af69495bffec7d7fe21effb1b"
+rpc_url = "https://api.cartridge.gg/x/zidle-slot/katana"
+account_address = "0x84ba12e8c22f8572b5836fcc0f887d4ba7e07acfcc6287e214c3e3eca21b91"
+private_key = "0x562b095dfdef600413f27b79a3fd908957b9449bd0c9e0fbdfb68594d6fa1f6"
+
+[init_call_args]
+"zidle-character_minter" = [
+  "0x078c3ff041b6013bd4c22b6fd20af80a9c37bdb0e3c96734e0f7a0d2c9c08241", # CHARACTER_ERC721_TOKEN_ADDRESS 
+  "10000",  # max supply (low)
+  "0",      # max supply (high)
+  "100",    # max per wallet (low)
+  "0",      # max per wallet (high)
+  "1",      # is_open
+]
+"zidle-gold_minter" = [
+  "0x040872b9eae9c17612e41a4c90f8a7059b20a91cd5976f259c618991b10b6b6f", # GOLD_ERC20_TOKEN_ADDRESS
+  "1000000000000000",  # max supply (low)
+  "0",                 # max supply (high)
+  "1000000000000000",  # max per wallet (low)
+  "0",                 # max per wallet (high)
+  "1",                 # is_open
+]
+"zidle-settings" = [
+  "0x7b2ad9c0a331a84015dc07f71dd3d54545bac6f09b5385aa171db29fc32fbb6", # admin address
+  "0x078c3ff041b6013bd4c22b6fd20af80a9c37bdb0e3c96734e0f7a0d2c9c08241", # CHARACTER_ERC721_TOKEN_ADDRESS 
+  "0x040872b9eae9c17612e41a4c90f8a7059b20a91cd5976f259c618991b10b6b6f", # GOLD_ERC20_TOKEN_ADDRESS
+]
+
+[writers]
+"zidle-TokenConfig" = ["zidle-character_minter", "zidle-gold_minter"]
+"zidle-Miner" = ["zidle-character"]
+"zidle-Player" = ["zidle-character"]
+"zidle-Char" = ["zidle-resources"]
+"zidle-Admin" = ["zidle-settings"]
+"zidle-Settings" = ["zidle-settings"]

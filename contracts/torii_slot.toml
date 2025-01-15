@@ -1,0 +1,10 @@
+world_address = "0x30d5d5c610dd736faea146b20b850af64e34ca6e5c5a66462f76f32f48dd997"
+rpc = "https://api.cartridge.gg/x/zidle-slot/katana"
+explorer = false
+
+# Indexing Options
+[indexing]
+contracts = [
+    "erc20:0x040872b9eae9c17612e41a4c90f8a7059b20a91cd5976f259c618991b10b6b6f", # GOLD_ERC20_TOKEN_ADDRESS
+    "erc721:0x040872b9eae9c17612e41a4c90f8a7059b20a91cd5976f259c618991b10b6b6f" # CHARACTER_ERC721_TOKEN_ADDRESS
+]

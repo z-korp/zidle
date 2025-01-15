@@ -186,6 +186,12 @@ mod CharacterErc721 {
         ) {
             self.safe_mint(recipient, tokenId, data);
         }
+
+        #[external(v0)]
+        fn update_minter_role(ref self: ContractState, new_minter: ContractAddress) {
+            self.accesscontrol.assert_only_role(DEFAULT_ADMIN_ROLE);
+            self.accesscontrol._grant_role(MINTER_ROLE, new_minter);
+        }
     }
 
     //

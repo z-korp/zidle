@@ -1,21 +1,17 @@
 import { Connector } from "@starknet-react/core";
-import CartridgeConnector from "@cartridge/connector";
-import { getContractByName } from "@dojoengine/core";
-import { ControllerOptions } from "@cartridge/controller";
+import ControllerConnector from "@cartridge/connector/controller";
+import { ColorMode, ControllerOptions } from "@cartridge/controller";
+import { manifest } from "./config/manifest";
 
-import local from "../../contracts/manifests/dev/deployment/manifest.json";
-import slot from "../../contracts/manifests/dev/deployment/manifest.json";
-// import slotdev from "../../contracts/manifests/slotdev/deployment/manifest.json";
-import sepolia from "../../contracts/manifests/dev/deployment/manifest.json";
+const { VITE_PUBLIC_NODE_URL, VITE_PUBLIC_DEPLOY_TYPE } = import.meta.env;
 
-const manifest =
-  import.meta.env.VITE_PUBLIC_DEPLOY_TYPE === "sepolia"
-    ? sepolia
-    : import.meta.env.VITE_PUBLIC_DEPLOY_TYPE === "slot"
-      ? slot
-      : import.meta.env.VITE_PUBLIC_DEPLOY_TYPE === "slotdev"
-        ? local
-        : local;
+console.log("VITE_PUBLIC_NODE_URL", VITE_PUBLIC_NODE_URL);
+
+export type Manifest = typeof manifest;
+
+const colorMode: ColorMode = "dark";
+const slot = `${VITE_PUBLIC_DEPLOY_TYPE}-zidle`;
+console.log("slot", slot);
 
 const policies = [
   {
@@ -25,11 +21,14 @@ const policies = [
 ];
 
 const options: ControllerOptions = {
-  rpc: import.meta.env.VITE_PUBLIC_NODE_URL,
+  rpc: VITE_PUBLIC_NODE_URL,
+  slot,
+  policies,
+  theme: undefined,
+  colorMode,
 };
 
-const cartridgeConnector = new CartridgeConnector(
-  policies,
+const cartridgeConnector = new ControllerConnector(
   options,
 ) as never as Connector;
 

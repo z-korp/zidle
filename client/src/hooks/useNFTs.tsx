@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useEntityQuery } from "@dojoengine/react";
 import { getComponentValue, Has, HasValue } from "@dojoengine/recs";
 
-const { VITE_PUBLIC_CHARACTER_TOKEN_ADDRESS } = import.meta.env;
+const { VITE_PUBLIC_CHARACTER_ERC721_TOKEN_ADDRESS } = import.meta.env;
 
 export const useNFTs = (playerId: string | undefined) => {
   const {
@@ -19,7 +19,7 @@ export const useNFTs = (playerId: string | undefined) => {
 
   const balanceKeys = useEntityQuery([
     HasValue(ERC721Balance, {
-      token: BigInt(VITE_PUBLIC_CHARACTER_TOKEN_ADDRESS),
+      token: BigInt(VITE_PUBLIC_CHARACTER_ERC721_TOKEN_ADDRESS),
       account: BigInt(playerId ? playerId : 0),
     }),
   ]);
@@ -27,7 +27,7 @@ export const useNFTs = (playerId: string | undefined) => {
   const tokenKeys = useEntityQuery([
     Has(ERC721EnumerableOwnerIndex),
     HasValue(ERC721EnumerableOwnerIndex, {
-      token: BigInt(VITE_PUBLIC_CHARACTER_TOKEN_ADDRESS),
+      token: BigInt(VITE_PUBLIC_CHARACTER_ERC721_TOKEN_ADDRESS),
       owner: BigInt(playerId ? playerId : 0),
     }),
   ]);

@@ -17,5 +17,36 @@ default = "zidle"
 
 [env]
 rpc_url = "https://api.cartridge.gg/x/zidle-slot/katana"
-account_address = "0x7b2ad9c0a331a84015dc07f71dd3d54545bac6f09b5385aa171db29fc32fbb6"
-private_key = "0x562b095dfdef600413f27b79a3fd908957b9449bd0c9e0fbdfb68594d6fa1f6"
+account_address = "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd"
+private_key = "0x1e5c62853e3189afdfdfcfb2d8ab0a1c372907db6eb1d1e5bf8ff438420adb3"
+
+[init_call_args]
+"zidle-character_minter" = [
+  "0x00629301a0efe888e9dea6714f532665d6095f4cac4f3f8fca1a42944d3e2538", # CHARACTER_ERC721_TOKEN_ADDRESS 
+  "10000",  # max supply (low)
+  "0",      # max supply (high)
+  "100",    # max per wallet (low)
+  "0",      # max per wallet (high)
+  "1",      # is_open
+]
+"zidle-gold_minter" = [
+  "0x052512f936d7067c0a6d7297a3600b4ee709fca18af9247a8a7d1755d2911ac1", # GOLD_ERC20_TOKEN_ADDRESS
+  "1000000000000000",  # max supply (low)
+  "0",                 # max supply (high)
+  "1000000000000000",  # max per wallet (low)
+  "0",                 # max per wallet (high)
+  "1",                 # is_open
+]
+"zidle-settings" = [
+  "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd",  # admin address
+  "0x00629301a0efe888e9dea6714f532665d6095f4cac4f3f8fca1a42944d3e2538", # CHARACTER_ERC721_TOKEN_ADDRESS 
+  "0x052512f936d7067c0a6d7297a3600b4ee709fca18af9247a8a7d1755d2911ac1", # GOLD_ERC20_TOKEN_ADDRESS
+]
+
+[writers]
+"zidle-TokenConfig" = ["zidle-character_minter", "zidle-gold_minter"]
+"zidle-Miner" = ["zidle-character"]
+"zidle-Player" = ["zidle-character"]
+"zidle-Char" = ["zidle-resources"]
+"zidle-Admin" = ["zidle-settings"]
+"zidle-Settings" = ["zidle-settings"]

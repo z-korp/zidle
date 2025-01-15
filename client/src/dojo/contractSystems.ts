@@ -1,7 +1,6 @@
 import { DojoProvider } from "@dojoengine/core";
 import { Config } from "../../dojo.config.ts";
-import { Account, UniversalDetails, shortString } from "starknet";
-import { x } from "@starknet-react/core/dist/index-79NvzQC9";
+import { Account, UniversalDetails } from "starknet";
 
 const NAMESPACE = "zidle";
 

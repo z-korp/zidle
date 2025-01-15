@@ -2,6 +2,8 @@ import { useCallback } from "react";
 import { Separator } from "@/ui/elements/separator";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import { ACCOUNT_CONNECTOR } from "@/hooks/useAccountCustom";
+import Connect from "../components/Connect";
 
 export const Header = () => {
   const isMdOrLarger = useMediaQuery({ query: "(min-width: 768px)" });
@@ -23,7 +25,7 @@ export const Header = () => {
           {/* <Leaderboard /> */}
         </div>
         <div className="flex flex-col gap-4 items-center md:flex-row">
-          {/* {ACCOUNT_CONNECTOR === "controller" && <Connect />} */}
+          {ACCOUNT_CONNECTOR === "controller" && <Connect />}
           <div className="flex gap-4">
             {/* <SettingsDropDown /> */}
             {/*<ModeToggle />*/}

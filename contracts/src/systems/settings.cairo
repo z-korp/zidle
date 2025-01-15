@@ -25,11 +25,18 @@ mod settings {
     use super::{ISettings, Settings, get_caller_address, ContractAddress, WorldStorage};
 
     // Constructor
-    fn dojo_init(ref self: ContractState, admin_address: felt252) {
+    fn dojo_init(
+        ref self: ContractState,
+        admin_address: felt252,
+        character_erc721_address: ContractAddress,
+        gold_erc20_address: ContractAddress
+    ) {
         // [Effect] Create the settings entity
         let mut world = self.world_default();
         let store: Store = StoreTrait::new(world);
-        let settings: Settings = SettingsTrait::new();
+        let mut settings: Settings = SettingsTrait::new();
+        settings.set_character_erc721_address(character_erc721_address);
+        settings.set_gold_erc20_address(gold_erc20_address);
         store.set_settings(settings);
 
         // [Effect] Create the admin entity

@@ -7,13 +7,7 @@ import { Account } from "starknet";
 
 export type SystemCalls = ReturnType<typeof systems>;
 
-export function systems({
-  client,
-  clientModels,
-}: {
-  client: IWorld;
-  clientModels: ClientModels;
-}) {
+export function systems({ client }: { client: IWorld }) {
   const TOAST_ID = "unique-id";
 
   const extractedMessage = (message: string) => {
