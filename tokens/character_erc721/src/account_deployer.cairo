@@ -27,7 +27,7 @@ pub fn deploy_account(
 
     // deployment parameters
     let class_hash = class_hash_const::<
-        0x0252070d7c5b42ade09beba0f79bad510433f1451f5dcffa7a79338cfea52cb9
+        0x02346038ea97dcee4ef60bb7a12e424a1b573fdd41f62a3d78467a91ed1b3470
     >();
     let salt = 1234567879;
     let unique = false;

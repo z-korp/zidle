@@ -1,0 +1,10 @@
+world_address = "0x07f63258cf5b15d919bb8cb9bf3fe47c33e77b59374e68e2faf3028af21150a3"
+rpc = "http://localhost:5050"
+explorer = false
+
+# Indexing Options
+[indexing]
+contracts = [
+    "erc20:0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0", # GOLD_ERC20_TOKEN_ADDRESS
+    "erc721:0x033f05797f8d389757d061f04ba4be429e5143b5fc2e2dc4c77bdb7e517e706f" # CHARACTER_ERC721_TOKEN_ADDRESS
+]

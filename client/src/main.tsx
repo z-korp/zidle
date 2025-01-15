@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { setup, SetupResult } from "./dojo/setup.ts";
@@ -28,27 +28,21 @@ function Main() {
 
   const [setupResult, setSetupResult] = useState<SetupResult | null>(null);
 
-  const loading = useMemo(
-    () => {
-      return !setupResult
-    },
-    [setupResult],
-  );
-
+  const loading = useMemo(() => {
+    return !setupResult;
+  }, [setupResult]);
 
   useEffect(() => {
     async function initialize() {
       try {
         const result = await setup(dojoConfig());
         setSetupResult(result);
-        
       } catch (error) {
         console.error("Setup failed:", error);
       }
     }
     initialize();
   }, []);
-
 
   return (
     <React.StrictMode>

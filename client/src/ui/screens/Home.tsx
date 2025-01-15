@@ -3,16 +3,15 @@ import { Header } from "@/ui/containers/Header";
 import { useDojo } from "@/dojo/useDojo";
 import { useQuerySync } from "@dojoengine/react";
 import MainMenuCard from "../components/MainMenuCard";
-import { Card, CardHeader, CardTitle, CardContent } from "../elements/card";
+import { Card, CardHeader, CardContent } from "../elements/card";
 import CharacterList from "../components/CharacterList";
-import { ArrowLeft } from "lucide-react";
 
 export const Home = () => {
   const {
-    setup: { toriiClient, contractComponents },
+    setup: { toriiClient, contractModels },
   } = useDojo();
 
-  useQuerySync(toriiClient, contractComponents as any, []);
+  useQuerySync(toriiClient, contractModels as any, []);
 
   const [selectedNft, setSelectedNft] = useState<string | null>(null);
 

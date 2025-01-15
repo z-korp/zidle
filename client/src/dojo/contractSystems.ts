@@ -4,6 +4,8 @@ import { Account, UniversalDetails } from "starknet";
 
 const NAMESPACE = "zidle";
 
+const { VITE_PUBLIC_GOLD_ERC20_TOKEN_ADDRESS } = import.meta.env;
+
 export interface Signer {
   account: Account;
 }
@@ -197,15 +199,6 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
   }
 
   function gold_token() {
-    const contract_name = "gold_token";
-
-    const contract = config.manifest.contracts.find((c: any) =>
-      c.tag.includes(contract_name),
-    );
-    if (!contract) {
-      throw new Error(`Contract ${contract_name} not found in manifest`);
-    }
-
     /*const approve = async ({ account, spender, amount }: Approve) => {
       try {
         return await provider.execute(
@@ -235,12 +228,12 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
           account,
           [
             {
-              contractName: contract_name,
+              contractAddress: VITE_PUBLIC_GOLD_ERC20_TOKEN_ADDRESS,
               entrypoint: "approve",
               calldata: [recipient, amount, 0],
             },
             {
-              contractName: contract_name,
+              contractAddress: VITE_PUBLIC_GOLD_ERC20_TOKEN_ADDRESS,
               entrypoint: "transfer_from",
               calldata: [sender, recipient, amount, 0],
             },
@@ -260,7 +253,7 @@ export async function setupWorld(provider: DojoProvider, config: Config) {
           account,
           [
             {
-              contractName: contract_name,
+              contractAddress: VITE_PUBLIC_GOLD_ERC20_TOKEN_ADDRESS,
               entrypoint: "transfer",
               calldata: [recipient, amount, 0],
             },

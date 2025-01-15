@@ -16,13 +16,13 @@ telegram = "https://t.me/dojoengine"
 default = "zidle"
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/zidle-slot/katana"
-account_address = "0x84ba12e8c22f8572b5836fcc0f887d4ba7e07acfcc6287e214c3e3eca21b91"
-private_key = "0x562b095dfdef600413f27b79a3fd908957b9449bd0c9e0fbdfb68594d6fa1f6"
+rpc_url = "http://localhost:5050"
+account_address = "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd"
+private_key = "0x1e5c62853e3189afdfdfcfb2d8ab0a1c372907db6eb1d1e5bf8ff438420adb3"
 
 [init_call_args]
 "zidle-character_minter" = [
-  "0x078c3ff041b6013bd4c22b6fd20af80a9c37bdb0e3c96734e0f7a0d2c9c08241", # CHARACTER_ERC721_TOKEN_ADDRESS 
+  "0x033f05797f8d389757d061f04ba4be429e5143b5fc2e2dc4c77bdb7e517e706f", # CHARACTER_ERC721_TOKEN_ADDRESS 
   "10000",  # max supply (low)
   "0",      # max supply (high)
   "100",    # max per wallet (low)
@@ -30,7 +30,7 @@ private_key = "0x562b095dfdef600413f27b79a3fd908957b9449bd0c9e0fbdfb68594d6fa1f6
   "1",      # is_open
 ]
 "zidle-gold_minter" = [
-  "0x040872b9eae9c17612e41a4c90f8a7059b20a91cd5976f259c618991b10b6b6f", # GOLD_ERC20_TOKEN_ADDRESS
+  "0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0", # GOLD_ERC20_TOKEN_ADDRESS
   "1000000000000000",  # max supply (low)
   "0",                 # max supply (high)
   "1000000000000000",  # max per wallet (low)
@@ -38,9 +38,9 @@ private_key = "0x562b095dfdef600413f27b79a3fd908957b9449bd0c9e0fbdfb68594d6fa1f6
   "1",                 # is_open
 ]
 "zidle-settings" = [
-  "0x7b2ad9c0a331a84015dc07f71dd3d54545bac6f09b5385aa171db29fc32fbb6", # admin address
-  "0x078c3ff041b6013bd4c22b6fd20af80a9c37bdb0e3c96734e0f7a0d2c9c08241", # CHARACTER_ERC721_TOKEN_ADDRESS 
-  "0x040872b9eae9c17612e41a4c90f8a7059b20a91cd5976f259c618991b10b6b6f", # GOLD_ERC20_TOKEN_ADDRESS
+  "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd",  # admin address
+  "0x033f05797f8d389757d061f04ba4be429e5143b5fc2e2dc4c77bdb7e517e706f", # CHARACTER_ERC721_TOKEN_ADDRESS 
+  "0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0", # GOLD_ERC20_TOKEN_ADDRESS
 ]
 
 [writers]

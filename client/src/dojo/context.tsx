@@ -1,7 +1,15 @@
-import { ReactNode, createContext, useContext } from "react";
+import { createContext, ReactNode, useContext, useMemo } from "react";
+import { BurnerAccount, useBurnerManager } from "@dojoengine/create-burner";
+import { Account } from "starknet";
+
 import { SetupResult } from "./setup";
 
-export const DojoContext = createContext<SetupResult | null>(null);
+interface DojoContextType extends SetupResult {
+  masterAccount: Account;
+  account: BurnerAccount;
+}
+
+export const DojoContext = createContext<DojoContextType | null>(null);
 
 export const DojoProvider = ({
   children,
@@ -11,37 +19,33 @@ export const DojoProvider = ({
   value: SetupResult;
 }) => {
   const currentValue = useContext(DojoContext);
-  if (currentValue) throw new Error("DojoProvider can only be used once");
+  if (currentValue) {
+    throw new Error("DojoProvider can only be used once");
+  }
 
-  /*const {
-    config: { rpcUrl, masterAddress, masterPrivateKey },
-    //burnerManager,
+  const {
+    config: { masterAddress, masterPrivateKey },
+    burnerManager,
+    dojoProvider,
   } = value;
 
-  /*const rpcProvider = useMemo(
+  const masterAccount = useMemo(
     () =>
-      new RpcProvider({
-        nodeUrl: rpcUrl,
-      }),
-    [rpcUrl],
+      new Account(dojoProvider.provider, masterAddress, masterPrivateKey, "1"),
+    [masterAddress, masterPrivateKey, dojoProvider.provider],
   );
 
-  /*const masterAccount = useMemo(
-    () => new Account(rpcProvider, masterAddress, masterPrivateKey),
-    [rpcProvider, masterAddress, masterPrivateKey],
-  );*/
-
-  //const burnerManagerData = useBurnerManager({ burnerManager });
+  const burnerManagerData = useBurnerManager({ burnerManager });
 
   return (
     <DojoContext.Provider
       value={{
         ...value,
-        /*account: {
+        masterAccount,
+        account: {
           ...burnerManagerData,
           account: burnerManagerData.account || masterAccount,
         },
-        master: masterAccount,*/
       }}
     >
       {children}

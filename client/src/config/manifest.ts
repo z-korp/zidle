@@ -1,13 +1,15 @@
+import dev from "../../../contracts/manifest_dev.json";
 import slot from "../../../contracts/manifest_slot.json";
 
 const deployType = import.meta.env.VITE_PUBLIC_DEPLOY_TYPE;
 
-const manifests: Record<string, unknown> = {
+const manifests = {
+  dev,
+  slot,
   sepolia: undefined,
   mainnet: undefined,
   sepoliadev1: undefined,
   sepoliadev2: undefined,
-  slot,
   slotdev: undefined,
 };
 

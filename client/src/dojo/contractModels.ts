@@ -1,5 +1,7 @@
 import { defineComponent, Type as RecsType, World } from "@dojoengine/recs";
 
+const VITE_PUBLIC_NAMESPACE = "zidle";
+
 export type ContractComponents = Awaited<
   ReturnType<typeof defineContractComponents>
 >;
@@ -15,7 +17,8 @@ export function defineContractComponents(world: World) {
         },
         {
           metadata: {
-            name: "zidle-Player",
+            namespace: VITE_PUBLIC_NAMESPACE,
+            name: "Player",
             types: ["felt252", "felt252", "u64"],
             customTypes: [],
           },
@@ -41,7 +44,8 @@ export function defineContractComponents(world: World) {
         },
         {
           metadata: {
-            name: "zidle-Miner",
+            namespace: VITE_PUBLIC_NAMESPACE,
+            name: "Miner",
             types: [
               "felt252",
               "u8",

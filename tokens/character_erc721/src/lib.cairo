@@ -188,6 +188,22 @@ mod CharacterErc721 {
         }
 
         #[external(v0)]
+        fn mint(ref self: ContractState, recipient: ContractAddress, token_id: u256,) {
+            self.accesscontrol.assert_only_role(MINTER_ROLE);
+            self.erc721.mint(recipient, token_id);
+
+            // Get the owner public key
+            let account = iaccount(recipient);
+            let pubk = account.get_public_key();
+
+            // Deploy an account contract for this NFT
+            let account_address = account_deployer::deploy_account(
+                get_contract_address(), token_id, recipient, pubk
+            );
+            self.erc721_wallet.set_wallet(token_id, account_address);
+        }
+
+        #[external(v0)]
         fn update_minter_role(ref self: ContractState, new_minter: ContractAddress) {
             self.accesscontrol.assert_only_role(DEFAULT_ADMIN_ROLE);
             self.accesscontrol._grant_role(MINTER_ROLE, new_minter);

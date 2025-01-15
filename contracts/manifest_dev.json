@@ -1,8 +1,8 @@
 {
   "world": {
     "class_hash": "0x45575a88cc5cef1e444c77ce60b7b4c9e73a01cbbe20926d5a4c72a94011410",
-    "address": "0x1a78a3a22fe78bd995f751c58c1dfb569b0604f64e5fc12a48e072b1841fa17",
-    "seed": "zIdle2",
+    "address": "0x7f63258cf5b15d919bb8cb9bf3fe47c33e77b59374e68e2faf3028af21150a3",
+    "seed": "zIdle",
     "name": "zIdle",
     "entrypoints": [
       "uuid",
@@ -1252,7 +1252,7 @@
   },
   "contracts": [
     {
-      "address": "0xaf35f90afa36a49d2bc63e783d0f086e03cd14fe5328fc47bab5e39c60c16b",
+      "address": "0x6a614d7b6a8cd274d5733d1d3d7e68c2e58305cf6709cfc497992c3e5ca124e",
       "class_hash": "0x2954b5e0ef650f24a9f4174bbc96501bf6b13d5cd05eec3e54ea627a54d2a87",
       "abi": [
         {
@@ -1464,8 +1464,8 @@
       ]
     },
     {
-      "address": "0x352cd5ab6e40b5b2d5495b6cc895f6750a722ce1909c859c02921d8382af314",
-      "class_hash": "0x7bc3b0b684f24edb15ff929bce895e8ebeee40adcfb96e8319a0299b5442fb7",
+      "address": "0x1e06f98d094802adb3b88d14cb8c5a1952f806f2fc6f9964b5c1bff6a48b464",
+      "class_hash": "0x4453ac503a5277336a9ac0f88d618486602246757fa1e6de1e6898f45a2ee5f",
       "abi": [
         {
           "type": "impl",
@@ -1745,7 +1745,7 @@
         }
       ],
       "init_calldata": [
-        "0x03cf6234ed1a956d3988ca40b4b92088d738a1b73654e8fcc87babfb446db84d",
+        "0x033f05797f8d389757d061f04ba4be429e5143b5fc2e2dc4c77bdb7e517e706f",
         "10000",
         "0",
         "100",
@@ -1763,7 +1763,7 @@
       ]
     },
     {
-      "address": "0x5c6a68e93ec807383c5aacf19e555891a869f23b3ccec3b84bcd986f4885ee7",
+      "address": "0x51e1c6fdbb537fef03d0f5f4fe19f81cf9ecf26ad70fbd0c5e037a323dd0a76",
       "class_hash": "0x54f55f857a0bda90395f354b489b7cc33f10c636f65f522794c91d8cd709700",
       "abi": [
         {
@@ -2044,7 +2044,7 @@
         }
       ],
       "init_calldata": [
-        "0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0",
+        "0x052512f936d7067c0a6d7297a3600b4ee709fca18af9247a8a7d1755d2911ac1",
         "1000000000000000",
         "0",
         "1000000000000000",
@@ -2062,7 +2062,7 @@
       ]
     },
     {
-      "address": "0x55b3b3411b5080ae58c08a706be78ecf81a98e9dbfd215823c3aee668a68b01",
+      "address": "0x51578bdf49351df71845b1f8ff9e7292d1607f56c987f4009a240f8991dffe0",
       "class_hash": "0x43e75dee63a11ac1d661ae4d11fc455fb75a97bb9ca32a127a92a7b22d7430b",
       "abi": [
         {
@@ -2324,7 +2324,7 @@
       ]
     },
     {
-      "address": "0x6198ea3d19de7266f1dda3be16286047701f151914247aae8847ff8dd3bf9bc",
+      "address": "0x3b503030ec86acf82333d4f60ee9098c3b523a995713a812671a77166748a2b",
       "class_hash": "0x63b85d54bf8b33f72ae5501e79d3fcaaad91739f05970e333bcd28aefc714dd",
       "abi": [
         {
@@ -2542,8 +2542,8 @@
       ],
       "init_calldata": [
         "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd",
-        "0x03cf6234ed1a956d3988ca40b4b92088d738a1b73654e8fcc87babfb446db84d",
-        "0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0"
+        "0x033f05797f8d389757d061f04ba4be429e5143b5fc2e2dc4c77bdb7e517e706f",
+        "0x052512f936d7067c0a6d7297a3600b4ee709fca18af9247a8a7d1755d2911ac1"
       ],
       "tag": "zidle-settings",
       "selector": "0x32c8e4403fc63ad1c5ae3de3816a790846c08229df90fc121d9034ba1a9232c",

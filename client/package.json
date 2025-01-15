@@ -22,6 +22,7 @@
     "@cartridge/connector": "^0.5.5",
     "@cartridge/controller": "^0.5.5",
     "@dojoengine/core": "1.0.8",
+    "@dojoengine/create-burner": "^1.0.9",
     "@dojoengine/react": "1.0.8",
     "@dojoengine/recs": "2.0.13",
     "@dojoengine/state": "1.0.8",

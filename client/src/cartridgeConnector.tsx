@@ -5,8 +5,6 @@ import { manifest } from "./config/manifest";
 
 const { VITE_PUBLIC_NODE_URL, VITE_PUBLIC_DEPLOY_TYPE } = import.meta.env;
 
-console.log("VITE_PUBLIC_NODE_URL", VITE_PUBLIC_NODE_URL);
-
 export type Manifest = typeof manifest;
 
 const colorMode: ColorMode = "dark";

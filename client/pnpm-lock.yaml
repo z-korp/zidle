@@ -10,13 +10,16 @@ importers:
     dependencies:
       '@cartridge/connector':
         specifier: ^0.5.5
-        version: 0.5.5(encoding@0.1.13)(get-starknet-core@4.0.0)(react@18.3.1)(typescript@5.4.5)
+        version: 0.5.5(encoding@0.1.13)(get-starknet-core@3.3.3(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(typescript@5.4.5)
       '@cartridge/controller':
         specifier: ^0.5.5
         version: 0.5.5(encoding@0.1.13)
       '@dojoengine/core':
         specifier: 1.0.8
         version: 1.0.8(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)
+      '@dojoengine/create-burner':
+        specifier: ^1.0.9
+        version: 1.0.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)
       '@dojoengine/react':
         specifier: 1.0.8
         version: 1.0.8(@types/node@20.14.2)(@types/react@18.3.3)(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(terser@5.31.6)(type-fest@2.19.0)(typescript@5.4.5)(zod@3.23.8)
@@ -85,7 +88,7 @@ importers:
         version: 3.1.0
       '@starknet-react/core':
         specifier: 3.6.0
-        version: 3.6.0(get-starknet-core@4.0.0)(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)
+        version: 3.6.0(get-starknet-core@3.3.3(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -939,6 +942,19 @@ packages:
     hasBin: true
     peerDependencies:
       starknet: 'catalog:'
+
+  '@dojoengine/core@1.0.9':
+    resolution: {integrity: sha512-HHXP/OkrlNrsy73AF0HW5NJKw8RJKk9x5ZCKU42Ti8cC8+lm9QFwOgFNVLw3wLqIS4lQ+ZL4+Ku9Jy3DBlWKWA==}
+    hasBin: true
+    peerDependencies:
+      starknet: ^6.11.0
+
+  '@dojoengine/create-burner@1.0.9':
+    resolution: {integrity: sha512-BuBqEfcBCb3RkCOPsXSvXZPsb4ZzsxpsfvMdBkhHgNmT3mqUzLRXOC4Tb52f6yt57/B1ZpT0MAer3WkHmJwd/Q==}
+    peerDependencies:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      starknet: ^6.11.0
 
   '@dojoengine/react@1.0.8':
     resolution: {integrity: sha512-34gTqx0u2PiHpkvOwp859BgOvkwyROdR9jX11fA6fEm0GUb/X0ABNtHt4DI503JQ9aCtBLO64iUc2vvImFn4gA==}
@@ -2712,8 +2728,18 @@ packages:
   '@starknet-io/types-js@0.7.7':
     resolution: {integrity: sha512-WLrpK7LIaIb8Ymxu6KF/6JkGW1sso988DweWu7p5QY/3y7waBIiPvzh27D9bX5KIJNRDyOoOVoHVEKYUYWZ/RQ==}
 
+  '@starknet-react/chains@0.1.7':
+    resolution: {integrity: sha512-UNh97I1SvuJKaAhKOmpEk8JcWuZWMlPG/ba2HcvFYL9x/47BKndJ+Da9V+iJFtkHUjreVnajT1snsaz1XMG+UQ==}
+
   '@starknet-react/chains@3.1.0':
     resolution: {integrity: sha512-h+fxh+Bs8h0ZSEX651vG3mn1NtMKzFDSHqrX7Q8YRRIeTKolPCx4vmoi5Gg19SXr/9iIVSwgx6qe4rVZTNfhcQ==}
+
+  '@starknet-react/core@2.3.0':
+    resolution: {integrity: sha512-8g9d0Gs811gJnQJHVMxQoXYhv+y5/qug7NQ0lnJ51uytdBhr/Zz5wgeTHW4ZQ5Igljyvf+ks+yhp4P1iSvnSqA==}
+    peerDependencies:
+      get-starknet-core: ^3.2.0
+      react: ^18.0
+      starknet: ^5.25.0
 
   '@starknet-react/core@3.6.0':
     resolution: {integrity: sha512-+5acQqMZkk6q2/cogoY7g/Ne2zgUHUvbgEc1dE9ItNbfpMJqxUtB5Ovt7+Q3utsYUYXbuxWgq/G6CjPHGrtqzg==}
@@ -4084,6 +4110,9 @@ packages:
   immutable@3.7.6:
     resolution: {integrity: sha512-AizQPcaofEtO11RZhPPHBOJRdo/20MKQF9mBLnVkBoyHi1/zXK8fzVdnEpSV9gxqtnh6Qomfp3F0xT5qP/vThw==}
     engines: {node: '>=0.8.0'}
+
+  immutable@4.3.7:
+    resolution: {integrity: sha512-1hqclzwYwjRDFLjcFxOM5AYkkG0rpFPpr1RLPMEuGczoS7YA8gLhy8SWXYRAA/XwfEHpfo3cw5JGioS32fnMRw==}
 
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
@@ -6882,10 +6911,10 @@ snapshots:
 
   '@cartridge/account-wasm@0.5.5': {}
 
-  '@cartridge/connector@0.5.5(encoding@0.1.13)(get-starknet-core@4.0.0)(react@18.3.1)(typescript@5.4.5)':
+  '@cartridge/connector@0.5.5(encoding@0.1.13)(get-starknet-core@3.3.3(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(typescript@5.4.5)':
     dependencies:
       '@cartridge/controller': 0.5.5(encoding@0.1.13)
-      '@starknet-react/core': 3.6.0(get-starknet-core@4.0.0)(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)
+      '@starknet-react/core': 3.6.0(get-starknet-core@3.3.3(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)
       starknet: 6.11.0(encoding@0.1.13)
     transitivePeerDependencies:
       - bufferutil
@@ -6934,6 +6963,32 @@ snapshots:
       '@dojoengine/recs': 2.0.13(typescript@5.4.5)(zod@3.23.8)
       starknet: 6.11.0(encoding@0.1.13)
       zod: 3.23.8
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+
+  '@dojoengine/core@1.0.9(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)':
+    dependencies:
+      '@dojoengine/recs': 2.0.13(typescript@5.4.5)(zod@3.23.8)
+      starknet: 6.11.0(encoding@0.1.13)
+      zod: 3.23.8
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+
+  '@dojoengine/create-burner@1.0.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)':
+    dependencies:
+      '@dojoengine/core': 1.0.9(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)
+      '@scure/bip32': 1.6.0
+      '@starknet-react/core': 2.3.0(get-starknet-core@3.3.3(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))
+      encoding: 0.1.13
+      get-starknet-core: 3.3.3(starknet@6.11.0(encoding@0.1.13))
+      js-cookie: 3.0.5
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      starknet: 6.11.0(encoding@0.1.13)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -9117,15 +9172,28 @@ snapshots:
 
   '@starknet-io/types-js@0.7.7': {}
 
+  '@starknet-react/chains@0.1.7': {}
+
   '@starknet-react/chains@3.1.0': {}
 
-  '@starknet-react/core@3.6.0(get-starknet-core@4.0.0)(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)':
+  '@starknet-react/core@2.3.0(get-starknet-core@3.3.3(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))':
+    dependencies:
+      '@starknet-react/chains': 0.1.7
+      '@tanstack/react-query': 5.52.1(react@18.3.1)
+      eventemitter3: 5.0.1
+      get-starknet-core: 3.3.3(starknet@6.11.0(encoding@0.1.13))
+      immutable: 4.3.7
+      react: 18.3.1
+      starknet: 6.11.0(encoding@0.1.13)
+      zod: 3.23.8
+
+  '@starknet-react/core@3.6.0(get-starknet-core@3.3.3(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))(typescript@5.4.5)':
     dependencies:
       '@starknet-io/types-js': 0.7.7
       '@starknet-react/chains': 3.1.0
       '@tanstack/react-query': 5.52.1(react@18.3.1)
       eventemitter3: 5.0.1
-      get-starknet-core: 4.0.0
+      get-starknet-core: 3.3.3(starknet@6.11.0(encoding@0.1.13))
       react: 18.3.1
       starknet: 6.11.0(encoding@0.1.13)
       viem: 2.22.8(typescript@5.4.5)(zod@3.23.8)
@@ -10792,6 +10860,8 @@ snapshots:
   ignore@5.3.2: {}
 
   immutable@3.7.6: {}
+
+  immutable@4.3.7: {}
 
   import-fresh@3.3.0:
     dependencies:
