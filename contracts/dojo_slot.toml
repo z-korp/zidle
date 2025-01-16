@@ -27,7 +27,7 @@ private_key = "0x1e5c62853e3189afdfdfcfb2d8ab0a1c372907db6eb1d1e5bf8ff438420adb3
 
 [writers]
 "zidle-TokenConfig" = ["zidle-character_minter", "zidle-gold_minter"]
-"zidle-Miner" = ["zidle-character"]
+"zidle-Miner" = ["zidle-character", "zidle-resources"]
 "zidle-Player" = ["zidle-character"]
 "zidle-Char" = ["zidle-resources"]
 "zidle-Admin" = ["zidle-settings"]

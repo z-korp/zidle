@@ -2,3 +2,9 @@ world_address = "0x01a78a3a22fe78bd995f751c58c1dfb569b0604f64e5fc12a48e072b1841f
 rpc = "https://api.cartridge.gg/x/zidle-slot/katana"
 explorer = false
 
+# Indexing Options
+[indexing]
+contracts = [
+    "erc20:0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0",
+    "erc721:0x03cf6234ed1a956d3988ca40b4b92088d738a1b73654e8fcc87babfb446db84d" 
+]
