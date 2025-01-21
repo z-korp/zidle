@@ -25,8 +25,10 @@ mod CharacterErc721 {
     use openzeppelin::security::pausable::PausableComponent;
     use openzeppelin::token::erc721::ERC721Component;
     use openzeppelin::token::erc721::extensions::ERC721EnumerableComponent;
+    use openzeppelin::token::erc721::interface::{IERC721Metadata, IERC721MetadataCamelOnly};
     use openzeppelin::upgrades::interface::IUpgradeable;
     use openzeppelin::upgrades::UpgradeableComponent;
+    use starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess,};
     use starknet::{ClassHash, ContractAddress, get_caller_address, get_contract_address};
     use super::{MINTER_ROLE, PAUSER_ROLE, UPGRADER_ROLE};
 
@@ -42,7 +44,12 @@ mod CharacterErc721 {
 
     // External
     #[abi(embed_v0)]
-    impl ERC721MixinImpl = ERC721Component::ERC721MixinImpl<ContractState>;
+    impl ERC721Impl = ERC721Component::ERC721Impl<ContractState>;
+    #[abi(embed_v0)]
+    impl ERC721EnumerableImpl =
+        ERC721EnumerableComponent::ERC721EnumerableImpl<ContractState>;
+    #[abi(embed_v0)]
+    impl ERC721CamelOnlyImpl = ERC721Component::ERC721CamelOnlyImpl<ContractState>;
     #[abi(embed_v0)]
     impl PausableImpl = PausableComponent::PausableImpl<ContractState>;
     #[abi(embed_v0)]
@@ -51,9 +58,6 @@ mod CharacterErc721 {
     #[abi(embed_v0)]
     impl AccessControlCamelImpl =
         AccessControlComponent::AccessControlCamelImpl<ContractState>;
-    #[abi(embed_v0)]
-    impl ERC721EnumerableImpl =
-        ERC721EnumerableComponent::ERC721EnumerableImpl<ContractState>;
     #[abi(embed_v0)]
     impl ERC721WalletImpl = Erc721WalletComponent::ERC721WalletImpl<ContractState>;
 
@@ -81,6 +85,7 @@ mod CharacterErc721 {
         upgradeable: UpgradeableComponent::Storage,
         #[substorage(v0)]
         erc721_wallet: Erc721WalletComponent::Storage,
+        constant_token_uri: ByteArray,
     }
 
     #[event]
@@ -110,13 +115,10 @@ mod CharacterErc721 {
         minter: ContractAddress,
         upgrader: ContractAddress,
     ) {
-        self
-            .erc721
-            .initializer(
-                "zIdle Character",
-                "ZIC",
-                "ipfs://QmZf1uNuPPAcTqxXGBdcTjBnviPTftypxxUwMSgAGC1HDC/metadata.json"
-            );
+        let constant_uri = "ipfs://QmZf1uNuPPAcTqxXGBdcTjBnviPTftypxxUwMSgAGC1HDC/metadata.json";
+        self.constant_token_uri.write(constant_uri);
+
+        self.erc721.initializer("zIdle Character", "ZIC", self.constant_token_uri.read());
         self.accesscontrol.initializer();
         self.erc721_enumerable.initializer();
 
@@ -219,6 +221,33 @@ mod CharacterErc721 {
         fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
             self.accesscontrol.assert_only_role(UPGRADER_ROLE);
             self.upgradeable.upgrade(new_class_hash);
+        }
+    }
+
+    //
+    // Metadata
+    //
+
+    #[abi(embed_v0)]
+    impl ERC721MetadataImpl of IERC721Metadata<ContractState> {
+        fn name(self: @ContractState) -> ByteArray {
+            self.erc721.ERC721_name.read()
+        }
+
+        fn symbol(self: @ContractState) -> ByteArray {
+            self.erc721.ERC721_symbol.read()
+        }
+
+        fn token_uri(self: @ContractState, token_id: u256) -> ByteArray {
+            self.erc721.exists(token_id);
+            self.constant_token_uri.read()
+        }
+    }
+
+    #[abi(embed_v0)]
+    impl ERC721MetadataCamelOnlyImpl of IERC721MetadataCamelOnly<ContractState> {
+        fn tokenURI(self: @ContractState, tokenId: u256) -> ByteArray {
+            self.token_uri(tokenId)
         }
     }
 }
