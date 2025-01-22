@@ -10,8 +10,7 @@ import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
 import { useReconnectionData } from "@/hooks/useReconnectionData";
 import { Button } from "@/ui/elements/button";
-import { useNavigate } from "react-router-dom";
-import { Hammer } from "lucide-react";
+import { Hammer, Sword } from "lucide-react";
 import { blueprints } from "@/data/blueprints";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 interface MainMenuCardProps {
@@ -26,6 +25,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   const { character } = useCharacter(tokenId);
   const [isInInventory, setIsInInventory] = useState(false);
   const [isInBlueprints, setIsInBlueprints] = useState(false);
+  const [isInCombat, setIsInCombat] = useState(false);
 
   const [selectedResource, setSelectedResource] = useState<Resource | null>(
     character?.miningRessource ?? null,
@@ -58,6 +58,34 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   const renderContent = () => {
     if (!character) {
       return <div>No character data available</div>;
+    }
+
+    if (isInCombat) {
+      return (
+        <>
+          <CardHeader className="p-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">NFT #{tokenId}</span>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8"
+                onClick={() => setIsInCombat(false)}
+              >
+                <Sword className="h-4 w-4" />
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <h2 className="text-lg font-bold">Combat</h2>
+              <div className="text-sm text-gray-300">
+                Cette fonctionnalité sera bientôt disponible...
+              </div>
+            </div>
+          </CardContent>
+        </>
+      );
     }
 
     if (isInBlueprints) {
@@ -159,6 +187,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
               inventory={inventory}
               setIsInInventory={setIsInInventory}
               setIsInBlueprints={setIsInBlueprints}
+              setIsInCombat={setIsInCombat}
             />
             {isInInventory ? (
               <InventoryDiv
@@ -188,6 +217,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
     <Card className="w-[350px] bg-gray-800 text-white shadow-xl border border-gray-600">
       {renderContent()}
       {!isInBlueprints &&
+        !isInCombat &&
         showSummary &&
         reconnectionData &&
         reconnectionData?.resourcesGained.findIndex((x) => x.quantity > 0) !==

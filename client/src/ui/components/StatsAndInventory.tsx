@@ -5,7 +5,7 @@ import AnimatedSprite, { AnimationType, MobType } from "./AnimatedSprite";
 import { Character } from "@/hooks/useCharacter";
 import { Dialog } from "@/ui/elements/dialog";
 import AddressDisplay from "./AddressDisplay";
-import { ArrowLeft, WalletIcon, Hammer } from "lucide-react";
+import { ArrowLeft, WalletIcon, Hammer, Sword } from "lucide-react";
 import Wallet from "./Wallet";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import GoldImg from "./GoldImg";
@@ -17,6 +17,7 @@ interface StatsAndInventoryProps {
   critical: number;
   setIsInInventory: (isInInventory: boolean) => void;
   setIsInBlueprints: (isInBlueprints: boolean) => void;
+  setIsInCombat: (isInCombat: boolean) => void;
   inventory: InventoryItem[];
   resetSelectedNft: () => void;
 }
@@ -28,6 +29,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
   critical,
   setIsInInventory,
   setIsInBlueprints,
+  setIsInCombat,
   inventory,
   resetSelectedNft,
 }) => {
@@ -56,6 +58,14 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
               </span>
               <GoldImg className="h-8 w-8" />
             </div>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => setIsInCombat(true)}
+            >
+              <Sword className="h-4 w-4" />
+            </Button>
             <Button
               variant="outline"
               size="icon"
