@@ -4,9 +4,7 @@ import { Input } from "../elements/input";
 import { useDojo } from "@/dojo/useDojo";
 import useAccountCustom from "@/hooks/useAccountCustom";
 import { Account } from "starknet";
-import { useNFTs } from "@/hooks/useNFTs";
 import NFTCard from "./NFTCard";
-import { useNFTsManual } from "@/hooks/useNFTsManual";
 import { useAllTokenIds } from "@/hooks/useAllTokenIds";
 
 interface CharacterListProps {
@@ -26,14 +24,17 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   /*const { numberNft, tokenIds, refetchBalance, refetchToken } = useNFTsManual(
     account?.address,
   );*/
-  const { tokenIds, numberOfNfts: numberNft } = useAllTokenIds(
-    account?.address,
-  );
+  const {
+    tokenIds,
+    numberOfNfts: numberNft,
+    refetch,
+  } = useAllTokenIds(account?.address);
 
   const handleMint = async () => {
     if (playerName.trim()) {
       await createCharacter({ account: account as Account, name: playerName });
-      setPlayerName(""); // Clear the input
+      setPlayerName("");
+      refetch();
     }
   };
 
@@ -45,7 +46,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
           <div className="grid grid-cols-2 gap-4">
             {tokenIds.map((tokenId) => (
               <NFTCard
-                key={tokenId}
+                key={tokenId.toString()}
                 tokenId={tokenId.toString()}
                 onSelect={onCharacterSelect}
               />

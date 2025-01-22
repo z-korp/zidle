@@ -31,9 +31,13 @@ const useAccountCustom = () => {
         setCustomAccount(null);
       }
     }
-  }, [/*burner,*/ account]);
+  }, [burner, account]);
 
-  //console.log("useAccountCustom", customAccount);
+  useEffect(() => {
+    if (customAccount) {
+      console.log("customAccount", customAccount);
+    }
+  }, [customAccount]);
 
   return { account: customAccount };
 };

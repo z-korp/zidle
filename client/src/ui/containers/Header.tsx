@@ -2,10 +2,11 @@ import { useCallback } from "react";
 import { Separator } from "@/ui/elements/separator";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import { ACCOUNT_CONNECTOR } from "@/hooks/useAccountCustom";
+import useAccountCustom, { ACCOUNT_CONNECTOR } from "@/hooks/useAccountCustom";
 import Connect from "../components/Connect";
 
 export const Header = () => {
+  const { account } = useAccountCustom();
   const isMdOrLarger = useMediaQuery({ query: "(min-width: 768px)" });
 
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export const Header = () => {
           <p className="text-4xl font-bold text-slate-700">zIdle</p>
           {/* <Leaderboard /> */}
         </div>
+        <div>{account?.address}</div>
         <div className="flex flex-col gap-4 items-center md:flex-row">
           {ACCOUNT_CONNECTOR === "controller" && <Connect />}
           <div className="flex gap-4">

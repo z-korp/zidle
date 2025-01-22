@@ -14,19 +14,21 @@ export const useAllTokenIds = (accountAddress: string | undefined) => {
     address: VITE_PUBLIC_CHARACTER_ERC721_TOKEN_ADDRESS,
   });
 
-  useEffect(() => {
-    if (accountAddress && erc721Contract) {
-      fetchAllTokenIds();
-    }
-  }, [accountAddress, erc721Contract]);
-
   const fetchAllTokenIds = async () => {
+    if (!accountAddress) {
+      setError("Account address is undefined.");
+      return;
+    }
+    if (!erc721Contract) {
+      setError("ERC721 contract is undefined.");
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     setTokenIds([]);
 
     try {
-      // Fetch the total number of NFTs owned
       const ret_erc721_balance = await erc721Contract.call("balance_of", [
         accountAddress,
       ]);
@@ -38,7 +40,6 @@ export const useAllTokenIds = (accountAddress: string | undefined) => {
         return;
       }
 
-      // Fetch token IDs for each index
       const ids: bigint[] = [];
       for (let i = 0; i < numberOfNfts; i++) {
         try {
@@ -61,5 +62,17 @@ export const useAllTokenIds = (accountAddress: string | undefined) => {
     }
   };
 
-  return { tokenIds, numberOfNfts: tokenIds.length, isLoading, error };
+  useEffect(() => {
+    if (accountAddress && erc721Contract) {
+      fetchAllTokenIds();
+    }
+  }, [accountAddress, erc721Contract]);
+
+  const refetch = () => {
+    if (accountAddress && erc721Contract) {
+      fetchAllTokenIds();
+    }
+  };
+
+  return { tokenIds, numberOfNfts: tokenIds.length, isLoading, error, refetch };
 };
