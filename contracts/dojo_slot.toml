@@ -21,9 +21,14 @@ account_address = "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107f
 private_key = "0x1e5c62853e3189afdfdfcfb2d8ab0a1c372907db6eb1d1e5bf8ff438420adb3"
 
 [init_call_args]
-"zidle-character_minter" = ["0x03cf6234ed1a956d3988ca40b4b92088d738a1b73654e8fcc87babfb446db84d", "10000", "0", "100", "0", "1"]
+"zidle-character_minter" = ["0x051d88174534ea0e084f1eb6669da78a1e3a0c1fe4fd23542397815385550cd2", "10000", "0", "100", "0", "1"]
+# first arg is CHARACTER_ERC721_TOKEN_ADDRESS 
+
 "zidle-gold_minter" = ["0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0", "1000000000000000", "0", "1000000000000000", "0", "1"]
-"zidle-settings" = ["0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd", "0x03cf6234ed1a956d3988ca40b4b92088d738a1b73654e8fcc87babfb446db84d", "0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0"]
+# first arg is GOLD_ERC20_TOKEN_ADDRESS 
+
+"zidle-settings" = ["0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd", "0x051d88174534ea0e084f1eb6669da78a1e3a0c1fe4fd23542397815385550cd2", "0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0"]
+# args: admin_address, CHARACTER_ERC721_TOKEN_ADDRESS, GOLD_ERC20_TOKEN_ADDRESS
 
 [writers]
 "zidle-TokenConfig" = ["zidle-character_minter", "zidle-gold_minter"]

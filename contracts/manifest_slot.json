@@ -1252,7 +1252,7 @@
   },
   "contracts": [
     {
-      "address": "0xaf35f90afa36a49d2bc63e783d0f086e03cd14fe5328fc47bab5e39c60c16b",
+      "address": "0x1ae7332b69509e0c30adda1e9ab076a09017988302f9ed22342743e3855279b",
       "class_hash": "0x39ad43f2f5271fddba62c8000f8224fc20df116ec46e690a7e1e4b8b9a39414",
       "abi": [
         {
@@ -1464,7 +1464,7 @@
       ]
     },
     {
-      "address": "0x352cd5ab6e40b5b2d5495b6cc895f6750a722ce1909c859c02921d8382af314",
+      "address": "0x4d80bc147458ca04bf43003847c341e91ab63b3c2bd041641b625962f07cdd8",
       "class_hash": "0x2ed1295697967cbf929b714d4fb1e28d50218d2f9b043f612bc8e58ea717c50",
       "abi": [
         {
@@ -1745,7 +1745,7 @@
         }
       ],
       "init_calldata": [
-        "0x03cf6234ed1a956d3988ca40b4b92088d738a1b73654e8fcc87babfb446db84d",
+        "0x051d88174534ea0e084f1eb6669da78a1e3a0c1fe4fd23542397815385550cd2",
         "10000",
         "0",
         "100",
@@ -2063,7 +2063,7 @@
     },
     {
       "address": "0x55b3b3411b5080ae58c08a706be78ecf81a98e9dbfd215823c3aee668a68b01",
-      "class_hash": "0x43e75dee63a11ac1d661ae4d11fc455fb75a97bb9ca32a127a92a7b22d7430b",
+      "class_hash": "0x7c8080f67393778088a49138a19d53c2105fe366d5fcd98870df867ebd5bc58",
       "abi": [
         {
           "type": "impl",
@@ -2542,7 +2542,7 @@
       ],
       "init_calldata": [
         "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd",
-        "0x03cf6234ed1a956d3988ca40b4b92088d738a1b73654e8fcc87babfb446db84d",
+        "0x051d88174534ea0e084f1eb6669da78a1e3a0c1fe4fd23542397815385550cd2",
         "0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0"
       ],
       "tag": "zidle-settings",

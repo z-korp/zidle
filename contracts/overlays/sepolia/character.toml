@@ -1,6 +1,0 @@
-tag = "zidle4-character"
-writes = [
-  "zidle4-Miner",
-  "zidle4-Player",
-]
-init_calldata = []
