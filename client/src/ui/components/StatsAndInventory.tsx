@@ -5,7 +5,7 @@ import AnimatedSprite, { AnimationType, MobType } from "./AnimatedSprite";
 import { Character } from "@/hooks/useCharacter";
 import { Dialog } from "@/ui/elements/dialog";
 import AddressDisplay from "./AddressDisplay";
-import { ArrowLeft, WalletIcon } from "lucide-react";
+import { ArrowLeft, WalletIcon, Hammer } from "lucide-react";
 import Wallet from "./Wallet";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import GoldImg from "./GoldImg";
@@ -16,6 +16,7 @@ interface StatsAndInventoryProps {
   attack: number;
   critical: number;
   setIsInInventory: (isInInventory: boolean) => void;
+  setIsInBlueprints: (isInBlueprints: boolean) => void;
   inventory: InventoryItem[];
   resetSelectedNft: () => void;
 }
@@ -26,6 +27,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
   attack,
   critical,
   setIsInInventory,
+  setIsInBlueprints,
   inventory,
   resetSelectedNft,
 }) => {
@@ -35,33 +37,50 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
   return (
     <>
       <div className="space-y-5">
-        <div className="flex justify-between items-center">
-          <Button
-            variant="outline"
-            className="absolute top-4 left-4 p-1 h-[32px] w-[32px]"
-            onClick={resetSelectedNft}
-          >
-            <ArrowLeft />
-          </Button>
-          <div className="ml-9">
+        <div className="flex items-center justify-between gap-2 relative z-10">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center"
+              onClick={resetSelectedNft}
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
             <AddressDisplay address={character.walletAddress || ""} />
           </div>
-          <div className="flex items-center space-x-2">
-            <span className="text-lg">{character?.gold ?? 0}</span>
-            <GoldImg />
-            <WalletIcon
-              className="w-8 h-8 border border-gray-300 rounded-md p-1 hover:bg-gray-100 cursor-pointer"
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-medium">
+                {character?.gold ?? 0}
+              </span>
+              <GoldImg className="h-8 w-8" />
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => setIsInBlueprints(true)}
+            >
+              <Hammer className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
               onClick={() => setOpenModal(true)}
-            />
+            >
+              <WalletIcon className="h-4 w-4" />
+            </Button>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-1 text-sm items-center h-42">
-          <div className="space-y-2 flex flex-col">
+        <div className="grid grid-cols-3 gap-1 text-sm items-center h-42 relative">
+          <div className="space-y-2 flex flex-col z-10">
             <div>Health: {health}</div>
             <div>Attack: {attack}</div>
             <div>Critical: {critical}%</div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center z-0">
             <div>
               <AnimatedSprite
                 width={192}
@@ -75,7 +94,7 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
               />
             </div>
           </div>
-          <div className="space-y-2 w-full ">
+          <div className="space-y-2 w-full z-10">
             <div className="text-sm flex items-center justify-between">
               <span className="font-medium">Chop lvl</span>
               <LevelIndicator currentXP={character?.woodProgress ?? 0} />

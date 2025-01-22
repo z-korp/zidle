@@ -1,7 +1,11 @@
 import gold from "/assets/gold.png";
 
-const GoldImg = () => {
-  return <img src={gold} alt="Gold" className="w-6 h-6 pixelated-image" />;
+interface GoldImgProps {
+  className?: string;
+}
+
+const GoldImg = ({ className }: GoldImgProps) => {
+  return <img src={gold} alt="Gold" className={className} />;
 };
 
 export default GoldImg;
