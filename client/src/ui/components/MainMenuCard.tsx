@@ -10,12 +10,22 @@ import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
 import { useReconnectionData } from "@/hooks/useReconnectionData";
 import { Button } from "@/ui/elements/button";
-import { Hammer, Sword, Home, Package } from "lucide-react";
+import {
+  Hammer,
+  Sword,
+  Home,
+  Package,
+  Menu,
+  WalletIcon,
+  ArrowLeft,
+  Shield,
+} from "lucide-react";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { CombatView } from "./CombatView";
 import { BlueprintView } from "./BlueprintView";
 import { GameHeader } from "./GameHeader";
 import { InventoryView } from "./InventoryView";
+import { EquipmentView } from "./EquipmentView";
 
 interface MainMenuCardProps {
   tokenId: string;
@@ -45,6 +55,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [isInGlobalInventory, setIsInGlobalInventory] = useState(false);
+  const [isInEquipment, setIsInEquipment] = useState(false);
 
   useEffect(() => {
     if (character) {
@@ -72,6 +83,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
    * - Combat: Opens combat interface
    * - Blueprints: Opens crafting interface
    * - Inventory: Opens inventory interface
+   * - Equipment: Opens equipment interface
    */
   const renderMenu = () => (
     <>
@@ -95,6 +107,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInBlueprints(false);
                 setIsInInventory(false);
                 setIsInGlobalInventory(false);
+                setIsInEquipment(false);
                 setSelectedResource(null);
                 setShowMenu(false);
               }}
@@ -111,6 +124,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInCombat(true);
                 setIsInBlueprints(false);
                 setIsInGlobalInventory(false);
+                setIsInEquipment(false);
                 setShowMenu(false);
               }}
             >
@@ -126,6 +140,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInBlueprints(true);
                 setIsInCombat(false);
                 setIsInGlobalInventory(false);
+                setIsInEquipment(false);
                 setShowMenu(false);
               }}
             >
@@ -141,10 +156,27 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInGlobalInventory(true);
                 setIsInCombat(false);
                 setIsInBlueprints(false);
+                setIsInEquipment(false);
                 setShowMenu(false);
               }}
             >
               <Package className="h-4 w-4" />
+            </Button>
+
+            {/* Equipment button */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => {
+                setIsInEquipment(true);
+                setIsInGlobalInventory(false);
+                setIsInCombat(false);
+                setIsInBlueprints(false);
+                setShowMenu(false);
+              }}
+            >
+              <Shield className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -157,6 +189,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
    * - Combat view: Shows available monsters to fight
    * - Blueprint view: Shows items that can be crafted
    * - Inventory view: Shows the character's inventory
+   * - Equipment view: Shows the character's equipment
    * - Default view: Shows mining interface and character stats
    */
   const renderContent = () => {
@@ -212,6 +245,24 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
           <CardContent>
             <ScrollArea className="h-[400px] pr-4">
               <BlueprintView character={character} />
+            </ScrollArea>
+          </CardContent>
+        </>
+      );
+    }
+
+    if (isInEquipment) {
+      return (
+        <>
+          <GameHeader
+            tokenId={tokenId}
+            character={character}
+            resetSelectedNft={resetSelectedNft}
+            onMenuClick={() => setShowMenu(!showMenu)}
+          />
+          <CardContent>
+            <ScrollArea className="h-[400px]">
+              <EquipmentView character={character} />
             </ScrollArea>
           </CardContent>
         </>
