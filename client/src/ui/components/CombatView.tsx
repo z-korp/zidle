@@ -51,9 +51,10 @@ export const CombatView: React.FC<CombatViewProps> = ({ character }) => {
             <Button
               className="w-full bg-red-500/20 hover:bg-red-500/30 text-red-300"
               variant="outline"
-              disabled={
-                monster.requiredLevel && character.level < monster.requiredLevel
-              }
+              disabled={Boolean(
+                monster.requiredLevel &&
+                  character.level < monster.requiredLevel,
+              )}
             >
               {monster.requiredLevel && character.level < monster.requiredLevel
                 ? `Requires Level ${monster.requiredLevel}`

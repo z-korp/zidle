@@ -4,11 +4,8 @@ import LevelIndicator from "./LevelIndicator";
 import AnimatedSprite, { AnimationType, MobType } from "./AnimatedSprite";
 import { Character } from "@/hooks/useCharacter";
 import { Dialog } from "@/ui/elements/dialog";
-import AddressDisplay from "./AddressDisplay";
-import { ArrowLeft, WalletIcon, Hammer, Sword, Menu } from "lucide-react";
 import Wallet from "./Wallet";
 import { InventoryItem } from "@/dojo/game/models/miner";
-import GoldImg from "./GoldImg";
 
 interface StatsAndInventoryProps {
   character: Character;
