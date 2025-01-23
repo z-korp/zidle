@@ -1,14 +1,21 @@
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Play } from "lucide-react";
 import { Header } from "@/ui/containers/Header";
+import { ScrollArea } from "@/ui/elements/scroll-area";
+import { useAllExistingTokenIds } from "@/hooks/useAllExistingTokenIds";
+import { useDojo } from "@/dojo/useDojo";
 
 /**
- * StreamingScreen component - Displays streaming content and options
+ * StreamingScreen component - Displays all existing NFTs with streaming options
  */
 export const StreamingScreen = () => {
   const navigate = useNavigate();
+  const { tokenIds, isLoading } = useAllExistingTokenIds();
+  const {
+    setup: { systemCalls },
+  } = useDojo();
 
   return (
     <div className="relative flex flex-col h-screen">
@@ -27,29 +34,62 @@ export const StreamingScreen = () => {
                 >
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
-                <h1 className="text-xl font-bold">Streaming</h1>
-                <div className="w-8" /> {/* Spacer for alignment */}
+                <h1 className="text-xl font-bold">Available NFTs</h1>
+                <div className="w-8" />
               </div>
 
-              {/* Streaming Content */}
-              <div className="space-y-4">
-                <div className="bg-gray-700/50 p-4 rounded">
-                  <h2 className="text-lg font-semibold mb-2">Live Stream</h2>
-                  <p className="text-gray-300">
-                    Streaming content will be displayed here...
-                  </p>
-                </div>
+              {/* NFT List */}
+              <ScrollArea className="h-[60vh]">
+                {isLoading ? (
+                  <div className="text-center py-4 text-gray-400">
+                    Loading NFTs...
+                  </div>
+                ) : (
+                  <div className="space-y-4 pr-4">
+                    {tokenIds.map((tokenId) => (
+                      <Card
+                        key={tokenId.toString()}
+                        className="bg-gray-800/50 border border-gray-700 hover:border-gray-600 transition-colors"
+                      >
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <h3 className="font-bold">
+                                NFT #{tokenId.toString()}
+                              </h3>
+                              <p className="text-sm text-gray-400">
+                                Available for streaming
+                              </p>
+                            </div>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="text-green-400 hover:text-green-300"
+                              onClick={() => {
+                                // TODO: Implement streaming action
+                                console.log(`Start streaming NFT ${tokenId}`);
+                              }}
+                            >
+                              <Play className="w-4 h-4 mr-2" />
+                              Stream
+                            </Button>
+                          </div>
 
-                {/* Controls or additional content */}
-                <div className="grid grid-cols-2 gap-2">
-                  <Button variant="outline" className="w-full">
-                    Option 1
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    Option 2
-                  </Button>
-                </div>
-              </div>
+                          {/* Progress bars or additional NFT info can be added here */}
+                          <div className="mt-4 space-y-2">
+                            <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-blue-500"
+                                style={{ width: "50%" }}
+                              />
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </ScrollArea>
             </CardContent>
           </Card>
         </div>
