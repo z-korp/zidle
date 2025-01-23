@@ -15,6 +15,7 @@ import { ScrollArea } from "@/ui/elements/scroll-area";
 import { CombatView } from "./CombatView";
 import { BlueprintView } from "./BlueprintView";
 import { GameHeader } from "./GameHeader";
+import { InventoryView } from "./InventoryView";
 
 interface MainMenuCardProps {
   tokenId: string;
@@ -174,12 +175,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
           />
           <CardContent>
             <ScrollArea className="h-[400px] pr-4">
-              <div className="space-y-4">
-                <h2 className="text-lg font-bold">Inventory</h2>
-                <div className="text-sm text-gray-300">
-                  Cette fonctionnalité sera bientôt disponible...
-                </div>
-              </div>
+              <InventoryView character={character} inventory={inventory} />
             </ScrollArea>
           </CardContent>
         </>
