@@ -19,6 +19,7 @@ import {
   WalletIcon,
   ArrowLeft,
   Shield,
+  CircleDashed,
 } from "lucide-react";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { CombatView } from "./CombatView";
@@ -26,6 +27,7 @@ import { BlueprintView } from "./BlueprintView";
 import { GameHeader } from "./GameHeader";
 import { InventoryView } from "./InventoryView";
 import { EquipmentView } from "./EquipmentView";
+import { LuckyWheelView } from "./LuckyWheelView";
 
 interface MainMenuCardProps {
   tokenId: string;
@@ -56,6 +58,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [isInGlobalInventory, setIsInGlobalInventory] = useState(false);
   const [isInEquipment, setIsInEquipment] = useState(false);
+  const [isInLuckyWheel, setIsInLuckyWheel] = useState(false);
 
   useEffect(() => {
     if (character) {
@@ -84,6 +87,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
    * - Blueprints: Opens crafting interface
    * - Inventory: Opens inventory interface
    * - Equipment: Opens equipment interface
+   * - Lucky Wheel: Opens the lucky wheel interface
    */
   const renderMenu = () => (
     <>
@@ -108,6 +112,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInInventory(false);
                 setIsInGlobalInventory(false);
                 setIsInEquipment(false);
+                setIsInLuckyWheel(false);
                 setSelectedResource(null);
                 setShowMenu(false);
               }}
@@ -125,6 +130,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInBlueprints(false);
                 setIsInGlobalInventory(false);
                 setIsInEquipment(false);
+                setIsInLuckyWheel(false);
                 setShowMenu(false);
               }}
             >
@@ -141,6 +147,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInCombat(false);
                 setIsInGlobalInventory(false);
                 setIsInEquipment(false);
+                setIsInLuckyWheel(false);
                 setShowMenu(false);
               }}
             >
@@ -157,6 +164,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInCombat(false);
                 setIsInBlueprints(false);
                 setIsInEquipment(false);
+                setIsInLuckyWheel(false);
                 setShowMenu(false);
               }}
             >
@@ -173,10 +181,28 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInGlobalInventory(false);
                 setIsInCombat(false);
                 setIsInBlueprints(false);
+                setIsInLuckyWheel(false);
                 setShowMenu(false);
               }}
             >
               <Shield className="h-4 w-4" />
+            </Button>
+
+            {/* Lucky Wheel button */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => {
+                setIsInLuckyWheel(true);
+                setIsInEquipment(false);
+                setIsInGlobalInventory(false);
+                setIsInCombat(false);
+                setIsInBlueprints(false);
+                setShowMenu(false);
+              }}
+            >
+              <CircleDashed className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -190,6 +216,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
    * - Blueprint view: Shows items that can be crafted
    * - Inventory view: Shows the character's inventory
    * - Equipment view: Shows the character's equipment
+   * - Lucky Wheel view: Shows the lucky wheel interface
    * - Default view: Shows mining interface and character stats
    */
   const renderContent = () => {
@@ -263,6 +290,24 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
           <CardContent>
             <ScrollArea className="h-[400px]">
               <EquipmentView character={character} />
+            </ScrollArea>
+          </CardContent>
+        </>
+      );
+    }
+
+    if (isInLuckyWheel) {
+      return (
+        <>
+          <GameHeader
+            tokenId={tokenId}
+            character={character}
+            resetSelectedNft={resetSelectedNft}
+            onMenuClick={() => setShowMenu(!showMenu)}
+          />
+          <CardContent>
+            <ScrollArea className="h-[400px]">
+              <LuckyWheelView character={character} />
             </ScrollArea>
           </CardContent>
         </>
