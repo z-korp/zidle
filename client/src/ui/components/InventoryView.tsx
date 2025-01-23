@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/ui/elements/card";
 import { Character } from "@/hooks/useCharacter";
 import { InventoryItem } from "@/dojo/game/models/miner";
-import { ScrollArea } from "@/ui/elements/scroll-area";
 
 interface InventoryViewProps {
   character: Character;
@@ -10,19 +9,21 @@ interface InventoryViewProps {
 
 /**
  * InventoryView component - Displays the global inventory view
- * Shows all resources grouped by type with detailed information
+ * Shows harvested resources with total and per-miner quantities
  */
 export const InventoryView: React.FC<InventoryViewProps> = ({
   character,
   inventory,
 }) => {
-  // Group items by type for better organization
+  // Group items by type and filter out empty resources
   const groupedItems = inventory.reduce(
     (acc, item) => {
-      if (!acc[item.resource_type]) {
-        acc[item.resource_type] = [];
+      if (item.quantity > 0) {
+        if (!acc[item.resource_type]) {
+          acc[item.resource_type] = [];
+        }
+        acc[item.resource_type].push(item);
       }
-      acc[item.resource_type].push(item);
       return acc;
     },
     {} as Record<string, InventoryItem[]>,
@@ -30,41 +31,48 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-bold">Global Inventory</h2>
+      <h2 className="text-lg font-bold">Resources</h2>
       <div className="grid grid-cols-1 gap-4">
-        {Object.entries(groupedItems).map(([type, items]) => (
-          <Card key={type} className="bg-gray-800/50">
-            <CardContent className="p-4 space-y-4">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-lg font-bold text-white capitalize">
-                    {type}
-                  </h3>
-                  <p className="text-sm text-gray-400">
-                    Total: {items.reduce((sum, item) => sum + item.quantity, 0)}
-                  </p>
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs bg-green-500/20 text-green-300 px-2 py-1 rounded">
-                    Resource
-                  </span>
-                </div>
-              </div>
+        {Object.entries(groupedItems).map(([type, items]) => {
+          const totalQuantity = items.reduce(
+            (sum, item) => sum + item.quantity,
+            0,
+          );
+          if (totalQuantity === 0) return null;
 
-              <div className="grid grid-cols-2 gap-2">
-                {items.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between text-sm bg-gray-900/50 p-2 rounded"
-                  >
-                    <span className="text-gray-400">Miner {index + 1}</span>
-                    <span className="text-gray-300">{item.quantity}</span>
+          return (
+            <Card key={type} className="bg-gray-800/50">
+              <CardContent className="p-4 space-y-3">
+                {/* Resource header with total */}
+                <div className="flex items-center justify-between border-b border-gray-700 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-bold capitalize">{type}</span>
+                    <span className="text-sm text-gray-400">
+                      Total: {totalQuantity}
+                    </span>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                </div>
+
+                {/* Per-miner details */}
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  {items.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center bg-gray-900/40 rounded p-2"
+                    >
+                      <span className="text-sm text-gray-400">
+                        Miner {index + 1}
+                      </span>
+                      <span className="text-sm font-medium">
+                        {item.quantity}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );
