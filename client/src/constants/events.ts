@@ -1,0 +1,2 @@
+export const CONTRACT_EVENT =
+  "0x2acc3a6d6153d7f31b097980fa63d11d7ed32a62b1aee46df5bc0326103466f";
