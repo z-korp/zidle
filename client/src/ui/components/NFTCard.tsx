@@ -29,7 +29,7 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, onSelect }) => {
             {character.name}
           </CardTitle>
           <div className="flex items-center gap-2 text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">
-            <span>Lvl {character.level}</span>
+            <span>Lvl 1</span>
           </div>
         </div>
       </CardHeader>
