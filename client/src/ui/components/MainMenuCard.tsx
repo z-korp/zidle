@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader } from "@/ui/elements/card";
+import { Card, CardContent } from "@/ui/elements/card";
 import StatsAndInventory from "./StatsAndInventory";
 import Actions from "./Actions";
 import WorkingDiv from "./WorkingDiv";
@@ -15,9 +15,6 @@ import {
   Sword,
   Home,
   Package,
-  Menu,
-  WalletIcon,
-  ArrowLeft,
   Shield,
   CircleDashed,
 } from "lucide-react";
@@ -28,6 +25,7 @@ import { GameHeader } from "./GameHeader";
 import { InventoryView } from "./InventoryView";
 import { EquipmentView } from "./EquipmentView";
 import { LuckyWheelView } from "./LuckyWheelView";
+import { LoadingDots } from "@/ui/components/LoadingDots";
 
 interface MainMenuCardProps {
   tokenId: string;
@@ -221,7 +219,13 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
    */
   const renderContent = () => {
     if (!character) {
-      return <div>No character data available</div>;
+      return (
+        <div className="text-center py-4 text-gray-400">
+          <span>
+            Loading NFTs <LoadingDots />
+          </span>
+        </div>
+      );
     }
 
     if (isInGlobalInventory) {

@@ -6,6 +6,7 @@ import { Header } from "@/ui/containers/Header";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { useAllExistingTokenIds } from "@/hooks/useAllExistingTokenIds";
 import { useDojo } from "@/dojo/useDojo";
+import { LoadingDots } from "@/ui/components/LoadingDots";
 
 /**
  * StreamingScreen component - Displays all existing NFTs with streaming options
@@ -42,7 +43,9 @@ export const StreamingScreen = () => {
               <ScrollArea className="h-[60vh]">
                 {isLoading ? (
                   <div className="text-center py-4 text-gray-400">
-                    Loading NFTs...
+                    <span>
+                      Loading NFTs <LoadingDots />
+                    </span>
                   </div>
                 ) : (
                   <div className="space-y-4 pr-4">

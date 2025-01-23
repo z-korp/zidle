@@ -7,6 +7,7 @@ import { Account } from "starknet";
 import NFTCard from "./NFTCard";
 import { useAllTokenIds } from "@/hooks/useAllTokenIds";
 import { ScrollArea } from "@/ui/elements/scroll-area";
+import { LoadingDots } from "./LoadingDots";
 
 interface CharacterListProps {
   onCharacterSelect: (tokenId: string) => void;
@@ -41,7 +42,13 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
 
   return (
     <div className="flex flex-col items-center space-y-10">
-      {numberNft > 0 && (
+      {numberNft === 0 ? (
+        <div className="text-center py-4 text-gray-400">
+          <span>
+            Loading NFTs <LoadingDots />
+          </span>
+        </div>
+      ) : (
         <>
           <h3>Your Characters</h3>
           <ScrollArea className="h-[400px] w-full pr-4">
