@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "./ui/elements/sonner";
 import { Home } from "./ui/screens/Home";
+import { StreamingScreen } from "./ui/screens/StreamingScreen";
 import { TooltipProvider } from "@/ui/elements/tooltip";
 
 import background from "/assets/bg-nuage.png";
+
 export default function App() {
   return (
     <TooltipProvider>
@@ -16,6 +18,7 @@ export default function App() {
         </div>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/streaming" element={<StreamingScreen />} />
         </Routes>
         <Toaster position="bottom-right" />
       </Router>
