@@ -10,12 +10,14 @@ import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
 import { useReconnectionData } from "@/hooks/useReconnectionData";
 import { Button } from "@/ui/elements/button";
-import { Hammer, Sword, Menu, WalletIcon, Home } from "lucide-react";
+import { Hammer, Sword, Menu, WalletIcon, Home, ArrowLeft } from "lucide-react";
 import { blueprints } from "@/data/blueprints";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { monsters, MonsterCategory } from "@/data/monsters";
 import { CombatView } from "./CombatView";
 import { BlueprintView } from "./BlueprintView";
+import AddressDisplay from "./AddressDisplay";
+import GoldImg from "./GoldImg";
 
 interface MainMenuCardProps {
   tokenId: string;
@@ -133,21 +135,44 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   );
 
   /**
-   * Renders the card header with NFT ID and burger menu button
+   * Renders the card header with NFT ID, address, gold amount, and menu buttons
    * Consistent across all views
    */
   const renderHeader = () => (
     <CardHeader className="p-3">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium">NFT #{tokenId}</span>
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
-          onClick={() => setShowMenu(!showMenu)}
-        >
-          <Menu className="h-4 w-4" />
-        </Button>
+      <div className="flex flex-col gap-2">
+        {/* Bottom row with gold amount and menu button */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center"
+              onClick={resetSelectedNft}
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <span className="text-sm font-medium">NFT #{tokenId}</span>
+            <AddressDisplay address={character?.walletAddress || ""} />
+          </div>
+          <div className="flex items-end gap-1">
+            {/* Gold amount and menu button */}
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-medium">
+                {character?.gold ?? 0}
+              </span>
+              <GoldImg className="h-8 w-8" />
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => setShowMenu(!showMenu)}
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
       </div>
     </CardHeader>
   );

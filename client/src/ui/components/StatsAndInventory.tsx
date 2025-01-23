@@ -40,39 +40,6 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
   return (
     <>
       <div className="space-y-5">
-        <div className="flex items-center justify-between gap-2 relative z-10">
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 p-0 flex items-center justify-center"
-              onClick={resetSelectedNft}
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <AddressDisplay address={character.walletAddress || ""} />
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1">
-              <span className="text-sm font-medium">
-                {character?.gold ?? 0}
-              </span>
-              <GoldImg className="h-8 w-8" />
-            </div>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
-              onClick={() => {
-                setOpenModal(true);
-                setShowMenu(false);
-              }}
-            >
-              <WalletIcon className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-
         <div className="grid grid-cols-3 gap-1 text-sm items-center h-42 relative">
           <div className="space-y-2 flex flex-col z-10">
             <div>Health: {health}</div>
