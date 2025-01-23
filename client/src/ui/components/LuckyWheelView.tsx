@@ -1,5 +1,15 @@
 import { Character } from "@/hooks/useCharacter";
-import { CircleDashed } from "lucide-react";
+import {
+  CircleDashed,
+  Gem,
+  Sword,
+  Shield,
+  Crown,
+  Coins,
+  Axe,
+  Hammer,
+  Heart,
+} from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/ui/elements/button";
 
@@ -9,13 +19,25 @@ interface LuckyWheelViewProps {
 
 /**
  * LuckyWheelView component - Displays a spinning wheel of fortune
- * Allows players to try their luck by spinning the wheel
+ * Shows item icons as example prizes that players can win
  */
 export const LuckyWheelView: React.FC<LuckyWheelViewProps> = ({
   character,
 }) => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
+
+  // Define wheel segments with icons and values
+  const wheelSegments = [
+    { icon: Gem, value: 1 },
+    { icon: Sword, value: 1 },
+    { icon: Shield, value: 1 },
+    { icon: Crown, value: 2 },
+    { icon: Coins, value: 2 },
+    { icon: Axe, value: 2 },
+    { icon: Hammer, value: 1 },
+    { icon: Heart, value: 2 },
+  ];
 
   const spinWheel = () => {
     if (isSpinning) return;
@@ -35,6 +57,7 @@ export const LuckyWheelView: React.FC<LuckyWheelViewProps> = ({
     setTimeout(() => {
       setIsSpinning(false);
       setRotation(finalRotation % 360);
+      // TODO: Handle prize distribution based on final rotation
     }, 5000);
   };
 
@@ -51,8 +74,8 @@ export const LuckyWheelView: React.FC<LuckyWheelViewProps> = ({
         >
           <CircleDashed className="w-full h-full text-gray-600" />
 
-          {/* Wheel segments */}
-          {Array.from({ length: 8 }).map((_, i) => (
+          {/* Wheel segments with icons */}
+          {wheelSegments.map((segment, i) => (
             <div
               key={i}
               className="absolute w-full h-full"
@@ -60,8 +83,9 @@ export const LuckyWheelView: React.FC<LuckyWheelViewProps> = ({
                 transform: `rotate(${i * 45}deg)`,
               }}
             >
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 text-sm font-bold">
-                {i + 1}
+              <div className="absolute top-6 left-1/2 -translate-x-1/2 flex flex-col items-center">
+                <segment.icon className="w-8 h-8 text-gray-300" />
+                <span className="text-xs font-bold mt-1">x{segment.value}</span>
               </div>
             </div>
           ))}
