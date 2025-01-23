@@ -63,60 +63,15 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
               variant="outline"
               size="icon"
               className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
-              onClick={() => setShowMenu(!showMenu)}
+              onClick={() => {
+                setOpenModal(true);
+                setShowMenu(false);
+              }}
             >
-              <Menu className="h-4 w-4" />
+              <WalletIcon className="h-4 w-4" />
             </Button>
           </div>
         </div>
-
-        {/* Menu Overlay */}
-        {showMenu && (
-          <div
-            className="fixed inset-0 z-50"
-            onClick={() => setShowMenu(false)}
-          >
-            <div className="absolute inset-0 bg-black/60" />
-            <div
-              className="absolute right-4 top-16 flex flex-col gap-2 p-2 bg-gray-800 rounded-lg border border-gray-700 shadow-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
-                onClick={() => {
-                  setIsInCombat(true);
-                  setShowMenu(false);
-                }}
-              >
-                <Sword className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
-                onClick={() => {
-                  setIsInBlueprints(true);
-                  setShowMenu(false);
-                }}
-              >
-                <Hammer className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
-                onClick={() => {
-                  setOpenModal(true);
-                  setShowMenu(false);
-                }}
-              >
-                <WalletIcon className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        )}
 
         <div className="grid grid-cols-3 gap-1 text-sm items-center h-42 relative">
           <div className="space-y-2 flex flex-col z-10">

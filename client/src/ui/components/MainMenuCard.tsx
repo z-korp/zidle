@@ -106,14 +106,6 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
             >
               <Hammer className="h-4 w-4" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
-              onClick={() => setShowMenu(false)}
-            >
-              <WalletIcon className="h-4 w-4" />
-            </Button>
           </div>
         </div>
       )}
