@@ -24,12 +24,14 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, onSelect }) => {
       onClick={() => onSelect(tokenId)}
     >
       <CardHeader className="p-3 pb-0">
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-lg font-bold text-white">
+        <div className="flex flex-col gap-1">
+          <CardTitle className="text-lg font-bold text-white truncate">
             {character.name}
           </CardTitle>
-          <div className="flex items-center gap-2 text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">
-            <span>Lvl 1</span>
+          <div className="flex items-center gap-2">
+            <div className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">
+              <span>Lvl 1</span>
+            </div>
           </div>
         </div>
       </CardHeader>
@@ -52,8 +54,8 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, onSelect }) => {
           <span className="font-medium">{character.gold}</span>
           <GoldImg className="w-5 h-5" />
         </div>
-        <div className="flex gap-2 text-xs text-gray-400">
-          <span>#{tokenId}</span>
+        <div className="flex items-end gap-1">
+          <span className="text-xs text-gray-400">#{tokenId}</span>
         </div>
       </CardFooter>
     </Card>
