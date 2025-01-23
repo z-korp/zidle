@@ -51,7 +51,10 @@ export const StreamingScreen = () => {
                 ) : (
                   <div className="grid grid-cols-2 gap-4 pr-4">
                     {tokenIds.map((tokenId) => (
-                      <div key={tokenId.toString()} className="relative">
+                      <div
+                        key={tokenId.toString()}
+                        className="flex flex-col gap-2"
+                      >
                         <NFTCard
                           tokenId={tokenId.toString()}
                           onSelect={() => {}}
@@ -59,7 +62,7 @@ export const StreamingScreen = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="absolute top-2 right-2 text-green-400 hover:text-green-300"
+                          className="w-full text-green-400 hover:text-green-300"
                           onClick={() => {
                             // TODO: Implement streaming action
                             console.log(`Start streaming NFT ${tokenId}`);
