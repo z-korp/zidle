@@ -7,6 +7,7 @@ import { ScrollArea } from "@/ui/elements/scroll-area";
 import { useAllExistingTokenIds } from "@/hooks/useAllExistingTokenIds";
 import { useDojo } from "@/dojo/useDojo";
 import { LoadingDots } from "@/ui/components/LoadingDots";
+import NFTCard from "@/ui/components/NFTCard";
 
 /**
  * StreamingScreen component - Displays all existing NFTs with streaming options
@@ -48,47 +49,26 @@ export const StreamingScreen = () => {
                     </span>
                   </div>
                 ) : (
-                  <div className="space-y-4 pr-4">
+                  <div className="grid grid-cols-2 gap-4 pr-4">
                     {tokenIds.map((tokenId) => (
-                      <Card
-                        key={tokenId.toString()}
-                        className="bg-gray-800/50 border border-gray-700 hover:border-gray-600 transition-colors"
-                      >
-                        <CardContent className="p-4">
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <h3 className="font-bold">
-                                NFT #{tokenId.toString()}
-                              </h3>
-                              <p className="text-sm text-gray-400">
-                                Available for streaming
-                              </p>
-                            </div>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="text-green-400 hover:text-green-300"
-                              onClick={() => {
-                                // TODO: Implement streaming action
-                                console.log(`Start streaming NFT ${tokenId}`);
-                              }}
-                            >
-                              <Play className="w-4 h-4 mr-2" />
-                              Stream
-                            </Button>
-                          </div>
-
-                          {/* Progress bars or additional NFT info can be added here */}
-                          <div className="mt-4 space-y-2">
-                            <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                              <div
-                                className="h-full bg-blue-500"
-                                style={{ width: "50%" }}
-                              />
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
+                      <div key={tokenId.toString()} className="relative">
+                        <NFTCard
+                          tokenId={tokenId.toString()}
+                          onSelect={() => {}}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="absolute top-2 right-2 text-green-400 hover:text-green-300"
+                          onClick={() => {
+                            // TODO: Implement streaming action
+                            console.log(`Start streaming NFT ${tokenId}`);
+                          }}
+                        >
+                          <Play className="w-4 h-4 mr-2" />
+                          Stream
+                        </Button>
+                      </div>
                     ))}
                   </div>
                 )}
