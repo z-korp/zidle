@@ -10,14 +10,10 @@ import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
 import { useReconnectionData } from "@/hooks/useReconnectionData";
 import { Button } from "@/ui/elements/button";
-import { Hammer, Sword, Menu, WalletIcon, Home, ArrowLeft } from "lucide-react";
-import { blueprints } from "@/data/blueprints";
+import { Hammer, Sword, Home, Package } from "lucide-react";
 import { ScrollArea } from "@/ui/elements/scroll-area";
-import { monsters, MonsterCategory } from "@/data/monsters";
 import { CombatView } from "./CombatView";
 import { BlueprintView } from "./BlueprintView";
-import AddressDisplay from "./AddressDisplay";
-import GoldImg from "./GoldImg";
 import { GameHeader } from "./GameHeader";
 
 interface MainMenuCardProps {
@@ -47,6 +43,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   const reconnectionData = useReconnectionData(tokenId);
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [isInGlobalInventory, setIsInGlobalInventory] = useState(false);
 
   useEffect(() => {
     if (character) {
@@ -73,6 +70,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
    * - Home: Returns to main mining view
    * - Combat: Opens combat interface
    * - Blueprints: Opens crafting interface
+   * - Inventory: Opens inventory interface
    */
   const renderMenu = () => (
     <>
@@ -95,6 +93,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInCombat(false);
                 setIsInBlueprints(false);
                 setIsInInventory(false);
+                setIsInGlobalInventory(false);
                 setSelectedResource(null);
                 setShowMenu(false);
               }}
@@ -110,6 +109,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
               onClick={() => {
                 setIsInCombat(true);
                 setIsInBlueprints(false);
+                setIsInGlobalInventory(false);
                 setShowMenu(false);
               }}
             >
@@ -124,10 +124,26 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
               onClick={() => {
                 setIsInBlueprints(true);
                 setIsInCombat(false);
+                setIsInGlobalInventory(false);
                 setShowMenu(false);
               }}
             >
               <Hammer className="h-4 w-4" />
+            </Button>
+
+            {/* Inventory button */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => {
+                setIsInGlobalInventory(true);
+                setIsInCombat(false);
+                setIsInBlueprints(false);
+                setShowMenu(false);
+              }}
+            >
+              <Package className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -139,11 +155,35 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
    * Main render logic - Handles different views based on state
    * - Combat view: Shows available monsters to fight
    * - Blueprint view: Shows items that can be crafted
+   * - Inventory view: Shows the character's inventory
    * - Default view: Shows mining interface and character stats
    */
   const renderContent = () => {
     if (!character) {
       return <div>No character data available</div>;
+    }
+
+    if (isInGlobalInventory) {
+      return (
+        <>
+          <GameHeader
+            tokenId={tokenId}
+            character={character}
+            resetSelectedNft={resetSelectedNft}
+            onMenuClick={() => setShowMenu(!showMenu)}
+          />
+          <CardContent>
+            <ScrollArea className="h-[400px] pr-4">
+              <div className="space-y-4">
+                <h2 className="text-lg font-bold">Inventory</h2>
+                <div className="text-sm text-gray-300">
+                  Cette fonctionnalité sera bientôt disponible...
+                </div>
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </>
+      );
     }
 
     if (isInCombat) {

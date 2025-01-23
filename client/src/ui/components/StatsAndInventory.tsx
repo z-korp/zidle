@@ -28,14 +28,10 @@ const StatsAndInventory: React.FC<StatsAndInventoryProps> = ({
   attack,
   critical,
   setIsInInventory,
-  setIsInBlueprints,
-  setIsInCombat,
   inventory,
-  resetSelectedNft,
 }) => {
   const [currentAnimation, setCurrentAnimation] = useState(AnimationType.Idle);
   const [openModal, setOpenModal] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
 
   return (
     <>
