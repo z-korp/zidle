@@ -20,6 +20,10 @@ interface MainMenuCardProps {
   resetSelectedNft: () => void;
 }
 
+/**
+ * MainMenuCard component - Main interface for the game
+ * Handles different views (mining, combat, blueprints) and menu navigation
+ */
 const MainMenuCard: React.FC<MainMenuCardProps> = ({
   tokenId,
   resetSelectedNft,
@@ -28,6 +32,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   const [isInInventory, setIsInInventory] = useState(false);
   const [isInBlueprints, setIsInBlueprints] = useState(false);
   const [isInCombat, setIsInCombat] = useState(false);
+  const [showMenu, setShowMenu] = useState(false); // Controls the burger menu visibility
 
   const [selectedResource, setSelectedResource] = useState<Resource | null>(
     character?.miningRessource ?? null,
@@ -37,8 +42,6 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   const reconnectionData = useReconnectionData(tokenId);
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
-
-  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     if (character) {
@@ -59,15 +62,26 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
     }
   }, [character]);
 
+  /**
+   * Renders the burger menu overlay with navigation buttons
+   * Menu includes:
+   * - Home: Returns to main mining view
+   * - Combat: Opens combat interface
+   * - Blueprints: Opens crafting interface
+   */
   const renderMenu = () => (
     <>
       {showMenu && (
         <div className="fixed inset-0 z-50" onClick={() => setShowMenu(false)}>
+          {/* Semi-transparent overlay */}
           <div className="absolute inset-0 bg-black/60" />
+
+          {/* Menu container */}
           <div
             className="absolute right-4 top-16 flex flex-col gap-2 p-2 bg-gray-800 rounded-lg border border-gray-700 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Home button - Returns to main view */}
             <Button
               variant="outline"
               size="icon"
@@ -82,6 +96,8 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
             >
               <Home className="h-4 w-4" />
             </Button>
+
+            {/* Combat button - Opens monster fighting interface */}
             <Button
               variant="outline"
               size="icon"
@@ -94,6 +110,8 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
             >
               <Sword className="h-4 w-4" />
             </Button>
+
+            {/* Blueprints button - Opens crafting interface */}
             <Button
               variant="outline"
               size="icon"
@@ -112,6 +130,10 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
     </>
   );
 
+  /**
+   * Renders the card header with NFT ID and burger menu button
+   * Consistent across all views
+   */
   const renderHeader = () => (
     <CardHeader className="p-3">
       <div className="flex items-center justify-between">
@@ -128,12 +150,19 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
     </CardHeader>
   );
 
+  /**
+   * Main render logic - Handles different views based on state
+   * - Combat view: Shows available monsters to fight
+   * - Blueprint view: Shows items that can be crafted
+   * - Default view: Shows mining interface and character stats
+   */
   const renderContent = () => {
     if (!character) {
       return <div>No character data available</div>;
     }
 
     if (isInCombat) {
+      // Combat interface with monster cards
       return (
         <>
           {renderHeader()}
@@ -206,6 +235,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
     }
 
     if (isInBlueprints) {
+      // Crafting interface with blueprint cards
       return (
         <>
           {renderHeader()}
@@ -276,6 +306,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
       );
     }
 
+    // Default mining interface
     return (
       <>
         {renderHeader()}
@@ -318,8 +349,8 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
 
   return (
     <Card className="w-[350px] bg-gray-800 text-white shadow-xl border border-gray-600">
-      {renderContent()}
-      {renderMenu()}
+      {renderContent()} {/* Main content based on current view */}
+      {renderMenu()} {/* Burger menu overlay */}
       {!isInBlueprints &&
         !isInCombat &&
         showSummary &&
