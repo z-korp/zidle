@@ -10,7 +10,7 @@ import { InventoryItem } from "@/dojo/game/models/miner";
 import { useCharacter } from "@/hooks/useCharacter";
 import { useReconnectionData } from "@/hooks/useReconnectionData";
 import { Button } from "@/ui/elements/button";
-import { Hammer, Sword } from "lucide-react";
+import { Hammer, Sword, Menu, WalletIcon, Home } from "lucide-react";
 import { blueprints } from "@/data/blueprints";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { monsters, MonsterCategory } from "@/data/monsters";
@@ -38,6 +38,8 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
 
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
+  const [showMenu, setShowMenu] = useState(false);
+
   useEffect(() => {
     if (character) {
       if (character.miners.length > 0) {
@@ -57,6 +59,83 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
     }
   }, [character]);
 
+  const renderMenu = () => (
+    <>
+      {showMenu && (
+        <div className="fixed inset-0 z-50" onClick={() => setShowMenu(false)}>
+          <div className="absolute inset-0 bg-black/60" />
+          <div
+            className="absolute right-4 top-16 flex flex-col gap-2 p-2 bg-gray-800 rounded-lg border border-gray-700 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => {
+                setIsInCombat(false);
+                setIsInBlueprints(false);
+                setIsInInventory(false);
+                setSelectedResource(null);
+                setShowMenu(false);
+              }}
+            >
+              <Home className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => {
+                setIsInCombat(true);
+                setIsInBlueprints(false);
+                setShowMenu(false);
+              }}
+            >
+              <Sword className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => {
+                setIsInBlueprints(true);
+                setIsInCombat(false);
+                setShowMenu(false);
+              }}
+            >
+              <Hammer className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => setShowMenu(false)}
+            >
+              <WalletIcon className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+
+  const renderHeader = () => (
+    <CardHeader className="p-3">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium">NFT #{tokenId}</span>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+          onClick={() => setShowMenu(!showMenu)}
+        >
+          <Menu className="h-4 w-4" />
+        </Button>
+      </div>
+    </CardHeader>
+  );
+
   const renderContent = () => {
     if (!character) {
       return <div>No character data available</div>;
@@ -65,19 +144,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
     if (isInCombat) {
       return (
         <>
-          <CardHeader className="p-3">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">NFT #{tokenId}</span>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => setIsInCombat(false)}
-              >
-                <Sword className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardHeader>
+          {renderHeader()}
           <CardContent>
             <ScrollArea className="h-[400px] pr-4">
               <div className="grid grid-cols-1 gap-4">
@@ -149,19 +216,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
     if (isInBlueprints) {
       return (
         <>
-          <CardHeader className="p-3">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">NFT #{tokenId}</span>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => setIsInBlueprints(false)}
-              >
-                <Hammer className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardHeader>
+          {renderHeader()}
           <CardContent>
             <ScrollArea className="h-[400px] pr-4">
               <div className="grid grid-cols-1 gap-4">
@@ -231,9 +286,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
 
     return (
       <>
-        <CardHeader className="p-3">
-          <span className="text-sm font-medium">NFT #{tokenId}</span>
-        </CardHeader>
+        {renderHeader()}
         <CardContent>
           <div className="space-y-4 mt-4">
             <StatsAndInventory
@@ -274,6 +327,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   return (
     <Card className="w-[350px] bg-gray-800 text-white shadow-xl border border-gray-600">
       {renderContent()}
+      {renderMenu()}
       {!isInBlueprints &&
         !isInCombat &&
         showSummary &&
