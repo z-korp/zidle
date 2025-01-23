@@ -5,14 +5,57 @@ import { useCharacter } from "@/hooks/useCharacter";
 import { LoadingDots } from "./LoadingDots";
 import LevelIndicator from "./LevelIndicator";
 import AnimatedSprite, { AnimationType, MobType } from "./AnimatedSprite";
+import { ScrollArea } from "@/ui/elements/scroll-area";
+import { useEffect, useState } from "react";
 
-interface NFTDetailsCardProps {
+interface NFTStreamingCardProps {
   tokenId: string;
   onBack: () => void;
 }
 
-export const NFTDetailsCard = ({ tokenId, onBack }: NFTDetailsCardProps) => {
+interface NFTEvent {
+  timestamp: string;
+  action: string;
+}
+
+export const NFTStreamingCard = ({
+  tokenId,
+  onBack,
+}: NFTStreamingCardProps) => {
   const { character } = useCharacter(tokenId);
+  const [events, setEvents] = useState<NFTEvent[]>([]);
+
+  // Simuler la récupération des événements en temps réel
+  useEffect(() => {
+    // Ajouter un événement initial
+    setEvents([
+      {
+        timestamp: new Date().toLocaleTimeString(),
+        action: "Started streaming session",
+      },
+    ]);
+
+    // Simuler des nouveaux événements toutes les 5 secondes
+    const interval = setInterval(() => {
+      const actions = [
+        "Mined 5 rocks",
+        "Chopped 3 wood",
+        "Gathered 2 food",
+        "Level up! Mining reached level 2",
+        "Found rare resource",
+      ];
+
+      setEvents((prev) => [
+        {
+          timestamp: new Date().toLocaleTimeString(),
+          action: actions[Math.floor(Math.random() * actions.length)],
+        },
+        ...prev,
+      ]);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   if (!character) {
     return (
@@ -83,10 +126,30 @@ export const NFTDetailsCard = ({ tokenId, onBack }: NFTDetailsCardProps) => {
               </div>
             </div>
           </div>
+
+          {/* Live Events Log */}
+          <div className="mt-6">
+            <h3 className="text-sm font-semibold mb-2">Live Activity</h3>
+            <ScrollArea className="h-[200px] w-full rounded-md border border-gray-700">
+              <div className="p-4 space-y-2">
+                {events.map((event, index) => (
+                  <div
+                    key={index}
+                    className="text-sm bg-gray-700/30 p-2 rounded flex justify-between items-center"
+                  >
+                    <span className="text-gray-300">{event.action}</span>
+                    <span className="text-xs text-gray-500">
+                      {event.timestamp}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
         </div>
       </CardContent>
     </Card>
   );
 };
 
-export default NFTDetailsCard;
+export default NFTStreamingCard;
