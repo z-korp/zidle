@@ -6,6 +6,7 @@ import useAccountCustom from "@/hooks/useAccountCustom";
 import { Account } from "starknet";
 import NFTCard from "./NFTCard";
 import { useAllTokenIds } from "@/hooks/useAllTokenIds";
+import { ScrollArea } from "@/ui/elements/scroll-area";
 
 interface CharacterListProps {
   onCharacterSelect: (tokenId: string) => void;
@@ -43,15 +44,17 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
       {numberNft > 0 && (
         <>
           <h3>Your Characters</h3>
-          <div className="grid grid-cols-2 gap-4">
-            {tokenIds.map((tokenId) => (
-              <NFTCard
-                key={tokenId.toString()}
-                tokenId={tokenId.toString()}
-                onSelect={onCharacterSelect}
-              />
-            ))}
-          </div>
+          <ScrollArea className="h-[400px] w-full pr-4">
+            <div className="grid grid-cols-2 gap-4">
+              {tokenIds.map((tokenId) => (
+                <NFTCard
+                  key={tokenId.toString()}
+                  tokenId={tokenId.toString()}
+                  onSelect={onCharacterSelect}
+                />
+              ))}
+            </div>
+          </ScrollArea>
         </>
       )}
       <div className="w-full flex flex-col gap-2">
@@ -69,5 +72,4 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
     </div>
   );
 };
-
 export default CharacterList;
