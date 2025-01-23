@@ -20,29 +20,40 @@ const NFTCard: React.FC<NFTCardProps> = ({ tokenId, onSelect }) => {
 
   return (
     <Card
-      className="border border-gray-600 cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300 ease-in-out hover:bg-slate-600"
+      className="bg-gray-800/80 border-gray-700 overflow-hidden hover:scale-[1.02] hover:shadow-xl transition-all duration-300 cursor-pointer"
       onClick={() => onSelect(tokenId)}
     >
-      <CardHeader>
-        <div className="flex justify-center items-center">
-          <CardTitle>{character.name}</CardTitle>
-          <div className="text-right"></div>
+      <CardHeader className="p-3 pb-0">
+        <div className="flex justify-between items-center">
+          <CardTitle className="text-lg font-bold text-white">
+            {character.name}
+          </CardTitle>
+          <div className="flex items-center gap-2 text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">
+            <span>Lvl {character.level}</span>
+          </div>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col items-center">
-        <AnimatedSprite
-          width={192}
-          height={140}
-          scale={1}
-          fps={10}
-          currentAnimation={AnimationType.Idle}
-          mobType={Object.values(MobType)[parseInt(character.token_id) % 3]}
-        />
+
+      <CardContent className="p-3 flex justify-center items-center mt-2">
+        <div className="flex justify-center items-center">
+          <AnimatedSprite
+            width={192}
+            height={140}
+            scale={1}
+            fps={10}
+            currentAnimation={AnimationType.Idle}
+            mobType={Object.values(MobType)[parseInt(character.token_id) % 3]}
+          />
+        </div>
       </CardContent>
-      <CardFooter className="flex justify-center">
-        <div className="flex gap-1">
-          <span className="text-lg">{character?.gold ?? 0}</span>
-          <GoldImg />
+
+      <CardFooter className="p-3 pt-0 flex justify-between items-center">
+        <div className="flex items-center gap-1 text-yellow-400">
+          <span className="font-medium">{character.gold}</span>
+          <GoldImg className="w-5 h-5" />
+        </div>
+        <div className="flex gap-2 text-xs text-gray-400">
+          <span>#{tokenId}</span>
         </div>
       </CardFooter>
     </Card>
