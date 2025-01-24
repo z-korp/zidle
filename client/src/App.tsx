@@ -5,10 +5,10 @@ import { StreamingScreen } from "./ui/screens/StreamingScreen";
 import { TooltipProvider } from "@/ui/elements/tooltip";
 
 import background from "/assets/bg-nuage.png";
-import { useGameEvents } from "./hooks/useGameEvents";
+import { useGameEventsExperimental } from "./hooks/useGameEventsExperimental";
 
 export default function App() {
-  useGameEvents();
+  useGameEventsExperimental();
   return (
     <TooltipProvider>
       <Router>
@@ -20,7 +20,7 @@ export default function App() {
         </div>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/streaming" element={<StreamingScreen />} />
+          <Route path="/stream/:id?" element={<StreamingScreen />} />
         </Routes>
         <Toaster position="bottom-right" />
       </Router>

@@ -8,26 +8,33 @@ import AnimatedSprite, { AnimationType, MobType } from "./AnimatedSprite";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { useEventsStore } from "@/stores/useEventsStore";
 import { DateTime } from "luxon";
-import { timestamp } from "rxjs";
+import { useRef, useEffect } from "react"; // Import useRef and useEffect
 import { eventToString } from "@/utils/events";
+import { ButtonVariant } from "../elements/button"; // Ensure correct import if needed
+import GoldImg from "./GoldImg";
 
 interface NFTStreamingCardProps {
-  tokenId: string;
+  tokenId: number;
   onBack: () => void;
-}
-
-interface NFTEvent {
-  timestamp: string;
-  action: string;
 }
 
 export const NFTStreamingCard = ({
   tokenId,
   onBack,
 }: NFTStreamingCardProps) => {
-  const { character } = useCharacter(tokenId);
+  const { character } = useCharacter(tokenId.toString());
 
   const { events } = useEventsStore();
+
+  // Create a ref for the scrollable container
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Effect to scroll to the bottom when events change
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [events]);
 
   if (!character) {
     return (
@@ -55,6 +62,11 @@ export const NFTStreamingCard = ({
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div className="w-8" />
+          <div>{character.name}</div>
+          <div className="flex items-center gap-1">
+            <span className="text-sm font-medium">{character?.gold ?? 0}</span>
+            <GoldImg className="h-8 w-8" />
+          </div>
         </div>
 
         <div className="space-y-5">
@@ -103,7 +115,7 @@ export const NFTStreamingCard = ({
           <div className="mt-6">
             <h3 className="text-sm font-semibold mb-2">Live Activity</h3>
             <ScrollArea className="h-[200px] w-full rounded-md border border-gray-700">
-              <div className="p-4 space-y-2">
+              <div ref={scrollRef} className="p-4 space-y-2">
                 {events
                   .sort((e1, e2) => e1.timestamp - e2.timestamp)
                   .map((event, index) => (

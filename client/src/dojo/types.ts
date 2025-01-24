@@ -1,5 +1,7 @@
-import { ParsedEntity } from "@dojoengine/sdk";
 import type { SchemaType as ISchemaType } from "@dojoengine/sdk";
+import { CairoCustomEnum } from "starknet";
+
+type WithFieldOrder<T> = T & { fieldOrder: string[] };
 
 // Type definition for `dojo::meta::layout::FieldLayout` struct
 export interface FieldLayout {
@@ -183,6 +185,34 @@ export interface Harvest {
   timestamp: number;
 }
 
+export const schema: SchemaType = {
+  zidle: {
+    Mine: {
+      fieldOrder: ["token_id", "rcs_type", "rcs_sub_type", "timestamp"],
+      token_id: 0n,
+      rcs_type: 0,
+      rcs_sub_type: 0,
+      timestamp: 0,
+    },
+    Harvest: {
+      fieldOrder: [
+        "token_id",
+        "rcs_type",
+        "rcs_sub_type",
+        "amount",
+        "xp",
+        "timestamp",
+      ],
+      token_id: 0n,
+      rcs_type: 0,
+      rcs_sub_type: 0,
+      amount: 0,
+      xp: 0,
+      timestamp: 0,
+    },
+  },
+};
+
 /**
  * Main schema type for game events
  * This defines the structure of events we receive from the blockchain
@@ -195,8 +225,8 @@ export interface Harvest {
  */
 export interface SchemaType extends ISchemaType {
   zidle: {
-    Mine: Mine;
-    Harvest: Harvest;
+    Mine: WithFieldOrder<Mine>;
+    Harvest: WithFieldOrder<Harvest>;
   };
   [key: string]: any;
 }

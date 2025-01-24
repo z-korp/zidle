@@ -38,7 +38,7 @@ export const Home = () => {
                 <div className="flex justify-end space-x-2">
                   <Button
                     variant="outline"
-                    onClick={() => navigate("/streaming")}
+                    onClick={() => navigate("/stream")}
                     className="text-white"
                   >
                     <Radio className="w-4 h-4 mr-2" />
@@ -46,7 +46,7 @@ export const Home = () => {
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 pt-0">
                 <CharacterList onCharacterSelect={handleCharacterSelect} />
               </CardContent>
             </Card>

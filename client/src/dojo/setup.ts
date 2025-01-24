@@ -10,36 +10,12 @@ import { DojoProvider } from "@dojoengine/core";
 import { BurnerManager } from "@dojoengine/create-burner";
 import { Account } from "starknet";
 import { init } from "@dojoengine/sdk/experimental";
+import { schema } from "./types.ts";
+//import { init } from "@dojoengine/sdk/experimental";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
 export async function setup({ ...config }: Config) {
-  const toriiClient = await torii.createClient({
-    rpcUrl: config.rpcUrl,
-    toriiUrl: config.toriiUrl,
-    relayUrl: config.relayUrl,
-    worldAddress: config.manifest.world.address || "",
-  });
-
-  const contractModels = defineContractComponents(world);
-
-  const clientModels = models({ contractModels });
-
-  const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
-
-  const sync = await getSyncEntities(
-    toriiClient,
-    contractModels as any,
-    undefined,
-    [],
-    [],
-    [],
-    1000,
-    false,
-  );
-
-  const client = await setupWorld(dojoProvider, config);
-
   const sdk = await init({
     client: {
       rpcUrl: config.rpcUrl,
@@ -54,6 +30,35 @@ export async function setup({ ...config }: Config) {
       revision: "1",
     },
   });
+
+  const toriiClient = await torii.createClient({
+    rpcUrl: config.rpcUrl,
+    toriiUrl: config.toriiUrl,
+    relayUrl: config.relayUrl,
+    worldAddress: config.manifest.world.address || "",
+  });
+
+  const contractModels = defineContractComponents(world);
+
+  const clientModels = models({ contractModels });
+
+  console.log(config.manifest);
+  console.log(config.rpcUrl);
+  const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
+  console.log("qqqq");
+
+  const sync = await getSyncEntities(
+    toriiClient,
+    contractModels as any,
+    undefined,
+    [],
+    [],
+    [],
+    1000,
+    false,
+  );
+
+  const client = await setupWorld(dojoProvider, config);
 
   const burnerManager = new BurnerManager({
     masterAccount: new Account(

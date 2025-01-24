@@ -1,6 +1,6 @@
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom"; // Import useParams
 import { ArrowLeft, Play } from "lucide-react";
 import { Header } from "@/ui/containers/Header";
 import { ScrollArea } from "@/ui/elements/scroll-area";
@@ -8,33 +8,45 @@ import { useAllExistingTokenIds } from "@/hooks/useAllExistingTokenIds";
 import { useDojo } from "@/dojo/useDojo";
 import { LoadingDots } from "@/ui/components/LoadingDots";
 import NFTCard from "@/ui/components/NFTCard";
-import { useState } from "react";
+import { useEffect } from "react";
 import NFTDetailsCard from "../components/NFTStreamingCard";
 import { useTokenStore } from "@/stores/useTokenStore";
 
-/**
- * StreamingScreen component - Displays all existing NFTs with streaming options
- */
 export const StreamingScreen = () => {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>(); // Get the id from the URL
   const { tokenIds, isLoading } = useAllExistingTokenIds();
-  const [selectedTokenId, setSelectedTokenId] = useState<string | null>(null);
-  const {
-    setup: { systemCalls },
-  } = useDojo();
 
-  const { setTokenId } = useTokenStore();
+  const { setTokenId, tokenId } = useTokenStore();
+
+  // Synchronize URL id with state and store
+  useEffect(() => {
+    if (id) {
+      setTokenId(Number(id));
+    } else {
+      setTokenId(undefined);
+    }
+  }, [id, setTokenId]);
+
+  // Handle selecting a token
+  const handleSelectToken = (tokenId: string) => {
+    setTokenId(Number(tokenId));
+    navigate(`/stream/${tokenId}`); // Update the URL with the selected tokenId
+  };
+
+  // Handle going back from the NFTDetailsCard
+  const handleBack = () => {
+    setTokenId(undefined);
+    navigate("/stream"); // Navigate back to the main stream page without id
+  };
 
   return (
     <div className="relative flex flex-col h-screen">
       <Header />
       <div className="relative flex flex-col gap-8 grow items-center justify-start">
         <div className="absolute flex flex-col items-center gap-4 w-full p-2 max-w-4xl">
-          {selectedTokenId ? (
-            <NFTDetailsCard
-              tokenId={selectedTokenId}
-              onBack={() => setSelectedTokenId(null)}
-            />
+          {tokenId ? (
+            <NFTDetailsCard tokenId={tokenId} onBack={handleBack} />
           ) : (
             <Card className="w-[350px] bg-gray-800 text-white shadow-xl border border-gray-600">
               <CardContent className="p-4">
@@ -59,17 +71,16 @@ export const StreamingScreen = () => {
                       </span>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-2 gap-4 pr-4">
+                    <div className="grid grid-cols-2 gap-4 px-4 mt-1">
                       {tokenIds.map((tokenId) => (
                         <div
                           key={tokenId.toString()}
                           className="flex flex-col gap-2"
                         >
                           <div
-                            onClick={() => {
-                              setSelectedTokenId(tokenId.toString());
-                              setTokenId(Number(tokenId));
-                            }}
+                            onClick={() =>
+                              handleSelectToken(tokenId.toString())
+                            }
                             className="cursor-pointer"
                           >
                             <NFTCard

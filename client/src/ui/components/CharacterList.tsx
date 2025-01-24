@@ -41,7 +41,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-10">
+    <div className="flex flex-col items-center space-y-3">
       {numberNft === 0 ? (
         <div className="text-center py-4 text-gray-400">
           <span>
@@ -51,8 +51,8 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
       ) : (
         <>
           <h3>Your Characters</h3>
-          <ScrollArea className="h-[400px] w-full pr-4">
-            <div className="grid grid-cols-2 gap-4">
+          <ScrollArea className="h-[400px] w-full px-4">
+            <div className="grid grid-cols-2 gap-4 my-1">
               {tokenIds.map((tokenId) => (
                 <NFTCard
                   key={tokenId.toString()}
@@ -64,7 +64,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ onCharacterSelect }) => {
           </ScrollArea>
         </>
       )}
-      <div className="w-full flex flex-col gap-2">
+      <div className="w-full flex flex-col gap-2 p-4">
         <Input
           type="text"
           placeholder="Enter new character name"

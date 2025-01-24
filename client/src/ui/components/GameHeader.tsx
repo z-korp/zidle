@@ -35,7 +35,9 @@ export const GameHeader: React.FC<GameHeaderProps> = ({
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <span className="text-sm font-medium">NFT #{tokenId}</span>
+            <span className="text-sm font-medium">
+              {character?.name} #{tokenId}
+            </span>
             <AddressDisplay address={character?.walletAddress || ""} />
           </div>
           <div className="flex items-end gap-1">
