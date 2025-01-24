@@ -7,6 +7,7 @@ pub struct Mine {
     pub token_id: u128,
     pub rcs_type: u8,
     pub rcs_sub_type: u8,
+    pub timestamp: u64,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -18,4 +19,5 @@ pub struct Harvest {
     pub rcs_sub_type: u8,
     pub amount: u64,
     pub xp: u64,
+    pub timestamp: u64,
 }

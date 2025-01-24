@@ -1,3 +1,6 @@
+import { ParsedEntity } from "@dojoengine/sdk";
+import type { SchemaType as ISchemaType } from "@dojoengine/sdk";
+
 // Type definition for `dojo::meta::layout::FieldLayout` struct
 export interface FieldLayout {
   selector: string;
@@ -37,22 +40,6 @@ export interface Struct {
   name: string;
   attrs: string[];
   children: Member[];
-}
-
-// Type definition for `zidle::events::index::Mine` struct
-export interface Mine {
-  token_id: string;
-  rcs_type: number;
-  rcs_sub_type: number;
-}
-
-// Type definition for `zidle::events::index::Harvest` struct
-export interface Harvest {
-  token_id: string;
-  rcs_type: number;
-  rcs_sub_type: number;
-  amount: number;
-  xp: number;
 }
 
 // Type definition for `zidle::models::player::Player` struct
@@ -178,6 +165,24 @@ export interface Miner {
   rcs_7: bigint;
 }
 
+// Type definition for `zidle::events::index::Mine` struct
+export interface Mine {
+  token_id: bigint;
+  rcs_type: number;
+  rcs_sub_type: number;
+  timestamp: number;
+}
+
+// Type definition for `zidle::events::index::Harvest` struct
+export interface Harvest {
+  token_id: bigint;
+  rcs_type: number;
+  rcs_sub_type: number;
+  amount: number;
+  xp: number;
+  timestamp: number;
+}
+
 /**
  * Main schema type for game events
  * This defines the structure of events we receive from the blockchain
@@ -188,12 +193,30 @@ export interface Miner {
  *
  * [key: string]: any - Allows for additional properties
  */
-export interface SchemaType {
-  zidle?: {
-    // Mining event containing token ID and resource information
-    Mine?: Mine;
-    // Harvesting event containing token ID, amount, and experience gained
-    Harvest?: Harvest;
+export interface SchemaType extends ISchemaType {
+  zidle: {
+    Mine: Mine;
+    Harvest: Harvest;
   };
   [key: string]: any;
 }
+
+interface ParsedMine {
+  type: "Mine";
+  tokenId: number;
+  rcsType: number;
+  rcsSubType: number;
+  timestamp: number;
+}
+
+interface ParsedHarvest {
+  type: "Harvest";
+  tokenId: number;
+  rcsType: number;
+  rcsSubType: number;
+  amount: number;
+  xp: number;
+  timestamp: number;
+}
+
+export type ParsedGameEvent = ParsedMine | ParsedHarvest;

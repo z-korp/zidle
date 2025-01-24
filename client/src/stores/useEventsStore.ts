@@ -1,6 +1,5 @@
+import { ParsedGameEvent } from "@/dojo/types";
 import { create } from "zustand";
-import { ParsedEntity } from "@dojoengine/sdk";
-import { SchemaType } from "@/dojo/types";
 
 /**
  * Interface defining the structure of our events store
@@ -8,11 +7,11 @@ import { SchemaType } from "@/dojo/types";
  */
 interface EventsState {
   // Array of parsed events from the blockchain
-  events: ParsedEntity<SchemaType>[][];
+  events: ParsedGameEvent[];
   // Function to set all events at once (used for historical events)
-  setEvents: (events: ParsedEntity<SchemaType>[][]) => void;
+  setEvents: (events: ParsedGameEvent[]) => void;
   // Function to add a single new event (used for real-time updates)
-  addEvent: (event: ParsedEntity<SchemaType>[]) => void;
+  addEvent: (event: ParsedGameEvent) => void;
   // Function to clear all events
   clearEvents: () => void;
 }

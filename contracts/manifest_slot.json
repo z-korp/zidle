@@ -2063,7 +2063,7 @@
     },
     {
       "address": "0x40f638e57740f4e0c2e64e60e2cee00df77aff3c96b5ba4de1c909761774cc8",
-      "class_hash": "0x53ae08b9f3cde293d3c7b439cdc307718e3e18ca69c55566b63db2c6f62c683",
+      "class_hash": "0x1f9f97885690d55dd099a4f9b3cfbb6115312dca115c4ada95e8b49f541d011",
       "abi": [
         {
           "type": "impl",
@@ -2596,13 +2596,13 @@
   "events": [
     {
       "members": [],
-      "class_hash": "0x330ed1c2a6041b91d20984a56e53f9e1394a92740b920d289ca287d69818f7d",
+      "class_hash": "0x26367e2aa44dd5e660d7236aab02651ea37b388116e90c54412230cbf3e9362",
       "tag": "zidle-Harvest",
       "selector": "0x76aafc7075a54820b0fadb70127f35d852c62ba6566e1ce029fc9be2e6c2aef"
     },
     {
       "members": [],
-      "class_hash": "0x60cdf9d000e21d03950e7b4d05b82eed832ed02dea89c7d374c61d929d210b4",
+      "class_hash": "0x3907e67af75fe9d200f363641e738a32b2c2750dfbf6d6fc99aefe19855b377",
       "tag": "zidle-Mine",
       "selector": "0x65bfbff5217b7d88f04a4a3bcb292601d2c84e28d0dc99bc6a629bde1479a4a"
     }

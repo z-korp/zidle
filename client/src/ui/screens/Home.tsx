@@ -8,6 +8,7 @@ import CharacterList from "../components/CharacterList";
 import { Button } from "@/ui/elements/button";
 import { Store, Radio } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTokenStore } from "@/stores/useTokenStore";
 
 export const Home = () => {
   const {
@@ -18,6 +19,13 @@ export const Home = () => {
 
   const [selectedNft, setSelectedNft] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const { setTokenId } = useTokenStore();
+
+  const handleCharacterSelect = (tokenId: string) => {
+    setSelectedNft(tokenId);
+    setTokenId(Number(tokenId));
+  };
 
   return (
     <div className="relative flex flex-col h-screen">
@@ -39,7 +47,7 @@ export const Home = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <CharacterList onCharacterSelect={setSelectedNft} />
+                <CharacterList onCharacterSelect={handleCharacterSelect} />
               </CardContent>
             </Card>
           ) : (

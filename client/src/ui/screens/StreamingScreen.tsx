@@ -10,6 +10,7 @@ import { LoadingDots } from "@/ui/components/LoadingDots";
 import NFTCard from "@/ui/components/NFTCard";
 import { useState } from "react";
 import NFTDetailsCard from "../components/NFTStreamingCard";
+import { useTokenStore } from "@/stores/useTokenStore";
 
 /**
  * StreamingScreen component - Displays all existing NFTs with streaming options
@@ -21,6 +22,8 @@ export const StreamingScreen = () => {
   const {
     setup: { systemCalls },
   } = useDojo();
+
+  const { setTokenId } = useTokenStore();
 
   return (
     <div className="relative flex flex-col h-screen">
@@ -63,9 +66,10 @@ export const StreamingScreen = () => {
                           className="flex flex-col gap-2"
                         >
                           <div
-                            onClick={() =>
-                              setSelectedTokenId(tokenId.toString())
-                            }
+                            onClick={() => {
+                              setSelectedTokenId(tokenId.toString());
+                              setTokenId(Number(tokenId));
+                            }}
                             className="cursor-pointer"
                           >
                             <NFTCard
