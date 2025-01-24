@@ -5,8 +5,10 @@ import { StreamingScreen } from "./ui/screens/StreamingScreen";
 import { TooltipProvider } from "@/ui/elements/tooltip";
 
 import background from "/assets/bg-nuage.png";
+import { useGameEvents } from "./hooks/useGameEvents";
 
 export default function App() {
+  useGameEvents();
   return (
     <TooltipProvider>
       <Router>

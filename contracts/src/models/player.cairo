@@ -20,6 +20,7 @@ pub struct Player {
 impl PlayerImpl of PlayerTrait {
     #[inline(always)]
     fn new(token_id: felt252, name: felt252) -> Player {
+        println!("New [Player] id: {}, name: {}", token_id, name);
         // [Check] Name is valid
         assert(name != 0, errors::PLAYER_INVALID_NAME);
 

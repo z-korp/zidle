@@ -37,3 +37,6 @@ private_key = "0x1e5c62853e3189afdfdfcfb2d8ab0a1c372907db6eb1d1e5bf8ff438420adb3
 "zidle-Char" = ["zidle-resources"]
 "zidle-Admin" = ["zidle-settings"]
 "zidle-Settings" = ["zidle-settings"]
+# Events
+"zidle-Mine" = ["zidle-resources"]
+"zidle-Harvest" = ["zidle-resources"]

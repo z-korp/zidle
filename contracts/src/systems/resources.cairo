@@ -3,6 +3,7 @@ use starknet::ContractAddress;
 
 // Dojo imports
 use dojo::world::WorldStorage;
+use dojo::event::EventStorage;
 
 #[starknet::interface]
 trait IResources<T> {
@@ -27,7 +28,8 @@ mod resources {
 
     // Local imports
 
-    use super::{IResources, WorldStorage};
+    use super::{IResources, WorldStorage, EventStorage};
+    use zidle::events::index::{Mine, Harvest};
     use zidle::store::{Store, StoreTrait};
     use zidle::models::miner::{MinerImpl, MinerAssert, ZeroableMinerImpl};
     use zidle::models::char::{CharAssert};
@@ -91,6 +93,8 @@ mod resources {
 
             // [Effect] Update miner
             store.set_miner(miner);
+
+            world.emit_event(@Mine { token_id, rcs_type, rcs_sub_type });
         }
 
         fn harvest(ref self: ContractState, token_id: u128, rcs_type: u8) {
@@ -109,10 +113,13 @@ mod resources {
             miner.assert_exists();
 
             // [Effect] Harvest
-            miner.harvest(get_block_timestamp(), XpLevel::get_level_from_xp(miner.xp));
+            let (rcs_type, rcs_sub_type, amount, xp) = miner
+                .harvest(get_block_timestamp(), XpLevel::get_level_from_xp(miner.xp));
 
             // [Effect] Update miner
             store.set_miner(miner);
+
+            world.emit_event(@Harvest { token_id, rcs_type, rcs_sub_type, amount, xp });
         }
 
         fn sell(

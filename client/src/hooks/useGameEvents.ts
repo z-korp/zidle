@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useAccount } from "@starknet-react/core";
-import { useDojoSDK } from "@dojoengine/sdk/react";
-import { addAddressPadding } from "starknet";
 import { useEventsStore } from "@/stores/useEventsStore";
 import { Subscription } from "@dojoengine/torii-client";
+import { useDojo } from "@/dojo/useDojo";
+import { ToriiQueryBuilder, ClauseBuilder } from "@dojoengine/sdk";
 
 /**
  * Custom hook to handle game events (Mining and Harvesting)
@@ -14,15 +14,13 @@ import { Subscription } from "@dojoengine/torii-client";
  * @returns The events store containing all events
  */
 export function useGameEvents() {
-  // Get the connected wallet account
-  const { account } = useAccount();
-  // Get access to the Dojo SDK
-  const { sdk } = useDojoSDK();
-  // Get functions to manage events from our store
-  const { setEvents, addEvent } = useEventsStore();
+  const {
+    setup: { sdk },
+  } = useDojo();
+
+  const { setEvents, addEvent, events } = useEventsStore();
 
   useEffect(() => {
-    // Store the subscription to clean it up later
     let subscription: Subscription | null = null;
 
     /**
@@ -30,40 +28,16 @@ export function useGameEvents() {
      * This includes all Mine and Harvest events
      */
     async function getHistoricalEvents() {
-      if (!account) return;
-
       try {
-        const events = await sdk.getEventMessages({
-          query: {
-            event_messages_historical: {
-              // Query for Mining events
-              Mine: {
-                $: {
-                  where: {
-                    player: { $eq: addAddressPadding(account.address) },
-                  },
-                },
-              },
-              // Query for Harvesting events
-              Harvest: {
-                $: {
-                  where: {
-                    player: { $eq: addAddressPadding(account.address) },
-                  },
-                },
-              },
-            },
-          },
-          // Callback function when new events are received
-          callback: ({ data }) => {
-            if (data) {
-              addEvent(data);
-            }
-          },
-          historical: true, // Indicate we want past events
-        });
+        const events = await sdk.getEvents(
+          new ToriiQueryBuilder()
+            .withClause(
+              new ClauseBuilder().keys(["zidle-Mine"], [undefined]).build(),
+            )
+            .build(),
+          true, // Indicate we want past events
+        );
 
-        // Store all fetched events in our global store
         setEvents(events);
       } catch (error) {
         console.error("Error fetching historical events:", error);
@@ -76,37 +50,32 @@ export function useGameEvents() {
      * Will trigger whenever new Mine or Harvest events occur
      */
     async function subscribeToEvents() {
-      if (!account) return;
+      console.log(
+        JSON.stringify(
+          new ToriiQueryBuilder()
+            .withClause(
+              new ClauseBuilder().keys(["zidle-Mine"], [undefined]).build(),
+            )
+            .build(),
+        ),
+      );
 
       try {
-        subscription = await sdk.subscribeEventQuery({
-          // Same query structure as getHistoricalEvents
-          query: {
-            event_messages_historical: {
-              Mine: {
-                $: {
-                  where: {
-                    player: { $eq: addAddressPadding(account.address) },
-                  },
-                },
-              },
-              Harvest: {
-                $: {
-                  where: {
-                    player: { $eq: addAddressPadding(account.address) },
-                  },
-                },
-              },
-            },
-          },
+        subscription = await sdk.subscribeEvents(
+          new ToriiQueryBuilder()
+            .withClause(
+              new ClauseBuilder().keys(["zidle-Mine"], [undefined]).build(),
+            )
+            .build(),
           // Called whenever a new event occurs
-          callback: ({ data }) => {
+          ({ data, error }) => {
+            console.log("New event:", data);
             if (data) {
               addEvent(data);
             }
           },
-          historical: true,
-        });
+          true,
+        );
       } catch (error) {
         console.error("Error subscribing to events:", error);
       }
@@ -116,13 +85,16 @@ export function useGameEvents() {
     getHistoricalEvents();
     subscribeToEvents();
 
-    // Cleanup function to remove subscription when component unmounts
     return () => {
       if (subscription) {
         subscription.free();
       }
     };
-  }, [account, sdk, setEvents, addEvent]);
+  }, [sdk, setEvents, addEvent]);
+
+  useEffect(() => {
+    console.log("Events:", events);
+  }, [events]);
 
   // Return the store so components can access all events
   return useEventsStore();

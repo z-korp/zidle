@@ -8,3 +8,6 @@ contracts = [
     "erc20:0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0", # GOLD_ERC20_TOKEN_ADDRESS
     "erc721:0x051d88174534ea0e084f1eb6669da78a1e3a0c1fe4fd23542397815385550cd2" # CHARACTER_ERC721_TOKEN_ADDRESS
 ]
+
+#[events]
+historical_events = ["zidle-Mine", "zidle-Harvest"]

@@ -31,6 +31,10 @@ mod models {
     mod admin;
 }
 
+mod events {
+    mod index;
+}
+
 mod resources {
     mod interface;
     mod wood;

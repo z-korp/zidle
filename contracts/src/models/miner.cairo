@@ -5,6 +5,7 @@ use starknet::ContractAddress;
 // Internal imports
 
 use zidle::types::resource::{ResourceTrait, ResourceType, ResourceImpl};
+use zidle::events::index::{Mine, Harvest};
 
 mod errors {
     const MINER_NOT_EXIST: felt252 = 'Miner: not exist';
@@ -74,7 +75,7 @@ impl MinerImpl of MinerTrait {
     }
 
     #[inline(always)]
-    fn harvest(ref self: Miner, timestamp: u64, player_level: u8) {
+    fn harvest(ref self: Miner, timestamp: u64, player_level: u8) -> (u8, u8, u64, u64) {
         // [Check] Mining is active
         assert(self.timestamp != 0, errors::MINER_NOT_MINING);
 
@@ -107,6 +108,8 @@ impl MinerImpl of MinerTrait {
 
         // [Effect] Stop mining
         self.timestamp = 0;
+
+        (self.resource_type, self.subresource_type, xp_gained, rcs_gained)
     }
 
     #[inline(always)]
