@@ -10,7 +10,6 @@ import { ThemeProvider } from "./ui/elements/theme-provider.tsx";
 import { StarknetConfig, jsonRpcProvider, voyager } from "@starknet-react/core";
 import { sepolia } from "@starknet-react/chains";
 import cartridgeConnector from "./cartridgeConnector.tsx";
-import { init } from "@dojoengine/sdk/experimental";
 
 import "./index.css";
 
