@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useAccount } from "@starknet-react/core";
 import { useEventsStore } from "@/stores/useEventsStore";
 import { Subscription } from "@dojoengine/torii-client";
 import { useDojo } from "@/dojo/useDojo";
@@ -68,11 +67,8 @@ export function useGameEvents() {
             )
             .build(),
           // Called whenever a new event occurs
-          ({ data, error }) => {
-            console.log("New event:", data);
-            if (data) {
-              addEvent(data);
-            }
+          (test) => {
+            console.log("New event:", test);
           },
           true,
         );
