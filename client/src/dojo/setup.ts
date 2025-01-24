@@ -9,8 +9,6 @@ import { setupWorld } from "./contractSystems.ts";
 import { DojoProvider } from "@dojoengine/core";
 import { BurnerManager } from "@dojoengine/create-burner";
 import { Account } from "starknet";
-import { createUpdates } from "./createUpdates.ts";
-import { createClientComponents } from "./createClientComponents.ts";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
@@ -40,14 +38,6 @@ export async function setup({ ...config }: Config) {
   );
 
   const client = await setupWorld(dojoProvider, config);
-
-  // create client components
-  const clientComponents = createClientComponents({
-    contractComponents: contractModels,
-  });
-
-  // create updates manager
-  const updates = await createUpdates(clientComponents);
 
   const burnerManager = new BurnerManager({
     masterAccount: new Account(
@@ -80,7 +70,6 @@ export async function setup({ ...config }: Config) {
     contractModels,
     systemCalls: systems({ client }),
     config,
-    updates,
     world,
     burnerManager,
     dojoProvider,
