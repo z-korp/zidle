@@ -84,12 +84,12 @@ export function useGameEventsExperimental() {
         [initialData, subscription] = await sdk.subscribeEvents(
           buildQuery(),
           ({ data }: { data: any }) => {
-            console.log("New event:", data);
-            console.log("1) -----------------> before arsed event");
-            const parsed = parseGameEvent(data);
-            console.log("2) -----------------> Parsed event:", parsed);
-            if (parsed) {
-              addEvent(parsed);
+            const event = data?.[0]?.[0]; // Safely index into double array
+            if (event?.models?.zidle) {
+              const parsed = parseGameEvent(event);
+              if (parsed) {
+                addEvent(parsed);
+              }
             }
           },
           true,

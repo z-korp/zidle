@@ -16,7 +16,7 @@ export const eventToString = (event: ParsedGameEvent): string => {
 /**
  * Utility function to convert bigint to number safely
  */
-const bigintToNumber = (value: bigint): number => {
+export const bigintToNumber = (value: bigint): number => {
   if (value > BigInt(Number.MAX_SAFE_INTEGER)) {
     console.warn(
       "BigInt value exceeds Number.MAX_SAFE_INTEGER. Precision may be lost.",
