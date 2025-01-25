@@ -44,7 +44,7 @@ export function useGameEventsExperimental() {
       new ToriiQueryBuilder()
         .withClause(
           new ClauseBuilder()
-            .keys(["zidle-Mine"], [tokenId.toString()])
+            .keys(["zidle-Mine", "zidle-Harvest"], [tokenId.toString()])
             .build(),
         )
         .build();
@@ -83,10 +83,11 @@ export function useGameEventsExperimental() {
       try {
         [initialData, subscription] = await sdk.subscribeEvents(
           buildQuery(),
-          // Callback invoked whenever a new event occurs
-          (newEvent) => {
-            console.log("New event:", newEvent);
-            const parsed = parseGameEvent(newEvent);
+          ({ data }: { data: any }) => {
+            console.log("New event:", data);
+            console.log("1) -----------------> before arsed event");
+            const parsed = parseGameEvent(data);
+            console.log("2) -----------------> Parsed event:", parsed);
             if (parsed) {
               addEvent(parsed);
             }
@@ -109,7 +110,8 @@ export function useGameEventsExperimental() {
         subscription.free();
       }
     };
-  }, [sdk, setEvents, addEvent, tokenId]); // Added tokenId to dependencies
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sdk, tokenId]);
 
   useEffect(() => {
     console.log("Events:", events);
