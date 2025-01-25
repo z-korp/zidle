@@ -12,6 +12,8 @@ import { useRef, useEffect, useState } from "react";
 import { eventToString } from "@/utils/events";
 import { ButtonVariant } from "../elements/button";
 import GoldImg from "./GoldImg";
+import { Resource } from "@/dojo/game/types/resource";
+import WorkingDiv from "./WorkingDiv";
 
 interface NFTStreamingCardProps {
   tokenId: number;
@@ -33,6 +35,10 @@ export const NFTStreamingCard = ({
   const latestEvent = events
     .sort((e1, e2) => e2.timestamp - e1.timestamp)
     .at(0);
+
+  const selectedResource = latestEvent
+    ? Resource.from(latestEvent.rcsType, latestEvent.rcsSubType)
+    : null;
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -121,34 +127,12 @@ export const NFTStreamingCard = ({
 
           <div className="mt-6">
             <h3 className="text-sm font-semibold mb-2">Ongoing Activity</h3>
-            {latestEvent ? (
-              <div
-                className={`
-                  bg-gray-700/50 p-3 rounded-md mb-4 
-                  transition-colors duration-1000 ease-in-out
-                  ${isPulsing ? "bg-green-900/20" : "bg-gray-700/50"}
-                `}
-              >
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={`
-                      w-2 h-2 rounded-full 
-                      ${isPulsing ? "bg-green-400" : "bg-gray-400"}
-                      transition-colors duration-1000 ease-in-out
-                    `}
-                    />
-                    <span className="text-sm text-gray-200">
-                      {eventToString(latestEvent)}
-                    </span>
-                  </div>
-                  <span className="text-xs text-gray-400">
-                    {DateTime.fromMillis(latestEvent.timestamp * 1000).toFormat(
-                      "HH:mm:ss",
-                    )}
-                  </span>
-                </div>
-              </div>
+            {selectedResource && character ? (
+              <WorkingDiv
+                selectedResource={selectedResource}
+                character={character}
+                isStreaming={true}
+              />
             ) : (
               <div className="bg-gray-700/50 p-3 rounded-md mb-4 text-gray-400 text-sm text-center">
                 No activity yet

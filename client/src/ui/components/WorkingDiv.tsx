@@ -14,11 +14,13 @@ import { getResourceImage } from "@/utils/resource";
 interface WorkingDivProps {
   selectedResource: Resource;
   character: Character;
+  isStreaming?: boolean;
 }
 
 const WorkingDiv: React.FC<WorkingDivProps> = ({
   selectedResource,
   character,
+  isStreaming = false,
 }) => {
   const {
     setup: {
@@ -54,6 +56,7 @@ const WorkingDiv: React.FC<WorkingDivProps> = ({
       <Header
         handleStopAction={handleStopAction}
         selectedResource={selectedResource}
+        isStreaming={isStreaming}
       />
       <ProgressBar
         progress={progress}
@@ -83,14 +86,17 @@ const getVerb = (resource: ResourceType) => {
 const Header: React.FC<{
   handleStopAction: () => Promise<void>;
   selectedResource: Resource;
-}> = ({ handleStopAction, selectedResource }) => (
-  <div className="flex items-center justify-between ">
+  isStreaming: boolean;
+}> = ({ handleStopAction, selectedResource, isStreaming }) => (
+  <div className="flex items-center justify-between">
     <span>{`${getVerb(selectedResource.value)} ${selectedResource.getSubresourceName()}`}</span>
-    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-      <Button size="sm" className="ml-2" onClick={handleStopAction}>
-        Harvest
-      </Button>
-    </motion.div>
+    {!isStreaming && (
+      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <Button size="sm" className="ml-2" onClick={handleStopAction}>
+          Harvest
+        </Button>
+      </motion.div>
+    )}
   </div>
 );
 
