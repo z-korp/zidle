@@ -8,9 +8,9 @@ import AnimatedSprite, { AnimationType, MobType } from "./AnimatedSprite";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { useEventsStore } from "@/stores/useEventsStore";
 import { DateTime } from "luxon";
-import { useRef, useEffect } from "react"; // Import useRef and useEffect
+import { useRef, useEffect, useState } from "react";
 import { eventToString } from "@/utils/events";
-import { ButtonVariant } from "../elements/button"; // Ensure correct import if needed
+import { ButtonVariant } from "../elements/button";
 import GoldImg from "./GoldImg";
 
 interface NFTStreamingCardProps {
@@ -26,15 +26,27 @@ export const NFTStreamingCard = ({
 
   const { events } = useEventsStore();
 
-  // Create a ref for the scrollable container
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Effect to scroll to the bottom when events change
+  const [isPulsing, setIsPulsing] = useState(false);
+
+  const latestEvent = events
+    .sort((e1, e2) => e2.timestamp - e1.timestamp)
+    .at(0);
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [events]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsPulsing((prev) => !prev);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   if (!character) {
     return (
@@ -51,7 +63,6 @@ export const NFTStreamingCard = ({
   return (
     <Card className="w-[350px] bg-gray-800 text-white shadow-xl border border-gray-600">
       <CardContent className="p-4">
-        {/* Header with back button */}
         <div className="flex items-center justify-between mb-4">
           <Button
             variant="outline"
@@ -71,14 +82,12 @@ export const NFTStreamingCard = ({
 
         <div className="space-y-5">
           <div className="grid grid-cols-3 gap-1 text-sm items-center h-42 relative">
-            {/* Combat Stats */}
             <div className="space-y-2 flex flex-col z-10">
               <div>Health: {100}</div>
               <div>Attack: {5}</div>
               <div>Critical: {5}%</div>
             </div>
 
-            {/* Character Animation */}
             <div className="flex justify-center z-0">
               <div>
                 <AnimatedSprite
@@ -94,7 +103,6 @@ export const NFTStreamingCard = ({
               </div>
             </div>
 
-            {/* Resource Levels */}
             <div className="space-y-2 w-full z-10">
               <div className="text-sm flex items-center justify-between">
                 <span className="font-medium">Chop lvl</span>
@@ -111,13 +119,49 @@ export const NFTStreamingCard = ({
             </div>
           </div>
 
-          {/* Live Events Log */}
           <div className="mt-6">
-            <h3 className="text-sm font-semibold mb-2">Live Activity</h3>
+            <h3 className="text-sm font-semibold mb-2">Ongoing Activity</h3>
+            {latestEvent ? (
+              <div
+                className={`
+                  bg-gray-700/50 p-3 rounded-md mb-4 
+                  transition-colors duration-1000 ease-in-out
+                  ${isPulsing ? "bg-green-900/20" : "bg-gray-700/50"}
+                `}
+              >
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`
+                      w-2 h-2 rounded-full 
+                      ${isPulsing ? "bg-green-400" : "bg-gray-400"}
+                      transition-colors duration-1000 ease-in-out
+                    `}
+                    />
+                    <span className="text-sm text-gray-200">
+                      {eventToString(latestEvent)}
+                    </span>
+                  </div>
+                  <span className="text-xs text-gray-400">
+                    {DateTime.fromMillis(latestEvent.timestamp * 1000).toFormat(
+                      "HH:mm:ss",
+                    )}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-gray-700/50 p-3 rounded-md mb-4 text-gray-400 text-sm text-center">
+                No activity yet
+              </div>
+            )}
+          </div>
+
+          <div className="mt-4">
+            <h3 className="text-sm font-semibold mb-2">Activity History</h3>
             <ScrollArea className="h-[200px] w-full rounded-md border border-gray-700">
               <div ref={scrollRef} className="p-4 space-y-2">
                 {events
-                  .sort((e1, e2) => e1.timestamp - e2.timestamp)
+                  .sort((e1, e2) => e2.timestamp - e1.timestamp)
                   .map((event, index) => (
                     <div
                       key={index}
