@@ -3,17 +3,24 @@ import Draggable from "react-draggable";
 import { ResizableBox } from "react-resizable";
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { X, Minus, Send, MessageSquare, Settings } from "lucide-react";
+import { X, Minus, Send, MessageSquare, Settings, History } from "lucide-react";
 import "react-resizable/css/styles.css";
 import botAvatar from "/assets/AIagent_pfp/bot1.png"; // Importez l'image
 
-type TabType = "chat" | "settings";
+type TabType = "chat" | "settings" | "history";
 
 interface Message {
   id: number;
   text: string;
   sender: "user" | "ai";
   timestamp: Date;
+}
+
+interface Action {
+  id: number;
+  action: string;
+  timestamp: Date;
+  status: "success" | "pending" | "error";
 }
 
 interface DraggableCardProps {
@@ -34,6 +41,21 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [actions] = useState<Action[]>([
+    {
+      id: 1,
+      action: "Started streaming NFT #123",
+      timestamp: new Date(),
+      status: "success",
+    },
+    {
+      id: 2,
+      action: "Resource collection initiated",
+      timestamp: new Date(),
+      status: "pending",
+    },
+    // Exemples d'actions
+  ]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -151,6 +173,33 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
             </div>
           </div>
         );
+      case "history":
+        return (
+          <div className="space-y-4 overflow-auto pr-2">
+            {actions.map((action) => (
+              <div
+                key={action.id}
+                className="flex items-center gap-3 p-2 rounded-lg bg-gray-700/50"
+              >
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    action.status === "success"
+                      ? "bg-green-500"
+                      : action.status === "pending"
+                        ? "bg-yellow-500"
+                        : "bg-red-500"
+                  }`}
+                />
+                <div className="flex-grow">
+                  <p className="text-sm">{action.action}</p>
+                  <p className="text-xs text-gray-400">
+                    {action.timestamp.toLocaleTimeString()}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
     }
   };
 
@@ -223,6 +272,16 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
                   onClick={() => setActiveTab("chat")}
                 >
                   <MessageSquare className="h-4 w-4 inline-block" />
+                </button>
+                <button
+                  className={`px-3 py-1 text-sm transition-colors ${
+                    activeTab === "history"
+                      ? "text-white border-b-2 border-blue-500"
+                      : "text-gray-400 hover:text-gray-200"
+                  }`}
+                  onClick={() => setActiveTab("history")}
+                >
+                  <History className="h-4 w-4 inline-block" />
                 </button>
                 <button
                   className={`px-3 py-1 text-sm transition-colors ${
