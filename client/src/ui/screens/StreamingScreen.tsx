@@ -112,22 +112,19 @@ export const StreamingScreen = () => {
         </div>
 
         {/* Draggable Card */}
-        <DraggableCard
-          title="AIdwin"
-          aiAvatarUrl="/ai-assistant.png" // Remplacez par votre URL d'avatar
-        >
+        <DraggableCard title="AIdwin" aiAvatarUrl="/bot1.png">
           <div className="space-y-4">
             <div className="text-sm">
               <div className="flex justify-between mb-2">
-                <span>Active Streams:</span>
+                <span>Active Streams example:</span>
                 <span className="font-medium">3</span>
               </div>
               <div className="flex justify-between mb-2">
-                <span>Total Resources:</span>
+                <span>Total Resources example:</span>
                 <span className="font-medium">1,234</span>
               </div>
               <div className="flex justify-between">
-                <span>Session Duration:</span>
+                <span>Session Duration example:</span>
                 <span className="font-medium">2h 15m</span>
               </div>
             </div>

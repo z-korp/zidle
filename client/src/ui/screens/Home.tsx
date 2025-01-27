@@ -9,6 +9,7 @@ import { Button } from "@/ui/elements/button";
 import { Store, Radio } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTokenStore } from "@/stores/useTokenStore";
+import DraggableCard from "../components/DraggableCard";
 
 export const Home = () => {
   const {
@@ -57,6 +58,25 @@ export const Home = () => {
             />
           )}
         </div>
+        {/* Draggable Card */}
+        <DraggableCard title="AIdwin" aiAvatarUrl="/bot1.png">
+          <div className="space-y-4">
+            <div className="text-sm">
+              <div className="flex justify-between mb-2">
+                <span>Active Streams example:</span>
+                <span className="font-medium">3</span>
+              </div>
+              <div className="flex justify-between mb-2">
+                <span>Total Resources example:</span>
+                <span className="font-medium">1,234</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Session Duration example:</span>
+                <span className="font-medium">2h 15m</span>
+              </div>
+            </div>
+          </div>
+        </DraggableCard>
       </div>
     </div>
   );
