@@ -112,7 +112,10 @@ export const StreamingScreen = () => {
         </div>
 
         {/* Draggable Card */}
-        <DraggableCard title="Streaming Stats">
+        <DraggableCard
+          title="AI Assistant"
+          aiAvatarUrl="/ai-assistant.png" // Remplacez par votre URL d'avatar
+        >
           <div className="space-y-4">
             <div className="text-sm">
               <div className="flex justify-between mb-2">

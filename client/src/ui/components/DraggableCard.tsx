@@ -7,9 +7,14 @@ import { X, Minus } from "lucide-react";
 interface DraggableCardProps {
   title: string;
   children: React.ReactNode;
+  aiAvatarUrl?: string; // Optional AI avatar URL
 }
 
-const DraggableCard: React.FC<DraggableCardProps> = ({ title, children }) => {
+const DraggableCard: React.FC<DraggableCardProps> = ({
+  title,
+  children,
+  aiAvatarUrl = "/ai-assistant.png", // Default avatar
+}) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -27,7 +32,19 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ title, children }) => {
       <div className="absolute z-50">
         <Card className="w-[300px] bg-gray-800/95 text-white shadow-xl border border-gray-600 backdrop-blur-sm">
           <div className="drag-handle cursor-move bg-gray-700 p-2 rounded-t-lg flex items-center justify-between">
-            <span className="text-sm font-medium">{title}</span>
+            <div className="flex items-center gap-2">
+              {/* AI Avatar */}
+              <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-green-500/50">
+                <img
+                  src={aiAvatarUrl}
+                  alt="AI Assistant"
+                  className="w-full h-full object-cover"
+                />
+                {/* Online indicator */}
+                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-700" />
+              </div>
+              <span className="text-sm font-medium">{title}</span>
+            </div>
             <div className="flex gap-2">
               <Button
                 variant="ghost"
