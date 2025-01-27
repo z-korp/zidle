@@ -6,6 +6,9 @@ import { Button } from "../elements/button";
 import { X, Minus, Send, MessageSquare, Settings, History } from "lucide-react";
 import "react-resizable/css/styles.css";
 import botAvatar from "/assets/AIagent_pfp/bot1.png"; // Importez l'image
+import { ChatTab } from "./AIAssistant/ChatTab";
+import { HistoryTab } from "./AIAssistant/HistoryTab";
+import { SettingsTab } from "./AIAssistant/SettingsTab";
 
 type TabType = "chat" | "settings" | "history";
 
@@ -100,106 +103,17 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
     switch (activeTab) {
       case "chat":
         return (
-          <div className="flex flex-col h-full">
-            {/* Messages Area avec padding ajusté */}
-            <div className="flex-grow overflow-auto mb-6 space-y-4 pr-2">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${
-                    message.sender === "user" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <div
-                    className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
-                      message.sender === "user"
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-700 text-white"
-                    }`}
-                  >
-                    {message.text}
-                  </div>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input Area avec meilleur espacement et style */}
-            <div className="flex gap-2 mt-auto pt-2 pb-2 border-t border-gray-700">
-              <textarea
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
-                className="flex-grow resize-none rounded-md bg-gray-700 text-white p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] max-h-[120px]"
-                rows={1}
-              />
-              <Button
-                onClick={handleSendMessage}
-                className="px-4 bg-blue-600 hover:bg-blue-700 self-end h-[44px]"
-              >
-                <Send className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-        );
-      case "settings":
-        return (
-          <div className="space-y-4 p-2">
-            <div className="space-y-2">
-              <h3 className="font-medium text-sm">AI Settings</h3>
-              <div className="space-y-4">
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm text-gray-300">Temperature</label>
-                  <input type="range" min="0" max="100" className="w-full" />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm text-gray-300">
-                    Response Length
-                  </label>
-                  <select className="bg-gray-700 rounded-md p-2 text-sm">
-                    <option value="short">Short</option>
-                    <option value="medium">Medium</option>
-                    <option value="long">Long</option>
-                  </select>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" id="memory" className="rounded" />
-                  <label htmlFor="memory" className="text-sm text-gray-300">
-                    Enable Memory
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ChatTab
+            messages={messages}
+            inputText={inputText}
+            setInputText={setInputText}
+            handleSendMessage={handleSendMessage}
+          />
         );
       case "history":
-        return (
-          <div className="space-y-4 overflow-auto pr-2">
-            {actions.map((action) => (
-              <div
-                key={action.id}
-                className="flex items-center gap-3 p-2 rounded-lg bg-gray-700/50"
-              >
-                <div
-                  className={`w-2 h-2 rounded-full ${
-                    action.status === "success"
-                      ? "bg-green-500"
-                      : action.status === "pending"
-                        ? "bg-yellow-500"
-                        : "bg-red-500"
-                  }`}
-                />
-                <div className="flex-grow">
-                  <p className="text-sm">{action.action}</p>
-                  <p className="text-xs text-gray-400">
-                    {action.timestamp.toLocaleTimeString()}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
+        return <HistoryTab actions={actions} />;
+      case "settings":
+        return <SettingsTab />;
     }
   };
 
