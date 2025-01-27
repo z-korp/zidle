@@ -17,6 +17,7 @@ import {
   Package,
   Shield,
   CircleDashed,
+  Vault,
 } from "lucide-react";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { CombatView } from "./CombatView";
@@ -26,6 +27,7 @@ import { InventoryView } from "./InventoryView";
 import { EquipmentView } from "./EquipmentView";
 import { LuckyWheelView } from "./LuckyWheelView";
 import { LoadingDots } from "@/ui/components/LoadingDots";
+import { ChestView } from "./ChestView";
 
 interface MainMenuCardProps {
   tokenId: string;
@@ -57,6 +59,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
   const [isInGlobalInventory, setIsInGlobalInventory] = useState(false);
   const [isInEquipment, setIsInEquipment] = useState(false);
   const [isInLuckyWheel, setIsInLuckyWheel] = useState(false);
+  const [isInChestOpening, setIsInChestOpening] = useState(false);
 
   useEffect(() => {
     if (character) {
@@ -111,6 +114,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInGlobalInventory(false);
                 setIsInEquipment(false);
                 setIsInLuckyWheel(false);
+                setIsInChestOpening(false);
                 setSelectedResource(null);
                 setShowMenu(false);
               }}
@@ -129,6 +133,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInGlobalInventory(false);
                 setIsInEquipment(false);
                 setIsInLuckyWheel(false);
+                setIsInChestOpening(false);
                 setShowMenu(false);
               }}
             >
@@ -146,6 +151,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInGlobalInventory(false);
                 setIsInEquipment(false);
                 setIsInLuckyWheel(false);
+                setIsInChestOpening(false);
                 setShowMenu(false);
               }}
             >
@@ -163,6 +169,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInBlueprints(false);
                 setIsInEquipment(false);
                 setIsInLuckyWheel(false);
+                setIsInChestOpening(false);
                 setShowMenu(false);
               }}
             >
@@ -180,6 +187,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInCombat(false);
                 setIsInBlueprints(false);
                 setIsInLuckyWheel(false);
+                setIsInChestOpening(false);
                 setShowMenu(false);
               }}
             >
@@ -197,10 +205,29 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
                 setIsInGlobalInventory(false);
                 setIsInCombat(false);
                 setIsInBlueprints(false);
+                setIsInChestOpening(false);
                 setShowMenu(false);
               }}
             >
               <CircleDashed className="h-4 w-4" />
+            </Button>
+
+            {/* Chest button */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 p-0 flex items-center justify-center hover:bg-gray-700"
+              onClick={() => {
+                setIsInChestOpening(true);
+                setIsInLuckyWheel(false);
+                setIsInEquipment(false);
+                setIsInGlobalInventory(false);
+                setIsInCombat(false);
+                setIsInBlueprints(false);
+                setShowMenu(false);
+              }}
+            >
+              <Vault className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -215,6 +242,7 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
    * - Inventory view: Shows the character's inventory
    * - Equipment view: Shows the character's equipment
    * - Lucky Wheel view: Shows the lucky wheel interface
+   * - Chest view: Shows the chest opening interface
    * - Default view: Shows mining interface and character stats
    */
   const renderContent = () => {
@@ -312,6 +340,24 @@ const MainMenuCard: React.FC<MainMenuCardProps> = ({
           <CardContent>
             <ScrollArea className="h-[400px]">
               <LuckyWheelView character={character} />
+            </ScrollArea>
+          </CardContent>
+        </>
+      );
+    }
+
+    if (isInChestOpening) {
+      return (
+        <>
+          <GameHeader
+            tokenId={tokenId}
+            character={character}
+            resetSelectedNft={resetSelectedNft}
+            onMenuClick={() => setShowMenu(!showMenu)}
+          />
+          <CardContent>
+            <ScrollArea className="h-[400px] pr-4">
+              <ChestView character={character} />
             </ScrollArea>
           </CardContent>
         </>
