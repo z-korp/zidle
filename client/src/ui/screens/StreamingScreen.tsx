@@ -112,7 +112,7 @@ export const StreamingScreen = () => {
         </div>
 
         {/* Draggable Card */}
-        <DraggableCard title="AIdwin" aiAvatarUrl="/bot1.png">
+        <DraggableCard title="AIdwin">
           <div className="space-y-4">
             <div className="text-sm">
               <div className="flex justify-between mb-2">

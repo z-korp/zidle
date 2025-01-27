@@ -5,6 +5,7 @@ import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
 import { X, Minus, Send, MessageSquare, Settings } from "lucide-react";
 import "react-resizable/css/styles.css";
+import botAvatar from "/assets/AIagent_pfp/bot1.png"; // Importez l'image
 
 type TabType = "chat" | "settings";
 
@@ -24,7 +25,7 @@ interface DraggableCardProps {
 const DraggableCard: React.FC<DraggableCardProps> = ({
   title,
   children,
-  aiAvatarUrl = "/ai-assistant.png", // Default avatar
+  aiAvatarUrl = botAvatar, // Utilisez l'image importée comme valeur par défaut
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>("chat");
   const [isMinimized, setIsMinimized] = useState(false);
@@ -77,8 +78,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
     switch (activeTab) {
       case "chat":
         return (
-          <>
-            <div className="flex-grow overflow-auto mb-4 space-y-4">
+          <div className="flex flex-col h-full">
+            {/* Messages Area avec padding ajusté */}
+            <div className="flex-grow overflow-auto mb-6 space-y-4 pr-2">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -87,7 +89,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                    className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
                       message.sender === "user"
                         ? "bg-blue-600 text-white"
                         : "bg-gray-700 text-white"
@@ -100,23 +102,24 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="flex gap-2 mt-auto">
+            {/* Input Area avec meilleur espacement et style */}
+            <div className="flex gap-2 mt-auto pt-2 pb-2 border-t border-gray-700">
               <textarea
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
-                className="flex-grow resize-none rounded-md bg-gray-700 text-white p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-grow resize-none rounded-md bg-gray-700 text-white p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] max-h-[120px]"
                 rows={1}
               />
               <Button
                 onClick={handleSendMessage}
-                className="px-3 bg-blue-600 hover:bg-blue-700"
+                className="px-4 bg-blue-600 hover:bg-blue-700 self-end h-[44px]"
               >
-                <Send className="h-4 w-4" />
+                <Send className="h-5 w-5" />
               </Button>
             </div>
-          </>
+          </div>
         );
       case "settings":
         return (
@@ -176,15 +179,15 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
             <div className="drag-handle cursor-move bg-gray-700 p-2 rounded-t-lg">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  {/* AI Avatar */}
-                  <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-green-500/50">
+                  {/* AI Avatar - Taille augmentée */}
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-green-500/50">
                     <img
                       src={aiAvatarUrl}
                       alt="AI Assistant"
                       className="w-full h-full object-cover"
                     />
-                    {/* Online indicator */}
-                    <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-700" />
+                    {/* Online indicator - Position ajustée */}
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-700" />
                   </div>
                   <span className="text-sm font-medium">{title}</span>
                 </div>
