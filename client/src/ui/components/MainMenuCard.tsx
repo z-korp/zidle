@@ -20,14 +20,14 @@ import {
   Vault,
 } from "lucide-react";
 import { ScrollArea } from "@/ui/elements/scroll-area";
-import { CombatView } from "./CombatView";
-import { BlueprintView } from "./BlueprintView";
+import { CombatView } from "./CardViews/CombatView";
+import { BlueprintView } from "./CardViews/BlueprintView";
 import { GameHeader } from "./GameHeader";
-import { InventoryView } from "./InventoryView";
-import { EquipmentView } from "./EquipmentView";
-import { LuckyWheelView } from "./LuckyWheelView";
+import { InventoryView } from "./CardViews/InventoryView";
+import { EquipmentView } from "./CardViews/EquipmentView";
+import { LuckyWheelView } from "./CardViews/LuckyWheelView";
 import { LoadingDots } from "@/ui/components/LoadingDots";
-import { ChestView } from "./ChestView";
+import { ChestView } from "./CardViews/ChestView";
 
 interface MainMenuCardProps {
   tokenId: string;
