@@ -11,6 +11,7 @@ import NFTCard from "@/ui/components/NFTCard";
 import { useEffect } from "react";
 import NFTDetailsCard from "../components/NFTStreamingCard";
 import { useTokenStore } from "@/stores/useTokenStore";
+import DraggableCard from "../components/DraggableCard";
 
 export const StreamingScreen = () => {
   const navigate = useNavigate();
@@ -109,6 +110,26 @@ export const StreamingScreen = () => {
             </Card>
           )}
         </div>
+
+        {/* Draggable Card */}
+        <DraggableCard title="Streaming Stats">
+          <div className="space-y-4">
+            <div className="text-sm">
+              <div className="flex justify-between mb-2">
+                <span>Active Streams:</span>
+                <span className="font-medium">3</span>
+              </div>
+              <div className="flex justify-between mb-2">
+                <span>Total Resources:</span>
+                <span className="font-medium">1,234</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Session Duration:</span>
+                <span className="font-medium">2h 15m</span>
+              </div>
+            </div>
+          </div>
+        </DraggableCard>
       </div>
     </div>
   );
