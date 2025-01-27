@@ -14,6 +14,7 @@ import { ButtonVariant } from "../elements/button";
 import GoldImg from "./GoldImg";
 import { Resource } from "@/dojo/game/types/resource";
 import WorkingDiv from "./WorkingDiv";
+import InventoryDiv from "./InventoryDiv";
 
 interface NFTStreamingCardProps {
   tokenId: number;

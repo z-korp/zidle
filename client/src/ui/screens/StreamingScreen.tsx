@@ -1,11 +1,10 @@
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { useNavigate, useParams, useLocation } from "react-router-dom"; // Import useParams
+import { useNavigate, useParams } from "react-router-dom"; // Import useParams
 import { ArrowLeft, Play } from "lucide-react";
 import { Header } from "@/ui/containers/Header";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { useAllExistingTokenIds } from "@/hooks/useAllExistingTokenIds";
-import { useDojo } from "@/dojo/useDojo";
 import { LoadingDots } from "@/ui/components/LoadingDots";
 import NFTCard from "@/ui/components/NFTCard";
 import { useEffect } from "react";
@@ -86,7 +85,9 @@ export const StreamingScreen = () => {
                           >
                             <NFTCard
                               tokenId={tokenId.toString()}
-                              onSelect={() => {}}
+                              onSelect={() => {
+                                console.log("test");
+                              }}
                             />
                           </div>
                           <Button

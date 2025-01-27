@@ -3,12 +3,15 @@ import Draggable from "react-draggable";
 import { ResizableBox } from "react-resizable";
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { X, Minus, Send, MessageSquare, Settings, History } from "lucide-react";
-import "react-resizable/css/styles.css";
-import botAvatar from "/assets/AIagent_pfp/bot1.png"; // Importez l'image
+import { X, Minus, MessageSquare, Settings, History } from "lucide-react";
+import botAvatar from "/assets/AIagent_pfp/bot1.png";
 import { ChatTab } from "./AIAssistant/ChatTab";
 import { HistoryTab } from "./AIAssistant/HistoryTab";
 import { SettingsTab } from "./AIAssistant/SettingsTab";
+import { useDaydreamsWs } from "@/hooks/useDaydreams";
+import { useAgentStore } from "@/stores/useAgentStore";
+
+import "react-resizable/css/styles.css";
 
 type TabType = "chat" | "settings" | "history";
 
@@ -37,6 +40,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   children,
   aiAvatarUrl = botAvatar, // Utilisez l'image importée comme valeur par défaut
 }) => {
+  const { sendMessage } = useDaydreamsWs();
+  const { messages: messagesBack } = useAgentStore();
+
   const [activeTab, setActiveTab] = useState<TabType>("chat");
   const [isMinimized, setIsMinimized] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -63,6 +69,10 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    console.log(messagesBack);
+  }, [messagesBack]);
 
   useEffect(() => {
     scrollToBottom();
