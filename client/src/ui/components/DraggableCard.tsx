@@ -3,19 +3,30 @@ import Draggable from "react-draggable";
 import { ResizableBox } from "react-resizable";
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { X, Minus, Send, MessageSquare, Settings } from "lucide-react";
+import { X, Minus, MessageSquare, Settings, History } from "lucide-react";
 import botAvatar from "/assets/AIagent_pfp/bot1.png";
+import { ChatTab } from "./AIAssistant/ChatTab";
+import { HistoryTab } from "./AIAssistant/HistoryTab";
+import { SettingsTab } from "./AIAssistant/SettingsTab";
 import { useDaydreamsWs } from "@/hooks/useDaydreams";
 import { useAgentStore } from "@/stores/useAgentStore";
+
 import "react-resizable/css/styles.css";
 
-type TabType = "chat" | "settings";
+type TabType = "chat" | "settings" | "history";
 
 interface Message {
   id: number;
   text: string;
   sender: "user" | "ai";
   timestamp: Date;
+}
+
+interface Action {
+  id: number;
+  action: string;
+  timestamp: Date;
+  status: "success" | "pending" | "error";
 }
 
 interface DraggableCardProps {
@@ -39,6 +50,21 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [actions] = useState<Action[]>([
+    {
+      id: 1,
+      action: "Started streaming NFT #123",
+      timestamp: new Date(),
+      status: "success",
+    },
+    {
+      id: 2,
+      action: "Resource collection initiated",
+      timestamp: new Date(),
+      status: "pending",
+    },
+    // Exemples d'actions
+  ]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -87,84 +113,17 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
     switch (activeTab) {
       case "chat":
         return (
-          <div className="flex flex-col h-full">
-            {/* Messages Area avec padding ajusté */}
-            <div className="flex-grow overflow-auto mb-6 space-y-4 pr-2">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${
-                    message.sender === "user" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <div
-                    className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
-                      message.sender === "user"
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-700 text-white"
-                    }`}
-                  >
-                    {message.text}
-                  </div>
-                </div>
-              ))}
-              {messagesBack.map((message) => (
-                <div>
-                  {message.message ? message.message : message.data.description}
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input Area avec meilleur espacement et style */}
-            <div className="flex gap-2 mt-auto pt-2 pb-2 border-t border-gray-700">
-              <textarea
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
-                className="flex-grow resize-none rounded-md bg-gray-700 text-white p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] max-h-[120px]"
-                rows={1}
-              />
-              <Button
-                onClick={handleSendMessage}
-                className="px-4 bg-blue-600 hover:bg-blue-700 self-end h-[44px]"
-              >
-                <Send className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
+          <ChatTab
+            messages={messages}
+            inputText={inputText}
+            setInputText={setInputText}
+            handleSendMessage={handleSendMessage}
+          />
         );
+      case "history":
+        return <HistoryTab actions={actions} />;
       case "settings":
-        return (
-          <div className="space-y-4 p-2">
-            <div className="space-y-2">
-              <h3 className="font-medium text-sm">AI Settings</h3>
-              <div className="space-y-4">
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm text-gray-300">Temperature</label>
-                  <input type="range" min="0" max="100" className="w-full" />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm text-gray-300">
-                    Response Length
-                  </label>
-                  <select className="bg-gray-700 rounded-md p-2 text-sm">
-                    <option value="short">Short</option>
-                    <option value="medium">Medium</option>
-                    <option value="long">Long</option>
-                  </select>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" id="memory" className="rounded" />
-                  <label htmlFor="memory" className="text-sm text-gray-300">
-                    Enable Memory
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        return <SettingsTab />;
     }
   };
 
@@ -237,6 +196,16 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
                   onClick={() => setActiveTab("chat")}
                 >
                   <MessageSquare className="h-4 w-4 inline-block" />
+                </button>
+                <button
+                  className={`px-3 py-1 text-sm transition-colors ${
+                    activeTab === "history"
+                      ? "text-white border-b-2 border-blue-500"
+                      : "text-gray-400 hover:text-gray-200"
+                  }`}
+                  onClick={() => setActiveTab("history")}
+                >
+                  <History className="h-4 w-4 inline-block" />
                 </button>
                 <button
                   className={`px-3 py-1 text-sm transition-colors ${
