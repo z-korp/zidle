@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Draggable from "react-draggable";
+import { ResizableBox } from "react-resizable";
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
 import { X, Minus } from "lucide-react";
+import "react-resizable/css/styles.css";
 
 interface DraggableCardProps {
   title: string;
@@ -17,9 +19,17 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
 }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [size, setSize] = useState({ width: 300, height: 400 });
 
   const handleDrag = (e: any, data: { x: number; y: number }) => {
     setPosition({ x: data.x, y: data.y });
+  };
+
+  const handleResize = (
+    event: React.SyntheticEvent,
+    { size: newSize }: { size: { width: number; height: number } },
+  ) => {
+    setSize(newSize);
   };
 
   return (
@@ -30,50 +40,64 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
       bounds="parent"
     >
       <div className="absolute z-50">
-        <Card className="w-[300px] bg-gray-800/95 text-white shadow-xl border border-gray-600 backdrop-blur-sm">
-          <div className="drag-handle cursor-move bg-gray-700 p-2 rounded-t-lg flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              {/* AI Avatar */}
-              <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-green-500/50">
-                <img
-                  src={aiAvatarUrl}
-                  alt="AI Assistant"
-                  className="w-full h-full object-cover"
-                />
-                {/* Online indicator */}
-                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-700" />
+        <ResizableBox
+          width={size.width}
+          height={size.height}
+          minConstraints={[200, 200]}
+          maxConstraints={[800, 800]}
+          onResize={handleResize}
+          resizeHandles={["se"]}
+          handle={
+            <div className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize">
+              <div className="absolute bottom-1 right-1 w-2 h-2 bg-gray-400 rounded-sm" />
+            </div>
+          }
+        >
+          <Card className="w-full h-full bg-gray-800/95 text-white shadow-xl border border-gray-600 backdrop-blur-sm">
+            <div className="drag-handle cursor-move bg-gray-700 p-2 rounded-t-lg flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                {/* AI Avatar */}
+                <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-green-500/50">
+                  <img
+                    src={aiAvatarUrl}
+                    alt="AI Assistant"
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Online indicator */}
+                  <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-700" />
+                </div>
+                <span className="text-sm font-medium">{title}</span>
               </div>
-              <span className="text-sm font-medium">{title}</span>
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  onClick={() => setIsMinimized(!isMinimized)}
+                >
+                  <Minus className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6 hover:bg-red-500/20 hover:text-red-400"
+                  onClick={() => {
+                    // Handle close action
+                  }}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6"
-                onClick={() => setIsMinimized(!isMinimized)}
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6 hover:bg-red-500/20 hover:text-red-400"
-                onClick={() => {
-                  // Handle close action
-                }}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-          <CardContent
-            className={`transition-all duration-200 ${
-              isMinimized ? "h-0 p-0 overflow-hidden" : "p-4"
-            }`}
-          >
-            {children}
-          </CardContent>
-        </Card>
+            <CardContent
+              className={`transition-all duration-200 overflow-auto ${
+                isMinimized ? "h-0 p-0" : "p-4 h-[calc(100%-48px)]"
+              }`}
+            >
+              {children}
+            </CardContent>
+          </Card>
+        </ResizableBox>
       </div>
     </Draggable>
   );
