@@ -9,7 +9,6 @@ import { ChatTab } from "./AIAssistant/ChatTab";
 import { HistoryTab } from "./AIAssistant/HistoryTab";
 import { SettingsTab } from "./AIAssistant/SettingsTab";
 import { useDaydreamsWs } from "@/hooks/useDaydreams";
-import { useAgentStore } from "@/stores/useAgentStore";
 
 import "react-resizable/css/styles.css";
 
@@ -22,12 +21,12 @@ interface Message {
   timestamp: Date;
 }
 
-interface Action {
+/*interface Action {
   id: number;
   action: string;
   timestamp: Date;
   status: "success" | "pending" | "error";
-}
+}*/
 
 interface DraggableCardProps {
   title: string;
@@ -41,7 +40,6 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   aiAvatarUrl = botAvatar, // Utilisez l'image importée comme valeur par défaut
 }) => {
   const { sendMessage } = useDaydreamsWs();
-  const { messages: messagesBack } = useAgentStore();
 
   const [activeTab, setActiveTab] = useState<TabType>("chat");
   const [isMinimized, setIsMinimized] = useState(false);
@@ -50,29 +48,10 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [actions] = useState<Action[]>([
-    {
-      id: 1,
-      action: "Started streaming NFT #123",
-      timestamp: new Date(),
-      status: "success",
-    },
-    {
-      id: 2,
-      action: "Resource collection initiated",
-      timestamp: new Date(),
-      status: "pending",
-    },
-    // Exemples d'actions
-  ]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
-  useEffect(() => {
-    console.log(messagesBack);
-  }, [messagesBack]);
 
   useEffect(() => {
     scrollToBottom();
@@ -97,8 +76,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
         sender: "user",
         timestamp: new Date(),
       };
-      setMessages([...messages, newMessage]);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
       setInputText("");
+      sendMessage(inputText);
     }
   };
 
@@ -121,7 +101,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
           />
         );
       case "history":
-        return <HistoryTab actions={actions} />;
+        return <HistoryTab />;
       case "settings":
         return <SettingsTab />;
     }

@@ -6,7 +6,6 @@ import { useTokenStore } from "@/stores/useTokenStore";
 import { ParsedGameEvent, SchemaType } from "@/dojo/types";
 import { parseGameEvent } from "@/utils/events";
 import { useDojo } from "@/dojo/useDojo";
-import { addAddressPadding, events } from "starknet";
 
 /**
  * Custom hook to handle game events (Mining and Harvesting)

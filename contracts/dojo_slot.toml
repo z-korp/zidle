@@ -16,7 +16,7 @@ telegram = "https://t.me/dojoengine"
 default = "zidle"
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/zidle-slot/katana"
+rpc_url = "https://api.cartridge.gg/x/zidle2-slot/katana"
 account_address = "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd"
 private_key = "0x1e5c62853e3189afdfdfcfb2d8ab0a1c372907db6eb1d1e5bf8ff438420adb3"
 

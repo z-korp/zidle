@@ -1,7 +1,13 @@
 import React, { useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { Button } from "../../elements/button";
-import { Message } from "@/types/chat";
+
+interface Message {
+  id: number;
+  text: string;
+  sender: "user" | "ai";
+  timestamp: Date;
+}
 
 interface ChatTabProps {
   messages: Message[];

@@ -1,5 +1,5 @@
 world_address = "0x01a78a3a22fe78bd995f751c58c1dfb569b0604f64e5fc12a48e072b1841fa17"
-rpc = "https://api.cartridge.gg/x/zidle-slot/katana"
+rpc = "https://api.cartridge.gg/x/zidle2-slot/katana"
 explorer = false
 
 [indexing]

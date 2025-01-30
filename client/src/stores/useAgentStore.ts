@@ -1,19 +1,12 @@
+import { AppMessage } from "@/types/message";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-interface Message {
-  type: string;
-  message?: string;
-  error?: string;
-  isLoading?: boolean;
-  timestamp?: number;
-}
-
 interface AgentState {
-  messages: Message[];
+  messages: AppMessage[];
   isConnected: boolean;
-  setMessages: (messages: Message[]) => void;
-  addMessage: (message: Message) => void;
+  setMessages: (messages: AppMessage[]) => void;
+  addMessage: (message: AppMessage) => void;
   setIsConnected: (isConnected: boolean) => void;
 }
 
@@ -23,16 +16,16 @@ export const useAgentStore = create<AgentState>()(
       messages: [],
       isConnected: false,
       setIsConnected: (isConnected: boolean) => set({ isConnected }),
-      setMessages: (messages: Message[]) => set({ messages }),
-      addMessage: (message: Message) =>
+      setMessages: (messages: AppMessage[]) => set({ messages }),
+      addMessage: (message: AppMessage) =>
         set((state) => {
-          if (message.type === "response") {
+          /*if (message.type === "response") {
             return {
               messages: state.messages
                 .filter((msg) => !msg.isLoading)
                 .concat(message),
             };
-          }
+          }*/
           return {
             messages: [...state.messages, message],
           };

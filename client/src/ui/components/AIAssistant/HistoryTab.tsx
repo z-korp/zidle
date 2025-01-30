@@ -1,16 +1,12 @@
-import React from "react";
-import { Action } from "@/types/ai";
+import { MessagesList } from "./MessageList";
 
-interface HistoryTabProps {
-  actions: Action[];
-}
-
-export const HistoryTab: React.FC<HistoryTabProps> = ({ actions }) => {
+export const HistoryTab = () => {
   return (
     <div className="space-y-4 overflow-auto pr-2">
-      {actions.map((action) => (
+      <MessagesList />
+      {/*{actions.map((action) => (
         <div
-          key={action.id}
+          key={action.timestamp}
           className="flex items-center gap-3 p-2 rounded-lg bg-gray-700/50"
         >
           <div
@@ -29,7 +25,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ actions }) => {
             </p>
           </div>
         </div>
-      ))}
+      ))}*/}
     </div>
   );
 };
