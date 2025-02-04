@@ -56,12 +56,14 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
     position,
     size,
     isMinimized,
+    isVisible,
     activeTab,
     messages,
     inputText,
     setPosition,
     setSize,
     setIsMinimized,
+    setIsVisible,
     setActiveTab,
     addMessage,
     setInputText,
@@ -138,6 +140,8 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
     }
   };
 
+  if (!isVisible) return null;
+
   return (
     // Draggable wrapper with bounds constraint
     <Draggable
@@ -194,9 +198,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
                     variant="ghost"
                     size="icon"
                     className="h-6 w-6 hover:bg-red-500/20 hover:text-red-400"
-                    onClick={() => {
-                      // Handle close action
-                    }}
+                    onClick={() => setIsVisible(false)}
                   >
                     <X className="h-4 w-4" />
                   </Button>

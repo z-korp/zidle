@@ -4,12 +4,17 @@ import { Home } from "./ui/screens/Home";
 import { StreamingScreen } from "./ui/screens/StreamingScreen";
 import { TooltipProvider } from "@/ui/elements/tooltip";
 import DraggableCard from "./ui/components/DraggableCard";
+import { Button } from "./ui/elements/button";
+import { MessageSquare } from "lucide-react";
+import { useDraggableCardStore } from "@/stores/useDraggableCardStore";
 
 import background from "/assets/bg-nuage.png";
 import { useGameEventsExperimental } from "./hooks/useGameEventsExperimental";
 
 export default function App() {
   useGameEventsExperimental();
+  const { isVisible, setIsVisible } = useDraggableCardStore();
+
   return (
     <TooltipProvider>
       <Router>
@@ -41,6 +46,15 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/stream/:id?" element={<StreamingScreen />} />
         </Routes>
+        {!isVisible && (
+          <Button
+            onClick={() => setIsVisible(true)}
+            className="fixed bottom-4 right-4 z-50 bg-gray-800/95 text-white shadow-xl border border-gray-600 backdrop-blur-sm hover:bg-gray-700/95"
+          >
+            <MessageSquare className="w-4 h-4 mr-2" />
+            Show Assistant
+          </Button>
+        )}
         <Toaster position="bottom-right" />
       </Router>
     </TooltipProvider>
