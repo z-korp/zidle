@@ -27,6 +27,7 @@ mod models {
     mod token_config;
     mod settings;
     mod admin;
+    mod arena;
 }
 
 mod events {
@@ -50,6 +51,7 @@ mod systems {
 
 mod types {
     mod resource;
+    mod goal;
 }
 
 #[cfg(test)]
