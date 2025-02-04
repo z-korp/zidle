@@ -25,6 +25,11 @@ inspect-mainnet = "sozo --profile mainnet clean && sozo --profile mainnet build 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.10" }
 
+[dev-dependencies]
+dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.10" }
+openzeppelin_token = "0.18.0"
+openzeppelin = "0.18.0"
+
 [[target.starknet-contract]]
 build-external-contracts = [
     "dojo::world::world_contract::world",

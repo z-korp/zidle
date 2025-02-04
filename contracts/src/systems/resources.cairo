@@ -24,7 +24,6 @@ mod resources {
     // Component imports
 
     use zidle::components::emitter::EmitterComponent;
-    use zidle::components::manageable::ManageableComponent;
 
     // Local imports
 
@@ -32,7 +31,6 @@ mod resources {
     use zidle::events::index::{Mine, Harvest};
     use zidle::store::{Store, StoreTrait};
     use zidle::models::miner::{MinerImpl, MinerAssert, ZeroableMinerImpl};
-    use zidle::models::char::{CharAssert};
     use zidle::helpers::level::{XpLevel};
     use zidle::types::resource::{ResourceType, ResourceTypeAssert, ResourceImpl};
     use zidle::interfaces::systems::{

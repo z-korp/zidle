@@ -68,7 +68,6 @@ mod character {
             let caller: ContractAddress = starknet::get_caller_address();
             let minter_dispatcher: ICharacterMinterDispatcher = world.character_minter_dispatcher();
             let token_id: u128 = minter_dispatcher.mint(caller, settings.character_erc721_address);
-            println!("New [Character] id: {}, name: {}", token_id, name);
 
             // [Effect] Create miners for the NFT
             let mut index = 1; // 0 is None, start at 1
@@ -79,7 +78,7 @@ mod character {
             };
 
             // [Effect] Create a player
-            let player = PlayerTrait::new(token_id.into(), name);
+            let player = PlayerTrait::new(token_id, name);
             store.set_player(player);
         }
     }

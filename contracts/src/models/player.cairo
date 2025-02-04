@@ -12,15 +12,14 @@ mod errors {
 #[dojo::model]
 pub struct Player {
     #[key]
-    token_id: felt252,
+    token_id: u128,
     name: felt252,
 }
 
 #[generate_trait]
 impl PlayerImpl of PlayerTrait {
     #[inline(always)]
-    fn new(token_id: felt252, name: felt252) -> Player {
-        println!("New [Player] id: {}, name: {}", token_id, name);
+    fn new(token_id: u128, name: felt252) -> Player {
         // [Check] Name is valid
         assert(name != 0, errors::PLAYER_INVALID_NAME);
 
@@ -53,7 +52,7 @@ impl PlayerAssert of AssertTrait {
 impl ZeroablePlayerImpl of core::Zeroable<Player> {
     #[inline(always)]
     fn zero() -> Player {
-        Player { token_id: core::Zeroable::zero(), name: 0 }
+        Player { token_id: 0, name: 0 }
     }
 
     #[inline(always)]

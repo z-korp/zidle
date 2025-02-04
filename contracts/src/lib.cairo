@@ -7,7 +7,6 @@ pub fn default_namespace() -> @ByteArray {
 
 mod components {
     mod emitter;
-    mod manageable;
 }
 
 mod helpers {
@@ -23,7 +22,6 @@ mod interfaces {
 }
 
 mod models {
-    mod char;
     mod miner;
     mod player;
     mod token_config;
@@ -58,6 +56,11 @@ mod types {
 mod tests {
     mod setup;
     mod resources;
-    mod character_token;
-    mod gold_token;
+    mod mocks {
+        mod erc20;
+        mod erc721;
+        mod components {
+            mod erc721_wallet;
+        }
+    }
 }

@@ -11,7 +11,6 @@ use dojo::model::ModelStorage;
 // Models imports
 use zidle::models::player::{Player};
 use zidle::models::miner::{Miner};
-use zidle::models::char::{Char};
 use zidle::models::token_config::{TokenConfig};
 use zidle::models::settings::{Settings};
 use zidle::models::admin::{Admin};
@@ -33,18 +32,13 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline(always)]
-    fn player(self: Store, token_id: felt252) -> Player {
+    fn player(self: Store, token_id: u128) -> Player {
         self.world.read_model(token_id)
     }
 
     #[inline(always)]
     fn miner(self: Store, token_id: u128, resource_type: u8) -> Miner {
         self.world.read_model((token_id, resource_type))
-    }
-
-    #[inline(always)]
-    fn character(self: Store, id: felt252, token_id: u128) -> Char {
-        self.world.read_model((id, token_id))
     }
 
     #[inline(always)]
@@ -73,11 +67,6 @@ impl StoreImpl of StoreTrait {
     #[inline(always)]
     fn set_miner(mut self: Store, mut miner: Miner) {
         self.world.write_model(@miner)
-    }
-
-    #[inline(always)]
-    fn set_character(mut self: Store, mut character: Char) {
-        self.world.write_model(@character)
     }
 
     #[inline(always)]

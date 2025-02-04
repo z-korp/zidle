@@ -37,7 +37,6 @@ pub struct Miner {
 impl MinerImpl of MinerTrait {
     #[inline(always)]
     fn new(token_id: u128, resource_type: u8) -> Miner {
-        println!("New [Miner]  id: {}, resource_type: {}", token_id, resource_type);
         // [Return] Miner
         //let mut xp = 0;
         // if (resource_type == 1) {
@@ -217,16 +216,15 @@ mod tests {
     #[test]
     fn test_miner_new() {
         // [Setup]
-        let id: felt252 = 1;
+        let token_id: u128 = 1;
         let resource_type: u8 = 2;
 
         // [Execute]
-        let miner: Miner = MinerImpl::new(id, resource_type);
+        let miner: Miner = MinerImpl::new(token_id, resource_type);
 
         // [Assert]
-        assert(miner.id == id, 'Create: wrong miner id');
+        assert(miner.token_id == token_id, 'Create: wrong miner id');
         assert(miner.resource_type == resource_type, 'Create: wrong miner rcs type');
-        println!("miner.xp: {}", miner.xp);
         assert(miner.xp == 0, 'Create: wrong miner xp');
         assert(miner.timestamp == 0, 'Create: wrong miner timestamp');
         assert(miner.subresource_type == 0, 'Create: wrong miner subrcs type');
@@ -242,12 +240,12 @@ mod tests {
     #[test]
     fn test_miner_mine() {
         // [Setup]
-        let id: felt252 = 1;
+        let token_id: u128 = 1;
         let resource_type: u8 = 1;
         let subresource_type: u8 = 1;
         let timestamp: u64 = TIME;
 
-        let mut miner: Miner = MinerImpl::new(id, resource_type);
+        let mut miner: Miner = MinerImpl::new(token_id, resource_type);
 
         // [Execute]
         miner.mine(subresource_type, timestamp);

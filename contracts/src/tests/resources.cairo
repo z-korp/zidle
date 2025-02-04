@@ -14,21 +14,22 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 use zidle::store::{Store, StoreTrait};
 use zidle::models::player::{Player, PlayerTrait, PlayerAssert};
-use zidle::systems::account::IAccountDispatcherTrait;
+use zidle::systems::character::ICharacterDispatcherTrait;
 use zidle::systems::resources::IResourcesDispatcherTrait;
 use zidle::tests::setup::{setup, setup::{Systems, PLAYER}};
 
 #[test]
 fn test_resources_harvest() {
     // [Setup]
-    let (world, systems, context) = setup::create_account();
+    let (world, systems, context) = setup::create_character();
     let store = StoreTrait::new(world);
 
     set_block_timestamp(1724541505);
 
+    let token_id: u128 = 1;
+
     // [Assert] Player
-    let player = store.player(context.player_id);
-    assert(player.id == context.player_id, 'Create: wrong player id');
+    let player = store.player(token_id);
     assert(player.name == context.player_name, 'Create: wrong player name');
 
     // Change contract address to user address
@@ -36,21 +37,21 @@ fn test_resources_harvest() {
 
     // [Assert] Miner xp
     let rcs = 2; // Food
-    let miner = store.miner(context.player_id, rcs);
+    let miner = store.miner(token_id, rcs);
     assert(miner.xp == 0, 'Miner: wrong miner xp 1');
 
     // [Assert] Miner
-    systems.resources.mine(rcs, 1); // Food, Berries, lvl 0 -> gathering speed 2000ms
+    systems.resources.mine(token_id, rcs, 1); // Food, Berries, lvl 0 -> gathering speed 2000ms
 
-    let miner = store.miner(context.player_id, rcs);
-    assert(miner.id == context.player_id, 'Create: wrong miner id');
+    let miner = store.miner(token_id, rcs);
+    assert(miner.token_id == token_id, 'Create: wrong miner id');
     assert(miner.timestamp != 0, 'Create: wrong miner timestamp');
 
     set_block_timestamp(1724541505 + 10); // 10 secondes later
 
     // [Assert] Harvest
-    systems.resources.harvest(rcs);
-    let miner = store.miner(context.player_id, rcs);
+    systems.resources.harvest(token_id, rcs);
+    let miner = store.miner(token_id, rcs);
     assert(miner.timestamp == 0, 'Harvest: wrong miner timestamp');
 
     // xp should be 5*base_berries_wp = 5*5 = 25
