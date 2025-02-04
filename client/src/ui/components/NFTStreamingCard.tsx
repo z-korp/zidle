@@ -127,6 +127,10 @@ export const NFTStreamingCard = ({
             </div>
           </div>
 
+          <div className="mt-4">
+            <GoalsSection />
+          </div>
+
           <div className="mt-6">
             <h3 className="text-sm font-semibold mb-2">Ongoing Activity</h3>
             {selectedResource && character ? (
@@ -140,10 +144,6 @@ export const NFTStreamingCard = ({
                 No activity yet
               </div>
             )}
-          </div>
-
-          <div className="mt-4">
-            <GoalsSection />
           </div>
 
           <div className="mt-4">
