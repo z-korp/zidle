@@ -9,6 +9,7 @@ import { ChatTab } from "./AIAssistant/ChatTab";
 import { HistoryTab } from "./AIAssistant/HistoryTab";
 import { SettingsTab } from "./AIAssistant/SettingsTab";
 import { useDaydreamsWs } from "@/hooks/useDaydreams";
+import { useDraggableCardStore } from "@/stores/useDraggableCardStore";
 
 import "react-resizable/css/styles.css";
 
@@ -51,14 +52,20 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
 }) => {
   // WebSocket connection for AI communication
   const { sendMessage } = useDaydreamsWs();
-
-  // State management
-  const [activeTab, setActiveTab] = useState<TabType>("chat");
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [size, setSize] = useState({ width: 300, height: 400 });
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputText, setInputText] = useState("");
+  const {
+    position,
+    size,
+    isMinimized,
+    activeTab,
+    messages,
+    inputText,
+    setPosition,
+    setSize,
+    setIsMinimized,
+    setActiveTab,
+    addMessage,
+    setInputText,
+  } = useDraggableCardStore();
 
   // Reference for auto-scrolling chat
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -104,7 +111,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
         sender: "user",
         timestamp: new Date(),
       };
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      addMessage(newMessage);
       setInputText("");
       sendMessage(inputText);
     }
