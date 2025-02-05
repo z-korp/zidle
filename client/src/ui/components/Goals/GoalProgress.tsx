@@ -30,53 +30,60 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
   const { arenas } = useArenas({ tokenId });
   const Icon = GoalIcons[goal.category];
 
+  const getTeamNumber = () => {
+    if (!arenas.length || !tokenId) return null;
+    const arena = arenas[0];
+    const numTokenId = Number(tokenId);
+
+    if (arena.tokenId1 === numTokenId) return 1;
+    if (arena.tokenId2 === numTokenId) return 2;
+    return null;
+  };
+
   const getTeamPoints = () => {
     if (!arenas.length || !tokenId) return 0;
     const arena = arenas[0];
+    return arena.get_total_points(Number(tokenId));
+  };
 
-    // Convertir les bigint en string pour la comparaison
-    const team1Id = arena.token_id_1 ? arena.token_id_1.toString() : "";
-    const team2Id = arena.token_id_2 ? arena.token_id_2.toString() : "";
+  const getGoalPoints = (goalId: string) => {
+    const teamNumber = getTeamNumber();
+    if (!arenas.length || !tokenId || !teamNumber) return 0;
+    const arena = arenas[0];
 
-    if (team1Id === tokenId) {
-      return arena.team1_points;
-    }
-    if (team2Id === tokenId) {
-      return arena.team2_points;
-    }
-    return 0;
+    // On vérifie si on est team1 ou team2 pour les validations
+    const isTeam1 = teamNumber === 1;
+    const goal = (() => {
+      switch (goalId) {
+        case "gold_1000":
+          return arena.goal1;
+        case "resources_10000":
+          return arena.goal2;
+        case "craft_10":
+          return arena.goal3;
+        default:
+          return null;
+      }
+    })();
+
+    if (!goal) return 0;
+
+    // On vérifie si notre équipe a validé le goal
+    const hasValidated = isTeam1
+      ? goal.firstValidation === "Team1" || goal.secondValidation === "Team1"
+      : goal.firstValidation === "Team2" || goal.secondValidation === "Team2";
+
+    return hasValidated ? arena.get_goal_points(Number(tokenId), 1) : 0;
   };
 
   const isGoalValidated = () => {
     if (!arenas.length) return false;
-    const arena = arenas[0];
 
     if (goal.id === "arena_victory") {
       return getTeamPoints() >= 1000;
     }
 
-    switch (goal.id) {
-      case "gold_1000":
-        return (
-          arena.goal1.goal_type === "Gold" &&
-          (arena.goal1.first_validation === "Team1" ||
-            arena.goal1.second_validation === "Team1")
-        );
-      case "resources_10000":
-        return (
-          arena.goal2.goal_type === "Wood" &&
-          (arena.goal2.first_validation === "Team1" ||
-            arena.goal2.second_validation === "Team1")
-        );
-      case "craft_10":
-        return (
-          arena.goal3.goal_type === "Food" &&
-          (arena.goal3.first_validation === "Team1" ||
-            arena.goal3.second_validation === "Team1")
-        );
-      default:
-        return false;
-    }
+    return getGoalPoints(goal.id) > 0;
   };
 
   const calculateProgress = () => {
@@ -94,9 +101,10 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
       };
     }
 
+    const points = getGoalPoints(goal.id);
     return {
-      current: isGoalValidated() ? goal.target : goal.current,
-      progress: isGoalValidated() ? 100 : (goal.current / goal.target) * 100,
+      current: points > 0 ? goal.target : goal.current,
+      progress: points > 0 ? 100 : (goal.current / goal.target) * 100,
     };
   };
 
