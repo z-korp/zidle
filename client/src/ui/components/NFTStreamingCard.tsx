@@ -1,6 +1,15 @@
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { ArrowLeft } from "lucide-react";
+import {
+  ArrowLeft,
+  Radio,
+  Sword,
+  Star,
+  Coins,
+  Plus,
+  MessageSquare,
+  Shovel,
+} from "lucide-react";
 import { useCharacter } from "@/hooks/useCharacter";
 import { LoadingDots } from "./LoadingDots";
 import LevelIndicator from "./LevelIndicator";
@@ -57,6 +66,41 @@ export const NFTStreamingCard = ({
 
     return () => clearInterval(interval);
   }, []);
+
+  const getActivityIcon = (text: string) => {
+    if (text.toLowerCase().includes("stream")) {
+      return <Radio className="w-4 h-4 text-green-400" />;
+    }
+    if (
+      text.toLowerCase().includes("battle") ||
+      text.toLowerCase().includes("fight")
+    ) {
+      return <Sword className="w-4 h-4 text-red-400" />;
+    }
+    if (
+      text.toLowerCase().includes("level") ||
+      text.toLowerCase().includes("xp")
+    ) {
+      return <Star className="w-4 h-4 text-yellow-400" />;
+    }
+    if (
+      text.toLowerCase().includes("trade") ||
+      text.toLowerCase().includes("sold") ||
+      text.toLowerCase().includes("bought")
+    ) {
+      return <Coins className="w-4 h-4 text-purple-400" />;
+    }
+    if (
+      text.toLowerCase().includes("mint") ||
+      text.toLowerCase().includes("created")
+    ) {
+      return <Plus className="w-4 h-4 text-pink-400" />;
+    }
+    if (text.toLowerCase().includes("mining")) {
+      return <Shovel className="w-4 h-4 text-blue-400" />;
+    }
+    return <MessageSquare className="w-4 h-4 text-blue-400" />;
+  };
 
   if (!character) {
     return (
@@ -157,9 +201,12 @@ export const NFTStreamingCard = ({
                   .map((event, index) => (
                     <div
                       key={index}
-                      className="text-sm bg-gray-700/30 p-2 rounded flex justify-between items-center"
+                      className="text-sm bg-gray-700/30 p-2 rounded flex items-center gap-2"
                     >
-                      <span className="text-gray-300">
+                      <div className="flex-shrink-0">
+                        {getActivityIcon(eventToString(event))}
+                      </div>
+                      <span className="text-gray-300 flex-grow">
                         {eventToString(event)}
                       </span>
                       <span className="text-xs text-gray-500">
