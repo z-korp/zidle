@@ -10,11 +10,20 @@ import {
 } from "lucide-react";
 import { useArenas } from "@/hooks/useArenas";
 
+/**
+ * Props interface for the GoalProgress component
+ * @property goal - The goal object containing information about the goal
+ * @property tokenId - The NFT token ID used to identify the player
+ */
 interface GoalProgressProps {
   goal: Goal;
   tokenId?: string;
 }
 
+/**
+ * Mapping of goal categories to their respective icons
+ * Each category is represented by a Lucide icon component
+ */
 const GoalIcons = {
   economy: Coins,
   resources: Package,
@@ -23,13 +32,23 @@ const GoalIcons = {
   victory: Trophy,
 };
 
+/**
+ * GoalProgress Component
+ * Displays a single goal's progress with visual indicators and validation status
+ * Handles both regular goals and the ultimate arena victory goal
+ */
 export const GoalProgress: React.FC<GoalProgressProps> = ({
   goal,
   tokenId,
 }) => {
+  // Get arena data for the current NFT
   const { arenas } = useArenas({ tokenId });
   const Icon = GoalIcons[goal.category];
 
+  /**
+   * Determines which team number (1 or 2) the current NFT belongs to in the arena
+   * @returns 1 for team1, 2 for team2, or null if not in an arena
+   */
   const getTeamNumber = () => {
     if (!arenas.length || !tokenId) return null;
     const arena = arenas[0];
@@ -40,19 +59,31 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
     return null;
   };
 
+  /**
+   * Gets the total points accumulated by the player's team in the arena
+   * @returns Total points for the team, or 0 if not in an arena
+   */
   const getTeamPoints = () => {
     if (!arenas.length || !tokenId) return 0;
     const arena = arenas[0];
     return arena.get_total_points(Number(tokenId));
   };
 
+  /**
+   * Calculates points earned for a specific goal
+   * Takes into account which team the player is on and validates accordingly
+   * @param goalId - The ID of the goal to check
+   * @returns Points earned for the goal, or 0 if not validated
+   */
   const getGoalPoints = (goalId: string) => {
     const teamNumber = getTeamNumber();
     if (!arenas.length || !tokenId || !teamNumber) return 0;
     const arena = arenas[0];
 
-    // On vérifie si on est team1 ou team2 pour les validations
+    // Determine which team we're checking for
     const isTeam1 = teamNumber === 1;
+
+    // Get the corresponding goal object based on the goal ID
     const goal = (() => {
       switch (goalId) {
         case "gold_1000":
@@ -68,7 +99,7 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
 
     if (!goal) return 0;
 
-    // On vérifie si notre équipe a validé le goal
+    // Check if the player's team has validated this goal
     const hasValidated = isTeam1
       ? goal.firstValidation === "Team1" || goal.secondValidation === "Team1"
       : goal.firstValidation === "Team2" || goal.secondValidation === "Team2";
@@ -76,6 +107,11 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
     return hasValidated ? arena.get_goal_points(Number(tokenId), 1) : 0;
   };
 
+  /**
+   * Checks if a goal has been validated
+   * For the arena victory goal, checks if total points >= 1000
+   * For other goals, checks if any points have been earned
+   */
   const isGoalValidated = () => {
     if (!arenas.length) return false;
 
@@ -86,6 +122,11 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
     return getGoalPoints(goal.id) > 0;
   };
 
+  /**
+   * Calculates the current progress of a goal
+   * Handles both regular goals and the arena victory goal differently
+   * @returns Object containing current value and progress percentage
+   */
   const calculateProgress = () => {
     if (!arenas.length)
       return {
@@ -111,7 +152,10 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
   const { current, progress } = calculateProgress();
   const validated = isGoalValidated();
 
-  // Ajouter une barre de progression des points d'arène pour le goal ultime
+  /**
+   * Renders the additional progress bar for the arena victory goal
+   * Shows total points progress towards 1000
+   */
   const renderArenaProgress = () => {
     if (!goal.isUltimate) return null;
     const points = getTeamPoints();
@@ -131,6 +175,7 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
     );
   };
 
+  // Render the goal with appropriate styling based on type and validation status
   return (
     <div
       className={`space-y-2 ${
@@ -139,6 +184,7 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
           : ""
       }`}
     >
+      {/* Goal header with icon and progress */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Icon
@@ -165,6 +211,8 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
           />
         </div>
       </div>
+
+      {/* Goal description */}
       <p
         className={`text-xs ${
           goal.isUltimate ? "text-yellow-500" : "text-gray-500"
@@ -172,6 +220,8 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
       >
         {goal.description}
       </p>
+
+      {/* Additional progress bar for arena victory goal */}
       {renderArenaProgress()}
     </div>
   );
