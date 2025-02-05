@@ -41,3 +41,4 @@ private_key = "0x1e5c62853e3189afdfdfcfb2d8ab0a1c372907db6eb1d1e5bf8ff438420adb3
 # Events
 "zidle-Mine" = ["zidle-resources"]
 "zidle-Harvest" = ["zidle-resources"]
+"zidle-Sell" = ["zidle-resources"]

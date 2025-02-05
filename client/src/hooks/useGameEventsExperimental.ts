@@ -44,34 +44,13 @@ export function useGameEventsExperimental() {
       new ToriiQueryBuilder()
         .withClause(
           new ClauseBuilder()
-            .keys(["zidle-Mine", "zidle-Harvest"], [tokenId.toString()])
+            .keys(
+              ["zidle-Mine", "zidle-Harvest", "zidle-Sell"],
+              [tokenId.toString()],
+            )
             .build(),
         )
         .build();
-
-    /**
-     * Fetches all past events for the connected account and specific token_id
-     * This includes all Mine and Harvest events
-     */
-    async function getHistoricalEvents() {
-      try {
-        const events: { [key: string]: ParsedEntity<SchemaType> }[] =
-          await sdk.getEvents(buildQuery(), true); // Indicate we want past events
-
-        const parsedEvents: ParsedGameEvent[] = events
-          .map((event) => {
-            const key = Object.keys(event)[0]; // Get the first (and in this case, the only) key
-            const value = event[key]; // Access the value inside that key
-            return parseGameEvent(value);
-          })
-          .filter((e): e is ParsedGameEvent => e !== undefined);
-
-        setEvents(parsedEvents);
-      } catch (error) {
-        console.error("Error fetching historical events:", error);
-        setEvents([]);
-      }
-    }
 
     /**
      * Sets up a real-time subscription to new events based on token_id
@@ -84,24 +63,23 @@ export function useGameEventsExperimental() {
         [initialData, subscription] = await sdk.subscribeEvents(
           buildQuery(),
           ({ data }: { data: any }) => {
-            const event = data?.[0]?.[0]; // Safely index into double array
-            if (event?.models?.zidle) {
-              const parsed = parseGameEvent(event);
-              if (parsed) {
-                addEvent(parsed);
-              }
+            const parsed = parseGameEvent(data[0]);
+            if (parsed) {
+              addEvent(parsed);
             }
           },
           true,
         );
-        console.log("initialData:", initialData);
+        const parsedEvents: ParsedGameEvent[] = initialData
+          .map((event) => parseGameEvent(event))
+          .filter((e): e is ParsedGameEvent => e !== undefined);
+
+        setEvents(parsedEvents);
       } catch (error) {
         console.error("Error subscribing to events:", error);
       }
     }
 
-    // Initialize both historical and real-time events
-    getHistoricalEvents();
     subscribeToEvents();
 
     // Cleanup subscription on unmount or when token_id changes

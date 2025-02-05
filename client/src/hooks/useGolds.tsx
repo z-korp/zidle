@@ -62,7 +62,7 @@ export const useGolds = (tokenId: number | undefined) => {
 
     // Fetch immediately and then every 2 seconds
     fetchGoldBalance();
-    const intervalId = setInterval(fetchGoldBalance, 2000);
+    const intervalId = setInterval(fetchGoldBalance, 3000);
 
     // Cleanup the interval on component unmount or if dependencies change
     return () => {
