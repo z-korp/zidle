@@ -174,7 +174,7 @@ export const NFTStreamingCard = ({
           </div>
 
           <div className="mt-4">
-            <GoalsSection />
+            <GoalsSection tokenId={character.token_id} />
           </div>
 
           <div className="mt-6">
