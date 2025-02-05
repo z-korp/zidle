@@ -4,6 +4,7 @@ import { GoalProgress } from "./GoalProgress";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useArenas } from "@/hooks/useArenas";
 
 /**
  * GoalsSection Component
@@ -20,6 +21,15 @@ interface GoalsSectionProps {
 export const GoalsSection: React.FC<GoalsSectionProps> = ({ tokenId }) => {
   // State to track if the goals section is expanded or collapsed
   const [isExpanded, setIsExpanded] = useState(true);
+  const { arenas } = useArenas({ tokenId });
+
+  // Filter out the Arena Champion goal if the NFT is not in an arena
+  const filteredGoals = playerGoals.filter((goal) => {
+    if (goal.isUltimate) {
+      return arenas.length > 0;
+    }
+    return true;
+  });
 
   return (
     // Main container card with semi-transparent dark background
@@ -61,7 +71,7 @@ export const GoalsSection: React.FC<GoalsSectionProps> = ({ tokenId }) => {
               className="space-y-4 overflow-hidden"
             >
               {/* Map through all goals and render progress bars */}
-              {playerGoals.map((goal) => (
+              {filteredGoals.map((goal) => (
                 <GoalProgress key={goal.id} goal={goal} tokenId={tokenId} />
               ))}
             </motion.div>
