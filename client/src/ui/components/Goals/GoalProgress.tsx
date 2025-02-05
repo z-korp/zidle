@@ -9,7 +9,6 @@ import {
   Trophy,
 } from "lucide-react";
 import { useArenas } from "@/hooks/useArenas";
-import { useEffect } from "react";
 
 interface GoalProgressProps {
   goal: Goal;
