@@ -19,6 +19,7 @@ def extract_system_addresses(json_data, namespace=None):
         'gold_minter': get_system_tag('gold_minter', namespace),
         'resources': get_system_tag('resources', namespace),
         'settings': get_system_tag('settings', namespace),
+        'pvp': get_system_tag('pvp', namespace),
     }
     
     # Initialize results dictionary

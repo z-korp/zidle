@@ -19,7 +19,7 @@ export function defineContractComponents(world: World) {
           metadata: {
             namespace: VITE_PUBLIC_NAMESPACE,
             name: "Player",
-            types: ["felt252", "felt252", "u64"],
+            types: ["u128", "felt252"],
             customTypes: [],
           },
         },
@@ -47,7 +47,7 @@ export function defineContractComponents(world: World) {
             namespace: VITE_PUBLIC_NAMESPACE,
             name: "Miner",
             types: [
-              "felt252",
+              "u128",
               "u8",
               "u64",
               "u64",
@@ -61,6 +61,61 @@ export function defineContractComponents(world: World) {
               "u64",
             ],
             customTypes: [],
+          },
+        },
+      );
+    })(),
+    Arena: (() => {
+      return defineComponent(
+        world,
+        {
+          id: RecsType.Number,
+          token_id_1: RecsType.BigInt,
+          token_id_2: RecsType.BigInt,
+          is_set: RecsType.Boolean,
+          goal1: {
+            goal_type: RecsType.Number,
+            first_validation: RecsType.Number,
+            second_validation: RecsType.Number,
+          },
+          goal2: {
+            goal_type: RecsType.Number,
+            first_validation: RecsType.Number,
+            second_validation: RecsType.Number,
+          },
+          goal3: {
+            goal_type: RecsType.Number,
+            first_validation: RecsType.Number,
+            second_validation: RecsType.Number,
+          },
+          team1_points: RecsType.Number,
+          team2_points: RecsType.Number,
+        },
+        {
+          metadata: {
+            namespace: VITE_PUBLIC_NAMESPACE,
+            name: "Arena",
+            types: [
+              "u32",
+              "u128",
+              "u128",
+              "bool",
+              "u32",
+              "u32",
+              "u32",
+
+              "u32",
+              "u32",
+              "u32",
+
+              "u32",
+              "u32",
+              "u32",
+
+              "u32",
+              "u32",
+            ],
+            customTypes: ["Team", "GoalType"],
           },
         },
       );

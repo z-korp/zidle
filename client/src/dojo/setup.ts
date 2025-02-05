@@ -43,7 +43,6 @@ export async function setup({ ...config }: Config) {
   console.log(config.manifest);
   console.log(config.rpcUrl);
   const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
-  console.log("qqqq");
 
   const sync = await getSyncEntities(
     toriiClient,

@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x180e55d0357658cb9b48eceeb511331b02024e6db84022a6a3a2be6cf2e4a52",
-      "class_hash": "0x13d1bdcfe9efb9a0da85a0a7a4149797deb3072df715e59b7cf2607579a150b",
+      "address": "0x7065f221124ca95cbba9d863bae35d498e32bfa2a5047a01c5c8dec35e0d1d8",
+      "class_hash": "0x7e61e7e3e759067fa065125861b387d158a2219ee4399aa1da2e5750b431ee3",
       "abi": [
         {
           "type": "impl",
@@ -2062,6 +2062,232 @@
       ]
     },
     {
+      "address": "0x4bc66fb0bc5d4d860b2a59c50530009c3782ab9172c6a2cdb33f3daa1c450ec",
+      "class_hash": "0x69cafff303c20fcec608633bcb4944ee044886167aba10d14ef93c9f50fbea8",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "pvp__ContractImpl",
+          "interface_name": "dojo::contract::interface::IContract"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::interface::IContract",
+          "items": []
+        },
+        {
+          "type": "impl",
+          "name": "pvp__DeployedContractImpl",
+          "interface_name": "dojo::meta::interface::IDeployedResource"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::meta::interface::IDeployedResource",
+          "items": [
+            {
+              "type": "function",
+              "name": "dojo_name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "dojo_init",
+          "inputs": [],
+          "outputs": [],
+          "state_mutability": "external"
+        },
+        {
+          "type": "impl",
+          "name": "PvPImpl",
+          "interface_name": "zidle::systems::pvp::IPvP"
+        },
+        {
+          "type": "interface",
+          "name": "zidle::systems::pvp::IPvP",
+          "items": [
+            {
+              "type": "function",
+              "name": "create_arena",
+              "inputs": [
+                {
+                  "name": "token_id_1",
+                  "type": "core::integer::u128"
+                },
+                {
+                  "name": "token_id_2",
+                  "type": "core::integer::u128"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
+              "name": "validate_goal",
+              "inputs": [
+                {
+                  "name": "token_id",
+                  "type": "core::integer::u128"
+                },
+                {
+                  "name": "arena_id",
+                  "type": "core::integer::u32"
+                },
+                {
+                  "name": "goal_number",
+                  "type": "core::integer::u8"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "WorldProviderImpl",
+          "interface_name": "dojo::contract::components::world_provider::IWorldProvider"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::iworld::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::components::world_provider::IWorldProvider",
+          "items": [
+            {
+              "type": "function",
+              "name": "world_dispatcher",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::world::iworld::IWorldDispatcher"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "UpgradeableImpl",
+          "interface_name": "dojo::contract::components::upgradeable::IUpgradeable"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::components::upgradeable::IUpgradeable",
+          "items": [
+            {
+              "type": "function",
+              "name": "upgrade",
+              "inputs": [
+                {
+                  "name": "new_class_hash",
+                  "type": "core::starknet::class_hash::ClassHash"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "constructor",
+          "name": "constructor",
+          "inputs": []
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::upgradeable::upgradeable_cpt::Upgraded",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "class_hash",
+              "type": "core::starknet::class_hash::ClassHash",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::upgradeable::upgradeable_cpt::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "Upgraded",
+              "type": "dojo::contract::components::upgradeable::upgradeable_cpt::Upgraded",
+              "kind": "nested"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::world_provider::world_provider_cpt::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "zidle::systems::pvp::pvp::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "UpgradeableEvent",
+              "type": "dojo::contract::components::upgradeable::upgradeable_cpt::Event",
+              "kind": "nested"
+            },
+            {
+              "name": "WorldProviderEvent",
+              "type": "dojo::contract::components::world_provider::world_provider_cpt::Event",
+              "kind": "nested"
+            }
+          ]
+        }
+      ],
+      "init_calldata": [],
+      "tag": "zidle-pvp",
+      "selector": "0x4c4037f5a5f08e7043bbed7cb6def7a7d4aeee2133629a2c4b32eff20ced08",
+      "systems": [
+        "dojo_init",
+        "create_arena",
+        "validate_goal",
+        "upgrade"
+      ]
+    },
+    {
       "address": "0x46a51d013617a242a1aacb1bebc2bb55e46f1291e5078e51517907c2983856e",
       "class_hash": "0x68c153bbe6b4483dde3a30f148022473ffaf99b806341b40d4c684fa7cfac60",
       "abi": [
@@ -2564,9 +2790,9 @@
     },
     {
       "members": [],
-      "class_hash": "0x61e20b17eb688398f43de915cf8a0477fb99b2e3e78cb4048f1b80ef8558b95",
-      "tag": "zidle-Char",
-      "selector": "0x29c4e0a394065369fc5547a04bfb1eeb72228a1b71a2a0467e6af647c9fccd5"
+      "class_hash": "0x39a015ec70004cacf864845eacbd4cb1620f056d761856c55cf02f78f4db62d",
+      "tag": "zidle-Arena",
+      "selector": "0x4825940f5c6a52131e1382e731f574c4ee8937c91adf4e4503e3a1e099168df"
     },
     {
       "members": [],
@@ -2576,7 +2802,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x61059f46ded894ba37a3489923b26a08e59201e2dd4e9d3d2e563618a70d67e",
+      "class_hash": "0x7d338bce1dba26033cc9c5a63a3d35f4e367f00e5532966ca60433a85630c8b",
       "tag": "zidle-Player",
       "selector": "0x456cce7df892b7cbd142f072027d3c16b584e8d8814406b9181321f0b12e441"
     },

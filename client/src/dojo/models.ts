@@ -1,6 +1,7 @@
 import { ContractComponents } from "./contractModels";
 import { Player } from "./game/models/player";
 import { Miner } from "./game/models/miner";
+import { Arena } from "./game/models/arena";
 
 export type ClientModels = ReturnType<typeof models>;
 
@@ -16,6 +17,7 @@ export function models({
     classes: {
       Player,
       Miner,
+      Arena,
     },
   };
 }

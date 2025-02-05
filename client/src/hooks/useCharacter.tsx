@@ -4,6 +4,8 @@ import { useMiners } from "./useMiners";
 import { Resource, ResourceType } from "@/dojo/game/types/resource";
 import { Miner } from "@/dojo/game/models/miner";
 import { useGolds } from "./useGolds";
+import { Arena } from "@/dojo/game/models/arena";
+import { useArenas } from "./useArenas";
 
 export interface Character {
   token_id: string;
@@ -16,11 +18,13 @@ export interface Character {
   rockProgress: number;
   foodProgress: number;
   walletAddress: string;
+  arenas: Arena[];
 }
 
 export const useCharacter = (tokenId: string) => {
   const { player } = usePlayer({ tokenId });
   const { miners } = useMiners({ tokenId });
+  const { arenas } = useArenas({ tokenId });
   const { goldBalance, walletAddress } = useGolds(tokenId);
 
   const { character } = useMemo(() => {
@@ -52,6 +56,7 @@ export const useCharacter = (tokenId: string) => {
       miningRessource: activeMiner ? activeMiner.resource : null,
       miners: miners,
       walletAddress: walletAddress ? walletAddress : "",
+      arenas: arenas,
     };
 
     return {

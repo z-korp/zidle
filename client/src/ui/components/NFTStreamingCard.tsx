@@ -10,11 +10,9 @@ import { useEventsStore } from "@/stores/useEventsStore";
 import { DateTime } from "luxon";
 import { useRef, useEffect, useState } from "react";
 import { eventToString } from "@/utils/events";
-import { ButtonVariant } from "../elements/button";
 import GoldImg from "./GoldImg";
 import { Resource } from "@/dojo/game/types/resource";
 import WorkingDiv from "./WorkingDiv";
-import InventoryDiv from "./InventoryDiv";
 import { GoalsSection } from "./Goals/GoalsSection";
 
 interface NFTStreamingCardProps {
@@ -27,6 +25,10 @@ export const NFTStreamingCard = ({
   onBack,
 }: NFTStreamingCardProps) => {
   const { character } = useCharacter(tokenId.toString());
+
+  useEffect(() => {
+    console.log("character", character);
+  }, [character]);
 
   const { events } = useEventsStore();
 

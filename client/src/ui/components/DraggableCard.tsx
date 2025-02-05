@@ -51,7 +51,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   aiAvatarUrl = botAvatar, // Default to bot avatar if none provided
 }) => {
   // WebSocket connection for AI communication
-  const { sendMessage } = useDaydreamsWs();
+  //const { sendMessage } = useDaydreamsWs();
   const {
     position,
     size,
