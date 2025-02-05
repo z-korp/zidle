@@ -111,12 +111,15 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
     const pointsProgress = (points / 1000) * 100;
 
     return (
-      <div className="mt-2 space-y-1">
+      <div className="mt-2 space-y">
         <div className="flex items-center justify-between text-xs">
           <span className="text-yellow-500">Arena Points</span>
           <span className="text-yellow-500">{points} / 1000</span>
         </div>
-        <Progress value={pointsProgress} className="h-1.5 bg-yellow-950/20" />
+        <Progress
+          value={pointsProgress}
+          className="h-1.5 bg-yellow-950/20 mt-2"
+        />
       </div>
     );
   };
@@ -155,18 +158,6 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
           />
         </div>
       </div>
-      <Progress
-        value={progress}
-        className={`h-2 ${
-          goal.isUltimate
-            ? validated
-              ? "bg-yellow-900/20"
-              : "bg-yellow-950/20"
-            : validated
-              ? "bg-green-900/20"
-              : ""
-        }`}
-      />
       <p
         className={`text-xs ${
           goal.isUltimate ? "text-yellow-500" : "text-gray-500"
