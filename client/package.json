@@ -25,7 +25,7 @@
     "@dojoengine/create-burner": "1.0.9",
     "@dojoengine/react": "1.0.10",
     "@dojoengine/recs": "2.0.13",
-    "@dojoengine/sdk": "1.0.12",
+    "@dojoengine/sdk": "1.0.13",
     "@dojoengine/state": "1.0.10",
     "@dojoengine/torii-client": "1.0.10",
     "@dojoengine/utils": "1.0.10",

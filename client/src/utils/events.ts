@@ -9,6 +9,9 @@ export const eventToString = (event: ParsedGameEvent): string => {
   } else if (event.type === "Harvest") {
     const rcs = Resource.from(event.rcsType, event.rcsSubType);
     return `Harvested ${event.amount} ${rcs.getSubresourceName()} (+${event.xp} XP)`;
+  } else if (event.type === "Sell") {
+    const rcs = Resource.from(event.rcsType, event.rcsSubType);
+    return `Sold ${event.amount} ${rcs.getSubresourceName()} for ${event.gold} gold`;
   }
   return "Unknown event";
 };
@@ -30,7 +33,7 @@ export const parseGameEvent = (
 ): ParsedGameEvent | undefined => {
   if (!e.models.zidle) return undefined;
 
-  const { Mine, Harvest } = e.models.zidle;
+  const { Mine, Harvest, Sell } = e.models.zidle;
 
   if (Mine) {
     // Check if all required fields are present
@@ -48,9 +51,7 @@ export const parseGameEvent = (
         timestamp: Mine.timestamp,
       };
     }
-  }
-
-  if (Harvest) {
+  } else if (Harvest) {
     // Check if all required fields are present
     if (
       Harvest.token_id !== undefined &&
@@ -68,6 +69,26 @@ export const parseGameEvent = (
         amount: Harvest.amount,
         xp: Harvest.xp,
         timestamp: Harvest.timestamp,
+      };
+    }
+  } else if (Sell) {
+    // Check if all required fields are present
+    if (
+      Sell.token_id !== undefined &&
+      Sell.rcs_type !== undefined &&
+      Sell.rcs_sub_type !== undefined &&
+      Sell.amount !== undefined &&
+      Sell.gold !== undefined &&
+      Sell.timestamp !== undefined
+    ) {
+      return {
+        type: "Sell",
+        tokenId: bigintToNumber(Sell.token_id),
+        rcsType: Sell.rcs_type,
+        rcsSubType: Sell.rcs_sub_type,
+        amount: Sell.amount,
+        gold: Sell.gold,
+        timestamp: Sell.timestamp,
       };
     }
   }

@@ -1,5 +1,4 @@
 import type { SchemaType as ISchemaType } from "@dojoengine/sdk";
-import { CairoCustomEnum } from "starknet";
 
 type WithFieldOrder<T> = T & { fieldOrder: string[] };
 
@@ -185,6 +184,16 @@ export interface Harvest {
   timestamp: number;
 }
 
+// Type definition for `zidle::events::index::Harvest` struct
+export interface Sell {
+  token_id: bigint;
+  rcs_type: number;
+  rcs_sub_type: number;
+  amount: number;
+  gold: number;
+  timestamp: number;
+}
+
 export const schema: SchemaType = {
   zidle: {
     Mine: {
@@ -210,6 +219,22 @@ export const schema: SchemaType = {
       xp: 0,
       timestamp: 0,
     },
+    Sell: {
+      fieldOrder: [
+        "token_id",
+        "rcs_type",
+        "rcs_sub_type",
+        "amount",
+        "gold",
+        "timestamp",
+      ],
+      token_id: 0n,
+      rcs_type: 0,
+      rcs_sub_type: 0,
+      amount: 0,
+      gold: 0,
+      timestamp: 0,
+    },
   },
 };
 
@@ -227,6 +252,7 @@ export interface SchemaType extends ISchemaType {
   zidle: {
     Mine: WithFieldOrder<Mine>;
     Harvest: WithFieldOrder<Harvest>;
+    Sell: WithFieldOrder<Sell>;
   };
   [key: string]: any;
 }
@@ -249,4 +275,14 @@ interface ParsedHarvest {
   timestamp: number;
 }
 
-export type ParsedGameEvent = ParsedMine | ParsedHarvest;
+interface ParsedSell {
+  type: "Sell";
+  tokenId: number;
+  rcsType: number;
+  rcsSubType: number;
+  amount: number;
+  gold: number;
+  timestamp: number;
+}
+
+export type ParsedGameEvent = ParsedMine | ParsedHarvest | ParsedSell;

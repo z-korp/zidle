@@ -9,4 +9,4 @@ contracts = [
 ]
 
 [events]
-historical = ["zidle-Mine", "zidle-Harvest"]
+historical = ["zidle-Mine", "zidle-Harvest", "zidle-Sell"]
