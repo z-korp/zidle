@@ -21,6 +21,12 @@ starkli invoke 0x7065f221124ca95cbba9d863bae35d498e32bfa2a5047a01c5c8dec35e0d1d8
 **Get TokenID by address**
 starkli call 0x051d88174534ea0e084f1eb6669da78a1e3a0c1fe4fd23542397815385550cd2 selector:token_of_owner_by_index 0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd 1 0
 
+**Get wallet of a character**
+starkli call 0x051d88174534ea0e084f1eb6669da78a1e3a0c1fe4fd23542397815385550cd2 selector:wallet_of 1 0
+
+**Get gold balance**
+starkli call 0x041a8602ddf005594d1a6149325eaa21a103216a15c2883188ee912ed9a59cb0 selector:balance_of 0x27a3d3785f196eff48a0fca952ed7333753ebf523f7f8fc2e85aee730229eba
+
 **Mine/Harvest** 
 starkli invoke <resources_system> selector:mine/harvest <token_id> <rcs> (<subrcs> for mining)
 starkli invoke 0x46a51d013617a242a1aacb1bebc2bb55e46f1291e5078e51517907c2983856e selector:mine 6 1 1

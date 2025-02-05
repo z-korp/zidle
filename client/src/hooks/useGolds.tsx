@@ -32,7 +32,6 @@ export const useGolds = (tokenId: number | undefined) => {
         // Call the "wallet_of" function on your ERC721 contract.
         // Adjust the parameter(s) if your contract expects a different format.
         const ret = await erc721Contract.call("wallet_of", [tokenId]);
-        console.log("Wallet fetch ret:", ret);
         setWalletAddress(BigInt(ret));
       } catch (error) {
         console.error("Error fetching wallet:", error);
@@ -53,7 +52,6 @@ export const useGolds = (tokenId: number | undefined) => {
         const ret = await erc20Contract.call("balance_of", [
           walletAddress.toString(),
         ]);
-        console.log("Gold balance ret:", ret);
         setGoldBalance(Number(ret));
       } catch (error) {
         console.error("Error fetching gold balance:", error);
