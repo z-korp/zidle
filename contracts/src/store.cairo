@@ -14,6 +14,7 @@ use zidle::models::miner::{Miner};
 use zidle::models::token_config::{TokenConfig};
 use zidle::models::settings::{Settings};
 use zidle::models::admin::{Admin};
+use zidle::models::arena::{Arena};
 
 /// Store struct
 #[derive(Copy, Drop)]
@@ -57,6 +58,11 @@ impl StoreImpl of StoreTrait {
         self.world.read_model(address)
     }
 
+    #[inline(always)]
+    fn arena(self: Store, id: u32) -> Arena {
+        self.world.read_model(id)
+    }
+
     // Setters
 
     #[inline(always)]
@@ -82,5 +88,10 @@ impl StoreImpl of StoreTrait {
     #[inline(always)]
     fn set_admin(mut self: Store, admin: Admin) {
         self.world.write_model(@admin)
+    }
+
+    #[inline(always)]
+    fn set_arena(mut self: Store, arena: Arena) {
+        self.world.write_model(@arena)
     }
 }

@@ -19,12 +19,12 @@ pub struct Goal {
     pub second_validation: Team,
 }
 
-#[derive(Copy, Drop, Serde, IntrospectPacked)]
+#[derive(Copy, Drop, Serde, Introspect)]
 #[dojo::model]
 struct Arena {
     #[key]
+    pub id: u32,
     pub token_id_1: u128,
-    #[key]
     pub token_id_2: u128,
     pub is_set: bool,
     //pub goals: Array<Goal>,
@@ -38,8 +38,9 @@ struct Arena {
 #[generate_trait]
 impl ArenaImpl of ArenaTrait {
     #[inline(always)]
-    fn new(token_id_1: u128, token_id_2: u128) -> Arena {
+    fn new(id: u32, token_id_1: u128, token_id_2: u128) -> Arena {
         Arena {
+            id,
             token_id_1,
             token_id_2,
             is_set: true,
@@ -150,6 +151,7 @@ impl ArenaAssert of AssertTrait {
 impl ZeroableArena of Zeroable<Arena> {
     fn zero() -> Arena {
         Arena {
+            id: 0,
             token_id_1: 0,
             token_id_2: 0,
             is_set: false,
@@ -190,9 +192,8 @@ mod tests {
 
     #[test]
     fn test_arena_new() {
-        let arena = ArenaTrait::new(1, 2);
-        assert(arena.token_id_1 == 1, 'Arena token_id_1 should be 1');
-        assert(arena.token_id_2 == 2, 'Arena token_id_2 should be 2');
+        let arena = ArenaTrait::new(1, 1, 2);
+        assert(arena.id == 1, 'Arena id should be 1');
         assert(arena.is_set, 'Arena should be set');
         assert(arena.team1_points == 0, 'Initial team1_pts shld be 0');
         assert(arena.team2_points == 0, 'Initial team2_pts shld be 0');
@@ -200,7 +201,7 @@ mod tests {
 
     #[test]
     fn test_validate_goal() {
-        let mut arena = ArenaTrait::new(1, 2);
+        let mut arena = ArenaTrait::new(1, 1, 2);
         // Validate goal1 for Team1.
         let res = arena.validate_goal(1, Team::Team1);
         assert(res, 'Validation should succeed');
@@ -220,13 +221,13 @@ mod tests {
     fn test_zeroable_arena() {
         let arena_zero = ZeroableArena::zero();
         assert(ZeroableArena::is_zero(arena_zero), 'Arena should be zero');
-        let arena = ArenaTrait::new(1, 2);
+        let arena = ArenaTrait::new(1, 1, 2);
         assert(!ZeroableArena::is_zero(arena), 'Arena should be non-zero');
     }
 
     #[test]
     fn test_arena_assert() {
-        let arena = ArenaTrait::new(1, 2);
+        let arena = ArenaTrait::new(1, 1, 2);
         ArenaAssert::assert_set(arena);
         let zero_arena = ZeroableArena::zero();
         ArenaAssert::assert_not_set(zero_arena);

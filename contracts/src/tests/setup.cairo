@@ -29,6 +29,7 @@ mod setup {
     use zidle::systems::gold_minter::{
         gold_minter, IGoldMinterDispatcher, IGoldMinterDispatcherTrait
     };
+    use zidle::systems::pvp::{pvp, IPvPDispatcher, IPvPDispatcherTrait};
 
     use zidle::tests::mocks::erc20::{
         ERC20, IERC20Dispatcher, IERC20DispatcherTrait, IERC20MinterRoleDispatcher,
@@ -37,6 +38,10 @@ mod setup {
     use zidle::tests::mocks::erc721::{
         ERC721, IERC721Dispatcher, IERC721DispatcherTrait, IERC721MinterRoleDispatcher,
         IERC721MinterRoleDispatcherTrait
+    };
+
+    use openzeppelin::token::erc721::extensions::erc721_enumerable::interface::{
+        IERC721EnumerableDispatcherTrait, IERC721EnumerableDispatcher
     };
 
     // Constants
@@ -57,13 +62,15 @@ mod setup {
         settings: ISettingsDispatcher,
         character_minter: ICharacterMinterDispatcher,
         gold_minter: IGoldMinterDispatcher,
+        pvp: IPvPDispatcher,
     }
 
     #[derive(Drop)]
     struct Context {
         player_address: ContractAddress,
-        player_id: felt252,
         player_name: felt252,
+        player_tokenid1: u128,
+        player_tokenid2: u128,
         owner: ContractAddress,
     }
 
@@ -101,11 +108,13 @@ mod setup {
                 TestResource::Model(zidle::models::player::m_Player::TEST_CLASS_HASH),
                 TestResource::Model(zidle::models::settings::m_Settings::TEST_CLASS_HASH),
                 TestResource::Model(zidle::models::token_config::m_TokenConfig::TEST_CLASS_HASH),
+                TestResource::Model(zidle::models::arena::m_Arena::TEST_CLASS_HASH),
                 TestResource::Contract(settings::TEST_CLASS_HASH),
                 TestResource::Contract(character::TEST_CLASS_HASH),
                 TestResource::Contract(resources::TEST_CLASS_HASH),
                 TestResource::Contract(character_minter::TEST_CLASS_HASH),
                 TestResource::Contract(gold_minter::TEST_CLASS_HASH),
+                TestResource::Contract(pvp::TEST_CLASS_HASH),
                 TestResource::Event(zidle::events::index::e_Mine::TEST_CLASS_HASH),
                 TestResource::Event(zidle::events::index::e_Harvest::TEST_CLASS_HASH),
             ].span(),
@@ -119,6 +128,8 @@ mod setup {
             ContractDefTrait::new(@"zidle", @"character")
                 .with_writer_of([dojo::utils::bytearray_hash(@"zidle")].span()),
             ContractDefTrait::new(@"zidle", @"resources")
+                .with_writer_of([dojo::utils::bytearray_hash(@"zidle")].span()),
+            ContractDefTrait::new(@"zidle", @"pvp")
                 .with_writer_of([dojo::utils::bytearray_hash(@"zidle")].span()),
             ContractDefTrait::new(@"zidle", @"settings")
                 .with_writer_of([dojo::utils::bytearray_hash(@"zidle")].span())
@@ -134,7 +145,7 @@ mod setup {
         ].span()
     }
 
-    fn create_character() -> (WorldStorage, Systems, Context) {
+    fn create_characters() -> (WorldStorage, Systems, Context) {
         let admin_felt: felt252 = ADMIN().into();
         let erc20 = deploy_erc20(admin_felt, admin_felt, admin_felt);
         let erc721 = deploy_erc721(admin_felt, admin_felt, admin_felt, admin_felt);
@@ -152,6 +163,7 @@ mod setup {
         let (settings_address, _) = world.dns(@"settings").unwrap();
         let (character_minter_address, _) = world.dns(@"character_minter").unwrap();
         let (gold_minter_address, _) = world.dns(@"gold_minter").unwrap();
+        let (pvp_address, _) = world.dns(@"pvp").unwrap();
 
         let systems = Systems {
             character: ICharacterDispatcher { contract_address: character_address },
@@ -161,6 +173,7 @@ mod setup {
                 contract_address: character_minter_address
             },
             gold_minter: IGoldMinterDispatcher { contract_address: gold_minter_address },
+            pvp: IPvPDispatcher { contract_address: pvp_address },
         };
 
         impersonate(ADMIN());
@@ -171,13 +184,18 @@ mod setup {
             .update_minter_role(gold_minter_address);
 
         impersonate(PLAYER());
-        systems.character.create(PLAYER_NAME);
+        systems.character.create('char1');
+        systems.character.create('char2');
+
+        let tokens: Array<u256> = get_user_tokens(erc721.contract_address, PLAYER().into());
+        assert(tokens.len() == 2, 'Player should have 2 tokens');
 
         let context = Context {
             player_address: PLAYER(),
-            player_id: PLAYER().into(),
             player_name: PLAYER_NAME,
-            owner: owner,
+            player_tokenid1: (*tokens[0]).try_into().unwrap(),
+            player_tokenid2: (*tokens[1]).try_into().unwrap(),
+            owner,
         };
 
         impersonate(owner);
@@ -188,5 +206,27 @@ mod setup {
     fn impersonate(address: ContractAddress) {
         set_contract_address(address);
         set_account_contract_address(address);
+    }
+
+    fn get_user_tokens(erc721_contract: ContractAddress, owner: ContractAddress,) -> Array<u256> {
+        let erc721_enumerable = IERC721EnumerableDispatcher { contract_address: erc721_contract };
+        let erc721 = IERC721Dispatcher { contract_address: erc721_contract };
+        let balance = erc721.balance_of(owner);
+
+        let mut tokens = ArrayTrait::new();
+        let mut index = 0;
+
+        loop {
+            if index >= balance {
+                break;
+            }
+
+            let token_id = erc721_enumerable.token_of_owner_by_index(owner, index);
+            tokens.append(token_id);
+
+            index += 1;
+        };
+
+        tokens
     }
 }

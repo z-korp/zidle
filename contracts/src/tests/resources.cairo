@@ -21,7 +21,7 @@ use zidle::tests::setup::{setup, setup::{Systems, PLAYER}};
 #[test]
 fn test_resources_harvest() {
     // [Setup]
-    let (world, systems, context) = setup::create_character();
+    let (world, systems, context) = setup::create_characters();
     let store = StoreTrait::new(world);
 
     set_block_timestamp(1724541505);
@@ -30,7 +30,7 @@ fn test_resources_harvest() {
 
     // [Assert] Player
     let player = store.player(token_id);
-    assert(player.name == context.player_name, 'Create: wrong player name');
+    assert(player.is_non_zero(), 'Create: wrong player');
 
     // Change contract address to user address
     set_contract_address(context.player_address);

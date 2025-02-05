@@ -47,6 +47,7 @@ mod systems {
     mod gold_minter;
     mod resources;
     mod settings;
+    mod pvp;
 }
 
 mod types {
@@ -58,6 +59,7 @@ mod types {
 mod tests {
     mod setup;
     mod resources;
+    mod pvp;
     mod mocks {
         mod erc20;
         mod erc721;
