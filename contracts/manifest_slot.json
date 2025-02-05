@@ -2289,7 +2289,7 @@
     },
     {
       "address": "0x46a51d013617a242a1aacb1bebc2bb55e46f1291e5078e51517907c2983856e",
-      "class_hash": "0x68c153bbe6b4483dde3a30f148022473ffaf99b806341b40d4c684fa7cfac60",
+      "class_hash": "0x2aff0c4d0b8d818429d7d9c3af684211234a31e552ba7befcf075dc843acbeb",
       "abi": [
         {
           "type": "impl",
@@ -2831,6 +2831,12 @@
       "class_hash": "0x3907e67af75fe9d200f363641e738a32b2c2750dfbf6d6fc99aefe19855b377",
       "tag": "zidle-Mine",
       "selector": "0x65bfbff5217b7d88f04a4a3bcb292601d2c84e28d0dc99bc6a629bde1479a4a"
+    },
+    {
+      "members": [],
+      "class_hash": "0x541753a171edee7d0dc31e8e9fb1f93d45c35fcfe74a278212dda1b2a6fe7e8",
+      "tag": "zidle-Sell",
+      "selector": "0x154d0ea4ed936a4b2d8718bac8dad204fd9978d2c5ae62702e481f79dcd1717"
     }
   ]
 }

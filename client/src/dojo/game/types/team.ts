@@ -18,7 +18,7 @@ export class TeamHelper {
     }
   }
 
-  public static from_string(value: string): Team {
+  public static fromString(value: string): Team {
     return Team[value as keyof typeof Team];
   }
 }

@@ -1,63 +1,77 @@
-import { useDojo } from "@/dojo/useDojo";
 import { useEffect, useState } from "react";
-import { useEntityQuery } from "@dojoengine/react";
-import { getComponentValue, HasValue } from "@dojoengine/recs";
+import { useContract } from "@starknet-react/core";
+import { erc721ABI } from "@/utils/erc721";
+import { erc20ABI } from "@/utils/erc20"; // make sure you have your ERC20 ABI defined
 
 const {
   VITE_PUBLIC_GOLD_ERC20_TOKEN_ADDRESS,
   VITE_PUBLIC_CHARACTER_ERC721_TOKEN_ADDRESS,
 } = import.meta.env;
 
-export const useGolds = (tokenId: string | undefined) => {
-  const {
-    setup: {
-      clientModels: {
-        models: { ERC721Wallet, ERC20Balance },
-      },
-    },
-  } = useDojo();
-
+export const useGolds = (tokenId: number | undefined) => {
   const [goldBalance, setGoldBalance] = useState<number>(0);
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [walletAddress, setWalletAddress] = useState<bigint | null>(null);
 
-  // Query to get the wallet address for the given token ID
-  const walletKeys = useEntityQuery([
-    HasValue(ERC721Wallet, {
-      token: BigInt(VITE_PUBLIC_CHARACTER_ERC721_TOKEN_ADDRESS),
-      token_id: Number(tokenId) || 0,
-    }),
-  ]);
+  // Setup contract instances for both ERC721 (character) and ERC20 (gold)
+  const { contract: erc721Contract } = useContract({
+    abi: erc721ABI,
+    address: VITE_PUBLIC_CHARACTER_ERC721_TOKEN_ADDRESS,
+  });
 
-  // Effect to set the wallet address when we get it
+  const { contract: erc20Contract } = useContract({
+    abi: erc20ABI,
+    address: VITE_PUBLIC_GOLD_ERC20_TOKEN_ADDRESS,
+  });
+
+  // Fetch the wallet associated with the token (one time, when tokenId or erc721Contract changes)
   useEffect(() => {
-    const walletComponent =
-      walletKeys.length > 0
-        ? getComponentValue(ERC721Wallet, walletKeys[0])
-        : null;
-    if (walletComponent) {
-      setWalletAddress("0x" + walletComponent.address.toString(16));
-    }
-  }, [walletKeys]);
+    if (!tokenId || !erc721Contract) return;
 
-  // Query to get the gold balance for the wallet address
-  const balanceKeys = useEntityQuery([
-    HasValue(ERC20Balance, {
-      token: BigInt(VITE_PUBLIC_GOLD_ERC20_TOKEN_ADDRESS),
-      account: walletAddress ? BigInt(walletAddress) : BigInt(0),
-    }),
-  ]);
+    const fetchWallet = async () => {
+      try {
+        // Call the "wallet_of" function on your ERC721 contract.
+        // Adjust the parameter(s) if your contract expects a different format.
+        const ret = await erc721Contract.call("wallet_of", [tokenId]);
+        console.log("Wallet fetch ret:", ret);
+        setWalletAddress(BigInt(ret));
+      } catch (error) {
+        console.error("Error fetching wallet:", error);
+      }
+    };
 
-  // Effect to set the gold balance when we get it
+    fetchWallet();
+  }, [tokenId, erc721Contract]);
+
+  // Poll the gold balance every 2 seconds once we have a wallet address and the ERC20 contract
   useEffect(() => {
-    const balanceComponent =
-      balanceKeys.length > 0
-        ? getComponentValue(ERC20Balance, balanceKeys[0])
-        : null;
-    if (balanceComponent) {
-      console.log(balanceComponent);
-      setGoldBalance(Number(balanceComponent.amount.toString()));
-    }
-  }, [balanceKeys]);
+    if (!walletAddress || !erc20Contract) return;
 
-  return { goldBalance, walletAddress };
+    const fetchGoldBalance = async () => {
+      try {
+        // Call the "balance_of" function on your ERC20 contract.
+        // The walletAddress is converted to a string as required by the call.
+        const ret = await erc20Contract.call("balance_of", [
+          walletAddress.toString(),
+        ]);
+        console.log("Gold balance ret:", ret);
+        setGoldBalance(Number(ret));
+      } catch (error) {
+        console.error("Error fetching gold balance:", error);
+      }
+    };
+
+    // Fetch immediately and then every 2 seconds
+    fetchGoldBalance();
+    const intervalId = setInterval(fetchGoldBalance, 2000);
+
+    // Cleanup the interval on component unmount or if dependencies change
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [walletAddress, erc20Contract]);
+
+  return {
+    goldBalance,
+    walletAddress: walletAddress ? "0x" + walletAddress.toString(16) : "",
+  };
 };
