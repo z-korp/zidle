@@ -26,6 +26,10 @@ starkli invoke <resources_system> selector:mine/harvest <token_id> <rcs> (<subrc
 starkli invoke 0x46a51d013617a242a1aacb1bebc2bb55e46f1291e5078e51517907c2983856e selector:mine 6 1 1
 starkli invoke 0x46a51d013617a242a1aacb1bebc2bb55e46f1291e5078e51517907c2983856e selector:harvest 6 1
 
+**Sell**
+starkli invoke <resources_system> selector:sell <token_id> <rcs> <subrcs> <amount>
+starkli invoke 0x46a51d013617a242a1aacb1bebc2bb55e46f1291e5078e51517907c2983856e selector:sell 6 1 1 10
+
 **Arena** 
 starkli invoke <pvp_system> selector:create_arena <token_id_1> <token_id_2>
 starkli invoke 0x4bc66fb0bc5d4d860b2a59c50530009c3782ab9172c6a2cdb33f3daa1c450ec selector:create_arena 6 7

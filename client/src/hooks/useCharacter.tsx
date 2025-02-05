@@ -25,7 +25,7 @@ export const useCharacter = (tokenId: string) => {
   const { player } = usePlayer({ tokenId });
   const { miners } = useMiners({ tokenId });
   const { arenas } = useArenas({ tokenId });
-  const { goldBalance, walletAddress } = useGolds(tokenId);
+  const { goldBalance, walletAddress } = useGolds(Number(tokenId));
 
   const { character } = useMemo(() => {
     if (!player) {

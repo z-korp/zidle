@@ -21,3 +21,15 @@ pub struct Harvest {
     pub xp: u64,
     pub timestamp: u64,
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event(historical: true)]
+pub struct Sell {
+    #[key]
+    pub token_id: u128,
+    pub rcs_type: u8,
+    pub rcs_sub_type: u8,
+    pub amount: u64,
+    pub gold: u64,
+    pub timestamp: u64,
+}

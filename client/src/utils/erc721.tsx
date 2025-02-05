@@ -31,92 +31,92 @@ export const erc721ABI = [
     state_mutability: "external",
   },
   {
-    type: "function",
-    name: "minter_mint",
-    inputs: [
-      {
-        name: "recipient",
-        type: "core::starknet::contract_address::ContractAddress",
-      },
-    ],
-    outputs: [],
-    state_mutability: "external",
-  },
-  {
-    type: "function",
-    name: "public_mint_from",
-    inputs: [
-      {
-        name: "recipient",
-        type: "core::starknet::contract_address::ContractAddress",
-      },
-      {
-        name: "caller",
-        type: "core::starknet::contract_address::ContractAddress",
-      },
-    ],
-    outputs: [],
-    state_mutability: "external",
-  },
-  {
-    type: "function",
-    name: "public_mint",
-    inputs: [
-      {
-        name: "recipient",
-        type: "core::starknet::contract_address::ContractAddress",
-      },
-    ],
-    outputs: [],
-    state_mutability: "external",
-  },
-  {
-    type: "function",
-    name: "update_mint_price",
-    inputs: [{ name: "new_price", type: "core::integer::u256" }],
-    outputs: [],
-    state_mutability: "external",
-  },
-  {
-    type: "function",
-    name: "get_purchase_price",
-    inputs: [{ name: "token_id", type: "core::integer::u256" }],
-    outputs: [{ type: "core::integer::u256" }],
-    state_mutability: "view",
-  },
-  {
-    type: "function",
-    name: "get_mint_price",
-    inputs: [],
-    outputs: [{ type: "core::integer::u256" }],
-    state_mutability: "view",
-  },
-  {
-    type: "enum",
-    name: "core::bool",
-    variants: [
-      { name: "False", type: "()" },
-      { name: "True", type: "()" },
-    ],
-  },
-  {
-    type: "function",
-    name: "get_is_paused",
-    inputs: [],
-    outputs: [{ type: "core::bool" }],
-    state_mutability: "view",
-  },
-  {
-    type: "impl",
-    name: "ERC721MixinImpl",
-    interface_name: "openzeppelin_token::erc721::interface::ERC721ABI",
-  },
-  {
     type: "struct",
     name: "core::array::Span::<core::felt252>",
     members: [
       { name: "snapshot", type: "@core::array::Array::<core::felt252>" },
     ],
+  },
+  {
+    type: "function",
+    name: "safe_mint",
+    inputs: [
+      {
+        name: "recipient",
+        type: "core::starknet::contract_address::ContractAddress",
+      },
+      { name: "token_id", type: "core::integer::u256" },
+      { name: "data", type: "core::array::Span::<core::felt252>" },
+    ],
+    outputs: [],
+    state_mutability: "external",
+  },
+  {
+    type: "function",
+    name: "safeMint",
+    inputs: [
+      {
+        name: "recipient",
+        type: "core::starknet::contract_address::ContractAddress",
+      },
+      { name: "tokenId", type: "core::integer::u256" },
+      { name: "data", type: "core::array::Span::<core::felt252>" },
+    ],
+    outputs: [],
+    state_mutability: "external",
+  },
+  {
+    type: "function",
+    name: "mint",
+    inputs: [
+      {
+        name: "recipient",
+        type: "core::starknet::contract_address::ContractAddress",
+      },
+      { name: "token_id", type: "core::integer::u256" },
+    ],
+    outputs: [],
+    state_mutability: "external",
+  },
+  {
+    type: "function",
+    name: "update_minter_role",
+    inputs: [
+      {
+        name: "new_minter",
+        type: "core::starknet::contract_address::ContractAddress",
+      },
+    ],
+    outputs: [],
+    state_mutability: "external",
+  },
+  {
+    type: "impl",
+    name: "UpgradeableImpl",
+    interface_name: "openzeppelin_upgrades::interface::IUpgradeable",
+  },
+  {
+    type: "interface",
+    name: "openzeppelin_upgrades::interface::IUpgradeable",
+    items: [
+      {
+        type: "function",
+        name: "upgrade",
+        inputs: [
+          {
+            name: "new_class_hash",
+            type: "core::starknet::class_hash::ClassHash",
+          },
+        ],
+        outputs: [],
+        state_mutability: "external",
+      },
+    ],
+  },
+  {
+    type: "impl",
+    name: "ERC721MetadataImpl",
+    interface_name: "openzeppelin_token::erc721::interface::IERC721Metadata",
   },
   {
     type: "struct",
@@ -132,7 +132,66 @@ export const erc721ABI = [
   },
   {
     type: "interface",
-    name: "openzeppelin_token::erc721::interface::ERC721ABI",
+    name: "openzeppelin_token::erc721::interface::IERC721Metadata",
+    items: [
+      {
+        type: "function",
+        name: "name",
+        inputs: [],
+        outputs: [{ type: "core::byte_array::ByteArray" }],
+        state_mutability: "view",
+      },
+      {
+        type: "function",
+        name: "symbol",
+        inputs: [],
+        outputs: [{ type: "core::byte_array::ByteArray" }],
+        state_mutability: "view",
+      },
+      {
+        type: "function",
+        name: "token_uri",
+        inputs: [{ name: "token_id", type: "core::integer::u256" }],
+        outputs: [{ type: "core::byte_array::ByteArray" }],
+        state_mutability: "view",
+      },
+    ],
+  },
+  {
+    type: "impl",
+    name: "ERC721MetadataCamelOnlyImpl",
+    interface_name:
+      "openzeppelin_token::erc721::interface::IERC721MetadataCamelOnly",
+  },
+  {
+    type: "interface",
+    name: "openzeppelin_token::erc721::interface::IERC721MetadataCamelOnly",
+    items: [
+      {
+        type: "function",
+        name: "tokenURI",
+        inputs: [{ name: "tokenId", type: "core::integer::u256" }],
+        outputs: [{ type: "core::byte_array::ByteArray" }],
+        state_mutability: "view",
+      },
+    ],
+  },
+  {
+    type: "impl",
+    name: "ERC721Impl",
+    interface_name: "openzeppelin_token::erc721::interface::IERC721",
+  },
+  {
+    type: "enum",
+    name: "core::bool",
+    variants: [
+      { name: "False", type: "()" },
+      { name: "True", type: "()" },
+    ],
+  },
+  {
+    type: "interface",
+    name: "openzeppelin_token::erc721::interface::IERC721",
     items: [
       {
         type: "function",
@@ -241,34 +300,56 @@ export const erc721ABI = [
         outputs: [{ type: "core::bool" }],
         state_mutability: "view",
       },
+    ],
+  },
+  {
+    type: "impl",
+    name: "ERC721EnumerableImpl",
+    interface_name:
+      "openzeppelin_token::erc721::extensions::erc721_enumerable::interface::IERC721Enumerable",
+  },
+  {
+    type: "interface",
+    name: "openzeppelin_token::erc721::extensions::erc721_enumerable::interface::IERC721Enumerable",
+    items: [
       {
         type: "function",
-        name: "supports_interface",
-        inputs: [{ name: "interface_id", type: "core::felt252" }],
-        outputs: [{ type: "core::bool" }],
-        state_mutability: "view",
-      },
-      {
-        type: "function",
-        name: "name",
+        name: "total_supply",
         inputs: [],
-        outputs: [{ type: "core::byte_array::ByteArray" }],
+        outputs: [{ type: "core::integer::u256" }],
         state_mutability: "view",
       },
       {
         type: "function",
-        name: "symbol",
-        inputs: [],
-        outputs: [{ type: "core::byte_array::ByteArray" }],
+        name: "token_by_index",
+        inputs: [{ name: "index", type: "core::integer::u256" }],
+        outputs: [{ type: "core::integer::u256" }],
         state_mutability: "view",
       },
       {
         type: "function",
-        name: "token_uri",
-        inputs: [{ name: "token_id", type: "core::integer::u256" }],
-        outputs: [{ type: "core::byte_array::ByteArray" }],
+        name: "token_of_owner_by_index",
+        inputs: [
+          {
+            name: "owner",
+            type: "core::starknet::contract_address::ContractAddress",
+          },
+          { name: "index", type: "core::integer::u256" },
+        ],
+        outputs: [{ type: "core::integer::u256" }],
         state_mutability: "view",
       },
+    ],
+  },
+  {
+    type: "impl",
+    name: "ERC721CamelOnlyImpl",
+    interface_name: "openzeppelin_token::erc721::interface::IERC721CamelOnly",
+  },
+  {
+    type: "interface",
+    name: "openzeppelin_token::erc721::interface::IERC721CamelOnly",
+    items: [
       {
         type: "function",
         name: "balanceOf",
@@ -361,13 +442,6 @@ export const erc721ABI = [
           },
         ],
         outputs: [{ type: "core::bool" }],
-        state_mutability: "view",
-      },
-      {
-        type: "function",
-        name: "tokenURI",
-        inputs: [{ name: "tokenId", type: "core::integer::u256" }],
-        outputs: [{ type: "core::byte_array::ByteArray" }],
         state_mutability: "view",
       },
     ],
@@ -463,39 +537,92 @@ export const erc721ABI = [
   },
   {
     type: "impl",
-    name: "ERC721EnumerableImpl",
+    name: "AccessControlCamelImpl",
     interface_name:
-      "openzeppelin_token::erc721::extensions::erc721_enumerable::interface::IERC721Enumerable",
+      "openzeppelin_access::accesscontrol::interface::IAccessControlCamel",
   },
   {
     type: "interface",
-    name: "openzeppelin_token::erc721::extensions::erc721_enumerable::interface::IERC721Enumerable",
+    name: "openzeppelin_access::accesscontrol::interface::IAccessControlCamel",
     items: [
       {
         type: "function",
-        name: "total_supply",
-        inputs: [],
-        outputs: [{ type: "core::integer::u256" }],
-        state_mutability: "view",
-      },
-      {
-        type: "function",
-        name: "token_by_index",
-        inputs: [{ name: "index", type: "core::integer::u256" }],
-        outputs: [{ type: "core::integer::u256" }],
-        state_mutability: "view",
-      },
-      {
-        type: "function",
-        name: "token_of_owner_by_index",
+        name: "hasRole",
         inputs: [
+          { name: "role", type: "core::felt252" },
           {
-            name: "owner",
+            name: "account",
             type: "core::starknet::contract_address::ContractAddress",
           },
-          { name: "index", type: "core::integer::u256" },
         ],
-        outputs: [{ type: "core::integer::u256" }],
+        outputs: [{ type: "core::bool" }],
+        state_mutability: "view",
+      },
+      {
+        type: "function",
+        name: "getRoleAdmin",
+        inputs: [{ name: "role", type: "core::felt252" }],
+        outputs: [{ type: "core::felt252" }],
+        state_mutability: "view",
+      },
+      {
+        type: "function",
+        name: "grantRole",
+        inputs: [
+          { name: "role", type: "core::felt252" },
+          {
+            name: "account",
+            type: "core::starknet::contract_address::ContractAddress",
+          },
+        ],
+        outputs: [],
+        state_mutability: "external",
+      },
+      {
+        type: "function",
+        name: "revokeRole",
+        inputs: [
+          { name: "role", type: "core::felt252" },
+          {
+            name: "account",
+            type: "core::starknet::contract_address::ContractAddress",
+          },
+        ],
+        outputs: [],
+        state_mutability: "external",
+      },
+      {
+        type: "function",
+        name: "renounceRole",
+        inputs: [
+          { name: "role", type: "core::felt252" },
+          {
+            name: "account",
+            type: "core::starknet::contract_address::ContractAddress",
+          },
+        ],
+        outputs: [],
+        state_mutability: "external",
+      },
+    ],
+  },
+  {
+    type: "impl",
+    name: "ERC721WalletImpl",
+    interface_name:
+      "character_erc721::components::erc721_wallet::IERC721Wallet",
+  },
+  {
+    type: "interface",
+    name: "character_erc721::components::erc721_wallet::IERC721Wallet",
+    items: [
+      {
+        type: "function",
+        name: "wallet_of",
+        inputs: [{ name: "token_id", type: "core::integer::u256" }],
+        outputs: [
+          { type: "core::starknet::contract_address::ContractAddress" },
+        ],
         state_mutability: "view",
       },
     ],
@@ -513,27 +640,11 @@ export const erc721ABI = [
         type: "core::starknet::contract_address::ContractAddress",
       },
       {
-        name: "erc20_token",
+        name: "minter",
         type: "core::starknet::contract_address::ContractAddress",
       },
       {
-        name: "tournament_system",
-        type: "core::starknet::contract_address::ContractAddress",
-      },
-      {
-        name: "chest_system",
-        type: "core::starknet::contract_address::ContractAddress",
-      },
-      {
-        name: "zkorp_system",
-        type: "core::starknet::contract_address::ContractAddress",
-      },
-      {
-        name: "play_system",
-        type: "core::starknet::contract_address::ContractAddress",
-      },
-      {
-        name: "minter_system",
+        name: "upgrader",
         type: "core::starknet::contract_address::ContractAddress",
       },
     ],
@@ -741,7 +852,37 @@ export const erc721ABI = [
   },
   {
     type: "event",
-    name: "game_erc721::ZKubeCredits::Event",
+    name: "openzeppelin_upgrades::upgradeable::UpgradeableComponent::Upgraded",
+    kind: "struct",
+    members: [
+      {
+        name: "class_hash",
+        type: "core::starknet::class_hash::ClassHash",
+        kind: "data",
+      },
+    ],
+  },
+  {
+    type: "event",
+    name: "openzeppelin_upgrades::upgradeable::UpgradeableComponent::Event",
+    kind: "enum",
+    variants: [
+      {
+        name: "Upgraded",
+        type: "openzeppelin_upgrades::upgradeable::UpgradeableComponent::Upgraded",
+        kind: "nested",
+      },
+    ],
+  },
+  {
+    type: "event",
+    name: "character_erc721::components::erc721_wallet::Erc721WalletComponent::Event",
+    kind: "enum",
+    variants: [],
+  },
+  {
+    type: "event",
+    name: "character_erc721::CharacterErc721::Event",
     kind: "enum",
     variants: [
       {
@@ -767,6 +908,16 @@ export const erc721ABI = [
       {
         name: "ERC721EnumerableEvent",
         type: "openzeppelin_token::erc721::extensions::erc721_enumerable::erc721_enumerable::ERC721EnumerableComponent::Event",
+        kind: "flat",
+      },
+      {
+        name: "UpgradeableEvent",
+        type: "openzeppelin_upgrades::upgradeable::UpgradeableComponent::Event",
+        kind: "flat",
+      },
+      {
+        name: "ERC721WalletEvent",
+        type: "character_erc721::components::erc721_wallet::Erc721WalletComponent::Event",
         kind: "flat",
       },
     ],

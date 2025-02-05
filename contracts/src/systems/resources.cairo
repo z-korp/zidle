@@ -28,7 +28,7 @@ mod resources {
     // Local imports
 
     use super::{IResources, WorldStorage, EventStorage};
-    use zidle::events::index::{Mine, Harvest};
+    use zidle::events::index::{Mine, Harvest, Sell};
     use zidle::store::{Store, StoreTrait};
     use zidle::models::miner::{MinerImpl, MinerAssert, ZeroableMinerImpl};
     use zidle::helpers::level::{XpLevel};
@@ -114,7 +114,7 @@ mod resources {
             miner.assert_exists();
 
             // [Effect] Harvest
-            let (rcs_type, rcs_sub_type, amount, xp) = miner
+            let (rcs_type, rcs_sub_type, xp, amount) = miner
                 .harvest(get_block_timestamp(), XpLevel::get_level_from_xp(miner.xp));
 
             // [Effect] Update miner
@@ -171,6 +171,18 @@ mod resources {
                 .mint(nft_wallet_address, tokens.into(), settings.gold_erc20_address);
 
             store.set_miner(miner);
+
+            world
+                .emit_event(
+                    @Sell {
+                        token_id,
+                        rcs_type,
+                        rcs_sub_type,
+                        amount,
+                        gold: tokens,
+                        timestamp: get_block_timestamp()
+                    }
+                );
         }
     }
 
