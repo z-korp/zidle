@@ -15,6 +15,7 @@ import GoldImg from "./GoldImg";
 import { Resource } from "@/dojo/game/types/resource";
 import WorkingDiv from "./WorkingDiv";
 import InventoryDiv from "./InventoryDiv";
+import { GoalsSection } from "./Goals/GoalsSection";
 
 interface NFTStreamingCardProps {
   tokenId: number;
@@ -124,6 +125,10 @@ export const NFTStreamingCard = ({
                 <LevelIndicator currentXP={character?.foodProgress ?? 0} />
               </div>
             </div>
+          </div>
+
+          <div className="mt-4">
+            <GoalsSection />
           </div>
 
           <div className="mt-6">
