@@ -13,7 +13,11 @@ import { motion, AnimatePresence } from "framer-motion";
  * - Progress bars for each goal
  * - Visual feedback for interaction
  */
-export const GoalsSection = () => {
+interface GoalsSectionProps {
+  tokenId?: string;
+}
+
+export const GoalsSection: React.FC<GoalsSectionProps> = ({ tokenId }) => {
   // State to track if the goals section is expanded or collapsed
   const [isExpanded, setIsExpanded] = useState(true);
 
@@ -58,7 +62,7 @@ export const GoalsSection = () => {
             >
               {/* Map through all goals and render progress bars */}
               {playerGoals.map((goal) => (
-                <GoalProgress key={goal.id} goal={goal} />
+                <GoalProgress key={goal.id} goal={goal} tokenId={tokenId} />
               ))}
             </motion.div>
           )}

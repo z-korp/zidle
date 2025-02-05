@@ -33,4 +33,13 @@ export const playerGoals: Goal[] = [
     description: "Complete 10 transactions",
     category: "social",
   },
+  {
+    id: "arena_victory",
+    title: "🏆 Arena Champion 🏆",
+    current: 0,
+    target: 1000,
+    description: "Reach 1000 points to win the arena",
+    category: "victory",
+    isUltimate: true,
+  },
 ];
