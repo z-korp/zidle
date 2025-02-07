@@ -13,7 +13,7 @@ export const MessagesList: React.FC = () => {
   }, [messages]);
 
   return (
-    <ScrollArea className="h-[400px]">
+    <ScrollArea className="h-full min-h-0 flex-1">
       <div className="p-4 space-y-4">
         {messages.map((message, idx) => {
           // Format the timestamp with Luxon
