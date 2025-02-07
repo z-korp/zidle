@@ -140,7 +140,7 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
           arena.goal3.secondValidation === (isTeam1 ? "Team1" : "Team2")
         );
       case "arena_victory":
-        return getTeamPoints() >= 1000;
+        return getTeamPoints() >= 200;
       default:
         return false;
     }
@@ -183,7 +183,7 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
   const renderArenaProgress = () => {
     if (!goal.isUltimate) return null;
     const points = getTeamPoints();
-    const pointsProgress = (points / 1000) * 100;
+    const pointsProgress = (points / 200) * 100;
 
     return (
       <div className="mt-2 space-y">

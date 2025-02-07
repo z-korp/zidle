@@ -35,7 +35,7 @@ export const parseGameEvent = (
 ): ParsedGameEvent | undefined => {
   if (!e.models.zidle) return undefined;
 
-  const { Mine, Harvest, Sell } = e.models.zidle;
+  const { Mine, Harvest, Sell, GoalScored } = e.models.zidle;
 
   if (Mine) {
     // Check if all required fields are present
@@ -91,6 +91,25 @@ export const parseGameEvent = (
         amount: Sell.amount,
         gold: Sell.gold,
         timestamp: Sell.timestamp,
+      };
+    }
+  } else if (GoalScored) {
+    if (
+      GoalScored.token_id !== undefined &&
+      GoalScored.arena_id !== undefined &&
+      GoalScored.goal_number !== undefined &&
+      GoalScored.is_first_validation !== undefined &&
+      GoalScored.points !== undefined &&
+      GoalScored.timestamp !== undefined
+    ) {
+      return {
+        type: "GoalScored",
+        tokenId: bigintToNumber(GoalScored.token_id),
+        arenaId: GoalScored.arena_id,
+        goalNumber: GoalScored.goal_number,
+        isFirstValidation: GoalScored.is_first_validation,
+        points: GoalScored.points,
+        timestamp: GoalScored.timestamp,
       };
     }
   }

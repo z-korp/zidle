@@ -71,7 +71,5 @@ export const useMiners = ({ tokenId }: { tokenId: string | undefined }) => {
     return miners.find((miner) => miner.timestamp !== 0);
   }, [miners]);
 
-  console.log("Miners", tokenId, miners);
-
   return { miners, currentMiner };
 };

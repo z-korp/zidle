@@ -17,7 +17,7 @@ export const MessagesList: React.FC = () => {
 
   return (
     <ScrollArea className="h-full min-h-0 flex-1">
-      <div className="p-0 pb-4 space-y-4">
+      <div className="p-0 space-y-4">
         {messages.map((message, idx) => {
           // Format the timestamp with Luxon
           const formattedTime = DateTime.fromISO(
@@ -84,7 +84,7 @@ export const MessagesList: React.FC = () => {
               break;
             default:
               title = "Message";
-              body = message.message || "";
+              body = message || "";
           }
 
           if (message.type === "action_start") return;
