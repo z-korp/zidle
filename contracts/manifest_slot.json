@@ -2063,7 +2063,7 @@
     },
     {
       "address": "0x4bc66fb0bc5d4d860b2a59c50530009c3782ab9172c6a2cdb33f3daa1c450ec",
-      "class_hash": "0x233433d361a5d50eb81e9ffe5143ff78905dfa5bfbccfa51db85d790be511a4",
+      "class_hash": "0x19c78d2c43fc53d506baf046e2f85eb65c2cf63e8181e5419746c5cf7d69daa",
       "abi": [
         {
           "type": "impl",

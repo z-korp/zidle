@@ -77,7 +77,7 @@ impl ArenaImpl of ArenaTrait {
                 } else if team == Team::Team2 {
                     self.team2_points = self.team2_points + self.goal1.goal_type.points_first();
                 }
-                return (true, true, self.goal3.goal_type.points_first());
+                return (true, true, self.goal1.goal_type.points_first());
             } else if self.goal1.second_validation == Team::None
                 && self.goal1.first_validation != team {
                 self.goal1.second_validation = team;
@@ -86,7 +86,7 @@ impl ArenaImpl of ArenaTrait {
                 } else if team == Team::Team2 {
                     self.team2_points = self.team2_points + self.goal1.goal_type.points_second();
                 }
-                return (true, true, self.goal3.goal_type.points_second());
+                return (true, true, self.goal1.goal_type.points_second());
             }
             return (false, false, 0);
         } else if goal_number == 2 {
@@ -97,7 +97,7 @@ impl ArenaImpl of ArenaTrait {
                 } else if team == Team::Team2 {
                     self.team2_points = self.team2_points + self.goal2.goal_type.points_first();
                 }
-                return (true, true, self.goal3.goal_type.points_first());
+                return (true, true, self.goal2.goal_type.points_first());
             } else if self.goal2.second_validation == Team::None
                 && self.goal2.first_validation != team {
                 self.goal2.second_validation = team;
@@ -106,7 +106,7 @@ impl ArenaImpl of ArenaTrait {
                 } else if team == Team::Team2 {
                     self.team2_points = self.team2_points + self.goal2.goal_type.points_second();
                 }
-                return (true, false, self.goal3.goal_type.points_second());
+                return (true, false, self.goal2.goal_type.points_second());
             }
             return (false, false, 0);
         } else if goal_number == 3 {

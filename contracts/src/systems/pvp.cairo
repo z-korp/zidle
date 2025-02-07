@@ -97,22 +97,26 @@ mod pvp {
             };
 
             if goal.goal_type == GoalType::Gold {
+                // Get wallet address of the character.
+                let wallet_address = character_token_dispatcher.wallet_of(token_id.into());
+
                 // Call the ERC20 gold contract.
                 let gold_dispatcher = ierc20(settings.gold_erc20_address);
-                let balance: u256 = gold_dispatcher.balance_of(owner_address);
-                // You may need to adjust the comparison according to token decimals.
+                let balance: u256 = gold_dispatcher.balance_of(wallet_address);
+                println!("Balance: {}", balance);
+
                 assert(balance >= 50, 'Not enough gold');
             } else if (goal.goal_type == GoalType::Wood) {
                 let miner = store.miner(token_id, 1);
                 assert(miner.rcs_1 >= 50, 'Not enough wood');
             } else if (goal.goal_type == GoalType::Food) {
                 let miner = store.miner(token_id, 2);
-                assert(miner.rcs_2 >= 50, 'Not enough food');
+                assert(miner.rcs_1 >= 50, 'Not enough food');
             }
 
             // Call the arena's validate_goal method.
             let (is_validated, is_first_validation, points) = arena
-                .validate_goal(goal_number, Team::Team1);
+                .validate_goal(goal_number, team);
             assert(is_validated, 'Goal validation failed.');
 
             world
