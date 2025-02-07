@@ -1,4 +1,4 @@
-import type { SchemaType as ISchemaType } from "@dojoengine/sdk";
+import type { SchemaType as ISchemaType, SchemaType } from "@dojoengine/sdk";
 
 type WithFieldOrder<T> = T & { fieldOrder: string[] };
 
@@ -194,6 +194,16 @@ export interface Sell {
   timestamp: number;
 }
 
+// Type definition for `zidle::events::index::GoalScored` struct
+export interface GoalScored {
+  token_id: bigint;
+  arena_id: number;
+  goal_number: number;
+  is_first_validation: boolean;
+  points: number;
+  timestamp: number;
+}
+
 export const schema: SchemaType = {
   zidle: {
     Mine: {
@@ -235,6 +245,22 @@ export const schema: SchemaType = {
       gold: 0,
       timestamp: 0,
     },
+    GoalScored: {
+      fieldOrder: [
+        "token_id",
+        "arena_id",
+        "goal_number",
+        "is_first_validation",
+        "points",
+        "timestamp",
+      ],
+      token_id: 0n,
+      arena_id: 0,
+      goal_number: 0,
+      is_first_validation: false,
+      points: 0,
+      timestamp: 0,
+    },
   },
 };
 
@@ -253,6 +279,7 @@ export interface SchemaType extends ISchemaType {
     Mine: WithFieldOrder<Mine>;
     Harvest: WithFieldOrder<Harvest>;
     Sell: WithFieldOrder<Sell>;
+    GoalScored: WithFieldOrder<GoalScored>;
   };
   [key: string]: any;
 }
@@ -285,4 +312,18 @@ interface ParsedSell {
   timestamp: number;
 }
 
-export type ParsedGameEvent = ParsedMine | ParsedHarvest | ParsedSell;
+interface ParsedGoalScored {
+  type: "GoalScored";
+  tokenId: number;
+  arenaId: number;
+  goalNumber: number;
+  isFirstValidation: boolean;
+  points: number;
+  timestamp: number;
+}
+
+export type ParsedGameEvent =
+  | ParsedMine
+  | ParsedHarvest
+  | ParsedSell
+  | ParsedGoalScored;

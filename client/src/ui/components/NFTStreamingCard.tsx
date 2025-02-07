@@ -10,6 +10,7 @@ import {
   MessageSquare,
   Shovel,
   ChevronDown,
+  Goal,
 } from "lucide-react";
 import { useCharacter } from "@/hooks/useCharacter";
 import { LoadingDots } from "./LoadingDots";
@@ -158,6 +159,9 @@ export const NFTStreamingCard = ({
     }
     if (text.toLowerCase().includes("mining")) {
       return <Shovel className="w-4 h-4 text-blue-400" />;
+    }
+    if (text.toLocaleLowerCase().includes("goal")) {
+      return <Goal className="w-4 h-4 text-red-500" />;
     }
     return <MessageSquare className="w-4 h-4 text-blue-400" />;
   };

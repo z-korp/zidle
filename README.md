@@ -42,6 +42,13 @@ starkli invoke 0x4bc66fb0bc5d4d860b2a59c50530009c3782ab9172c6a2cdb33f3daa1c450ec
 
 starkli invoke <pvp_system> selector:validate_goal <token_id> <arena_id> <goal_number>
 starkli invoke 0x4bc66fb0bc5d4d860b2a59c50530009c3782ab9172c6a2cdb33f3daa1c450ec selector:validate_goal 6 1 1
+
+starkli call <pvp_system> selector:get_goals_status <token_id> <arena_id> 
+starkli call 0x4bc66fb0bc5d4d860b2a59c50530009c3782ab9172c6a2cdb33f3daa1c450ec selector:get_goals_status 2 1
+
+starkli call <pvp_system> selector:is_goal_validated  <token_id> <arena_id> <goal_number>
+starkli call 0x4bc66fb0bc5d4d860b2a59c50530009c3782ab9172c6a2cdb33f3daa1c450ec selector:is_goal_validated 2 1 1
+
 **Goals numbers:** 
 1) Gold > 50
 2) Wood > 50

@@ -2063,7 +2063,7 @@
     },
     {
       "address": "0x4bc66fb0bc5d4d860b2a59c50530009c3782ab9172c6a2cdb33f3daa1c450ec",
-      "class_hash": "0x69cafff303c20fcec608633bcb4944ee044886167aba10d14ef93c9f50fbea8",
+      "class_hash": "0x233433d361a5d50eb81e9ffe5143ff78905dfa5bfbccfa51db85d790be511a4",
       "abi": [
         {
           "type": "impl",
@@ -2128,6 +2128,20 @@
           "interface_name": "zidle::systems::pvp::IPvP"
         },
         {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
           "type": "interface",
           "name": "zidle::systems::pvp::IPvP",
           "items": [
@@ -2166,6 +2180,50 @@
               ],
               "outputs": [],
               "state_mutability": "external"
+            },
+            {
+              "type": "function",
+              "name": "is_goal_validated",
+              "inputs": [
+                {
+                  "name": "token_id",
+                  "type": "core::integer::u128"
+                },
+                {
+                  "name": "arena_id",
+                  "type": "core::integer::u32"
+                },
+                {
+                  "name": "goal_number",
+                  "type": "core::integer::u8"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::bool"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "get_goals_status",
+              "inputs": [
+                {
+                  "name": "token_id",
+                  "type": "core::integer::u128"
+                },
+                {
+                  "name": "arena_id",
+                  "type": "core::integer::u32"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "(core::bool, core::bool, core::bool)"
+                }
+              ],
+              "state_mutability": "view"
             }
           ]
         },
@@ -2820,6 +2878,12 @@
     }
   ],
   "events": [
+    {
+      "members": [],
+      "class_hash": "0x76b888f2cf300a6ac7e0b3ea9d07b995f29b18ff538641aaee31887308b7c3b",
+      "tag": "zidle-GoalScored",
+      "selector": "0x40802858182b4bb4c36f7340d57d01d09a2168b3892584748747125ee385674"
+    },
     {
       "members": [],
       "class_hash": "0x26367e2aa44dd5e660d7236aab02651ea37b388116e90c54412230cbf3e9362",

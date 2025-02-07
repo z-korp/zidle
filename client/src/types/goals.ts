@@ -4,5 +4,6 @@ export interface Goal {
   current: number;
   target: number;
   description: string;
-  category: "economy" | "resources" | "crafting" | "social";
+  category: "economy" | "resources" | "crafting" | "social" | "victory";
+  isUltimate?: boolean;
 }

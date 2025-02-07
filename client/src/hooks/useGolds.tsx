@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useContract } from "@starknet-react/core";
 import { erc721ABI } from "@/utils/erc721";
 import { erc20ABI } from "@/utils/erc20"; // make sure you have your ERC20 ABI defined
+import { useGoalStore } from "@/stores/useGoalStore";
 
 const {
   VITE_PUBLIC_GOLD_ERC20_TOKEN_ADDRESS,
@@ -11,6 +12,7 @@ const {
 export const useGolds = (tokenId: number | undefined) => {
   const [goldBalance, setGoldBalance] = useState<number>(0);
   const [walletAddress, setWalletAddress] = useState<bigint | null>(null);
+  const { setGoldAmount } = useGoalStore();
 
   // Setup contract instances for both ERC721 (character) and ERC20 (gold)
   const { contract: erc721Contract } = useContract({
@@ -67,6 +69,10 @@ export const useGolds = (tokenId: number | undefined) => {
       clearInterval(intervalId);
     };
   }, [walletAddress, erc20Contract]);
+
+  useEffect(() => {
+    setGoldAmount(goldBalance);
+  }, [goldBalance, setGoldAmount]);
 
   return {
     goldBalance,

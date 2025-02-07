@@ -7,6 +7,9 @@ import {
   Has,
   HasValue,
 } from "@dojoengine/recs";
+import { useGoalStore } from "@/stores/useGoalStore";
+import { WoodType } from "@/dojo/game/elements/resources/wood";
+import { FoodType } from "@/dojo/game/elements/resources/food";
 
 export const useMiners = ({ tokenId }: { tokenId: string | undefined }) => {
   const {
@@ -17,6 +20,8 @@ export const useMiners = ({ tokenId }: { tokenId: string | undefined }) => {
       },
     },
   } = useDojo();
+
+  const { setBerriesAmount, setPineAmount } = useGoalStore();
 
   type MinerInstance = InstanceType<typeof MinerClass>;
 
@@ -30,11 +35,10 @@ export const useMiners = ({ tokenId }: { tokenId: string | undefined }) => {
   useEffect(() => {
     const components = minerKeys.map((entity) => {
       const component = getComponentValue(Miner, entity);
-      if (!component) {
-        return undefined;
-      }
+      if (!component) return undefined;
       return component;
     });
+
     setMiners(
       components
         .filter((component) => component !== undefined)
@@ -42,9 +46,32 @@ export const useMiners = ({ tokenId }: { tokenId: string | undefined }) => {
     );
   }, [minerKeys]);
 
+  useEffect(() => {
+    if (miners.length === 0) return;
+
+    let totalBerries = 0;
+    let totalPine = 0;
+
+    miners.forEach((miner) => {
+      miner.inventory.forEach((item) => {
+        if (item.rcs.getSubresourceType() === WoodType.Pine) {
+          totalPine += item.quantity;
+        }
+        if (item.rcs.getSubresourceType() === FoodType.Berries) {
+          totalBerries += item.quantity;
+        }
+      });
+    });
+
+    setBerriesAmount(totalBerries);
+    setPineAmount(totalPine);
+  }, [miners, setBerriesAmount, setPineAmount]);
+
   const currentMiner = useMemo(() => {
     return miners.find((miner) => miner.timestamp !== 0);
   }, [miners]);
+
+  console.log("Miners", tokenId, miners);
 
   return { miners, currentMiner };
 };

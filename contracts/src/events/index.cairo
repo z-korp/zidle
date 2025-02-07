@@ -33,3 +33,15 @@ pub struct Sell {
     pub gold: u64,
     pub timestamp: u64,
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event(historical: true)]
+pub struct GoalScored {
+    #[key]
+    pub token_id: u128,
+    pub arena_id: u32,
+    pub goal_number: u8,
+    pub is_first_validation: bool,
+    pub points: u64,
+    pub timestamp: u64,
+}

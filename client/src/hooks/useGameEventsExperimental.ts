@@ -45,7 +45,7 @@ export function useGameEventsExperimental() {
         .withClause(
           new ClauseBuilder()
             .keys(
-              ["zidle-Mine", "zidle-Harvest", "zidle-Sell"],
+              ["zidle-Mine", "zidle-Harvest", "zidle-Sell", "zidle-GoalScored"],
               [tokenId.toString()],
             )
             .build(),

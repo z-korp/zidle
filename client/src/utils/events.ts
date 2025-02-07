@@ -12,6 +12,8 @@ export const eventToString = (event: ParsedGameEvent): string => {
   } else if (event.type === "Sell") {
     const rcs = Resource.from(event.rcsType, event.rcsSubType);
     return `Sold ${event.amount} ${rcs.getSubresourceName()} for ${event.gold} gold`;
+  } else if (event.type === "GoalScored") {
+    return `Goal ${event.goalNumber} scored in arena (+${event.points} points)`;
   }
   return "Unknown event";
 };

@@ -1,7 +1,8 @@
 // Starknet and Dojo imports.
 use starknet::ContractAddress;
-use starknet::info::get_caller_address;
+use starknet::info::{get_caller_address, get_block_timestamp};
 use dojo::world::WorldStorage;
+use dojo::event::EventStorage;
 
 // Internal imports.
 use zidle::models::arena::{Arena, ArenaTrait};
@@ -21,13 +22,17 @@ trait IPvP<T> {
 /// The PvP contract module.
 #[dojo::contract]
 mod pvp {
-    use super::{IPvP, Arena, ArenaTrait, get_caller_address, ContractAddress};
+    use super::{
+        EventStorage, IPvP, Arena, ArenaTrait, get_caller_address, get_block_timestamp,
+        ContractAddress
+    };
     use zidle::store::{Store, StoreTrait};
     use zidle::models::arena::{ArenaTrait as ArenaModelTrait};
     use zidle::models::admin::{AdminTrait, AdminAssert};
     use dojo::world::{WorldStorage, IWorldDispatcherTrait};
     use zidle::models::arena::{Team, Goal};
     use zidle::types::goal::GoalType;
+    use zidle::events::index::{GoalScored};
 
     use zidle::interfaces::ierc721::{ierc721, IERC721Dispatcher, IERC721DispatcherTrait};
     use zidle::interfaces::ierc20::{ierc20, IERC20Dispatcher, IERC20DispatcherTrait};
@@ -106,8 +111,21 @@ mod pvp {
             }
 
             // Call the arena's validate_goal method.
-            let res: bool = arena.validate_goal(goal_number, Team::Team1);
-            assert(res, 'Goal validation failed.');
+            let (is_validated, is_first_validation, points) = arena
+                .validate_goal(goal_number, Team::Team1);
+            assert(is_validated, 'Goal validation failed.');
+
+            world
+                .emit_event(
+                    @GoalScored {
+                        token_id,
+                        arena_id,
+                        goal_number,
+                        is_first_validation,
+                        points,
+                        timestamp: get_block_timestamp(),
+                    }
+                );
 
             // Update the store with the new arena state.
             store.set_arena(arena);
