@@ -10,7 +10,6 @@ import { DreamingHistoryTab } from "./AIAssistant/DreamingHistoryTab";
 import { SettingsTab } from "./AIAssistant/SettingsTab";
 import { useDaydreamsWs } from "@/hooks/useDaydreams";
 import { useDraggableCardStore } from "@/stores/useDraggableCardStore";
-import { cn } from "@/lib/utils";
 
 import "react-resizable/css/styles.css";
 

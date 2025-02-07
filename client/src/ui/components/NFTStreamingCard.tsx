@@ -44,6 +44,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { InventoryItem } from "@/dojo/game/models/miner";
+import { getResourceImage } from "@/utils/resource";
 
 interface NFTStreamingCardProps {
   tokenId: number;
@@ -105,6 +107,7 @@ export const NFTStreamingCard = ({
   const [isPulsing, setIsPulsing] = useState(false);
   const [isOngoingExpanded, setIsOngoingExpanded] = useState(true);
   const [isHistoryExpanded, setIsHistoryExpanded] = useState(true);
+  const [isInventoryExpanded, setIsInventoryExpanded] = useState(true);
 
   const latestEvent = events
     .sort((e1, e2) => e2.timestamp - e1.timestamp)
@@ -171,6 +174,7 @@ export const NFTStreamingCard = ({
   // State pour l'ordre des sections
   const [sections, setSections] = useState([
     { id: "goals", title: "Player Goals", component: "goals" },
+    { id: "inventory", title: "Inventory", component: "inventory" },
     { id: "ongoing", title: "Ongoing Activity", component: "ongoing" },
     { id: "history", title: "Activity History", component: "history" },
   ]);
@@ -197,6 +201,74 @@ export const NFTStreamingCard = ({
     switch (section.component) {
       case "goals":
         return <GoalsSection tokenId={character.token_id} />;
+      case "inventory":
+        return (
+          <Card className="bg-gray-800/50">
+            <CardContent className="p-4 space-y-4">
+              <div
+                className="flex items-center justify-between cursor-pointer"
+                onClick={() => setIsInventoryExpanded(!isInventoryExpanded)}
+              >
+                <h3 className="text-sm font-semibold text-white">Inventory</h3>
+                <motion.div
+                  animate={{ rotate: isInventoryExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                </motion.div>
+              </div>
+
+              <AnimatePresence initial={false}>
+                {isInventoryExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="space-y-4 overflow-hidden"
+                  >
+                    {character?.miners ? (
+                      <div className="grid grid-cols-2 gap-4">
+                        {character.miners
+                          .flatMap((miner) => miner.inventory)
+                          .filter((item: InventoryItem) => item.quantity > 0)
+                          .map((item: InventoryItem, index: number) => (
+                            <div
+                              key={index}
+                              className="bg-gray-700/30 p-3 rounded-md flex items-center gap-2"
+                            >
+                              <div className="p-2 bg-gray-600/50 rounded-md relative">
+                                <img
+                                  src={getResourceImage(item.rcs.value)}
+                                  alt={item.rcs.getSubresourceName()}
+                                  className="w-6 h-6 pixelated-image object-cover"
+                                />
+                                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                                  {item.quantity}
+                                </span>
+                              </div>
+                              <div>
+                                <div className="text-xs text-gray-400">
+                                  {item.rcs.getSubresourceName()}
+                                </div>
+                                <div className="text-sm font-medium">
+                                  {item.quantity}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    ) : (
+                      <div className="col-span-2 bg-gray-700/50 p-3 rounded-md text-gray-400 text-sm text-center">
+                        No items in inventory
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </CardContent>
+          </Card>
+        );
       case "ongoing":
         return (
           <Card className="bg-gray-800/50">
