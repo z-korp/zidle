@@ -166,9 +166,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
           }
         >
           {/* Main card content */}
-          <Card className="w-full h-full bg-gray-800/95 text-white shadow-xl border border-gray-600 backdrop-blur-sm">
+          <Card className="w-full h-full bg-gray-800 text-white shadow-xl border border-gray-600 backdrop-blur-sm">
             {/* Draggable header area */}
-            <div className="drag-handle cursor-move bg-gray-700 p-2 rounded-t-lg">
+            <div className="drag-handle cursor-move p-2 rounded-t-lg">
               {/* Header content with avatar and controls */}
               <div className="flex items-center justify-between mb-2">
                 {/* Avatar and title section */}
@@ -186,14 +186,6 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
                 </div>
                 {/* Window controls */}
                 <div className="flex gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6"
-                    onClick={() => setIsMinimized(!isMinimized)}
-                  >
-                    <Minus className="h-4 w-4" />
-                  </Button>
                   <Button
                     variant="ghost"
                     size="icon"
