@@ -113,9 +113,10 @@ export const NFTStreamingCard = ({
     .sort((e1, e2) => e2.timestamp - e1.timestamp)
     .at(0);
 
-  const selectedResource = latestEvent
-    ? Resource.from(latestEvent.rcsType, latestEvent.rcsSubType)
-    : null;
+  const selectedResource =
+    latestEvent && "rcsType" in latestEvent
+      ? Resource.from(latestEvent.rcsType, latestEvent.rcsSubType)
+      : null;
 
   useEffect(() => {
     if (scrollRef.current) {
