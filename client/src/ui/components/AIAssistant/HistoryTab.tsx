@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 
 export const HistoryTab = () => {
   return (
-    <div className="space-y-4">
-      {/* Cloud thinking animation */}
-      <div className="flex justify-center items-center gap-4 py-2">
+    <div className="h-full flex flex-col">
+      {/* Cloud thinking animation - fixed height */}
+      <div className="flex justify-center items-center gap-4 py-2 shrink-0">
         <motion.div
           animate={{
             scale: [1, 1.2, 1],
@@ -39,8 +39,8 @@ export const HistoryTab = () => {
         </div>
       </div>
 
-      {/* Messages list */}
-      <div className="overflow-auto pr-2">
+      {/* Messages list - flexible height */}
+      <div className="flex-1 min-h-0">
         <MessagesList />
       </div>
     </div>

@@ -100,9 +100,9 @@ const testMessages = [
 ];
 
 export const MessagesList: React.FC = () => {
-  // Commentez l'une des deux lignes suivantes pour basculer entre les données réelles et de test
+  // Comment line 103 and uncomment line 104 to switch between real and test data
   //const { messages } = useAgentStore();
-  const messages = testMessages; // Décommentez cette ligne pour tester
+  const messages = testMessages;
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -113,7 +113,7 @@ export const MessagesList: React.FC = () => {
 
   return (
     <ScrollArea className="h-full min-h-0 flex-1">
-      <div className="p-4 space-y-4">
+      <div className="p-0 pb-4 space-y-4">
         {messages.map((message, idx) => {
           // Format the timestamp with Luxon
           const formattedTime = DateTime.fromISO(
