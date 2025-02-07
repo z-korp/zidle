@@ -133,6 +133,20 @@ impl ArenaImpl of ArenaTrait {
             return false;
         }
     }
+
+    fn is_goal_validated(self: Arena, goal_number: u8, team: Team) -> bool {
+        if (goal_number > 3 || goal_number < 1) {
+            assert(false, 'Invalid goal number');
+        }
+
+        if goal_number == 1 {
+            return self.goal1.first_validation == team || self.goal1.second_validation == team;
+        } else if goal_number == 2 {
+            return self.goal2.first_validation == team || self.goal2.second_validation == team;
+        } else {
+            return self.goal3.first_validation == team || self.goal3.second_validation == team;
+        }
+    }
 }
 
 #[generate_trait]

@@ -14,6 +14,8 @@ trait IPvP<T> {
     /// Create an arena given two token IDs.
     fn create_arena(ref self: T, token_id_1: u128, token_id_2: u128);
     fn validate_goal(ref self: T, token_id: u128, arena_id: u32, goal_number: u8);
+    fn is_goal_validated(self: @T, token_id: u128, arena_id: u32, goal_number: u8) -> bool;
+    fn get_goals_status(self: @T, token_id: u128, arena_id: u32) -> (bool, bool, bool);
 }
 
 /// The PvP contract module.
@@ -109,6 +111,54 @@ mod pvp {
 
             // Update the store with the new arena state.
             store.set_arena(arena);
+        }
+
+        fn get_goals_status(
+            self: @ContractState, token_id: u128, arena_id: u32
+        ) -> (bool, bool, bool) {
+            // Obtain world storage.
+            let mut world = self.world_default();
+            // Create our store.
+            let store: Store = StoreTrait::new(world);
+
+            // Retrieve the arena by id.
+            let arena = store.arena(arena_id);
+
+            let mut team = Team::None;
+            if (arena.token_id_1 == token_id) {
+                team = Team::Team1;
+            } else if (arena.token_id_2 == token_id) {
+                team = Team::Team2;
+            }
+            assert(team != Team::None, 'Token ID not in the arena');
+
+            (
+                arena.is_goal_validated(1, team),
+                arena.is_goal_validated(2, team),
+                arena.is_goal_validated(3, team)
+            )
+        }
+
+        fn is_goal_validated(
+            self: @ContractState, token_id: u128, arena_id: u32, goal_number: u8
+        ) -> bool {
+            // Obtain world storage.
+            let mut world = self.world_default();
+            // Create our store.
+            let store: Store = StoreTrait::new(world);
+
+            // Retrieve the arena by id.
+            let arena = store.arena(arena_id);
+
+            let mut team = Team::None;
+            if (arena.token_id_1 == token_id) {
+                team = Team::Team1;
+            } else if (arena.token_id_2 == token_id) {
+                team = Team::Team2;
+            }
+            assert(team != Team::None, 'Token ID not in the arena');
+
+            arena.is_goal_validated(goal_number, team)
         }
     }
 
