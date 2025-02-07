@@ -4,7 +4,10 @@ import { DateTime } from "luxon";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 
 export const MessagesList: React.FC = () => {
+  // Comment line 8 and uncomment line 9 to switch between real and test data
   const { messages } = useAgentStore();
+  //const messages = testMessages;
+
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   // Automatically scroll to the bottom when new messages arrive
@@ -13,8 +16,8 @@ export const MessagesList: React.FC = () => {
   }, [messages]);
 
   return (
-    <ScrollArea className="h-[400px]">
-      <div className="p-0 space-y-4">
+    <ScrollArea className="h-full min-h-0 flex-1">
+      <div className="p-0 pb-4 space-y-4">
         {messages.map((message, idx) => {
           // Format the timestamp with Luxon
           const formattedTime = DateTime.fromISO(
