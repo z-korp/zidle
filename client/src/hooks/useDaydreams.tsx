@@ -13,6 +13,8 @@ import {
   ActionCompleteMessage,
   ActionErrorMessage,
   SystemMessage,
+  StartThinkingMessage,
+  StopThinkingMessage,
 } from "../types/message";
 
 // WebSocket singleton
@@ -142,10 +144,34 @@ export function useDaydreamsWs() {
       case "system":
         handleSystemMessage(message);
         break;
+      case "thinking_start":
+        handleMessageStartThinking(message);
+        break;
+      case "thinking_end":
+        handleMessageStopThinking(message);
+        break;
       default:
+        console.warn("❓ Unknown message type", message);
         console.warn("❓ Unknown message type");
         addMessage(message);
     }
+  };
+
+  const handleMessageStartThinking = (message: StartThinkingMessage) => {
+    addMessage({
+      type: "thinking_start",
+      message: message.message,
+      timestamp: message.timestamp,
+      emoji: message.emoji,
+    });
+  };
+
+  const handleMessageStopThinking = (message: StopThinkingMessage) => {
+    addMessage({
+      type: "thinking_end",
+      timestamp: message.timestamp,
+      emoji: message.emoji,
+    });
   };
 
   // Define handlers for each message type

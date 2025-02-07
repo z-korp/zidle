@@ -81,14 +81,14 @@ export const NFTStreamingCard = ({
       text.toLowerCase().includes("level") ||
       text.toLowerCase().includes("xp")
     ) {
-      return <Star className="w-4 h-4 text-yellow-400" />;
+      return <Star className="w-4 h-4 text-purple-400" />;
     }
     if (
       text.toLowerCase().includes("trade") ||
       text.toLowerCase().includes("sold") ||
       text.toLowerCase().includes("bought")
     ) {
-      return <Coins className="w-4 h-4 text-purple-400" />;
+      return <Coins className="w-4 h-4 text-yellow-400" />;
     }
     if (
       text.toLowerCase().includes("mint") ||

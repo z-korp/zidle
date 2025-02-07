@@ -9,12 +9,23 @@ export type MessageType =
   | "action_start"
   | "action_complete"
   | "action_error"
-  | "system";
+  | "system"
+  | "thinking_start"
+  | "thinking_end";
 
 export interface BaseMessage {
   type: MessageType;
   timestamp: string; // ISO string
   emoji?: string;
+}
+
+export interface StartThinkingMessage extends BaseMessage {
+  type: "thinking_start";
+  message: string;
+}
+
+export interface StopThinkingMessage extends BaseMessage {
+  type: "thinking_end";
 }
 
 export interface WelcomeMessage extends BaseMessage {
@@ -37,6 +48,8 @@ export interface GoalCreatedMessage extends BaseMessage {
   data: {
     id: string;
     description: string;
+    priority: number;
+    horizon: string;
     timestamp: string;
   };
 }
@@ -55,6 +68,7 @@ export interface GoalCompletedMessage extends BaseMessage {
   data: {
     id: string;
     result: string;
+    description: string;
     timestamp: string;
   };
 }
@@ -111,7 +125,9 @@ export type AppMessage =
   | ActionStartMessage
   | ActionCompleteMessage
   | ActionErrorMessage
-  | SystemMessage;
+  | SystemMessage
+  | StartThinkingMessage
+  | StopThinkingMessage;
 
 const emojiMap: Record<MessageType, string> = {
   welcome: "👋",

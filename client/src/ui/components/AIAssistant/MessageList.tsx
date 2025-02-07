@@ -12,59 +12,88 @@ export const MessagesList: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="p-2 overflow-y-auto">
+    <div className="p-0 overflow-y-auto space-y-4">
       {messages.map((message, idx) => {
-        // Format timestamp using Luxon
+        // Format the timestamp with Luxon
         const formattedTime = DateTime.fromISO(
           message.timestamp,
         ).toLocaleString(DateTime.TIME_SIMPLE);
 
-        // Default emoji if none provided
-        const emoji = message.emoji || "💬";
-
-        let content = "";
+        // Define title and body based on the message type
+        let title = "";
+        let body = "";
+        let emoji = message.emoji || "💬";
 
         switch (message.type) {
           case "welcome":
-            content = `[${formattedTime}] ${emoji} ${message.message}`;
+            title = "Welcome";
+            body = message.message;
             break;
           case "response":
-            content = `[${formattedTime}] ${emoji} Response: ${message.message}`;
+            title = "Response";
+            body = message.message;
             break;
           case "error":
-            content = `[${formattedTime}] ${emoji} Error: ${message.error}`;
+            title = "Error";
+            body = message.error;
             break;
           case "goal_created":
-            content = `[${formattedTime}] ${emoji} Goal Created: ${message.data.description}`; // (ID: ${message.data.id})`;
+            title = "Goal Created";
+            body = `[${message.data?.horizon} term] ${message.data?.description}`;
             break;
           case "goal_updated":
-            content = `[${formattedTime}] ${emoji} Goal Updated: ${message.data.status}`; // (ID: ${message.data.id})`;
+            title = "Goal Updated";
+            body = message.data?.status;
             break;
           case "goal_completed":
-            content = `[${formattedTime}] ${emoji} Goal Completed: ${message.data.result}`; // (ID: ${message.data.id})`;
+            title = "Goal Completed";
+            body = message.data?.description;
             break;
           case "goal_failed":
-            content = `[${formattedTime}] ${emoji} Goal Failed (ID: ${message.data.id}): ${message.data.error}`;
+            title = "Goal Failed";
+            body = `ID: ${message.data.id} – ${message.data.error}`;
             break;
           case "action_start":
-            content = `[${formattedTime}] ${emoji} Action Started: ${message.data.actionType}`;
+            title = "Action Started";
+            body = message.data?.actionType;
             break;
           case "action_complete":
-            content = `[${formattedTime}] ${emoji} Action Completed: ${message.data.actionType}`; // - Result: ${JSON.stringify(  message.data.result,)}`;
+            title = "Action Completed";
+            body = message.data?.result;
             break;
           case "action_error":
-            content = `[${formattedTime}] ${emoji} Action Error (${message.data.actionType}): ${message.data.error}`;
+            title = "Action Error";
+            body = `(${message.data?.actionType}) ${message.data?.error}`;
             break;
           case "system":
-            content = `[${formattedTime}] ${emoji} System: ${message.message}`;
+            title = "System";
+            body = message.message;
+            break;
+          case "thinking_start":
+            title = "Thinking";
+            body = message.message;
+            break;
+          case "thinking_end":
+            title = "Thinking Complete";
+            body = "";
             break;
           default:
-            content = `[${formattedTime}] ${emoji} Unknown message type`;
+            title = "Message";
+            body = message.message || "";
         }
 
         return (
-          <div key={idx} className="text-sm leading-relaxed mt-2">
-            {content}
+          <div key={idx} className="p-3 bg-gray-800 rounded-lg shadow-md">
+            {/* Header: date, title, and emoji */}
+            <div className="flex justify-between items-center text-sm text-gray-100">
+              <div className="flex items-center gap-1">
+                <span className="mr-1">{emoji}</span>
+                <span className="font-semibold">{title}</span>
+              </div>
+              <span>{formattedTime}</span>
+            </div>
+            {/* Body text */}
+            {body && <div className="mt-1 text-xs text-gray-400">{body}</div>}
           </div>
         );
       })}
