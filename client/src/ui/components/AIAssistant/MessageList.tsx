@@ -41,7 +41,7 @@ export const MessagesList: React.FC = () => {
               break;
             case "goal_created":
               title = "Goal Created";
-              body = `[${message.data?.horizon} term] ${message.data?.description}`;
+              body = `${message.data?.horizon.toUpperCase()} TERM - ${message.data?.description}`;
               break;
             case "goal_updated":
               title = "Goal Updated";
