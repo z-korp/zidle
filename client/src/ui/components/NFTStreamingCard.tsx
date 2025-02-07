@@ -44,6 +44,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { InventoryItem } from "@/dojo/game/models/miner";
+import { getResourceImage } from "@/utils/resource";
 
 interface NFTStreamingCardProps {
   tokenId: number;
@@ -222,52 +224,42 @@ export const NFTStreamingCard = ({
                     transition={{ duration: 0.2 }}
                     className="space-y-4 overflow-hidden"
                   >
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-gray-700/30 p-3 rounded-md flex items-center gap-2">
-                        <div className="p-2 bg-gray-600/50 rounded-md">
-                          <Backpack className="w-4 h-4 text-yellow-400" />
-                        </div>
-                        <div>
-                          <div className="text-xs text-gray-400">Wood</div>
-                          <div className="text-sm font-medium">
-                            {character?.wood ?? 0}
-                          </div>
-                        </div>
+                    {character?.miners ? (
+                      <div className="grid grid-cols-2 gap-4">
+                        {character.miners
+                          .flatMap((miner) => miner.inventory)
+                          .filter((item: InventoryItem) => item.quantity > 0)
+                          .map((item: InventoryItem, index: number) => (
+                            <div
+                              key={index}
+                              className="bg-gray-700/30 p-3 rounded-md flex items-center gap-2"
+                            >
+                              <div className="p-2 bg-gray-600/50 rounded-md relative">
+                                <img
+                                  src={getResourceImage(item.rcs.value)}
+                                  alt={item.rcs.getSubresourceName()}
+                                  className="w-6 h-6 pixelated-image object-cover"
+                                />
+                                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                                  {item.quantity}
+                                </span>
+                              </div>
+                              <div>
+                                <div className="text-xs text-gray-400">
+                                  {item.rcs.getSubresourceName()}
+                                </div>
+                                <div className="text-sm font-medium">
+                                  {item.quantity}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                       </div>
-                      <div className="bg-gray-700/30 p-3 rounded-md flex items-center gap-2">
-                        <div className="p-2 bg-gray-600/50 rounded-md">
-                          <Backpack className="w-4 h-4 text-gray-400" />
-                        </div>
-                        <div>
-                          <div className="text-xs text-gray-400">Stone</div>
-                          <div className="text-sm font-medium">
-                            {character?.stone ?? 0}
-                          </div>
-                        </div>
+                    ) : (
+                      <div className="col-span-2 bg-gray-700/50 p-3 rounded-md text-gray-400 text-sm text-center">
+                        No items in inventory
                       </div>
-                      <div className="bg-gray-700/30 p-3 rounded-md flex items-center gap-2">
-                        <div className="p-2 bg-gray-600/50 rounded-md">
-                          <Backpack className="w-4 h-4 text-green-400" />
-                        </div>
-                        <div>
-                          <div className="text-xs text-gray-400">Food</div>
-                          <div className="text-sm font-medium">
-                            {character?.food ?? 0}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="bg-gray-700/30 p-3 rounded-md flex items-center gap-2">
-                        <div className="p-2 bg-gray-600/50 rounded-md">
-                          <Backpack className="w-4 h-4 text-purple-400" />
-                        </div>
-                        <div>
-                          <div className="text-xs text-gray-400">Iron</div>
-                          <div className="text-sm font-medium">
-                            {character?.iron ?? 0}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
