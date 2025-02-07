@@ -3,13 +3,14 @@ import Draggable from "react-draggable";
 import { ResizableBox } from "react-resizable";
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { X, Minus, MessageSquare, Settings, History } from "lucide-react";
+import { X, Minus, MessageSquare, Settings, Cloud } from "lucide-react";
 import botAvatar from "/assets/AIagent_pfp/bot1.png";
 import { ChatTab } from "./AIAssistant/ChatTab";
 import { HistoryTab } from "./AIAssistant/HistoryTab";
 import { SettingsTab } from "./AIAssistant/SettingsTab";
 import { useDaydreamsWs } from "@/hooks/useDaydreams";
 import { useDraggableCardStore } from "@/stores/useDraggableCardStore";
+import { cn } from "@/lib/utils";
 
 import "react-resizable/css/styles.css";
 
@@ -224,7 +225,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
                   }`}
                   onClick={() => setActiveTab("history")}
                 >
-                  <History className="h-4 w-4 inline-block" />
+                  <Cloud className="h-4 w-4 inline-block" />
                 </button>
                 <button
                   className={`px-3 py-1 text-sm transition-colors ${
