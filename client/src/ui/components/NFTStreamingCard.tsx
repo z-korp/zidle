@@ -9,6 +9,7 @@ import {
   Plus,
   MessageSquare,
   Shovel,
+  ChevronDown,
 } from "lucide-react";
 import { useCharacter } from "@/hooks/useCharacter";
 import { LoadingDots } from "./LoadingDots";
@@ -23,6 +24,7 @@ import GoldImg from "./GoldImg";
 import { Resource } from "@/dojo/game/types/resource";
 import WorkingDiv from "./WorkingDiv";
 import { GoalsSection } from "./Goals/GoalsSection";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface NFTStreamingCardProps {
   tokenId: number;
@@ -44,6 +46,8 @@ export const NFTStreamingCard = ({
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const [isPulsing, setIsPulsing] = useState(false);
+  const [isOngoingExpanded, setIsOngoingExpanded] = useState(true);
+  const [isHistoryExpanded, setIsHistoryExpanded] = useState(true);
 
   const latestEvent = events
     .sort((e1, e2) => e2.timestamp - e1.timestamp)
@@ -179,46 +183,94 @@ export const NFTStreamingCard = ({
             </div>
 
             <div className="mt-6">
-              <h3 className="text-sm font-semibold mb-2">Ongoing Activity</h3>
-              {selectedResource && character ? (
-                <WorkingDiv
-                  selectedResource={selectedResource}
-                  character={character}
-                  isStreaming={true}
-                />
-              ) : (
-                <div className="bg-gray-700/50 p-3 rounded-md mb-4 text-gray-400 text-sm text-center">
-                  No activity yet
-                </div>
-              )}
+              <div
+                className="flex items-center justify-between cursor-pointer mb-2"
+                onClick={() => setIsOngoingExpanded(!isOngoingExpanded)}
+              >
+                <h3 className="text-sm font-semibold">Ongoing Activity</h3>
+                <motion.div
+                  animate={{ rotate: isOngoingExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                </motion.div>
+              </div>
+
+              <AnimatePresence initial={false}>
+                {isOngoingExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    {selectedResource && character ? (
+                      <WorkingDiv
+                        selectedResource={selectedResource}
+                        character={character}
+                        isStreaming={true}
+                      />
+                    ) : (
+                      <div className="bg-gray-700/50 p-3 rounded-md mb-4 text-gray-400 text-sm text-center">
+                        No activity yet
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <div className="mt-4">
-              <h3 className="text-sm font-semibold mb-2">Activity History</h3>
-              <ScrollArea className="h-[200px] w-full rounded-md border border-gray-700">
-                <div ref={scrollRef} className="p-4 space-y-2">
-                  {events
-                    .sort((e1, e2) => e2.timestamp - e1.timestamp)
-                    .map((event, index) => (
-                      <div
-                        key={index}
-                        className="text-sm bg-gray-700/30 p-2 rounded flex items-center gap-2"
-                      >
-                        <div className="flex-shrink-0">
-                          {getActivityIcon(eventToString(event))}
-                        </div>
-                        <span className="text-gray-300 flex-grow">
-                          {eventToString(event)}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          {DateTime.fromMillis(event.timestamp * 1000).toFormat(
-                            "HH:mm:ss",
-                          )}
-                        </span>
+              <div
+                className="flex items-center justify-between cursor-pointer mb-2"
+                onClick={() => setIsHistoryExpanded(!isHistoryExpanded)}
+              >
+                <h3 className="text-sm font-semibold">Activity History</h3>
+                <motion.div
+                  animate={{ rotate: isHistoryExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                </motion.div>
+              </div>
+
+              <AnimatePresence initial={false}>
+                {isHistoryExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    <ScrollArea className="h-[200px] w-full rounded-md border border-gray-700">
+                      <div ref={scrollRef} className="p-4 space-y-2">
+                        {events
+                          .sort((e1, e2) => e2.timestamp - e1.timestamp)
+                          .map((event, index) => (
+                            <div
+                              key={index}
+                              className="text-sm bg-gray-700/30 p-2 rounded flex items-center gap-2"
+                            >
+                              <div className="flex-shrink-0">
+                                {getActivityIcon(eventToString(event))}
+                              </div>
+                              <span className="text-gray-300 flex-grow">
+                                {eventToString(event)}
+                              </span>
+                              <span className="text-xs text-gray-500">
+                                {DateTime.fromMillis(
+                                  event.timestamp * 1000,
+                                ).toFormat("HH:mm:ss")}
+                              </span>
+                            </div>
+                          ))}
                       </div>
-                    ))}
-                </div>
-              </ScrollArea>
+                    </ScrollArea>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </ScrollArea>
