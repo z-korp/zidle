@@ -26,11 +26,66 @@ import WorkingDiv from "./WorkingDiv";
 import { GoalsSection } from "./Goals/GoalsSection";
 import { motion, AnimatePresence } from "framer-motion";
 import Draggable from "react-draggable";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface NFTStreamingCardProps {
   tokenId: number;
   onBack: () => void;
 }
+
+// Composant pour une section triable
+const SortableSection = ({
+  section,
+  children,
+}: {
+  section: { id: string; title: string };
+  children: React.ReactNode;
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: section.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <div
+        {...attributes}
+        {...listeners}
+        className="cursor-move mb-2 flex items-center gap-2"
+      >
+        <div className="w-1 h-4 bg-gray-600 rounded" />
+        <span className="text-xs text-gray-400">Drag to reorder</span>
+      </div>
+      {children}
+    </div>
+  );
+};
 
 export const NFTStreamingCard = ({
   tokenId,
@@ -108,6 +163,141 @@ export const NFTStreamingCard = ({
   };
 
   const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  // State pour l'ordre des sections
+  const [sections, setSections] = useState([
+    { id: "goals", title: "Player Goals", component: "goals" },
+    { id: "ongoing", title: "Ongoing Activity", component: "ongoing" },
+    { id: "history", title: "Activity History", component: "history" },
+  ]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    setSections((sections) => {
+      const oldIndex = sections.findIndex((s) => s.id === active.id);
+      const newIndex = sections.findIndex((s) => s.id === over.id);
+      return arrayMove(sections, oldIndex, newIndex);
+    });
+  };
+
+  const renderSection = (section: (typeof sections)[0]) => {
+    switch (section.component) {
+      case "goals":
+        return <GoalsSection tokenId={character.token_id} />;
+      case "ongoing":
+        return (
+          <Card className="bg-gray-800/50">
+            <CardContent className="p-4 space-y-4">
+              <div
+                className="flex items-center justify-between cursor-pointer"
+                onClick={() => setIsOngoingExpanded(!isOngoingExpanded)}
+              >
+                <h3 className="text-sm font-semibold text-white">
+                  Ongoing Activity
+                </h3>
+                <motion.div
+                  animate={{ rotate: isOngoingExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                </motion.div>
+              </div>
+
+              <AnimatePresence initial={false}>
+                {isOngoingExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="space-y-4 overflow-hidden"
+                  >
+                    {selectedResource && character ? (
+                      <WorkingDiv
+                        selectedResource={selectedResource}
+                        character={character}
+                        isStreaming={true}
+                      />
+                    ) : (
+                      <div className="bg-gray-700/50 p-3 rounded-md text-gray-400 text-sm text-center">
+                        No activity yet
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </CardContent>
+          </Card>
+        );
+      case "history":
+        return (
+          <Card className="bg-gray-800/50">
+            <CardContent className="p-4 space-y-4">
+              <div
+                className="flex items-center justify-between cursor-pointer"
+                onClick={() => setIsHistoryExpanded(!isHistoryExpanded)}
+              >
+                <h3 className="text-sm font-semibold text-white">
+                  Activity History
+                </h3>
+                <motion.div
+                  animate={{ rotate: isHistoryExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                </motion.div>
+              </div>
+
+              <AnimatePresence initial={false}>
+                {isHistoryExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="space-y-4 overflow-hidden"
+                  >
+                    <ScrollArea className="h-[200px] w-full rounded-md border border-gray-700">
+                      <div ref={scrollRef} className="p-4 space-y-2">
+                        {events
+                          .sort((e1, e2) => e2.timestamp - e1.timestamp)
+                          .map((event, index) => (
+                            <div
+                              key={index}
+                              className="text-sm bg-gray-700/30 p-2 rounded flex items-center gap-2"
+                            >
+                              <div className="flex-shrink-0">
+                                {getActivityIcon(eventToString(event))}
+                              </div>
+                              <span className="text-gray-300 flex-grow">
+                                {eventToString(event)}
+                              </span>
+                              <span className="text-xs text-gray-500">
+                                {DateTime.fromMillis(
+                                  event.timestamp * 1000,
+                                ).toFormat("HH:mm:ss")}
+                              </span>
+                            </div>
+                          ))}
+                      </div>
+                    </ScrollArea>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </CardContent>
+          </Card>
+        );
+    }
+  };
 
   if (!character) {
     return (
@@ -200,112 +390,24 @@ export const NFTStreamingCard = ({
                   </div>
                 </div>
 
-                <div className="mt-4">
-                  <GoalsSection tokenId={character.token_id} />
-                </div>
-
-                <div className="mt-6">
-                  <Card className="bg-gray-800/50">
-                    <CardContent className="p-4 space-y-4">
-                      <div
-                        className="flex items-center justify-between cursor-pointer"
-                        onClick={() => setIsOngoingExpanded(!isOngoingExpanded)}
-                      >
-                        <h3 className="text-sm font-semibold text-white">
-                          Ongoing Activity
-                        </h3>
-                        <motion.div
-                          animate={{ rotate: isOngoingExpanded ? 180 : 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <ChevronDown className="w-4 h-4 text-gray-400" />
-                        </motion.div>
-                      </div>
-
-                      <AnimatePresence initial={false}>
-                        {isOngoingExpanded && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="space-y-4 overflow-hidden"
-                          >
-                            {selectedResource && character ? (
-                              <WorkingDiv
-                                selectedResource={selectedResource}
-                                character={character}
-                                isStreaming={true}
-                              />
-                            ) : (
-                              <div className="bg-gray-700/50 p-3 rounded-md text-gray-400 text-sm text-center">
-                                No activity yet
-                              </div>
-                            )}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                <div className="mt-4">
-                  <Card className="bg-gray-800/50">
-                    <CardContent className="p-4 space-y-4">
-                      <div
-                        className="flex items-center justify-between cursor-pointer"
-                        onClick={() => setIsHistoryExpanded(!isHistoryExpanded)}
-                      >
-                        <h3 className="text-sm font-semibold text-white">
-                          Activity History
-                        </h3>
-                        <motion.div
-                          animate={{ rotate: isHistoryExpanded ? 180 : 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <ChevronDown className="w-4 h-4 text-gray-400" />
-                        </motion.div>
-                      </div>
-
-                      <AnimatePresence initial={false}>
-                        {isHistoryExpanded && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="space-y-4 overflow-hidden"
-                          >
-                            <ScrollArea className="h-[200px] w-full rounded-md border border-gray-700">
-                              <div ref={scrollRef} className="p-4 space-y-2">
-                                {events
-                                  .sort((e1, e2) => e2.timestamp - e1.timestamp)
-                                  .map((event, index) => (
-                                    <div
-                                      key={index}
-                                      className="text-sm bg-gray-700/30 p-2 rounded flex items-center gap-2"
-                                    >
-                                      <div className="flex-shrink-0">
-                                        {getActivityIcon(eventToString(event))}
-                                      </div>
-                                      <span className="text-gray-300 flex-grow">
-                                        {eventToString(event)}
-                                      </span>
-                                      <span className="text-xs text-gray-500">
-                                        {DateTime.fromMillis(
-                                          event.timestamp * 1000,
-                                        ).toFormat("HH:mm:ss")}
-                                      </span>
-                                    </div>
-                                  ))}
-                              </div>
-                            </ScrollArea>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </CardContent>
-                  </Card>
-                </div>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext
+                    items={sections.map((s) => s.id)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    <div className="space-y-4">
+                      {sections.map((section) => (
+                        <SortableSection key={section.id} section={section}>
+                          {renderSection(section)}
+                        </SortableSection>
+                      ))}
+                    </div>
+                  </SortableContext>
+                </DndContext>
               </div>
             </ScrollArea>
           </CardContent>
