@@ -1,31 +1,48 @@
 import { MessagesList } from "./MessageList";
+import { Cloud } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const HistoryTab = () => {
   return (
-    <div className="space-y-4 overflow-auto pr-2">
-      <MessagesList />
-      {/*{actions.map((action) => (
-        <div
-          key={action.timestamp}
-          className="flex items-center gap-3 p-2 rounded-lg bg-gray-700/50"
+    <div className="space-y-4">
+      {/* Cloud thinking animation */}
+      <div className="flex justify-center items-center gap-4 py-2">
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.5, 1, 0.5],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         >
-          <div
-            className={`w-2 h-2 rounded-full ${
-              action.status === "success"
-                ? "bg-green-500"
-                : action.status === "pending"
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
-            }`}
-          />
-          <div className="flex-grow">
-            <p className="text-sm">{action.action}</p>
-            <p className="text-xs text-gray-400">
-              {action.timestamp.toLocaleTimeString()}
-            </p>
-          </div>
+          <Cloud className="w-8 h-8 text-gray-400" />
+        </motion.div>
+
+        {/* Bouncing dots */}
+        <div className="flex gap-1">
+          {[0, 1, 2].map((index) => (
+            <motion.div
+              key={index}
+              className="w-1.5 h-1.5 rounded-full bg-gray-400"
+              animate={{ y: [4, 0, 4] }}
+              transition={{
+                duration: 0.6,
+                repeat: Infinity,
+                delay: index * 0.2,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
         </div>
-      ))}*/}
+      </div>
+
+      {/* Messages list */}
+      <div className="overflow-auto pr-2">
+        <MessagesList />
+      </div>
     </div>
   );
 };

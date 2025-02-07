@@ -35,7 +35,7 @@ export const playerGoals: Goal[] = [
   },
   {
     id: "arena_victory",
-    title: "🏆 Arena Champion 🏆",
+    title: "Arena Champion",
     current: 0,
     target: 1000,
     description: "Reach 1000 points to win the arena",
