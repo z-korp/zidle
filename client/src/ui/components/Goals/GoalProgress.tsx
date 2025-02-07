@@ -114,12 +114,36 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
    */
   const isGoalValidated = () => {
     if (!arenas.length) return false;
+    const arena = arenas[0];
+    const numTokenId = Number(tokenId);
 
-    if (goal.id === "arena_victory") {
-      return getTeamPoints() >= 1000;
+    const isTeam1 = arena.tokenId1 === numTokenId;
+    const isTeam2 = arena.tokenId2 === numTokenId;
+
+    if (!isTeam1 && !isTeam2) return false;
+
+    // Vérifier quel goal est validé en fonction de son ID
+    switch (goal.id) {
+      case "gold_50":
+        return (
+          arena.goal1.firstValidation === (isTeam1 ? "Team1" : "Team2") ||
+          arena.goal1.secondValidation === (isTeam1 ? "Team1" : "Team2")
+        );
+      case "resources_berries":
+        return (
+          arena.goal2.firstValidation === (isTeam1 ? "Team1" : "Team2") ||
+          arena.goal2.secondValidation === (isTeam1 ? "Team1" : "Team2")
+        );
+      case "resources_pine":
+        return (
+          arena.goal3.firstValidation === (isTeam1 ? "Team1" : "Team2") ||
+          arena.goal3.secondValidation === (isTeam1 ? "Team1" : "Team2")
+        );
+      case "arena_victory":
+        return getTeamPoints() >= 1000;
+      default:
+        return false;
     }
-
-    return getGoalPoints(goal.id) > 0;
   };
 
   /**
