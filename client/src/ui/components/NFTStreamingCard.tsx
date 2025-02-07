@@ -25,6 +25,7 @@ import { Resource } from "@/dojo/game/types/resource";
 import WorkingDiv from "./WorkingDiv";
 import { GoalsSection } from "./Goals/GoalsSection";
 import { motion, AnimatePresence } from "framer-motion";
+import Draggable from "react-draggable";
 
 interface NFTStreamingCardProps {
   tokenId: number;
@@ -106,6 +107,8 @@ export const NFTStreamingCard = ({
     return <MessageSquare className="w-4 h-4 text-blue-400" />;
   };
 
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
   if (!character) {
     return (
       <Card className="w-[350px] bg-gray-800 text-white shadow-xl border border-gray-600">
@@ -119,175 +122,196 @@ export const NFTStreamingCard = ({
   }
 
   return (
-    <Card className="w-[350px] h-[800px] flex flex-col bg-gray-800 text-white shadow-xl border border-gray-600">
-      <CardContent className="p-4 flex flex-col h-full">
-        <div className="flex items-center justify-between mb-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={onBack}
-            className="h-8 w-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <div className="w-8" />
-          <div>{character.name}</div>
-          <div className="flex items-center gap-1">
-            <span className="text-sm font-medium">{character?.gold ?? 0}</span>
-            <GoldImg className="h-8 w-8" />
-          </div>
-        </div>
-
-        <ScrollArea className="flex-1 pr-4">
-          <div className="space-y-5">
-            <div className="grid grid-cols-3 gap-1 text-sm items-center h-42 relative">
-              <div className="space-y-2 flex flex-col z-10">
-                <div>Health: {100}</div>
-                <div>Attack: {5}</div>
-                <div>Critical: {5}%</div>
-              </div>
-
-              <div className="flex justify-center z-0">
-                <div>
-                  <AnimatedSprite
-                    width={192}
-                    height={140}
-                    scale={1}
-                    fps={10}
-                    currentAnimation={AnimationType.Idle}
-                    mobType={
-                      Object.values(MobType)[parseInt(character.token_id) % 3]
-                    }
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2 w-full z-10">
-                <div className="text-sm flex items-center justify-between">
-                  <span className="font-medium">Chop lvl</span>
-                  <LevelIndicator currentXP={character?.woodProgress ?? 0} />
-                </div>
-                <div className="text-sm flex items-center justify-between">
-                  <span className="font-medium">Mine lvl</span>
-                  <LevelIndicator currentXP={character?.rockProgress ?? 0} />
-                </div>
-                <div className="text-sm flex items-center justify-between">
-                  <span className="font-medium">Food lvl</span>
-                  <LevelIndicator currentXP={character?.foodProgress ?? 0} />
-                </div>
+    <Draggable
+      handle=".drag-handle"
+      position={position}
+      onStop={(e, data) => {
+        setPosition({ x: data.x, y: data.y });
+      }}
+      bounds="parent"
+    >
+      <div>
+        <Card className="w-[350px] h-[800px] flex flex-col bg-gray-800 text-white shadow-xl border border-gray-600">
+          <CardContent className="p-4 flex flex-col h-full">
+            <div className="flex items-center justify-between mb-4 drag-handle cursor-move">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={onBack}
+                className="h-8 w-8"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+              <div className="w-8" />
+              <div>{character.name}</div>
+              <div className="flex items-center gap-1">
+                <span className="text-sm font-medium">
+                  {character?.gold ?? 0}
+                </span>
+                <GoldImg className="h-8 w-8" />
               </div>
             </div>
 
-            <div className="mt-4">
-              <GoalsSection tokenId={character.token_id} />
-            </div>
-
-            <div className="mt-6">
-              <Card className="bg-gray-800/50">
-                <CardContent className="p-4 space-y-4">
-                  <div
-                    className="flex items-center justify-between cursor-pointer"
-                    onClick={() => setIsOngoingExpanded(!isOngoingExpanded)}
-                  >
-                    <h3 className="text-sm font-semibold text-white">
-                      Ongoing Activity
-                    </h3>
-                    <motion.div
-                      animate={{ rotate: isOngoingExpanded ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown className="w-4 h-4 text-gray-400" />
-                    </motion.div>
+            <ScrollArea className="flex-1 pr-4">
+              <div className="space-y-5">
+                <div className="grid grid-cols-3 gap-1 text-sm items-center h-42 relative">
+                  <div className="space-y-2 flex flex-col z-10">
+                    <div>Health: {100}</div>
+                    <div>Attack: {5}</div>
+                    <div>Critical: {5}%</div>
                   </div>
 
-                  <AnimatePresence initial={false}>
-                    {isOngoingExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="space-y-4 overflow-hidden"
+                  <div className="flex justify-center z-0">
+                    <div>
+                      <AnimatedSprite
+                        width={192}
+                        height={140}
+                        scale={1}
+                        fps={10}
+                        currentAnimation={AnimationType.Idle}
+                        mobType={
+                          Object.values(MobType)[
+                            parseInt(character.token_id) % 3
+                          ]
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 w-full z-10">
+                    <div className="text-sm flex items-center justify-between">
+                      <span className="font-medium">Chop lvl</span>
+                      <LevelIndicator
+                        currentXP={character?.woodProgress ?? 0}
+                      />
+                    </div>
+                    <div className="text-sm flex items-center justify-between">
+                      <span className="font-medium">Mine lvl</span>
+                      <LevelIndicator
+                        currentXP={character?.rockProgress ?? 0}
+                      />
+                    </div>
+                    <div className="text-sm flex items-center justify-between">
+                      <span className="font-medium">Food lvl</span>
+                      <LevelIndicator
+                        currentXP={character?.foodProgress ?? 0}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <GoalsSection tokenId={character.token_id} />
+                </div>
+
+                <div className="mt-6">
+                  <Card className="bg-gray-800/50">
+                    <CardContent className="p-4 space-y-4">
+                      <div
+                        className="flex items-center justify-between cursor-pointer"
+                        onClick={() => setIsOngoingExpanded(!isOngoingExpanded)}
                       >
-                        {selectedResource && character ? (
-                          <WorkingDiv
-                            selectedResource={selectedResource}
-                            character={character}
-                            isStreaming={true}
-                          />
-                        ) : (
-                          <div className="bg-gray-700/50 p-3 rounded-md text-gray-400 text-sm text-center">
-                            No activity yet
-                          </div>
+                        <h3 className="text-sm font-semibold text-white">
+                          Ongoing Activity
+                        </h3>
+                        <motion.div
+                          animate={{ rotate: isOngoingExpanded ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <ChevronDown className="w-4 h-4 text-gray-400" />
+                        </motion.div>
+                      </div>
+
+                      <AnimatePresence initial={false}>
+                        {isOngoingExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="space-y-4 overflow-hidden"
+                          >
+                            {selectedResource && character ? (
+                              <WorkingDiv
+                                selectedResource={selectedResource}
+                                character={character}
+                                isStreaming={true}
+                              />
+                            ) : (
+                              <div className="bg-gray-700/50 p-3 rounded-md text-gray-400 text-sm text-center">
+                                No activity yet
+                              </div>
+                            )}
+                          </motion.div>
                         )}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </CardContent>
-              </Card>
-            </div>
+                      </AnimatePresence>
+                    </CardContent>
+                  </Card>
+                </div>
 
-            <div className="mt-4">
-              <Card className="bg-gray-800/50">
-                <CardContent className="p-4 space-y-4">
-                  <div
-                    className="flex items-center justify-between cursor-pointer"
-                    onClick={() => setIsHistoryExpanded(!isHistoryExpanded)}
-                  >
-                    <h3 className="text-sm font-semibold text-white">
-                      Activity History
-                    </h3>
-                    <motion.div
-                      animate={{ rotate: isHistoryExpanded ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown className="w-4 h-4 text-gray-400" />
-                    </motion.div>
-                  </div>
-
-                  <AnimatePresence initial={false}>
-                    {isHistoryExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="space-y-4 overflow-hidden"
+                <div className="mt-4">
+                  <Card className="bg-gray-800/50">
+                    <CardContent className="p-4 space-y-4">
+                      <div
+                        className="flex items-center justify-between cursor-pointer"
+                        onClick={() => setIsHistoryExpanded(!isHistoryExpanded)}
                       >
-                        <ScrollArea className="h-[200px] w-full rounded-md border border-gray-700">
-                          <div ref={scrollRef} className="p-4 space-y-2">
-                            {events
-                              .sort((e1, e2) => e2.timestamp - e1.timestamp)
-                              .map((event, index) => (
-                                <div
-                                  key={index}
-                                  className="text-sm bg-gray-700/30 p-2 rounded flex items-center gap-2"
-                                >
-                                  <div className="flex-shrink-0">
-                                    {getActivityIcon(eventToString(event))}
-                                  </div>
-                                  <span className="text-gray-300 flex-grow">
-                                    {eventToString(event)}
-                                  </span>
-                                  <span className="text-xs text-gray-500">
-                                    {DateTime.fromMillis(
-                                      event.timestamp * 1000,
-                                    ).toFormat("HH:mm:ss")}
-                                  </span>
-                                </div>
-                              ))}
-                          </div>
-                        </ScrollArea>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </ScrollArea>
-      </CardContent>
-    </Card>
+                        <h3 className="text-sm font-semibold text-white">
+                          Activity History
+                        </h3>
+                        <motion.div
+                          animate={{ rotate: isHistoryExpanded ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <ChevronDown className="w-4 h-4 text-gray-400" />
+                        </motion.div>
+                      </div>
+
+                      <AnimatePresence initial={false}>
+                        {isHistoryExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="space-y-4 overflow-hidden"
+                          >
+                            <ScrollArea className="h-[200px] w-full rounded-md border border-gray-700">
+                              <div ref={scrollRef} className="p-4 space-y-2">
+                                {events
+                                  .sort((e1, e2) => e2.timestamp - e1.timestamp)
+                                  .map((event, index) => (
+                                    <div
+                                      key={index}
+                                      className="text-sm bg-gray-700/30 p-2 rounded flex items-center gap-2"
+                                    >
+                                      <div className="flex-shrink-0">
+                                        {getActivityIcon(eventToString(event))}
+                                      </div>
+                                      <span className="text-gray-300 flex-grow">
+                                        {eventToString(event)}
+                                      </span>
+                                      <span className="text-xs text-gray-500">
+                                        {DateTime.fromMillis(
+                                          event.timestamp * 1000,
+                                        ).toFormat("HH:mm:ss")}
+                                      </span>
+                                    </div>
+                                  ))}
+                              </div>
+                            </ScrollArea>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+      </div>
+    </Draggable>
   );
 };
 
