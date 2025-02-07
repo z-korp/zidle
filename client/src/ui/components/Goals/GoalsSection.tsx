@@ -31,6 +31,46 @@ export const GoalsSection: React.FC<GoalsSectionProps> = ({ tokenId }) => {
     return true;
   });
 
+  // Calculate completed goals
+  const getCompletedGoals = () => {
+    if (!arenas.length) return 0;
+    const arena = arenas[0];
+    const numTokenId = Number(tokenId);
+
+    // Determine if we're team1 or team2
+    const isTeam1 = arena.tokenId1 === numTokenId;
+    const isTeam2 = arena.tokenId2 === numTokenId;
+
+    let completed = 0;
+
+    if (isTeam1 || isTeam2) {
+      // Check each goal validation
+      if (
+        arena.goal1.firstValidation === (isTeam1 ? "Team1" : "Team2") ||
+        arena.goal1.secondValidation === (isTeam1 ? "Team1" : "Team2")
+      ) {
+        completed++;
+      }
+      if (
+        arena.goal2.firstValidation === (isTeam1 ? "Team1" : "Team2") ||
+        arena.goal2.secondValidation === (isTeam1 ? "Team1" : "Team2")
+      ) {
+        completed++;
+      }
+      if (
+        arena.goal3.firstValidation === (isTeam1 ? "Team1" : "Team2") ||
+        arena.goal3.secondValidation === (isTeam1 ? "Team1" : "Team2")
+      ) {
+        completed++;
+      }
+    }
+
+    return completed;
+  };
+
+  const completedGoals = getCompletedGoals();
+  const totalGoals = filteredGoals.length;
+
   return (
     // Main container card with semi-transparent dark background
     <Card className="bg-gray-800/50">
@@ -40,8 +80,15 @@ export const GoalsSection: React.FC<GoalsSectionProps> = ({ tokenId }) => {
           className="flex items-center justify-between cursor-pointer"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {/* Section title */}
-          <h3 className="text-sm font-semibold text-white">Player Goals</h3>
+          <div className="flex items-center gap-2">
+            {/* Section title */}
+            <h3 className="text-sm font-semibold text-white">Player Goals</h3>
+            {!isExpanded && (
+              <span className="text-xs text-gray-400">
+                {completedGoals}/{totalGoals} completed
+              </span>
+            )}
+          </div>
 
           {/* Animated arrow icon that rotates based on expanded state */}
           <motion.div
