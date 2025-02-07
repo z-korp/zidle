@@ -82,6 +82,8 @@ export const MessagesList: React.FC = () => {
             body = message.message || "";
         }
 
+        if (message.type === "action_start") return;
+
         return (
           <div key={idx} className="p-3 bg-gray-800 rounded-lg shadow-md">
             {/* Header: date, title, and emoji */}
