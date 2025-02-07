@@ -6,7 +6,7 @@ import { Button } from "../elements/button";
 import { X, Minus, MessageSquare, Settings, Cloud } from "lucide-react";
 import botAvatar from "/assets/AIagent_pfp/bot1.png";
 import { ChatTab } from "./AIAssistant/ChatTab";
-import { HistoryTab } from "./AIAssistant/HistoryTab";
+import { DreamingHistoryTab } from "./AIAssistant/DreamingHistoryTab";
 import { SettingsTab } from "./AIAssistant/SettingsTab";
 import { useDaydreamsWs } from "@/hooks/useDaydreams";
 import { useDraggableCardStore } from "@/stores/useDraggableCardStore";
@@ -135,7 +135,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
           />
         );
       case "history":
-        return <HistoryTab />;
+        return <DreamingHistoryTab />;
       case "settings":
         return <SettingsTab />;
     }

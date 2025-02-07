@@ -2,7 +2,7 @@ import { MessagesList } from "./MessageList";
 import { Cloud } from "lucide-react";
 import { motion } from "framer-motion";
 
-export const HistoryTab = () => {
+export const DreamingHistoryTab = () => {
   return (
     <div className="h-full flex flex-col">
       {/* Cloud thinking animation - fixed height */}
