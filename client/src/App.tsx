@@ -23,7 +23,7 @@ export default function App() {
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url('${background}')` }}
           />
-          <DraggableCard title="AIdwin">
+          <DraggableCard>
             <div className="space-y-4">
               <div className="text-sm">
                 <div className="flex justify-between mb-2">

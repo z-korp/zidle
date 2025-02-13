@@ -17,8 +17,8 @@ import { useAgentStore } from "@/stores/useAgentStore";
 import { UserChatMessage } from "@/types/message";
 
 interface DraggableCardProps {
-  children: React.ReactNode;
-  aiAvatarUrl?: string; // Optional AI avatar URL
+  children?: React.ReactNode;
+  aiAvatarUrl?: string;
 }
 
 /**
@@ -32,7 +32,8 @@ interface DraggableCardProps {
  * - Minimizable window
  */
 const DraggableCard: React.FC<DraggableCardProps> = ({
-  aiAvatarUrl = botAvatar, // Default to bot avatar if none provided
+  children,
+  aiAvatarUrl = botAvatar,
 }) => {
   // WebSocket connection for AI communication
   const { sendMessage } = useDaydreamsWs();
