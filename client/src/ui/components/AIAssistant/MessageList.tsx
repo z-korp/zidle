@@ -20,8 +20,8 @@ export const MessagesList: React.FC = () => {
       <div className="p-0 space-y-4">
         {messages.map((message, idx) => {
           // Format the timestamp with Luxon
-          const formattedTime = DateTime.fromISO(
-            message.timestamp,
+          const formattedTime = DateTime.fromSeconds(
+            Number(message.timestamp),
           ).toLocaleString(DateTime.TIME_SIMPLE);
 
           // Define title and body based on the message type
@@ -84,7 +84,6 @@ export const MessagesList: React.FC = () => {
               break;
             default:
               title = "Message";
-              body = message || "";
           }
 
           if (message.type === "action_start") return;

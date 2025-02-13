@@ -95,7 +95,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
         type: "user_chat",
         message: inputText,
         from: "user",
-        timestamp: Date.now().toString(),
+        timestamp: Math.floor(Date.now() / 1000).toString(),
       };
       addChat(newChat);
       setInputText("");
