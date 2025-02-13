@@ -4,6 +4,7 @@ import { Button } from "../../elements/button";
 import { UserChatMessage } from "@/types/message";
 import { testMessages } from "@/fixtures/chatMessagesFixtures";
 import { ScrollArea } from "@/ui/elements/scroll-area";
+import { TypingIndicator } from "./TypingIndicator";
 
 interface ChatTabProps {
   messages: UserChatMessage[];
@@ -36,6 +37,11 @@ export const ChatTab: React.FC<ChatTabProps> = ({
   //   process.env.NODE_ENV === "development" ? testMessages : messages;
   const displayMessages = messages;
 
+  // Vérifie si le dernier message est de l'utilisateur
+  const isWaitingForResponse =
+    displayMessages.length > 0 &&
+    displayMessages[displayMessages.length - 1].from === "user";
+
   return (
     <div className="h-full flex flex-col">
       {/* Messages list - flexible height */}
@@ -60,6 +66,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
                 </div>
               </div>
             ))}
+            {isWaitingForResponse && <TypingIndicator />}
             <div ref={messagesEndRef} />
           </div>
         </ScrollArea>
