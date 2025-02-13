@@ -1,33 +1,65 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAgentStore } from "@/stores/useAgentStore";
 import { DateTime } from "luxon";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 
 export const MessagesList: React.FC = () => {
-  // Comment line 8 and uncomment line 9 to switch between real and test data
   const { messages } = useAgentStore();
-  //const messages = testMessages;
-
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [expandedMessages, setExpandedMessages] = useState<{[key: string]: boolean}>({});
 
-  // Automatically scroll to the bottom when new messages arrive
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  const toggleExpand = (idx: number) => {
+    setExpandedMessages(prev => ({
+      ...prev,
+      [idx]: !prev[idx]
+    }));
+  };
+
+  const renderMessageContent = (message: any) => {
+    if (message.type === "chat_reply") {
+      try {
+        const parsedContent = JSON.parse(message.message);
+        return parsedContent.message;
+      } catch {
+        return message.message;
+      }
+    }
+
+    if (typeof message.message === 'object') {
+      return JSON.stringify(message.message, null, 2);
+    }
+    
+    return message.message || '';
+  };
+
+  const renderDetails = (message: any) => {
+    switch (message.type) {
+      case "goal_created":
+      case "goal_completed":
+      case "goal_updated":
+        return message.data ? (
+          <pre className="text-xs bg-gray-900 p-2 rounded mt-2">
+            {JSON.stringify(message.data, null, 2)}
+          </pre>
+        ) : null;
+      default:
+        return null;
+    }
+  };
 
   return (
     <ScrollArea className="h-full min-h-0 flex-1">
       <div className="p-0 space-y-4">
         {messages.map((message, idx) => {
-          // Format the timestamp with Luxon
           const formattedTime = DateTime.fromISO(
             message.timestamp,
           ).toLocaleString(DateTime.TIME_SIMPLE);
 
-          // Define title and body based on the message type
+          if (message.type === "action_start") return null;
+
+          const hasDetails = ["goal_created", "goal_completed", "goal_updated"].includes(message.type);
           let title = "";
           let body = "";
-          const emoji = message.emoji || "💬";
 
           switch (message.type) {
             case "welcome":
@@ -35,7 +67,7 @@ export const MessagesList: React.FC = () => {
               body = message.message;
               break;
             case "response":
-              title = "Response";
+              title = "Response"; 
               body = message.message;
               break;
             case "error":
@@ -87,20 +119,27 @@ export const MessagesList: React.FC = () => {
               body = message || "";
           }
 
-          if (message.type === "action_start") return;
-
           return (
             <div key={idx} className="p-3 bg-gray-800 rounded-lg shadow-md">
-              {/* Header: date, title, and emoji */}
-              <div className="flex justify-between items-center text-sm text-gray-100">
+              <div 
+                className={`flex justify-between items-center text-sm text-gray-100 ${hasDetails ? 'cursor-pointer' : ''}`}
+                onClick={() => hasDetails && toggleExpand(idx)}
+              >
                 <div className="flex items-center gap-1">
-                  <span className="mr-1">{emoji}</span>
-                  <span className="font-semibold">{title}</span>
+                  <span className="mr-1">{message.emoji || '💬'}</span>
+                  <span className="font-semibold">{message.type}</span>
+                  {hasDetails && (
+                    <span className="text-xs ml-2">
+                      {expandedMessages[idx] ? '🔽' : '▶️'}
+                    </span>
+                  )}
                 </div>
                 <span>{formattedTime}</span>
               </div>
-              {/* Body text */}
-              {body && <div className="mt-1 text-xs text-gray-400">{body}</div>}
+              <div className="mt-1 text-xs text-gray-400">
+                {renderMessageContent(message)}
+              </div>
+              {expandedMessages[idx] && renderDetails(message)}
             </div>
           );
         })}

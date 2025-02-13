@@ -1,13 +1,14 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Draggable from "react-draggable";
 import { ResizableBox } from "react-resizable";
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { X, MessageSquare, Settings, Cloud } from "lucide-react";
+import { X, Minus, MessageSquare, Settings, Cloud, Target } from "lucide-react";
 import botAvatar from "/assets/AIagent_pfp/bot1.png";
 import { ChatTab } from "./AIAssistant/ChatTab";
 import { DreamingHistoryTab } from "./AIAssistant/DreamingHistoryTab";
 import { SettingsTab } from "./AIAssistant/SettingsTab";
+import GoalsTab from "./AIAssistant/GoalsTab";
 import { useDaydreamsWs } from "@/hooks/useDaydreams";
 import { useDraggableCardStore } from "@/stores/useDraggableCardStore";
 
@@ -16,7 +17,6 @@ import { useAgentStore } from "@/stores/useAgentStore";
 import { UserChatMessage } from "@/types/message";
 
 interface DraggableCardProps {
-  title: string;
   children: React.ReactNode;
   aiAvatarUrl?: string; // Optional AI avatar URL
 }
@@ -32,7 +32,6 @@ interface DraggableCardProps {
  * - Minimizable window
  */
 const DraggableCard: React.FC<DraggableCardProps> = ({
-  title,
   aiAvatarUrl = botAvatar, // Default to bot avatar if none provided
 }) => {
   // WebSocket connection for AI communication
@@ -121,6 +120,8 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
         return <DreamingHistoryTab />;
       case "settings":
         return <SettingsTab />;
+      case "goals":
+        return <GoalsTab debugMode={true} />;
     }
   };
 
@@ -166,7 +167,8 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
                     {/* Online status indicator */}
                     <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-700" />
                   </div>
-                  <span className="text-sm font-medium">{title}</span>
+                  
+                  
                 </div>
                 {/* Window controls */}
                 <div className="flex gap-2">
@@ -201,6 +203,16 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
                   onClick={() => setActiveTab("history")}
                 >
                   <Cloud className="h-4 w-4 inline-block" />
+                </button>
+                <button
+                  className={`px-3 py-1 text-sm transition-colors ${
+                    activeTab === "goals"
+                      ? "text-white border-b-2 border-blue-500"
+                      : "text-gray-400 hover:text-gray-200"
+                  }`}
+                  onClick={() => setActiveTab("goals")}
+                >
+                  <Target className="h-4 w-4 inline-block" />
                 </button>
                 <button
                   className={`px-3 py-1 text-sm transition-colors ${

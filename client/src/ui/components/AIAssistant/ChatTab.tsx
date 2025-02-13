@@ -33,9 +33,12 @@ export const ChatTab: React.FC<ChatTabProps> = ({
   return (
     <div className="flex flex-col h-full">
       <div className="flex-grow overflow-auto mb-6 space-y-4 pr-2">
-        {messages.map((message) => {
-          console.log(message);
-          return (
+        {messages.length === 0 ? (
+          <div className="flex justify-center items-center h-full">
+            <p className="text-gray-500">No messages yet</p>
+          </div>
+        ) : (
+          messages.map((message) => (
             <div
               key={message.timestamp}
               className={`flex ${
@@ -52,8 +55,8 @@ export const ChatTab: React.FC<ChatTabProps> = ({
                 {message.message}
               </div>
             </div>
-          );
-        })}
+          ))
+        )}
         <div ref={messagesEndRef} />
       </div>
 

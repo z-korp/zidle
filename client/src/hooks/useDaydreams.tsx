@@ -151,9 +151,9 @@ export function useDaydreamsWs() {
       case "thinking_end":
         handleMessageStopThinking(message);
         break;
-      case "user_chat":
-        handleUserChatMessage(message);
-        break;
+        case "user_chat":
+          handleUserChatMessage(message);
+          break;
       default:
         console.warn("❓ Unknown message type", message);
         console.warn("❓ Unknown message type");

@@ -10,7 +10,7 @@ interface Size {
   height: number;
 }
 
-type TabType = "chat" | "settings" | "history";
+type TabType = "chat" | "settings" | "history" | "goals";
 
 interface Message {
   id: number;
