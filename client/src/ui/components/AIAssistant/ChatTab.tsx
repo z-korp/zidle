@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { Button } from "../../elements/button";
 import { UserChatMessage } from "@/types/message";
+import { testMessages } from "@/fixtures/chatMessagesFixtures";
+import { ScrollArea } from "@/ui/elements/scroll-area";
 
 interface ChatTabProps {
   messages: UserChatMessage[];
@@ -27,37 +29,44 @@ export const ChatTab: React.FC<ChatTabProps> = ({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("messages", messages);
   }, [messages]);
 
+  // Comment line 35 and uncomment line 36 to switch between real and test data
+  // const displayMessages =
+  //   process.env.NODE_ENV === "development" ? testMessages : messages;
+  const displayMessages = messages;
+
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-grow overflow-auto mb-6 space-y-4 pr-2">
-        {messages.map((message) => {
-          console.log(message);
-          return (
-            <div
-              key={message.timestamp}
-              className={`flex ${
-                message.from === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
+    <div className="h-full flex flex-col">
+      {/* Messages list - flexible height */}
+      <div className="flex-1 min-h-0">
+        <ScrollArea className="h-full">
+          <div className="p-4 space-y-4">
+            {displayMessages.map((message) => (
               <div
-                className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
-                  message.from === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-700 text-white"
+                key={message.timestamp}
+                className={`flex ${
+                  message.from === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                {message.message}
+                <div
+                  className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
+                    message.from === "user"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-700 text-white"
+                  }`}
+                >
+                  {message.message}
+                </div>
               </div>
-            </div>
-          );
-        })}
-        <div ref={messagesEndRef} />
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+        </ScrollArea>
       </div>
 
-      <div className="flex gap-2 mt-auto pt-2 pb-2 border-t border-gray-700">
+      {/* Input area - fixed height */}
+      <div className="flex gap-2 mt-4 pt-2 pb-2 border-t border-gray-700">
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
