@@ -50,6 +50,6 @@ starkli call <pvp_system> selector:is_goal_validated  <token_id> <arena_id> <goa
 starkli call 0x4bc66fb0bc5d4d860b2a59c50530009c3782ab9172c6a2cdb33f3daa1c450ec selector:is_goal_validated 2 1 1
 
 **Goals numbers:** 
-1) Gold > 50
-2) Wood > 50
-3) Food > 50
+1) Gold > 50 Gold    -> 100 1er / 50pts 2eme
+2) Wood > 50 Pine    -> 50 / 25
+3) Food > 50 Berries -> 20 / 10

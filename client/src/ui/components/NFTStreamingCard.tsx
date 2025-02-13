@@ -46,6 +46,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { InventoryItem } from "@/dojo/game/models/miner";
 import { getResourceImage } from "@/utils/resource";
+import AddressDisplay from "./AddressDisplay";
 
 interface NFTStreamingCardProps {
   tokenId: number;
@@ -409,8 +410,8 @@ export const NFTStreamingCard = ({
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
-              <div className="w-8" />
               <div>{character.name}</div>
+              <AddressDisplay address={character?.walletAddress || ""} />
               <div className="flex items-center gap-1">
                 <span className="text-sm font-medium">
                   {character?.gold ?? 0}
