@@ -1,4 +1,8 @@
-import { AppMessage, UserChatMessage } from "@/types/message";
+import {
+  AppMessage,
+  StartThinkingMessage,
+  UserChatMessage,
+} from "@/types/message";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { Goal } from "@/types/ai";
@@ -11,6 +15,7 @@ interface AgentState {
   addMessage: (message: AppMessage) => void;
   addChat: (message: UserChatMessage) => void;
   setIsConnected: (isConnected: boolean) => void;
+  messageSystem: () => StartThinkingMessage[];
 }
 
 const initialState: AgentState = {
@@ -24,7 +29,7 @@ const initialState: AgentState = {
 
 export const useAgentStore = create<AgentState>()(
   devtools(
-    (set, _) => ({
+    (set, get) => ({
       messages: [],
       chats: [],
       isConnected: false,
@@ -56,6 +61,13 @@ export const useAgentStore = create<AgentState>()(
           set((state) => {
             return { chats: [...state.chats, chat] };
           }),
+      addChat: (chat: UserChatMessage) =>
+        set((state) => ({
+          chats: [...state.chats, chat],
+        })),
+      // Selector to get only system messages
+      messageSystem: () =>
+        get().messages.filter((msg) => msg.type === "thinking_start"),
     }),
     {
       name: "Agent Store",

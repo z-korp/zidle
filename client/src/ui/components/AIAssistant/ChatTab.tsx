@@ -2,6 +2,9 @@ import React, { useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { Button } from "../../elements/button";
 import { UserChatMessage } from "@/types/message";
+import { testMessages } from "@/fixtures/chatMessagesFixtures";
+import { ScrollArea } from "@/ui/elements/scroll-area";
+import { TypingIndicator } from "./TypingIndicator";
 
 interface ChatTabProps {
   messages: UserChatMessage[];
@@ -27,40 +30,51 @@ export const ChatTab: React.FC<ChatTabProps> = ({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("messages", messages);
   }, [messages]);
 
+  // Comment line 35 and uncomment line 36 to switch between real and test data
+  // const displayMessages =
+  //   process.env.NODE_ENV === "development" ? testMessages : messages;
+  const displayMessages = messages;
+
+  // Vérifie si le dernier message est de l'utilisateur
+  const isWaitingForResponse =
+    displayMessages.length > 0 &&
+    displayMessages[displayMessages.length - 1].from === "user";
+
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-grow overflow-auto mb-6 space-y-4 pr-2">
-        {messages.length === 0 ? (
-          <div className="flex justify-center items-center h-full">
-            <p className="text-gray-500">No messages yet</p>
-          </div>
-        ) : (
-          messages.map((message) => (
-            <div
-              key={message.timestamp}
-              className={`flex ${
-                message.from === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
+    <div className="h-full flex flex-col">
+      {/* Messages list - flexible height */}
+      <div className="flex-1 min-h-0">
+        <ScrollArea className="h-full">
+          <div className="p-4 space-y-4">
+            {displayMessages.map((message) => (
               <div
-                className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
-                  message.from === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-700 text-white"
+                key={message.timestamp}
+                className={`flex ${
+                  message.from === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                {message.message}
+                <div
+                  className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
+                    message.from === "user"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-700 text-white"
+                  }`}
+                >
+                  {message.message}
+                </div>
               </div>
-            </div>
-          ))
-        )}
-        <div ref={messagesEndRef} />
+
+            ))}
+            {isWaitingForResponse && <TypingIndicator />}
+            <div ref={messagesEndRef} />
+          </div>
+        </ScrollArea>
       </div>
 
-      <div className="flex gap-2 mt-auto pt-2 pb-2 border-t border-gray-700">
+      {/* Input area - fixed height */}
+      <div className="flex gap-2 mt-4 pt-2 pb-2 border-t border-gray-700">
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
