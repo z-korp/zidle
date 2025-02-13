@@ -15,6 +15,7 @@ import {
   SystemMessage,
   StartThinkingMessage,
   StopThinkingMessage,
+  UserChatMessage,
 } from "../types/message";
 
 // WebSocket singleton
@@ -23,7 +24,7 @@ const messageQueue: string[] = [];
 let isConnecting = false;
 
 export function useDaydreamsWs() {
-  const { addMessage, setIsConnected } = useAgentStore();
+  const { addMessage, setIsConnected, addChat } = useAgentStore();
 
   const ensureConnection = useCallback(async () => {
     if (globalWs?.readyState === WebSocket.OPEN) {
@@ -150,11 +151,23 @@ export function useDaydreamsWs() {
       case "thinking_end":
         handleMessageStopThinking(message);
         break;
+      case "user_chat":
+        handleUserChatMessage(message);
+        break;
       default:
         console.warn("❓ Unknown message type", message);
         console.warn("❓ Unknown message type");
         addMessage(message);
     }
+  };
+
+  const handleUserChatMessage = (message: UserChatMessage) => {
+    addChat({
+      type: "user_chat",
+      message: message.message,
+      timestamp: message.timestamp,
+      from: "agent",
+    });
   };
 
   const handleMessageStartThinking = (message: StartThinkingMessage) => {
@@ -292,14 +305,14 @@ export function useDaydreamsWs() {
       console.warn(
         "Could not establish WebSocket connection. Adding message to queue.",
       );
-      messageQueue.push(message);
+      messageQueue.push(JSON.stringify({ goal: message }));
       return;
     }
 
     if (globalWs?.readyState === WebSocket.OPEN) {
-      globalWs.send(JSON.stringify(message));
+      globalWs.send(JSON.stringify({ goal: message }));
     } else {
-      messageQueue.push(message);
+      messageQueue.push(JSON.stringify({ goal: message }));
     }
   };
 

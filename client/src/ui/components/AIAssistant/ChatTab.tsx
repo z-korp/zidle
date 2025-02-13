@@ -1,16 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { Button } from "../../elements/button";
-
-interface Message {
-  id: number;
-  text: string;
-  sender: "user" | "ai";
-  timestamp: Date;
-}
+import { UserChatMessage } from "@/types/message";
 
 interface ChatTabProps {
-  messages: Message[];
+  messages: UserChatMessage[];
   inputText: string;
   setInputText: (text: string) => void;
   handleSendMessage: () => void;
@@ -33,29 +27,33 @@ export const ChatTab: React.FC<ChatTabProps> = ({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    console.log("messages", messages);
   }, [messages]);
 
   return (
     <div className="flex flex-col h-full">
       <div className="flex-grow overflow-auto mb-6 space-y-4 pr-2">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${
-              message.sender === "user" ? "justify-end" : "justify-start"
-            }`}
-          >
+        {messages.map((message) => {
+          console.log(message);
+          return (
             <div
-              className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
-                message.sender === "user"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-700 text-white"
+              key={message.timestamp}
+              className={`flex ${
+                message.from === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              {message.text}
+              <div
+                className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
+                  message.from === "user"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-700 text-white"
+                }`}
+              >
+                {message.message}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         <div ref={messagesEndRef} />
       </div>
 

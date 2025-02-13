@@ -11,12 +11,19 @@ export type MessageType =
   | "action_error"
   | "system"
   | "thinking_start"
-  | "thinking_end";
+  | "thinking_end"
+  | "user_chat";
 
 export interface BaseMessage {
   type: MessageType;
   timestamp: string; // ISO string
   emoji?: string;
+}
+
+export interface UserChatMessage extends BaseMessage {
+  type: "user_chat";
+  message: string;
+  from: "agent" | "user";
 }
 
 export interface StartThinkingMessage extends BaseMessage {
@@ -127,7 +134,8 @@ export type AppMessage =
   | ActionErrorMessage
   | SystemMessage
   | StartThinkingMessage
-  | StopThinkingMessage;
+  | StopThinkingMessage
+  | UserChatMessage;
 
 const emojiMap: Record<MessageType, string> = {
   welcome: "👋",
@@ -141,6 +149,9 @@ const emojiMap: Record<MessageType, string> = {
   action_complete: "✅",
   action_error: "❌",
   system: "🛠️",
+  thinking_start: "💬",
+  thinking_end: "✅",
+  user_chat: "",
 };
 
 export function createMessage<M extends BaseMessage>(

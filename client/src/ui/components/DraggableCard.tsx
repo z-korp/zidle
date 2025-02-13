@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Draggable from "react-draggable";
 import { ResizableBox } from "react-resizable";
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { X, Minus, MessageSquare, Settings, Cloud } from "lucide-react";
+import { X, MessageSquare, Settings, Cloud } from "lucide-react";
 import botAvatar from "/assets/AIagent_pfp/bot1.png";
 import { ChatTab } from "./AIAssistant/ChatTab";
 import { DreamingHistoryTab } from "./AIAssistant/DreamingHistoryTab";
@@ -12,22 +12,8 @@ import { useDaydreamsWs } from "@/hooks/useDaydreams";
 import { useDraggableCardStore } from "@/stores/useDraggableCardStore";
 
 import "react-resizable/css/styles.css";
-
-type TabType = "chat" | "settings" | "history";
-
-interface Message {
-  id: number;
-  text: string;
-  sender: "user" | "ai";
-  timestamp: Date;
-}
-
-/*interface Action {
-  id: number;
-  action: string;
-  timestamp: Date;
-  status: "success" | "pending" | "error";
-}*/
+import { useAgentStore } from "@/stores/useAgentStore";
+import { UserChatMessage } from "@/types/message";
 
 interface DraggableCardProps {
   title: string;
@@ -47,7 +33,6 @@ interface DraggableCardProps {
  */
 const DraggableCard: React.FC<DraggableCardProps> = ({
   title,
-  children,
   aiAvatarUrl = botAvatar, // Default to bot avatar if none provided
 }) => {
   // WebSocket connection for AI communication
@@ -58,16 +43,15 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
     isMinimized,
     isVisible,
     activeTab,
-    messages,
     inputText,
     setPosition,
     setSize,
-    setIsMinimized,
     setIsVisible,
     setActiveTab,
-    addMessage,
     setInputText,
   } = useDraggableCardStore();
+
+  const { chats, addChat } = useAgentStore();
 
   // Reference for auto-scrolling chat
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -82,7 +66,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   // Auto-scroll effect
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [chats]);
 
   /**
    * Handles card dragging and updates position
@@ -107,13 +91,13 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
    */
   const handleSendMessage = () => {
     if (inputText.trim()) {
-      const newMessage: Message = {
-        id: Date.now(),
-        text: inputText,
-        sender: "user",
-        timestamp: new Date(),
+      const newChat: UserChatMessage = {
+        type: "user_chat",
+        message: inputText,
+        from: "user",
+        timestamp: Date.now().toString(),
       };
-      addMessage(newMessage);
+      addChat(newChat);
       setInputText("");
       sendMessage(inputText);
     }
@@ -127,7 +111,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
       case "chat":
         return (
           <ChatTab
-            messages={messages}
+            messages={chats}
             inputText={inputText}
             setInputText={setInputText}
             handleSendMessage={handleSendMessage}
