@@ -2,8 +2,20 @@
 
 A fully on-chain game, with Dojo on Starknet.
 
+## Setup and run the client
 
-### Starkli
+1. Install Dependencies
+Run the following command in the client folder:
+- `pnpm install`
+
+2. Start the client
+- `pnpm run slot`
+
+3. Open it in the Browser
+Navigate to https://localhost:5173.
+You can either go to the streaming page to see your agent playing the characters, or you can play yourself from the home screen.
+
+## Starkli
 **Systems**
 Character  : 0x7065f221124ca95cbba9d863bae35d498e32bfa2a5047a01c5c8dec35e0d1d8
 Character_minter : 0x4d80bc147458ca04bf43003847c341e91ab63b3c2bd041641b625962f07cdd8
