@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { Button } from "../../elements/button";
 import { UserChatMessage } from "@/types/message";
-import { testMessages } from "@/fixtures/chatMessagesFixtures";
 import { ScrollArea } from "@/ui/elements/scroll-area";
 import { TypingIndicator } from "./TypingIndicator";
 
@@ -65,7 +64,6 @@ export const ChatTab: React.FC<ChatTabProps> = ({
                   {message.message}
                 </div>
               </div>
-
             ))}
             {isWaitingForResponse && <TypingIndicator />}
             <div ref={messagesEndRef} />

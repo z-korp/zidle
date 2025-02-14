@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useAgentStore } from "@/stores/useAgentStore";
 import { DateTime } from "luxon";
 import { ScrollArea } from "@/ui/elements/scroll-area";
@@ -6,12 +6,14 @@ import { ScrollArea } from "@/ui/elements/scroll-area";
 export const MessagesList: React.FC = () => {
   const { messages } = useAgentStore();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const [expandedMessages, setExpandedMessages] = useState<{[key: string]: boolean}>({});
+  const [expandedMessages, setExpandedMessages] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   const toggleExpand = (idx: number) => {
-    setExpandedMessages(prev => ({
+    setExpandedMessages((prev) => ({
       ...prev,
-      [idx]: !prev[idx]
+      [idx]: !prev[idx],
     }));
   };
 
@@ -25,11 +27,19 @@ export const MessagesList: React.FC = () => {
       }
     }
 
-    if (typeof message.message === 'object') {
+    if (
+      message.type === "goal_created" ||
+      message.type === "goal_completed" ||
+      message.type === "goal_failed"
+    ) {
+      return message.data.description;
+    }
+
+    if (typeof message.message === "object") {
       return JSON.stringify(message.message, null, 2);
     }
-    
-    return message.message || '';
+
+    return message.message || "";
   };
 
   const renderDetails = (message: any) => {
@@ -38,7 +48,7 @@ export const MessagesList: React.FC = () => {
       case "goal_completed":
       case "goal_updated":
         return message.data ? (
-          <pre className="text-xs bg-gray-900 p-2 rounded mt-2">
+          <pre className="text-xs bg-gray-900 p-2 rounded mt-2 w-full">
             {JSON.stringify(message.data, null, 2)}
           </pre>
         ) : null;
@@ -49,7 +59,7 @@ export const MessagesList: React.FC = () => {
 
   return (
     <ScrollArea className="h-full min-h-0 flex-1">
-      <div className="p-0 space-y-4">
+      <div className="p-0 space-y-4 pr-4">
         {messages.map((message, idx) => {
           // Format the timestamp with Luxon
           const formattedTime = DateTime.fromSeconds(
@@ -58,7 +68,11 @@ export const MessagesList: React.FC = () => {
 
           if (message.type === "action_start") return null;
 
-          const hasDetails = ["goal_created", "goal_completed", "goal_updated"].includes(message.type);
+          const hasDetails = [
+            "goal_created",
+            "goal_completed",
+            "goal_updated",
+          ].includes(message.type);
           let title = "";
           let body = "";
 
@@ -68,7 +82,7 @@ export const MessagesList: React.FC = () => {
               body = message.message;
               break;
             case "response":
-              title = "Response"; 
+              title = "Response";
               body = message.message;
               break;
             case "error":
@@ -121,20 +135,22 @@ export const MessagesList: React.FC = () => {
 
           return (
             <div key={idx} className="p-3 bg-gray-800 rounded-lg shadow-md">
-              <div 
-                className={`flex justify-between items-center text-sm text-gray-100 ${hasDetails ? 'cursor-pointer' : ''}`}
+              <div
+                className={`flex justify-between items-center text-sm text-gray-100 ${hasDetails ? "cursor-pointer" : ""}`}
                 onClick={() => hasDetails && toggleExpand(idx)}
               >
                 <div className="flex items-center gap-1">
-                  <span className="mr-1">{message.emoji || '💬'}</span>
-                  <span className="font-semibold">{message.type}</span>
+                  <span className="mr-1">{message.emoji || "💬"}</span>
+                  <span className="font-semibold">{title}</span>
+                </div>
+                <div className="flex gap-3 justify-center items-center">
                   {hasDetails && (
                     <span className="text-xs ml-2">
-                      {expandedMessages[idx] ? '🔽' : '▶️'}
+                      {expandedMessages[idx] ? "🔽" : "▶️"}
                     </span>
                   )}
+                  <span>{formattedTime}</span>
                 </div>
-                <span>{formattedTime}</span>
               </div>
               <div className="mt-1 text-xs text-gray-400">
                 {renderMessageContent(message)}

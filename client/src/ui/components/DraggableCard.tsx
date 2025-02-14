@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Draggable from "react-draggable";
 import { ResizableBox } from "react-resizable";
 import { Card, CardContent } from "../elements/card";
 import { Button } from "../elements/button";
-import { X, Minus, MessageSquare, Settings, Cloud, Target } from "lucide-react";
+import { X, MessageSquare, Settings, Cloud, Target } from "lucide-react";
 import botAvatar from "/assets/AIagent_pfp/bot1.png";
 import { ChatTab } from "./AIAssistant/ChatTab";
 import { DreamingHistoryTab } from "./AIAssistant/DreamingHistoryTab";
@@ -168,8 +168,6 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
                     {/* Online status indicator */}
                     <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-700" />
                   </div>
-                  
-                  
                 </div>
                 {/* Window controls */}
                 <div className="flex gap-2">
