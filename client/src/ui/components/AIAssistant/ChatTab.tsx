@@ -65,6 +65,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
                   {message.message}
                 </div>
               </div>
+
             ))}
             {isWaitingForResponse && <TypingIndicator />}
             <div ref={messagesEndRef} />
