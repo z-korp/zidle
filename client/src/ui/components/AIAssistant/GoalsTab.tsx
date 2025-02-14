@@ -92,7 +92,7 @@ const GoalsTab: React.FC<GoalsTabProps> = ({ debugMode = false }) => {
         });
 
         // Garder la version la plus récente
-        if (new Date(goal.timestamp) > new Date(existing.timestamp)) {
+        if (Number(goal.timestamp) > Number(existing.timestamp)) {
           goalMap.set(goal.id, goal);
         }
       } else {
@@ -158,7 +158,7 @@ const GoalsTab: React.FC<GoalsTabProps> = ({ debugMode = false }) => {
                     <div>
                       <h4 className="font-semibold mb-2">Progress</h4>
                       <Progress
-                        value={Number(goal.progress)}
+                        value={Number(goal.status === "completed" ? 100 : 0)}
                         className="w-full"
                       />
                     </div>
